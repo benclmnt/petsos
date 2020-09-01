@@ -1,0 +1,10 @@
+{
+  "name": "petsos",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Bennett Clement",
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}

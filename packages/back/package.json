@@ -6,8 +6,13 @@
   "scripts": {
     "start": "node .",
     "build": "npx babel --delete-dir-on-start --out-dir dist --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src",
-    "lint": "npx eslint --fix *.js src *.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -22,6 +27,7 @@
     "@babel/core": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "@babel/register": "^7.11.5",
+    "lint-staged": "^10.2.13",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.1"
   }

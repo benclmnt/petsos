@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from 'loglevel';
+import db from '../db/dev/dbConnection';
 
 function getFooRoutes() {
   const router = express.Router();
@@ -8,10 +9,10 @@ function getFooRoutes() {
 }
 
 async function foo(req, res) {
-  logger.warn('foo!!');
+  const users = await db.getUsers();
   res.json({
     foo: 'true',
-    message: 'You succeed!',
+    message: users,
   });
 }
 

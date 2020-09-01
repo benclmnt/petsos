@@ -1,19 +1,20 @@
+import path from 'path';
 import express from 'express';
 import 'express-async-errors';
 import logger from 'loglevel';
-import path from 'path';
+import cors from 'cors';
 import { getRoutes } from './routes';
 
 function startServer({ port = process.env.PORT || 5000 } = {}) {
   const app = express();
 
+  app.use(cors());
+  app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
   app.use('/api', getRoutes());
 
   app.use(errorMiddleware);
-
-  app.get('/api/foo', (req, res) => res.json({ foo: 'bar' }));
 
   const isProd = process.env.NODE_ENV === 'production';
   if (isProd) {

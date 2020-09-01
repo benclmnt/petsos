@@ -1,22 +1,40 @@
 import express from 'express';
 import 'express-async-errors';
 import logger from 'loglevel';
+import path from 'path';
 import { getRoutes } from './routes';
 
 function startServer({ port = process.env.PORT || 5000 } = {}) {
   const app = express();
 
+  app.use(express.json());
+
   app.use('/api', getRoutes());
 
   app.use(errorMiddleware);
+
+  app.get('/api/foo', (req, res) => res.json({ foo: 'bar' }));
+
+  const isProd = process.env.NODE_ENV === 'production';
+  if (isProd) {
+    // Compute the build path and index.html path
+    const buildPath = path.resolve(__dirname, '../../front/build');
+    const indexHtml = path.join(buildPath, 'index.html');
+
+    // Setup build path as a static assets path
+    app.use(express.static(buildPath));
+    // Serve index.html on unmatched routes
+    app.get('*', (req, res) => res.sendFile(indexHtml));
+  }
 
   return new Promise((resolve) => {
     const server = app.listen(port, () => {
       logger.info(`Listening on port ${server.address().port}`);
       const originalClose = server.close.bind(server);
-      server.close = () => new Promise((resolveClose) => {
-        originalClose(resolveClose);
-      });
+      server.close = () =>
+        new Promise((resolveClose) => {
+          originalClose(resolveClose);
+        });
       setupCloseOnExit(server);
       resolve(server);
     });

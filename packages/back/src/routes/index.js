@@ -1,9 +1,9 @@
 import express from 'express';
-import { getMathRoutes } from './math';
+import { getFooRoutes } from './foo';
 
 function getRoutes() {
   const router = express.Router();
-  router.use('/math', getMathRoutes());
+  router.use('/foo', getFooRoutes());
   return router;
 }
 

@@ -1,6 +1,7 @@
 import express from 'express';
-import logger from 'loglevel';
-import db from '../db/dev/dbConnection';
+import logger from '../logger';
+import { query } from '../db';
+import { getUsers } from '../db/queries';
 
 function getFooRoutes() {
   const router = express.Router();
@@ -9,8 +10,8 @@ function getFooRoutes() {
 }
 
 async function foo(req, res) {
-  const users = await db.getUsers();
-  res.json({
+  const users = await query(getUsers);
+  return res.json({
     foo: 'true',
     message: users,
   });

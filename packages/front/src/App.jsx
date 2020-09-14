@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Button from './components/button';
 
 function App() {
   const [foo, setFoo] = useState('N/A');
@@ -9,12 +10,15 @@ function App() {
       .catch((err) => setFoo(err.message));
   }, []);
   return (
-    <div>
+    <div className="flex flex-col w-3/4 mx-auto my-12 items-center">
       <h1>Hello World</h1>
       <p>
         Server responded with foo:
         {foo}
       </p>
+      <Button onClick={() => console.log('I was clicked')}>
+        I am a button
+      </Button>
     </div>
   );
 }

@@ -8,6 +8,9 @@
     "start": "lerna run start --stream",
     "build": "./build.sh && NODE_ENV=production node packages/back/build/index"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "devDependencies": {
     "husky": "^4.2.5",
     "lerna": "^3.22.1"

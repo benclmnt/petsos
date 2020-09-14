@@ -15,10 +15,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "build:styles": "postcss src/tailwind.css -o src/styles.css",
+    "prebuild": "NODE_ENV=production yarn build:styles",
+    "prestart": "yarn build:styles",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "src/**/*.{js,jsx,ts,tsx,json,scss,md}": [
       "prettier --write"
     ]
   },
@@ -39,6 +42,10 @@
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {
-    "lint-staged": "^10.2.13"
+    "@fullhuman/postcss-purgecss": "^2.3.0",
+    "autoprefixer": "^9.8.6",
+    "lint-staged": "^10.2.13",
+    "postcss-cli": "^7.1.2",
+    "tailwindcss": "^1.8.9"
   }
 }

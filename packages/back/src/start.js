@@ -1,22 +1,36 @@
 import path from 'path';
 import express from 'express';
 import 'express-async-errors';
-import logger from 'loglevel';
+import logger from './logger';
 import cors from 'cors';
 import { getRoutes } from './routes';
 
 function startServer({ port = process.env.PORT || 5000 } = {}) {
+  const isProd = process.env.NODE_ENV === 'production';
   const app = express();
 
   app.use(cors());
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
+  // initialize logger
+  if (isProd) {
+    app.use(
+      require('morgan')('combined', {
+        stream: logger.stream,
+        skip: (req, res) => {
+          return req.originalUrl.substr(-5) === '/ping';
+        },
+      })
+    );
+  } else {
+    app.use(require('morgan')('dev'));
+  }
+
   app.use('/api', getRoutes());
 
   app.use(errorMiddleware);
 
-  const isProd = process.env.NODE_ENV === 'production';
   if (isProd) {
     // Compute the build path and index.html path
     const buildPath = path.resolve(__dirname, '../../front/build');
@@ -46,7 +60,7 @@ function errorMiddleware(error, req, res, next) {
   if (res.headersSent) {
     next(error);
   } else {
-    logger.error(error);
+    logger.error('[Error]: ', error);
     res.status(500);
     res.json({
       message: error.message,

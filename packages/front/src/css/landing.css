@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap");
+
+.landing {
+  width: 100%;
+  height: 100vh;
+
+  color: white;
+  background-color: black;
+}
+
+.landing__contents {
+  margin-right: 60px;
+  text-align: right;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.title h1 {
+  padding-top: 150px;
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.title img {
+  margin-top: 150px;
+  padding-left: 20px;
+  height: 100px;
+}
+
+.landing__contents h2 {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.landing__contents h3 {
+  font-size: 2rem;
+  font-style: italic;
+}
+
+.changing-text {
+  font-family: "Caveat", cursive;
+  font-size: 3rem;
+  font-style: regular;
+  width: 50%;
+}
+
+.changing-text::before {
+  content: "";
+  animation: change-text 8s ease-in-out 1s infinite;
+}
+
+@keyframes change-text {
+  0% {
+    content: "pets";
+  }
+
+  33% {
+    content: "dogs";
+  }
+
+  66% {
+    content: "cats";
+  }
+
+  100% {
+    content: "pets";
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .landing {
+    height: 100vh;
+  }
+
+  .landing__contents {
+    text-align: center;
+
+    margin: 0px;
+    padding-top: 120px;
+
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .title {
+    display: inline;
+  }
+
+  .title h1 {
+    padding-top: 60px;
+    font-size: 3rem;
+    font-weight: 700;
+  }
+
+  .title img {
+    margin: 20px auto;
+    padding-left: 0px;
+    height: 100px;
+  }
+
+  .landing__contents h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  .landing__contents h3 {
+    font-size: 1.2rem;
+    font-style: italic;
+  }
+
+  .changing-text {
+    font-family: "Caveat", cursive;
+    font-size: 1.5rem;
+    font-style: regular;
+    width: 50%;
+  }
+}

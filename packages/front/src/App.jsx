@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 // import Button from './components/button';
-import Nav from './components/Nav';
-import Landing from './components/Landing';
-import About from './components/About';
-import Review from './components/Review';
+
+import Nav from "./components/Nav";
+import Landing from "./components/landing/Landing";
 
 function App() {
-  
-  const [foo, setFoo] = useState('N/A');
+  const [foo, setFoo] = useState("N/A");
   useEffect(() => {
-    fetch('/api/foo')
+    fetch("/api/foo")
       .then((res) => res.json())
       .then((data) => setFoo(data.foo))
       .catch((err) => setFoo(err.message));
@@ -30,9 +28,7 @@ function App() {
     <div className="app">
       <Nav />
       <Landing />
-      <About />
-      <Review />
-    </div> 
+    </div>
   );
 }
 

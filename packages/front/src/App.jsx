@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Button from './components/button';
+import LoginPage from './components/LoginPage';
+import SignUpPage from './components/SignUpPage';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 
 function App() {
   const [foo, setFoo] = useState('N/A');
@@ -10,15 +18,19 @@ function App() {
       .catch((err) => setFoo(err.message));
   }, []);
   return (
-    <div className="flex flex-col w-3/4 mx-auto my-12 items-center">
-      <h1>Hello World</h1>
-      <p>
-        Server responded with foo:
-        {foo}
-      </p>
-      <Button onClick={() => console.log('I was clicked')}>
-        I am a button
-      </Button>
+
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <SignUpPage />
+          </Route>
+          
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

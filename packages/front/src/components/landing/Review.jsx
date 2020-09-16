@@ -17,7 +17,8 @@ function Review() {
         <hr></hr>
         <h1>
           My PetSos caretaker sent me updates throughout the day and took care
-          of my dog as if she were her own. <span className="quote">– Florence</span>
+          of my dog as if she were her own.{" "}
+          <span className="quote">– Florence</span>
         </h1>
         <h2>Singapore, SG</h2>
       </div>

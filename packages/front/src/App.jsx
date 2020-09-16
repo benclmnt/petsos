@@ -5,13 +5,13 @@ import Nav from "./components/Nav";
 import Landing from "./components/landing/Landing";
 
 function App() {
-  const [foo, setFoo] = useState("N/A");
-  useEffect(() => {
-    fetch("/api/foo")
-      .then((res) => res.json())
-      .then((data) => setFoo(data.foo))
-      .catch((err) => setFoo(err.message));
-  }, []);
+  // const [foo, setFoo] = useState("N/A");
+  // useEffect(() => {
+  //   fetch("/api/foo")
+  //     .then((res) => res.json())
+  //     .then((data) => setFoo(data.foo))
+  //     .catch((err) => setFoo(err.message));
+  // }, []);
 
   return (
     // <div className="flex flex-col w-3/4 mx-auto my-12 items-center">

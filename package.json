@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "lerna run start --stream",
-    "build": "./build.sh && NODE_ENV=production node packages/back/build/index"
+    "build": "./build.sh", 
+    "serve": "NODE_ENV=production node packages/back/build/index"
   },
   "engines": {
     "node": "12.x"

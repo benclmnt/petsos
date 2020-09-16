@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import Button from './components/button';
+import React, { useState, useEffect } from "react";
+import LoginPage from "./components/LoginPage";
+import SignUpPage from "./components/SignUpPage";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
-  const [foo, setFoo] = useState('N/A');
+  const [foo, setFoo] = useState("N/A");
   useEffect(() => {
-    fetch('/api/foo')
+    fetch("/api/foo")
       .then((res) => res.json())
       .then((data) => setFoo(data.foo))
       .catch((err) => setFoo(err.message));
   }, []);
   return (
-    <div className="flex flex-col w-3/4 mx-auto my-12 items-center">
-      <h1>Hello World</h1>
-      <p>
-        Server responded with foo:
-        {foo}
-      </p>
-      <Button onClick={() => console.log('I was clicked')}>
-        I am a button
-      </Button>
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route exact path="/signup">
+            <SignUpPage />
+          </Route>
+
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

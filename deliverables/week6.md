@@ -17,6 +17,7 @@ The following abbreviations will be used in this document:
 2. The ability of a CT to cater to the special requirements of a pet is job-specific.
 3. PO must register their pets in order for a job to be listed and/or taken.
 4. *Records* logs the *jobs* CT has ever taken throughout the time registered in the system.
+5. *Appointments* is a view.
 
 ## Trivial Constraints
 Many trivial constraints can be inferred from the diagram or already stated in the problem definition, but the following are covered here for clarity during the development process:

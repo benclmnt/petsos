@@ -29,6 +29,19 @@ Many trivial constraints can be inferred from the diagram or already stated in t
 7. PO can have unlimited pets.
 8. CT must either be full-time or part-time, and these groups are mutually exclusive.
 9. Each pet is dependent on its PO. 
+**additional, please check**
+10. User have exactly 1 address.
+11. CT is capable of taking care of 1 or more pet category.
+12. Full Time CT may take 0 or more leaves.
+13. Part Time CT may indicate 0 or more availability.
+14. CT can have unlimited records.
+15. Each CT's job will be put in the records.
+17. PO can have unlimited commissions.
+18. Each job is commisioned by exactly 1 PO.
+19. Full Time CT and Part Time CT are both CT.
+20. PO, CT, and PCS are User.
+21. PO can be also be CT and vice versa.
+
 
 ## Additional Constraints
 Additional constraints may not be represented in the diagram, but may already be stated in the problem definition.

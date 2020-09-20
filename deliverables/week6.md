@@ -10,7 +10,7 @@ The following abbreviations will be used in this document:
  3. PCS: Pet Care System
 
 ## ER Diagram
-![ER-Diagram](https://imgur.com/a/gs89606)
+![ER-Diagram](https://i.imgur.com/yPji43P.png)
 
 ## Notes
 1. The "pet category ID" attribute of capability entities refer to the "category" attribute of *Pet*.

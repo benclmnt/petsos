@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
+import SearchSittersBox from "./components/SearchSittersBox";
+
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
@@ -21,6 +23,10 @@ function App() {
 
           <Route exact path="/login">
             <LoginPage />
+          </Route>
+
+          <Route exact path="/searchsitters">
+            <SearchSittersBox />
           </Route>
         </Switch>
       </Router>

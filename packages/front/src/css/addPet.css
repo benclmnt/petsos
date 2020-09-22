@@ -1,0 +1,124 @@
+button {
+  width: 150px;
+  padding: 20px 40px;
+
+  margin-right: 20px;
+
+  border: 1px solid black;
+  border-radius: 10px;
+
+  opacity: 30%;
+
+  transition: all 450ms;
+}
+
+button:hover {
+  opacity: 100%;
+  border-width: 1.5px;
+  transform: scale(1.05);
+  filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+    brightness(103%) contrast(106%);
+}
+
+button:focus {
+  outline: none;
+  opacity: 100%;
+  border-width: 1.5px;
+  transform: scale(1.05);
+  filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+    brightness(103%) contrast(106%);
+}
+
+input[type="text"] {
+  display: block;
+  padding: 4px 10px;
+  margin-bottom: 20px;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+select {
+  display: block;
+  padding: 4px 10px;
+  margin-bottom: 20px;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+input[type="radio"] {
+  padding: 4px 10px;
+  margin-left: 10px;
+}
+
+input[type="radio"]:first-of-type {
+  margin-left: 0px;
+}
+
+.petSize button:first-of-type {
+  width: 8rem;
+}
+
+.petSize button:last-of-type {
+  width: 12rem;
+}
+
+textarea {
+  resize: none;
+}
+
+textarea:active,
+:focus {
+  outline-color: orange;
+}
+
+.confirm-button {
+  opacity: 100%;
+
+  background-color: #ff8c00;
+  border-color: #ff8c00;
+  color: white;
+  font-weight: 600;
+  font-size: large;
+
+  padding: 20px 20px;
+}
+
+.confirm-button:hover {
+  border-width: 1px;
+  transform: none;
+  filter: none;
+}
+
+.confirm-button:focus {
+  border-width: 1px;
+  transform: none;
+  filter: none;
+}
+
+.cancel-button {
+  opacity: 100%;
+
+  border: none;
+  color: black;
+  font-weight: 500;
+  font-size: large;
+
+  padding: 20px 20px;
+}
+
+.cancel-button:hover {
+  border-width: none;
+  transform: none;
+  filter: none;
+  color: red;
+}
+
+.cancel-button:focus {
+  border-width: none;
+  transform: none;
+  filter: none;
+}

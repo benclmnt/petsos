@@ -32,7 +32,6 @@ button:focus {
 input[type="text"] {
   display: block;
   padding: 4px 10px;
-  margin-bottom: 20px;
   width: 100%;
 
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -42,28 +41,10 @@ input[type="text"] {
 select {
   display: block;
   padding: 4px 10px;
-  margin-bottom: 20px;
   width: 100%;
 
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 4px;
-}
-
-input[type="radio"] {
-  padding: 4px 10px;
-  margin-left: 10px;
-}
-
-input[type="radio"]:first-of-type {
-  margin-left: 0px;
-}
-
-.petSize button:first-of-type {
-  width: 8rem;
-}
-
-.petSize button:last-of-type {
-  width: 12rem;
 }
 
 textarea {
@@ -88,13 +69,13 @@ textarea:active,
 }
 
 .confirm-button:hover {
-  border-width: 1px;
+  border-width: none;
   transform: none;
   filter: none;
 }
 
 .confirm-button:focus {
-  border-width: 1px;
+  border-width: none;
   transform: none;
   filter: none;
 }

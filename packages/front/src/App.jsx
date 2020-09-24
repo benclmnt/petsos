@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Nav from "./components/Nav";
 import Landing from "./components/landing/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
+import EditProfile from "./components/editprofile/EditProfile";
 
 function App() {
   const [foo, setFoo] = useState("N/A");
@@ -29,7 +30,7 @@ function App() {
     <div className="app">
       <Nav />
       {/* <Landing /> */}
-      <Dashboard />
+      <EditProfile />
     </div>
   );
 }

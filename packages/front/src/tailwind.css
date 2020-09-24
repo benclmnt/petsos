@@ -1,6 +1,15 @@
-/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
-/* purgecss end ignore */
-
 @tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply text-center bg-orange-300 text-orange-800 h-20 w-20 font-bold rounded flex-col items-center justify-center;
+  }
+  .btn:hover {
+    @apply bg-orange-400;
+  }
+  .btn-content {
+    @apply flex flex-wrap items-center justify-center
+  }
+}

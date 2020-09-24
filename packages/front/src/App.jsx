@@ -6,11 +6,6 @@ import SearchSittersHouseSitting from "./components/SearchSittersHouseSitting";
 import SearchSittersDrop from "./components/SearchSittersDrop";
 import SearchSittersDayCare from "./components/SearchSittersDayCare";
 import SearchSittersWalk from "./components/SearchSittersWalk";
-
-
-
-
-
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {

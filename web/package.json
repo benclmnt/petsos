@@ -1,27 +1,40 @@
 {
-  "name": "petsos",
+  "name": "back",
   "version": "0.0.1",
-  "main": "index.js",
-  "author": "Bennett Clement",
-  "license": "MIT",
+  "description": "",
+  "main": "build/index.js",
   "scripts": {
-    "start": "lerna run start --stream",
-    "postinstall": "yarn build:front && yarn build:back",
-    "build:front": "(cd packages/front && yarn && yarn build)",
-    "build:back": "(cd packages/back && yarn && yarn build)",
-    "start:front": "(cd packages/front && yarn start)",
-    "start:back": "(cd packages/back && yarn start)"
+    "start": "nodemon --exec ./node_modules/@babel/node/bin/babel-node.js src/index",
+    "build": "npx babel --delete-dir-on-start --out-dir build --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node src/scripts/migrate.js",
+    "serve": "NODE_ENV=production node ./build",
+    "precommit": "lint-staged"
   },
-  "engines": {
-    "node": "12.x"
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.3.3",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
-    "husky": "^4.2.5",
-    "lerna": "^3.22.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npx lerna run --concurrency 1 --stream precommit"
-    }
+    "@babel/cli": "^7.11.5",
+    "@babel/core": "^7.11.5",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "lint-staged": "^10.2.13",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.1"
   }
 }

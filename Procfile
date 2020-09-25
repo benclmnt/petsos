@@ -1,2 +1,2 @@
-web: cd packages/back && yarn serve
+web: NODE_ENV=production node ./back/build
 

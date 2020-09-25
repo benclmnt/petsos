@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
+import Nav from "./components/Nav";
+import Landing from "./components/landing/Landing";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import AddPet from "./components/AddPet";
 
@@ -26,6 +28,11 @@ function App() {
 
           <Route exact path="/addPet">
             <AddPet />
+          </Route>
+
+          <Route exact path="/">
+            <Nav />
+            <Landing />
           </Route>
         </Switch>
       </Router>

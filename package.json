@@ -7,7 +7,9 @@
   "scripts": {
     "start": "lerna run start --stream",
     "build": "./build.sh",
-    "serve": "NODE_ENV=production node packages/back/build/index"
+    "serve": "NODE_ENV=production node packages/back/build/index",
+    "start:front": "(cd packages/front && yarn start)",
+    "start:back": "(cd packages/back && yarn start)"
   },
   "engines": {
     "node": "12.x"

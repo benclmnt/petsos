@@ -17,6 +17,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <Nav />
         <Switch>
           <Route exact path="/signup">
             <SignUpPage />
@@ -31,7 +32,6 @@ function App() {
           </Route>
 
           <Route exact path="/">
-            <Nav />
             <Landing />
           </Route>
         </Switch>

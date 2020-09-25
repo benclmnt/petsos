@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import "../css/addPet.css";
-import logo from "../resources/dogs-cats-header.png";
+import header from "../resources/dogs-cats-header.png";
 
 function AddPet() {
   const [showOther, setShowOther] = useState(false);
   const [selectType, setSelectType] = useState(false);
 
   return (
-    <div>
-      <img
-        // src="https://blog.verisure.co.uk/wp-content/uploads/2018/12/shutterstock_1034939470-2000x761.jpg"
-        src={logo}
-        width="100%"
-      />
+    <div className="addPet">
+      <img src={header} width="100%" />
       <section class="flex justify-center p-6">
-        <div class="md:w-1/2 w-full p-6 border rounded bg-white shadow">
+        <div class="lg:w-1/2 w-full p-6 border rounded bg-white shadow">
           <h1 class="font-bold">Tell us a bit about your pet.</h1>
           <h2 class="mb-4">What type of pet?</h2>
           <div class="text-center">
             <button
-              class="m-2"
+              class="m-2 w-1/4 md:px-8 md:py-4 px-6 py-2"
               onClick={() => {
                 setShowOther(false);
                 setSelectType(true);
@@ -32,7 +28,7 @@ function AddPet() {
               <h3 class="mt-2">Dog</h3>
             </button>
             <button
-              class="m-2"
+              class="m-2 w-1/4 md:px-8 md:py-4 px-6 py-2"
               onClick={() => {
                 setShowOther(false);
                 setSelectType(true);
@@ -45,7 +41,7 @@ function AddPet() {
               <h3 class="mt-2">Cat</h3>
             </button>
             <button
-              class="m-2"
+              class="m-2 w-1/4 md:px-8 md:py-4 px-6 py-2"
               onClick={() => {
                 setShowOther(true);
                 setSelectType(true);
@@ -73,7 +69,7 @@ function AddPet() {
       </section>
 
       <section class="flex justify-center p-6">
-        <div class="md:w-1/2 w-full p-6 border rounded bg-white shadow">
+        <div class="lg:w-1/2 w-full p-6 border rounded bg-white shadow">
           <div class="lg:flex md:block">
             <div class="mr-8 mb-2">
               <h1 class="font-semibold">Pet Name</h1>
@@ -95,7 +91,7 @@ function AddPet() {
                 name="gender"
                 class="ml-2 mr-1"
               />
-              Other / NA
+              N/A
             </div>
           </div>
           <div class="mb-2">
@@ -111,14 +107,14 @@ function AddPet() {
             <h1 class="font-semibold">Size</h1>
             <h2>Choose your pet size!</h2>
             <div class="text-center">
-              <button class="m-2 md:w-32 w-24 px-8 py-4">
+              <button class="m-2 w-1/5 md:px-8 md:py-4 px-6 py-2 ">
                 <img
                   alt="Small"
                   src="https://www.flaticon.com/svg/static/icons/svg/2881/2881761.svg"
                 />
                 <h3 class="mt-2">Small</h3>
               </button>
-              <button class="m-2 md:w-40 w-32 px-8 py-4">
+              <button class="m-2 w-1/4 md:px-8 md:py-4 px-6 py-2">
                 <img
                   alt="Medium"
                   src="https://www.flaticon.com/svg/static/icons/svg/2965/2965396.svg"
@@ -126,7 +122,7 @@ function AddPet() {
                 />
                 <h3 class="mt-2">Medium</h3>
               </button>
-              <button class="m-2 md:w-48 px-8 py-4">
+              <button class="m-2 w-1/3 md:px-8 md:py-4 px-6 py-2">
                 <img
                   alt="Large"
                   src="https://www.flaticon.com/svg/static/icons/svg/91/91544.svg"
@@ -139,7 +135,7 @@ function AddPet() {
       </section>
 
       <section class="flex justify-center p-6">
-        <div class="md:w-1/2 p-6 border rounded bg-white shadow">
+        <div class="lg:w-1/2 p-6 border rounded bg-white shadow">
           <label>
             <h1 class="font-semibold mb-2">Special requirements</h1>
             <textarea
@@ -158,8 +154,8 @@ function AddPet() {
 
       <section class="flex justify-center p-6">
         <div>
-          <button class="confirm-button">Add Pet</button>
-          <button class="cancel-button">Cancel</button>
+          <button className="confirm-button">Add Pet</button>
+          <button className="cancel-button">Cancel</button>
         </div>
       </section>
       {/* <img

@@ -14,7 +14,7 @@ def copy_backend():
     shutil.copytree(
         os.path.join(FILE_PATH, 'packages', 'back'),
         os.path.join(FILE_PATH, 'web'),
-        ignore=shutil.ignore_patterns('node_modules', 'src', 'babel.config.js', '.prettierrc.js', 'tests'))
+        ignore=shutil.ignore_patterns('node_modules', 'src', 'babel.config.js', '.prettierrc.js', '.gitignore', 'tests'))
 
 def build_frontend():
     os.system('yarn build:front')

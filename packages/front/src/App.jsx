@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
-import SearchSittersBoarding from "./components/SearchSittersBoarding";
-import SearchSittersHouseSitting from "./components/SearchSittersHouseSitting";
-import SearchSittersDrop from "./components/SearchSittersDrop";
-import SearchSittersDayCare from "./components/SearchSittersDayCare";
-import SearchSittersWalk from "./components/SearchSittersWalk";
+import SearchSitters from "./components/SearchSitters";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
@@ -28,24 +24,8 @@ function App() {
             <LoginPage />
           </Route>
 
-          <Route exact path="/searchsitters/boarding">
-            <SearchSittersBoarding />
-          </Route>
-
-          <Route exact path="/searchsitters/housesitting">
-            <SearchSittersHouseSitting />
-          </Route>
-
-          <Route exact path="/searchsitters/dropin">
-            <SearchSittersDrop />
-          </Route>
-
-          <Route exact path="/searchsitters/daycare">
-            <SearchSittersDayCare />
-          </Route>
-
-          <Route exact path="/searchsitters/dogwalk">
-            <SearchSittersWalk />
+          <Route exact path="/searchsitters">
+            <SearchSitters />
           </Route>
 
         </Switch>

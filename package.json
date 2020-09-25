@@ -20,11 +20,5 @@
     "hooks": {
       "pre-commit": "npx lerna run --concurrency 1 --stream precommit"
     }
-  },
-  "dependencies": {
-    "cli": "^1.0.1",
-    "react-dev-utils": "^10.2.1",
-    "react-scripts": "^3.4.3",
-    "tailwindcss": "^1.8.10"
   }
 }

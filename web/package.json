@@ -4,10 +4,10 @@
   "description": "",
   "main": "build/index.js",
   "scripts": {
-    "start": "NODE_ENV=production node ./build",
+    "start": "NODE_ENV=production node ./back/build",
     "dev": "nodemon --exec ./node_modules/@babel/node/bin/babel-node.js src/index",
     "build": "npx babel --delete-dir-on-start --out-dir build --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src",
-    "heroku-postbuild": "echo 'skip build step'",
+    "heroku-postbuild": "mv build/ back/build/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "node src/scripts/migrate.js",
     "precommit": "lint-staged"

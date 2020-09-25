@@ -2,6 +2,25 @@
 
 ## Users
 
+### GET `/users/`
+
+List the first 25 users.
+
+#### Response
+
+```
+[
+    {
+        "id"  : "1234",
+        "kind": "User",
+        "name": "petsos",
+        "email": "petsos@petsos.com",
+        "selfLink": "/users/1234",
+        "addressLink": "/addresses/1234"
+    }
+]
+```
+
 ### GET `/users/[:userId]`
 
 Get user info.

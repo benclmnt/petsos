@@ -1,9 +1,11 @@
 import express from 'express';
-import { getFooRoutes } from './foo';
+import { getUsersRoutes } from './users';
 
 function getRoutes() {
   const router = express.Router();
-  router.use('/foo', getFooRoutes());
+
+  router.use('/users', getUsersRoutes());
+
   return router;
 }
 

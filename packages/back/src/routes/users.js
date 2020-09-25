@@ -52,7 +52,16 @@ async function login(req, res) {
 }
 
 async function getUserById(req, res) {
-  // TODO: parse the userId. Make sure it is number
+  const { userId } = req.params;
+
+  // parse the userId. Return an error if its not a number
+  if (isNaN(userId)) {
+    return buildUsersErrorObject(res, {
+      status: 400,
+      error: 'the API path /users do not support non-numeric userId',
+    });
+  }
+
   const users = await query(queryUserById, [req.params.userId]);
 
   checkUserExists(res, users);

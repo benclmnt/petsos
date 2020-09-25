@@ -6,7 +6,6 @@
   "license": "MIT",
   "scripts": {
     "start": "lerna run start --stream",
-    "postinstall": "echo 'building front...' && yarn build:front && echo 'building back...' && yarn build:back",
     "build:front": "(cd packages/front && yarn && yarn build)",
     "build:back": "(cd packages/back && yarn && yarn build)",
     "start:front": "(cd packages/front && yarn start)",

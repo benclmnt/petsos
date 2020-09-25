@@ -1,16 +1,16 @@
-import React from "react";
-import Button from "../button";
-import "../../css/banner.css";
-import logo from "../../resources/petsoslogo.png";
+import React from 'react';
+import Button from '../button';
+import '../../css/banner.css';
+import logo from '../../resources/petsoslogo.png';
 
 function banner() {
   return (
     <header
       className="banner"
       style={{
-        backgroundSize: "cover",
+        backgroundSize: 'cover',
         backgroundImage: `url("https://s2.best-wallpaper.net/wallpaper/2560x1600/1904/Dog-and-cat-friends-pets_2560x1600.jpg")`,
-        backgroundPosition: "center center",
+        backgroundPosition: 'center center',
       }}
     >
       <div className="banner__contents">

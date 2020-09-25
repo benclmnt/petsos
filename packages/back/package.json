@@ -7,6 +7,7 @@
     "start": "nodemon --exec ./node_modules/@babel/node/bin/babel-node.js src/index",
     "build": "npx babel --delete-dir-on-start --out-dir build --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node src/scripts/migrate.js",
     "precommit": "lint-staged"
   },
   "lint-staged": {

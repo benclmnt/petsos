@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import "../css/nav.css";
-import logo from "../resources/petsoslogo.png";
+import React, { useState, useEffect } from 'react';
+import '../css/nav.css';
+import logo from '../resources/petsoslogo.png';
 
 function Nav() {
   const [show, handleShow] = useState([]);
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    window.addEventListener('scroll', () => {
       if (window.scrollY > 100) {
         handleShow(true);
       } else {
@@ -15,14 +15,16 @@ function Nav() {
     });
 
     return () => {
-      window.removeEventListener("scroll");
+      window.removeEventListener('scroll');
     };
   }, []);
 
   return (
-    <div className={`nav ${show && "nav_bg"}`}>
+    <div className={`nav ${show && 'nav_bg'}`}>
       <img src={logo} />
-      <a href="/index.html"><h1>Home</h1></a>
+      <a href="/index.html">
+        <h1>Home</h1>
+      </a>
     </div>
   );
 }

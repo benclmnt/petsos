@@ -1,1 +1,0 @@
-CREATE TABLE test123(name varchar(100));

@@ -1,0 +1,100 @@
+.addPet button {
+  border: 1px solid black;
+  border-radius: 10px;
+
+  opacity: 30%;
+  transition: all 450ms;
+}
+
+.addPet button:hover {
+  opacity: 100%;
+  border-width: 1.5px;
+  transform: scale(1.05);
+  filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+    brightness(103%) contrast(106%);
+}
+
+.addPet button:focus {
+  outline: none;
+  opacity: 100%;
+  border-width: 1.5px;
+  transform: scale(1.05);
+  filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+    brightness(103%) contrast(106%);
+}
+
+.addPet input[type="text"] {
+  display: block;
+  padding: 4px 10px;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.addPet select {
+  display: block;
+  padding: 4px 10px;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.addPet textarea {
+  resize: none;
+}
+
+.addPet textarea:active,
+:focus {
+  outline-color: orange;
+}
+
+.addPet .confirm-button {
+  opacity: 100%;
+
+  background-color: #ff8c00;
+  border-color: #ff8c00;
+  color: white;
+  font-weight: 600;
+  font-size: large;
+
+  padding: 20px 40px;
+  margin-right: 20px;
+}
+
+.addPet .confirm-button:hover {
+  border-width: none;
+  transform: none;
+  filter: none;
+}
+
+.addPet .confirm-button:focus {
+  border-width: none;
+  transform: none;
+  filter: none;
+}
+
+.addPet .cancel-button {
+  opacity: 100%;
+
+  border: none;
+  color: black;
+  font-weight: 500;
+  font-size: large;
+
+  padding: 20px 40px;
+}
+
+.addPet .cancel-button:hover {
+  border-width: none;
+  transform: none;
+  filter: none;
+  color: red;
+}
+
+.cancel-button:focus {
+  border-width: none;
+  transform: none;
+  filter: none;
+}

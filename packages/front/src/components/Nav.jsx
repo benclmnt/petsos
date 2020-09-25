@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/nav.css";
 import logo from "../resources/petsoslogo.png";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function Nav() {
   const [show, handleShow] = useState([]);
@@ -22,7 +23,11 @@ function Nav() {
   return (
     <div className={`nav ${show && "nav_bg"}`}>
       <img src={logo} />
-      <a href="/index.html"><h1>Home</h1></a>
+      <Link to="/">
+        <button>
+          <h1>Home</h1>
+        </button>
+      </Link>
     </div>
   );
 }

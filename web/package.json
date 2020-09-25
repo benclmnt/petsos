@@ -7,7 +7,8 @@
     "start": "NODE_ENV=production node ./build",
     "dev": "nodemon --exec ./node_modules/@babel/node/bin/babel-node.js src/index",
     "build": "npx babel --delete-dir-on-start --out-dir build --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src",
-    "heroku-postbuild": "npx babel --delete-dir-on-start --out-dir back/build --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src",
+    "build:heroku": "npx babel --delete-dir-on-start --out-dir back/build --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src",
+    "heroku-postbuild": "echo 'Force heroku to ignore build script' ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "node src/scripts/migrate.js",
     "precommit": "lint-staged"

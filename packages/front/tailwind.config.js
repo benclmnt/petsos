@@ -11,10 +11,16 @@ module.exports = {
     'public/**/*.html',
   ],
   theme: {
-    extend: {} 
+    extend: {
+      boxShadow: {
+        orange: '0 2px 4px 0 rgba(232, 126, 4, 1)'
+      }
+    } 
   },
-
-  variants: {},
+  
+  variants: {
+    backgroundColor: ['responsive', 'hover', 'focus'],
+  },
   plugins: [],
 
 };

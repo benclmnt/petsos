@@ -13,6 +13,7 @@ function run(command) {
     }
     if (stderr) {
       console.log(`stderr: ${stderr}`);
+      return;
     }
     console.log(`stdout: ${stdout}`);
   });

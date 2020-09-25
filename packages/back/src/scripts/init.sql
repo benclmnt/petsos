@@ -1,6 +1,6 @@
 -- CLEANING
 
-DROP TABLE IF EXISTS users
+DROP TABLE IF EXISTS users;
 
 -- INITIALIZING
 
@@ -12,3 +12,5 @@ CREATE TABLE users (
 
 INSERT into users (email, name, password)
 VALUES ('petsos@petsos.com', 'petsos', 'petsos123');
+
+-- SUCCESS

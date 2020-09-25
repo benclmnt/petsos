@@ -1,2 +1,2 @@
-web: yarn build:front && yarn deploy:back
+web: cd packages/back && yarn serve
 

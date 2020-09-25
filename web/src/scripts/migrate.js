@@ -1,11 +1,5 @@
-"use strict";
-
-const {
-  exec
-} = require('child_process');
-
+const { exec } = require('child_process');
 const config = require('../config/db');
-
 const path = require('path');
 
 const command = `psql -d ${config.database} -U ${config.user} -p ${config.port} -a -q -f `;
@@ -17,12 +11,10 @@ function run(command) {
       console.log(`error: ${error.message}`);
       return;
     }
-
     if (stderr) {
       console.log(`stderr: ${stderr}`);
       return;
     }
-
     console.log(`stdout: ${stdout}`);
   });
 }

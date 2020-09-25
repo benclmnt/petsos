@@ -5,6 +5,7 @@ import SearchSitters from "./components/SearchSitters";
 import Nav from "./components/Nav"
 import Landing from "./components/landing/Landing"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import EditProfile from "./components/editprofile/EditProfile"
 
 function App() {
   const [foo, setFoo] = useState('N/A');

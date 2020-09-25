@@ -1,2 +1,2 @@
-web: NODE_ENV=production node ./back/build
+web: NODE_ENV=production node ./build
 

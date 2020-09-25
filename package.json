@@ -9,7 +9,7 @@
     "build:front": "(cd packages/front && yarn && yarn build)",
     "build:back": "(cd packages/back && yarn && yarn build)",
     "start:front": "(cd packages/front && yarn start)",
-    "start:back": "(cd packages/back && yarn start)"
+    "start:back": "(cd packages/back && yarn dev)"
   },
   "engines": {
     "node": "12.x"

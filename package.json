@@ -6,8 +6,9 @@
   "license": "MIT",
   "scripts": {
     "start": "lerna run start --stream",
-    "build:front": "(cd packages/front && yarn build)",
-    "deploy:back": "(cd packages/back && yarn build && yarn serve)",
+    "postinstall": "yarn build:front && yarn build:back",
+    "build:front": "(cd packages/front && yarn && yarn build)",
+    "build:back": "(cd packages/back && yarn && yarn build)",
     "start:front": "(cd packages/front && yarn start)",
     "start:back": "(cd packages/back && yarn start)"
   },

@@ -93,6 +93,7 @@ function buildUsersErrorObject(res, { status, error }) {
 }
 
 function buildUsersSuccessObject(res, { status, user }) {
+  delete user.password;
   return res.status(status || 200).json(user);
 }
 

@@ -154,8 +154,12 @@ function AddPet() {
 
       <section class="flex justify-center p-6">
         <div>
-          <button className="confirm-button">Add Pet</button>
-          <button className="cancel-button">Cancel</button>
+          <button class="border rounded-lg bg-orange-500 text-white font-semibold text-lg px-8 py-4 mr-2">
+            Add Pet
+          </button>
+          <button class="font-semibold text-lg px-8 py-4 hover:text-red-600">
+            Cancel
+          </button>
         </div>
       </section>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../css/nav.css";
+import "../css/nav.css"
 import logo from "../resources/petsoslogo.png";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 

@@ -21,16 +21,17 @@
     opacity: 100%;
     border-width: 1.5px;
     transform: scale(1.05);
-    filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
-      brightness(103%) contrast(106%);
+    /* filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+      brightness(103%) contrast(106%); */
   }
 
   .petBtn:focus {
+    outline:none;
     opacity: 100%;
     border-width: 1.5px;
     transform: scale(1.05);
-    filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
-      brightness(103%) contrast(106%);
+    /* filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+      brightness(103%) contrast(106%); */
   }
 
   .petBtn-sm {
@@ -41,16 +42,17 @@
     opacity: 100%;
     border-width: 1.5px;
     transform: scale(1.05);
-    filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
-      brightness(103%) contrast(106%);
+    /* filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+      brightness(103%) contrast(106%); */
   }
 
   .petBtn-sm:focus {
+    outline:none;
     opacity: 100%;
     border-width: 1.5px;
     transform: scale(1.05);
-    filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
-      brightness(103%) contrast(106%);
+    /* filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+      brightness(103%) contrast(106%); */
   }
 
   .petBtn-lg {
@@ -61,16 +63,17 @@
     opacity: 100%;
     border-width: 1.5px;
     transform: scale(1.05);
-    filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
-      brightness(103%) contrast(106%);
+    /* filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+      brightness(103%) contrast(106%); */
   }
 
   .petBtn-lg:focus {
+    outline:none;
     opacity: 100%;
     border-width: 1.5px;
     transform: scale(1.05);
-    filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
-      brightness(103%) contrast(106%);
+    /* filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+      brightness(103%) contrast(106%); */
   }
 
   @screen md {

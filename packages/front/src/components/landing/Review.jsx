@@ -1,5 +1,5 @@
-import React from "react";
-import "../../css/review.css";
+import React from 'react';
+import '../../css/review.css';
 
 function Review() {
   return (
@@ -7,9 +7,9 @@ function Review() {
       <div
         className="review__content"
         style={{
-          backgroundSize: "cover",
+          backgroundSize: 'cover',
           backgroundImage: `url(https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1600/https://www.clubpets.com.sg/wp-content/uploads/2019/08/pet-hacks-5-dog-breeds-unsuitable-for-first-time-pet-owners-2.jpg)`,
-          backgroundPosition: "center center",
+          backgroundPosition: 'center center',
         }}
       ></div>
 

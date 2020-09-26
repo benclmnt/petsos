@@ -11,10 +11,12 @@ def build_backend():
     os.system('(cd packages/back && yarn && yarn build:heroku)')
 
 def copy_backend():
+    shutil.rmtree(os.path.join(FILE_PATH, 'packages', 'back', 'build'))
     shutil.copytree(
         os.path.join(FILE_PATH, 'packages', 'back'),
         os.path.join(FILE_PATH, 'web'),
         ignore=shutil.ignore_patterns('node_modules', 'src', 'babel.config.js', '.prettierrc.js', '.gitignore', 'tests'))
+    shutil.rmtree(os.path.join(FILE_PATH, 'packages', 'back', 'back'))
 
 def build_frontend():
     os.system('yarn build:front')
@@ -23,6 +25,7 @@ def copy_frontend():
     shutil.copytree(
         os.path.join(FILE_PATH, 'packages', 'front', 'build'),
         os.path.join(FILE_PATH, 'web', 'front', 'build'))
+    shutil.rmtree(os.path.join(FILE_PATH, 'packages', 'front', 'build'))
 
 def push_to_heroku():
     os.system('git checkout deploy')

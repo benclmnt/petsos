@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import LoginPage from './components/LoginPage';
-import SignUpPage from './components/SignUpPage';
-import SearchSitters from './components/SearchSitters';
-import Nav from './components/Nav';
-import Landing from './components/landing/Landing';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import EditProfile from './components/editprofile/EditProfile';
+import React, { useState, useEffect } from "react";
+import LoginPage from "./components/LoginPage";
+import SignUpPage from "./components/SignUpPage";
+import SearchSitters from "./components/SearchSitters";
+import Nav from "./components/Nav";
+import Landing from "./components/landing/Landing";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import EditProfile from "./components/editprofile/EditProfile";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
-  const [foo, setFoo] = useState('N/A');
+  const [foo, setFoo] = useState("N/A");
   useEffect(() => {
-    fetch('/api/foo')
+    fetch("/api/foo")
       .then((res) => res.json())
       .then((data) => setFoo(data.foo))
       .catch((err) => setFoo(err.message));
@@ -36,6 +37,11 @@ function App() {
           <Route exact path="/">
             <Nav />
             <Landing />
+          </Route>
+
+          <Route exact path="/dashboard">
+            <Nav />
+            <Dashboard />
           </Route>
         </Switch>
       </Router>

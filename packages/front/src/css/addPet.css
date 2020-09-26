@@ -1,28 +1,3 @@
-.addPet button {
-  border: 1px solid black;
-  border-radius: 10px;
-
-  opacity: 30%;
-  transition: all 450ms;
-}
-
-.addPet button:hover {
-  opacity: 100%;
-  border-width: 1.5px;
-  transform: scale(1.05);
-  filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
-    brightness(103%) contrast(106%);
-}
-
-.addPet button:focus {
-  outline: none;
-  opacity: 100%;
-  border-width: 1.5px;
-  transform: scale(1.05);
-  filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
-    brightness(103%) contrast(106%);
-}
-
 .addPet input[type="text"] {
   display: block;
   padding: 4px 10px;
@@ -50,9 +25,11 @@
   outline-color: orange;
 }
 
-.addPet .confirm-button {
+.confirm-button {
   opacity: 100%;
 
+  border-width: 1px;
+  border-radius: 10px;
   background-color: #ff8c00;
   border-color: #ff8c00;
   color: white;
@@ -63,19 +40,19 @@
   margin-right: 20px;
 }
 
-.addPet .confirm-button:hover {
-  border-width: none;
+.confirm-button:hover {
+  border-width: 1px;
   transform: none;
   filter: none;
 }
 
-.addPet .confirm-button:focus {
+.confirm-button:focus {
   border-width: none;
-  transform: none;
+  transform: scale(1);
   filter: none;
 }
 
-.addPet .cancel-button {
+.cancel-button {
   opacity: 100%;
 
   border: none;
@@ -86,7 +63,7 @@
   padding: 20px 40px;
 }
 
-.addPet .cancel-button:hover {
+.cancel-button:hover {
   border-width: none;
   transform: none;
   filter: none;

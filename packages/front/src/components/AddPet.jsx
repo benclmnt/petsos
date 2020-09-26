@@ -15,7 +15,7 @@ function AddPet() {
           <h2 class="mb-4">What type of pet?</h2>
           <div class="text-center">
             <button
-              class="m-2 w-1/4 md:px-8 md:py-4 px-6 py-2"
+              class="petBtn"
               onClick={() => {
                 setShowOther(false);
                 setSelectType(true);
@@ -28,7 +28,7 @@ function AddPet() {
               <h3 class="mt-2">Dog</h3>
             </button>
             <button
-              class="m-2 w-1/4 md:px-8 md:py-4 px-6 py-2"
+              class="petBtn"
               onClick={() => {
                 setShowOther(false);
                 setSelectType(true);
@@ -41,7 +41,7 @@ function AddPet() {
               <h3 class="mt-2">Cat</h3>
             </button>
             <button
-              class="m-2 w-1/4 md:px-8 md:py-4 px-6 py-2"
+              class="petBtn"
               onClick={() => {
                 setShowOther(true);
                 setSelectType(true);
@@ -107,14 +107,14 @@ function AddPet() {
             <h1 class="font-semibold">Size</h1>
             <h2>Choose your pet size!</h2>
             <div class="text-center">
-              <button class="m-2 w-1/5 md:px-8 md:py-4 px-6 py-2 ">
+              <button class="petBtn-sm">
                 <img
                   alt="Small"
                   src="https://www.flaticon.com/svg/static/icons/svg/2881/2881761.svg"
                 />
                 <h3 class="mt-2">Small</h3>
               </button>
-              <button class="m-2 w-1/4 md:px-8 md:py-4 px-6 py-2">
+              <button class="petBtn">
                 <img
                   alt="Medium"
                   src="https://www.flaticon.com/svg/static/icons/svg/2965/2965396.svg"
@@ -122,7 +122,7 @@ function AddPet() {
                 />
                 <h3 class="mt-2">Medium</h3>
               </button>
-              <button class="m-2 w-1/3 md:px-8 md:py-4 px-6 py-2">
+              <button class="petBtn-lg">
                 <img
                   alt="Large"
                   src="https://www.flaticon.com/svg/static/icons/svg/91/91544.svg"
@@ -158,11 +158,6 @@ function AddPet() {
           <button className="cancel-button">Cancel</button>
         </div>
       </section>
-      {/* <img
-        src="https://www.twentyfifthhourconcierge.com/wp-content/uploads/2017/10/pet-sitting-header.jpg"
-        width="100%"
-      /> */}
-      {/* <img src="https://www.pouncepetinsurance.com.au/wp-content/uploads/2018/10/header-cover.jpg" /> */}
     </div>
   );
 }

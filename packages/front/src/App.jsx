@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import LoginPage from "./components/LoginPage";
-import SignUpPage from "./components/SignUpPage";
-import SearchSitters from "./components/SearchSitters";
-import Nav from "./components/Nav"
-import Landing from "./components/landing/Landing"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import EditProfile from "./components/editprofile/EditProfile"
+import React, { useState, useEffect } from 'react';
+import LoginPage from './components/LoginPage';
+import SignUpPage from './components/SignUpPage';
+import SearchSitters from './components/SearchSitters';
+import Nav from './components/Nav';
+import Landing from './components/landing/Landing';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import EditProfile from './components/editprofile/EditProfile';
 
 function App() {
   const [foo, setFoo] = useState('N/A');
@@ -27,6 +27,8 @@ function App() {
             <LoginPage />
           </Route>
 
+          <Route path="/profile/edit" component={EditProfile} />
+
           <Route exact path="/searchsitters">
             <SearchSitters />
           </Route>
@@ -35,7 +37,6 @@ function App() {
             <Nav />
             <Landing />
           </Route>
-          
         </Switch>
       </Router>
     </div>

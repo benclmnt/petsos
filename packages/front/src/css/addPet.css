@@ -1,0 +1,26 @@
+.addPet input[type="text"] {
+  display: block;
+  padding: 4px 10px;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.addPet select {
+  display: block;
+  padding: 4px 10px;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.addPet textarea {
+  resize: none;
+}
+
+.addPet textarea:active,
+:focus {
+  outline-color: orange;
+}

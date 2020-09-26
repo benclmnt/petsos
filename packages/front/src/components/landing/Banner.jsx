@@ -1,9 +1,9 @@
-import React from 'react';
-import Button from '../button';
-import '../../css/banner.css';
-import logo from '../../resources/petsoslogo.png';
+import React, { useState } from "react";
+import "../../css/banner.css";
+import logo from "../../resources/petsoslogo.png";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-function banner() {
+function Banner() {
   return (
     <header
       className="banner"
@@ -25,11 +25,19 @@ function banner() {
           We care for your <span className="changing-text"></span>
         </h3>
 
-        <Button>Sign up</Button>
-        <Button>Sign in</Button>
+        <Link to="/signup">
+          <button class="px-8 py-4 rounded-lg bg-orange-700 text-white-1000 text-xl font-semibold uppercase mt-8">
+            Sign Up
+          </button>
+        </Link>
+        <Link to="/login">
+          <button class="px-8 py-4 rounded-lg bg-orange-700 text-white-1000 text-xl font-semibold uppercase ml-4 mt-8">
+            Sign In
+          </button>
+        </Link>
       </div>
     </header>
   );
 }
 
-export default banner;
+export default Banner;

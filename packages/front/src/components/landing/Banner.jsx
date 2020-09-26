@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../css/banner.css";
 import logo from "../../resources/petsoslogo.png";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import wallpaper from "../../resources/wallpaper.jpg"
 
 function Banner() {
   return (

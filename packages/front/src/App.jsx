@@ -4,8 +4,6 @@ import SignUpPage from "./components/SignUpPage";
 import Nav from "./components/Nav";
 import Landing from "./components/landing/Landing";
 import SearchSitters from "./components/SearchSitters";
-import Nav from "./components/Nav";
-import Landing from "./components/landing/Landing";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import AddPet from "./components/AddPet";
 

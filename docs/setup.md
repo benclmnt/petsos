@@ -23,7 +23,7 @@ You have `node and yarn installed`.
 8. Do `yarn` on project root, `packages/front` and `packages/back`. Wait for installing to finish
 9. `yarn start`
 10. open `http://localhost:3000` to test React frontend
-11. open `http://localhost:5000/api/foo` to test Node API -> you should see
+11. [INVALID] open `http://localhost:5000/api/foo` to test Node API -> you should see
 
     ```
     {"foo":"true","message":[{"id":1,"name":"Jerry","email":"jerry@example.com"},{"id":2,"name":"George","email":"george@example.com"}]}

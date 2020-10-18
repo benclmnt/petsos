@@ -188,6 +188,14 @@ Get all pets of a user
 
 Get a pet specific info
 
+### POST `/users/[:username]/pets/[:petname]`
+
+Create / edit new pet
+
+### DELETE `/users/[:username]/pets/[:petname]`
+
+Delete users' pet
+
 
 ## Admin (`/admin`)
 

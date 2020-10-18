@@ -30,8 +30,8 @@ CREATE TABLE pet_owners (
 );
 
 CREATE TABLE pcs_admin (
-     username VARCHAR PRIMARY KEY REFERENCES users(username)
-	 	ON DELETE CASCADE
+    username VARCHAR PRIMARY KEY REFERENCES users(username)
+		ON DELETE CASCADE
 );
 
 CREATE TABLE caretakers (

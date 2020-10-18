@@ -24,3 +24,31 @@
 :focus {
   outline-color: orange;
 }
+
+.addPet input[type="radio"]:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  border: 1.5px solid orange;
+
+  top: -5px;
+  left: -1px;
+  position: relative;
+  background-color: white;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+}
+
+.addPet input[type="radio"]:checked:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  border: 1.5px solid orange;
+
+  top: -5px;
+  left: -1px;
+  position: relative;
+  background-color: orange;
+  content: "";
+}

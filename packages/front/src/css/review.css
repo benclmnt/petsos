@@ -42,7 +42,8 @@
 }
 
 .quote {
-  opacity: 50%;
+  margin-left: 1rem;
+  opacity: 0.5;
 }
 
 @media only screen and (max-width: 768px) {

@@ -4,7 +4,6 @@ import header from "../resources/dogs-cats-header.png";
 
 function AddPet() {
   const [showOther, setShowOther] = useState(false);
-  const [selectType, setSelectType] = useState(false);
 
   return (
     <div className="addPet">
@@ -18,7 +17,6 @@ function AddPet() {
               class="petBtn"
               onClick={() => {
                 setShowOther(false);
-                setSelectType(true);
               }}
             >
               <img
@@ -31,7 +29,6 @@ function AddPet() {
               class="petBtn"
               onClick={() => {
                 setShowOther(false);
-                setSelectType(true);
               }}
             >
               <img
@@ -44,7 +41,6 @@ function AddPet() {
               class="petBtn"
               onClick={() => {
                 setShowOther(true);
-                setSelectType(true);
               }}
             >
               <img
@@ -77,21 +73,12 @@ function AddPet() {
             </div>
             <div class="mb-2">
               <h1 class="font-semibold mb-1">Sex</h1>
-              <input type="radio" value="Male" name="gender" /> Male
-              <input
-                type="radio"
-                value="Female"
-                name="gender"
-                class="ml-2 mr-1"
-              />
-              Female
-              <input
-                type="radio"
-                value="Other"
-                name="gender"
-                class="ml-2 mr-1"
-              />
-              N/A
+              <input type="radio" value="Male" name="gender" /> &nbsp;Male
+              &nbsp;&nbsp;
+              <input type="radio" value="Female" name="gender" /> &nbsp;Female
+              &nbsp;&nbsp;
+              <input type="radio" value="Other" name="gender" /> &nbsp;N/A
+              &nbsp;&nbsp;
             </div>
           </div>
           <div class="mb-2">
@@ -154,10 +141,10 @@ function AddPet() {
 
       <section class="flex justify-center p-6">
         <div>
-          <button class="border rounded-lg bg-orange-500 text-white font-semibold text-lg px-8 py-4 mr-2">
+          <button class="border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 font-semibold text-lg px-8 py-4 m-2 duration-500 ease-in-out ">
             Add Pet
           </button>
-          <button class="font-semibold text-lg px-8 py-4 hover:text-red-600">
+          <button class="font-semibold text-lg px-8 py-4 m-2 border border-red-600 hover:bg-red-600 rounded-lg hover:text-white text-red-600  duration-500 ease-in-out ">
             Cancel
           </button>
         </div>

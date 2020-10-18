@@ -53,7 +53,6 @@ function About() {
           <div className="trusted_caretakers__title">
             <img
               src="https://www.flaticon.com/svg/static/icons/svg/744/744922.svg"
-              //   src="https://www.flaticon.com/svg/static/icons/svg/3068/3068103.svg"
               width="50px"
             />
             <h2>Book with caretakers you can trust!</h2>

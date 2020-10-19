@@ -6,16 +6,17 @@ import Landing from "./components/landing/Landing";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import AddPet from "./components/AddPet";
 import EditProfile from "./components/editprofile/EditProfile";
-import SearchSitters from "./components/SearchSitters"
+import Dashboard from "./components/dashboard/Dashboard";
+import SearchSitters from "./components/SearchSitters";
 
 function App() {
-  // const [foo, setFoo] = useState("N/A");
-  // useEffect(() => {
-  //   fetch("/api/foo")
-  //     .then((res) => res.json())
-  //     .then((data) => setFoo(data.foo))
-  //     .catch((err) => setFoo(err.message));
-  // }, []);
+  const [foo, setFoo] = useState("N/A");
+  useEffect(() => {
+    fetch("/api/foo")
+      .then((res) => res.json())
+      .then((data) => setFoo(data.foo))
+      .catch((err) => setFoo(err.message));
+  }, []);
   return (
     <div className="App">
       <Router>

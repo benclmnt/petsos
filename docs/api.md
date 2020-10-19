@@ -11,17 +11,14 @@ List the first 25 users.
 ```
 [
     {
-        "id"  : "1234",
         "kind": "User",
-        "name": "petsos",
-        "email": "petsos@petsos.com",
-        "selfLink": "/users/1234",
-        "addressLink": "/addresses/1234"
+        ... user object parameters
+        "selfLink": "/users/petsos",
     }
 ]
 ```
 
-### GET `/users/[:userId]`
+### GET `/users/[:username]`
 
 Get user info.
 
@@ -29,18 +26,15 @@ Get user info.
 
 ```
 {
-    "id"  : "1234",
     "kind": "User",
-    "name": "petsos",
-    "email": "petsos@petsos.com",
-    "selfLink": "/users/1234",
-    "addressLink": "/addresses/1234",
+    ... user object parameters
+    "selfLink": "/users/petsos",
 }
 ```
 
 ### POST `/users/login`
 
-Login.
+Login. (only support by email)
 
 #### Request:
 
@@ -57,18 +51,15 @@ Body:
 
 ```
 {
-    "id"  : "1234",
     "kind": "User",
-    "name": "petsos",
-    "email": "petsos@petsos.com",
-    "selfLink": "/users/1234",
-    "addressLink": "/addresses/1234",
+    ... user object parameters
+    "selfLink": "/users/petsos",
 }
 ```
 
 ### POST `/users/register`
 
-Register a new user.
+Register a new user. (username must be unique)
 
 #### Request:
 
@@ -76,7 +67,7 @@ Body:
 
 ```
 {
-    "name": "petsos",
+    "username": "petsos",
     "email": "petsos@petsos.com",
     "password": "petsos123",
 }
@@ -86,12 +77,37 @@ Body:
 
 ```
 {
-    "id"  : "1234",
     "kind": "User",
-    "name": "petsos",
-    "email": "petsos@petsos.com",
-    "selfLink": "/users/1234",
-    "addressLink": "",
+    ... user object parameters
+    "selfLink": "/users/petsos",
+}
+```
+
+### POST `/users/address`
+
+Upsert address data for a user. (username must be unique)
+
+#### Request:
+
+Body:
+
+```
+{
+    "username": "petsos",
+    "address": "...",
+    "postal" : "...",
+    "city" : "...",
+    "country" : "..."
+}
+```
+
+#### Response:
+
+```
+{
+    "kind": "User",
+    ... user object parameters
+    "selfLink": "/users/petsos",
 }
 ```
 

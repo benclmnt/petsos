@@ -4,11 +4,17 @@ import { BrowserRouter as Router, Link, useRouteMatch } from "react-router-dom";
 function LoginPage() {
   let match = useRouteMatch();
   return (
-    <div class="bg-orange-100">
-      <div class="bg-grey-lighter min-h-screen flex flex-col">
-        <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+    <div
+      style={{
+        backgroundSize: "cover",
+        backgroundImage: `url("https://s2.best-wallpaper.net/wallpaper/2560x1600/1904/Dog-and-cat-friends-pets_2560x1600.jpg")`,
+        backgroundPosition: "center center",
+      }}
+    >
+      <div class="bg-grey-lighter min-h-screen flex lg:flex-row-reverse">
+        <div class="container max-w-sm lg:mr-24 mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-            <h1 class="mb-8 text-3xl text-center">Log In</h1>
+            <h1 class="mb-8 text-3xl text-center font-semibold">Log In</h1>
 
             <input
               type="text"
@@ -36,14 +42,14 @@ function LoginPage() {
             </a>
           </div>
 
-          <div class="text-black mt-6">
-            Don't have a Petsos account?
+          <div class="text-white mt-6">
+            Don't have an account?
             <Router>
               <a
                 href="/signup"
-                class="no-underline border-b px-2 border-blue text-blue"
+                class="font-semibold mx-2"
               >
-                Sign up now.
+                Sign up
               </a>
             </Router>
           </div>

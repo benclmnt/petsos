@@ -8,39 +8,6 @@
   background-color: black;
 }
 
-.banner__contents {
-  margin-right: 60px;
-  text-align: right;
-}
-
-.title {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.title h1 {
-  padding-top: 150px;
-  font-size: 4rem;
-  font-weight: 700;
-}
-
-.title img {
-  margin-top: 150px;
-  padding-left: 20px;
-  height: 100px;
-}
-
-.banner__contents h2 {
-  font-size: 2rem;
-  font-weight: 500;
-}
-
-.banner__contents h3 {
-  font-size: 2rem;
-  font-style: italic;
-}
-
 .changing-text {
   font-family: "Caveat", cursive;
   font-size: 3rem;
@@ -71,51 +38,18 @@
   }
 }
 
+.banner button:focus {
+  outline: none;
+}
+
 @media only screen and (max-width: 768px) {
   .banner {
     height: 100vh;
   }
 
-  .banner__contents {
-    text-align: center;
-
-    margin: 0px;
-    padding-top: 120px;
-
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-
-  .title {
-    display: inline;
-  }
-
-  .title h1 {
-    padding-top: 60px;
-    font-size: 3rem;
-    font-weight: 700;
-  }
-
-  .title img {
-    margin: 20px auto;
-    padding-left: 0px;
-    height: 100px;
-  }
-
-  .banner__contents h2 {
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
-
-  .banner__contents h3 {
-    font-size: 1.2rem;
-    font-style: italic;
-  }
-
   .changing-text {
     font-family: "Caveat", cursive;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-style: regular;
     width: 50%;
   }

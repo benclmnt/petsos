@@ -20,7 +20,7 @@
 
   border: 1px dashed rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  opacity: 50%;
+  opacity: 0.5;
 
   transition-timing-function: ease-in;
   transition: all 0.5s;
@@ -55,7 +55,7 @@
 
     border: 1px dashed rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    opacity: 50%;
+    opacity: 0.5;
 
     transition-timing-function: ease-in;
     transition: all 0.5s;

@@ -1,5 +1,6 @@
 -- CLEANING
 
+DROP VIEW IF EXISTS ratings;
 DROP TABLE IF EXISTS cares_for;
 DROP TABLE IF EXISTS date;
 DROP TABLE IF EXISTS is_capable;
@@ -117,10 +118,3 @@ CREATE VIEW ratings AS (
 );
 
 -- SEED DATA
-
-INSERT into users (email, username, password) VALUES
-	('petsos@petsos.com', 'petsos', 'petsos123'),
-	('admin@petsos.com', 'admin', 'iamthesuperadmin');
-
-
--- SUCCESS

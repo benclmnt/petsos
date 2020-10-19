@@ -27,7 +27,7 @@
 }
 
 .pet-card--empty:hover {
-  opacity: 60%;
+  opacity: 0.6;
   border: 1px dashed rgba(0, 0, 0, 0.6);
   transform: scale(1.02);
 }

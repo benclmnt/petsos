@@ -6,6 +6,7 @@ import Landing from "./components/landing/Landing";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import AddPet from "./components/AddPet";
 import EditProfile from "./components/editprofile/EditProfile";
+import Dashboard from "./components/dashboard/Dashboard";
 import SearchSitters from "./components/SearchSitters"
 
 function App() {

@@ -42,6 +42,11 @@ function App() {
           <Route exact path="/">
             <Landing />
           </Route>
+
+          <Route exact path="/dashboard">
+            <Nav />
+            <Dashboard />
+          </Route>
         </Switch>
       </Router>
     </div>

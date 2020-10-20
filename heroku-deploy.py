@@ -5,13 +5,13 @@ import sys
 FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 def init_deploy():
-    shutil.rmtree(os.path.join(FILE_PATH, 'web'))
+    shutil.rmtree(os.path.join(FILE_PATH, 'web'), ignore_errors=True)
 
 def build_backend():
     os.system('(cd packages/back && yarn && yarn build:heroku)')
 
 def copy_backend():
-    shutil.rmtree(os.path.join(FILE_PATH, 'packages', 'back', 'build'))
+    shutil.rmtree(os.path.join(FILE_PATH, 'packages', 'back', 'build'), ignore_errors=True)
     shutil.copytree(
         os.path.join(FILE_PATH, 'packages', 'back'),
         os.path.join(FILE_PATH, 'web'),
@@ -36,6 +36,7 @@ def push_to_heroku():
 
 def main():
     init_deploy()
+    build_backend()
     copy_backend()
     build_frontend()
     copy_frontend()

@@ -12,7 +12,11 @@ var _users = require("./users");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getRoutes() {
-  const router = _express.default.Router();
+  const router = _express.default.Router(); // router.use((req, res, next) => {
+  //   res.requestedUrl = req.originalUrl;
+  //   next();
+  // });
+
 
   router.use('/users', (0, _users.getUsersRoutes)());
   return router;

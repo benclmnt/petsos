@@ -1,14 +1,11 @@
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 const config = require('../config/db');
 const path = require('path');
 
-let SEED_SCRIPT = path.resolve(__dirname, `./seed.js`);
-let TARGET_FILE = `./migrate-${new Date().toISOString()}.sql`;
-const PATH_TO_TARGET_FILE = path.resolve(__dirname, TARGET_FILE);
-const command = `psql -d ${config.database} -U ${config.user} -p ${config.port} -a -q -f `;
-const initialize = command + PATH_TO_TARGET_FILE;
+let SEED_SCRIPT = path.resolve(__dirname, './seed.py');
+let TARGET_FILE = path.join(__dirname, './migrate.sql');
 
-function run(command) {
+function run() {
   const callback = (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
@@ -21,8 +18,36 @@ function run(command) {
     console.log(`stdout: ${stdout}`);
   };
 
-  exec(`node ${SEED_SCRIPT} ${TARGET_FILE}`, callback);
-  exec(command, callback);
+  let create_migration = spawn('python3', [SEED_SCRIPT, TARGET_FILE]);
+  let seed_db;
+
+  create_migration.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  create_migration.on('close', (cm_code) => {
+    seed_db = spawn('psql', [
+      '-d',
+      config.database,
+      '-U',
+      config.user,
+      '-p',
+      config.port,
+      '-a',
+      '-q',
+      '-f',
+      TARGET_FILE,
+    ]);
+
+    seed_db.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+    });
+
+    seed_db.on('close', (code) => {
+      console.log(`creating migration file exited with code ${cm_code}`);
+      console.log(`resetting database exited with code ${code}`);
+    });
+  });
 }
 
-run(initialize);
+run();

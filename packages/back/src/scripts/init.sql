@@ -1,8 +1,9 @@
 -- CLEANING
 
+DROP TYPE IF EXISTS caretaker_type CASCADE;
 DROP VIEW IF EXISTS ratings;
 DROP TABLE IF EXISTS cares_for;
-DROP TABLE IF EXISTS date;
+DROP TABLE IF EXISTS bid;
 DROP TABLE IF EXISTS is_capable;
 DROP TABLE IF EXISTS special_reqs;
 DROP TABLE IF EXISTS pets;
@@ -14,6 +15,8 @@ DROP TABLE IF EXISTS pet_owners;
 DROP TABLE IF EXISTS users;
 
 -- INITIALIZING
+
+CREATE TYPE caretaker_type AS ENUM ('part-time', 'full-time');
 
 CREATE TABLE users (
     username VARCHAR PRIMARY KEY,
@@ -38,8 +41,9 @@ CREATE TABLE pcs_admin (
 CREATE TABLE caretakers (
     username VARCHAR PRIMARY KEY REFERENCES users(username)
 		ON DELETE CASCADE,
-    avg_rating NUMERIC,
-	caretaker_type VARCHAR NOT NULL
+    avg_rating NUMERIC DEFAULT 4,
+	ct_type caretaker_type NOT NULL,
+	CHECK(avg_rating <= 5)
 );
 
 CREATE TABLE availability_span (
@@ -80,23 +84,18 @@ CREATE TABLE special_reqs (
 );
 
 CREATE TABLE is_capable (
+    pc_species VARCHAR NOT NULL,
 	pc_breed VARCHAR NOT NULL,
 	pc_size VARCHAR NOT NULL,
-    pc_name VARCHAR NOT NULL,
     ctuname VARCHAR NOT NULL REFERENCES caretakers(username)
         ON DELETE CASCADE,
-	FOREIGN KEY (pc_breed, pc_name, pc_size)
+	FOREIGN KEY (pc_breed, pc_species, pc_size)
 		REFERENCES pet_categories(breed, species, size),
-	PRIMARY KEY (pc_breed, pc_size, pc_name, ctuname)
+	PRIMARY KEY (pc_breed, pc_size, pc_species, ctuname)
 );
 
-CREATE TABLE date (
-	start_date DATE NOT NULL,
-	end_date DATE NOT NULL,
-	PRIMARY KEY (start_date, end_date)
-);
 
-CREATE TABLE cares_for (
+CREATE TABLE bid (
     rating INTEGER,
     price NUMERIC NOT NULL,
 	payment_method VARCHAR NOT NULL,
@@ -106,15 +105,50 @@ CREATE TABLE cares_for (
 	ctuname VARCHAR NOT NULL REFERENCES caretakers(username),
 	pouname VARCHAR NOT NULL,
 	petname VARCHAR NOT NULL,
-	FOREIGN KEY (start_date, end_date) REFERENCES date(start_date, end_date),
+	is_win BOOLEAN NOT NULL DEFAULT false,
 	FOREIGN KEY (pouname, petname) REFERENCES pets(pouname, name),
 	PRIMARY KEY(pouname, petname, start_date, end_date)
 );
 
 CREATE VIEW ratings AS (
     SELECT ctuname, AVG(rating)
-    FROM cares_for
+    FROM bid
     GROUP BY ctuname
 );
+
+-- TRIGGERS
+
+CREATE OR REPLACE FUNCTION user_is_pet_owner() RETURNS trigger AS
+$$
+	BEGIN
+		INSERT INTO pet_owners(username) VALUES (NEW.username);
+	RETURN NEW;
+	END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER user_is_pet_owner
+	AFTER INSERT ON users
+	FOR EACH ROW EXECUTE FUNCTION user_is_pet_owner();
+
+CREATE OR REPLACE FUNCTION insert_capability_if_not_exists() RETURNS trigger AS
+$$
+	DECLARE flag INTEGER;
+	BEGIN
+		SELECT COUNT(*) INTO flag FROM is_capable C
+			WHERE C.species = NEW.species AND C.breed = NEW.breed AND C.size = NEW.size;
+		IF ctx > 0 THEN
+			RETURN NEW;
+		ELSE
+			RETURN NULL;
+		END IF;
+	RETURN 1;
+	END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_capability_if_not_exists
+	BEFORE INSERT OR UPDATE ON is_capable
+	FOR EACH ROW EXECUTE FUNCTION insert_capability_if_not_exists();
 
 -- SEED DATA

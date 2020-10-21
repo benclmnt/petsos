@@ -9,7 +9,7 @@
     "build:heroku": "npx babel --delete-dir-on-start --out-dir back/build --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src",
     "heroku-postbuild": "echo 'Force heroku to ignore build script' ",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "node src/scripts/migrate.js",
+    "migrate": "node src/scripts/migrate",
     "precommit": "lint-staged"
   },
   "lint-staged": {

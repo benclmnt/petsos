@@ -7,12 +7,15 @@ import {
   queryUserByUsername,
   queryUserByEmail,
   upsertUserAddress as upsertUserAddressQuery,
+  queryPetByName,
+  addPet,
 } from '../db/queries';
 
 function getUsersRoutes() {
   const router = express.Router();
   router.post('/login', login);
   router.post('/register', register);
+  router.post('/addNewPet', insertNewPetToTable);
   router.get('/:username', getUserByUsername);
   router.post('/:username/address', upsertUserAddress);
   router.get('', listAllUsers);
@@ -42,6 +45,32 @@ async function register(req, res) {
   const user = await query(queryUserByEmail, [email]);
   return buildSuccessResponse(res, {
     user: buildUsersObject(user),
+  });
+}
+
+/**
+ * Insert new pet to table
+ */
+async function insertNewPetToTable(req, res) {
+  const { name, pouname, species, breed, size } = req.body;
+  const params = [name, pouname, species, breed, size];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(addPet, params);
+  } catch (err) {
+    return buildUsersErrorObject(res, {
+      status: 400,
+      error: 'Pet has already existed',
+    });
+  }
+
+  const user = await query(queryPetByName, [name]);
+  return buildSuccessResponse(res, {
+    name: buildUsersObject(name),
   });
 }
 

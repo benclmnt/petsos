@@ -16,13 +16,13 @@ function Nav() {
     });
 
     return () => {
-      window.removeEventListener("scroll");
+      window.removeEventListener("scroll", useEffect);
     };
   }, []);
 
   return (
     <div className={`nav ${show ? "nav_bg" : "nav"}`}>
-      <img src={logo} class="w-1/3 object-scale-down md:w-auto md:h-12"/>
+      <img src={logo} class="w-1/3 object-scale-down md:w-auto md:h-12" />
       <Link to="/">
         <button class="focus:outline-none">
           <h1 class="md:font-bold md:text-2xl pt-1">Home</h1>

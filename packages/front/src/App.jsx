@@ -45,7 +45,6 @@ function App() {
           </Route>
 
           <Route exact path="/dashboard">
-            <Nav />
             <Dashboard />
           </Route>
         </Switch>

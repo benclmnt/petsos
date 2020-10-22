@@ -1,6 +1,7 @@
 -- CLEANING
 
 DROP TYPE IF EXISTS caretaker_type CASCADE;
+DROP TYPE IF EXISTS pet_size CASCADE;
 DROP VIEW IF EXISTS ratings;
 DROP TABLE IF EXISTS cares_for;
 DROP TABLE IF EXISTS bid;
@@ -17,6 +18,7 @@ DROP TABLE IF EXISTS users;
 -- INITIALIZING
 
 CREATE TYPE caretaker_type AS ENUM ('part-time', 'full-time');
+CREATE TYPE pet_size AS ENUM('small', 'medium', 'large');
 
 CREATE TABLE users (
     username VARCHAR PRIMARY KEY,
@@ -58,7 +60,7 @@ CREATE TABLE pet_categories (
     species VARCHAR,
     breed VARCHAR,
 	size VARCHAR,
-	base_price NUMERIC NOT NULL,
+	base_price NUMERIC, -- NULL is to allow insertion to pet_categories when we add pets / capabilities
 	PRIMARY KEY(species, breed, size)
 );
 
@@ -129,18 +131,19 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER user_is_pet_owner
 	AFTER INSERT ON users
-	FOR EACH ROW EXECUTE FUNCTION user_is_pet_owner();
+	FOR EACH ROW EXECUTE PROCEDURE user_is_pet_owner();
 
-CREATE OR REPLACE FUNCTION insert_capability_if_not_exists() RETURNS trigger AS
+CREATE OR REPLACE FUNCTION insert_pet_categories_if_not_exists() RETURNS trigger AS
 $$
 	DECLARE flag INTEGER;
 	BEGIN
-		SELECT COUNT(*) INTO flag FROM is_capable C
+		SELECT COUNT(*) INTO flag FROM pet_categories C
 			WHERE C.species = NEW.species AND C.breed = NEW.breed AND C.size = NEW.size;
-		IF ctx > 0 THEN
-			RETURN NEW;
-		ELSE
+		IF flag > 0 THEN
 			RETURN NULL;
+		ELSE
+			INSERT INTO pet_categories(species, breed, size) SELECT NEW.species, NEW.breed, NEW.size;
+			RETURN NEW;
 		END IF;
 	RETURN 1;
 	END;
@@ -149,6 +152,10 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER insert_capability_if_not_exists
 	BEFORE INSERT OR UPDATE ON is_capable
-	FOR EACH ROW EXECUTE FUNCTION insert_capability_if_not_exists();
+	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
+
+CREATE TRIGGER insert_pet_category_if_not_exists
+	BEFORE INSERT OR UPDATE ON pets
+	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
 
 -- SEED DATA

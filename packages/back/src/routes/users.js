@@ -54,6 +54,7 @@ async function register(req, res) {
 async function insertNewPetToTable(req, res) {
   const { name, pouname, species, breed, size } = req.body;
   const params = [name, pouname, species, breed, size];
+  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -62,13 +63,15 @@ async function insertNewPetToTable(req, res) {
   try {
     await query(addPet, params);
   } catch (err) {
+    console.log(err);
     return buildUsersErrorObject(res, {
       status: 400,
       error: 'Pet has already existed',
     });
   }
 
-  const user = await query(queryPetByName, [name]);
+  const user = await query('SELECT * FROM pets;');
+  console.log(user);
   return buildSuccessResponse(res, {
     name: buildUsersObject(name),
   });

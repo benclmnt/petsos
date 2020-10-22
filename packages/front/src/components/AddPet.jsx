@@ -25,27 +25,31 @@ function AddPet() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    let data = {
+    const data = {
       name: petName,
-      pouname: "drake251200",
+      pouname: "po1",
       species: petType,
       breed: petBreed,
       size: petSize,
     };
 
-    var request = new Request("http://localhost:3000/addNewPet", {
+    const option = {
       method: "POST",
-      headers: new Headers({ "Content-Type": "application/json" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
-    });
+    };
 
-    fetch(request).then(function (response) {
-      response.json().then(function (data) {
-        console.log(data);
+    fetch("api/users/addNewPet", option)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
-    });
   };
-
   return (
     <div className="addPet">
       <form action="" onSubmit={onSubmit}>

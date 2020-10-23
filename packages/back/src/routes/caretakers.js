@@ -5,15 +5,15 @@ import {
   getAllCaretakers,
   queryCaretakerByUsername,
   upsertCaretakerCapability as upsertCaretakerCapabilityQuery,
-  upsertCaretakerAvailabilityCapability as upsertCaretakerAvailabilityQuery,
+  upsertCaretakerAvailability as upsertCaretakerAvailabilityQuery,
   insertNewCaretaker as insertNewCaretakerQuery,
 } from '../db/queries';
 
 function getCaretakersRoutes() {
   const router = express.Router();
   router.post('/insert', insertNewCaretaker);
-  router.post('/:ctuname/availabiity', upsertCaretakerAvailability);
-  router.post('/:ctuname/capability', upsertCaretakerCapability);
+  router.post('/availability', upsertCaretakerAvailability);
+  router.post('/capability', upsertCaretakerCapability);
   router.get('/caretakers', listAllCaretakers);
   return router;
 }
@@ -59,8 +59,10 @@ async function getCaretakerByUsername(req, res) {
 }
 
 async function upsertCaretakerCapability(req, res) {
-  const { breed, size, petname, ctuname } = req.body;
-  const params = [breed, size, petname, ctuname];
+  const { breed, size, species, username } = req.body;
+  const params = [breed, size, species, username];
+
+  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -68,24 +70,26 @@ async function upsertCaretakerCapability(req, res) {
 
   await query(upsertCaretakerCapabilityQuery, params);
 
-  const caretakers = await query(upsertCaretakerCapabilityQuery, [ctuname]);
+  const caretakers = await query(queryCaretakerByUsername, [username]);
 
   return buildSuccessResponse(res, {
-    caretaker: buildUsersObject(caretakers[0]),
+    caretaker: buildCaretakersObject(caretakers[0]),
   });
 }
 
 async function upsertCaretakerAvailability(req, res) {
-  const { ctuname, start_date, end_date } = req.body;
-  const params = [ctuname, start_date, end_date];
+  const { username, startDate, endDate } = req.body;
+  const params = [username, startDate, endDate];
+
+  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
   }
 
-  await query(upsertCaretakerAddressQuery, params);
+  await query(upsertCaretakerAvailabilityQuery, params);
 
-  const caretakers = await query(upsertCaretakerAvailabilityQuery, [ctuname]);
+  const caretakers = await query(queryCaretakerByUsername, [username]);
 
   return buildSuccessResponse(res, {
     caretaker: buildCaretakersObject(caretakers[0]),
@@ -129,6 +133,15 @@ function buildCaretakersObject(caretaker) {
 
 function buildSuccessResponse(res, { status, caretaker }) {
   return res.status(status || 200).json(caretaker);
+}
+
+function buildAvailabilityObject(availability) {
+  const obj = {
+    kind: 'Availability',
+    ...availability,
+    selfLink: `/availability/${caretakers.username}`,
+  };
+  return obj;
 }
 
 function checkCaretakerExists(res, caretakers) {

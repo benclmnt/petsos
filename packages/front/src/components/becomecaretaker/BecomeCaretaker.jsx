@@ -9,13 +9,43 @@ function BecomeCaretaker() {
   const [type, setType] = useState("");
   const [capability, setCapability] = useState("");
   const params = { type, startDate, endDate, capability };
+  var anehlu = "po6";
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const data = {
-      username: "po3",
+      username: anehlu,
       type: type,
+    };
+
+    const availability = {
+      username: anehlu,
+      startDate: startDate,
+      endDate: endDate,
+    };
+
+    const capability = {
+      breed: "husky",
+      size: "big",
+      species: "dog",
+      username: anehlu,
+    };
+
+    const availabilityOption = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(availability),
+    };
+
+    const capabilityOption = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(capability),
     };
 
     const option = {
@@ -27,6 +57,8 @@ function BecomeCaretaker() {
     };
 
     console.log(data);
+    console.log(availability);
+    console.log(capability);
     fetch("api/caretakers/insert", option)
       .then((response) => response.json())
       .then((data) => {
@@ -34,8 +66,45 @@ function BecomeCaretaker() {
       })
       .catch((error) => {
         console.error("Error:", error);
-      });
+      })
+      .then(() => fetchAvailability(availabilityOption))
+      .then(() => fetchCapability(capabilityOption));
   };
+
+  //   function fetchData(option) {
+  //     fetch("api/caretakers/insert", option)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("Success:", data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     })
+  //     .then(() => fetchAvailability(availabilityOption))
+  //     .then(() => fetchCapability(capabilityOption))
+  //   }
+
+  function fetchAvailability(availabilityOption) {
+    fetch("api/caretakers/availability", availabilityOption)
+      .then((response) => response.json())
+      .then((availability) => {
+        console.log("Success:", availability);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+  function fetchCapability(capabilityOption) {
+    fetch("api/caretakers/capability", capabilityOption)
+      .then((response) => response.json())
+      .then((capability) => {
+        console.log("Success:", capability);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 
   const Form = () => {
     return <AnimalCapability />;

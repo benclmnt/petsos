@@ -117,17 +117,71 @@ Body:
 
 Get a list of available caretakers.
 
+#### Response
+
+```
+[
+    {
+        "kind": "Caretaker",
+        ... caretaker object parameters
+        "selfLink": "/caretakers/petsos",
+    }
+]
+```
+
 ### GET `/caretakers/[:userId]`
 
 Get specific info about a caretaker (past jobs, availability, capability, expected salary, pet-days)
+
+#### Response
+
+```
+{
+    "kind": "Caretaker",
+    ... caretaker object parameters
+    "selfLink": "/caretakers/petsos",
+}
+```
 
 ### POST `/caretakers/[:userId]/availability`
 
 Post caretaker availability / leaves
 
+```
+{
+    "kind": "Caretaker",
+    ... caretaker object parameters
+    "selfLink": "/caretakers/petsos",
+}
+```
+
 ### POST `/caretakers/[:userId]/capability`
 
 Upsert caretaker capability
+
+#### Request:
+
+Body:
+
+```
+{
+    "username": "petsos",
+    "species": "...",
+    "breed": "...",
+    "size": "..."
+    
+}
+```
+
+#### Response:
+
+```
+{
+    "kind": "caretaker",
+    ... caretaker object parameters
+    "selfLink": "/carertakers/petsos",
+}
+```
 
 
 ## Reviews

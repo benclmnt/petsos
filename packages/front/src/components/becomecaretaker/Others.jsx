@@ -4,17 +4,13 @@ function Others() {
   return (
     <div>
       {/* Dates */}
-      <div class="mt-8">
-        <h1 class="mb-2 text-sm">Breed</h1>
-        <div class="flex mb-4 space-x-8">
-          <input
-            type="text"
-            class="block border border-grey-light w-full p-3 rounded mb-4"
-            name="othersbreed"
-            placeholder="Details"
-          />
-        </div>
-      </div>
+
+      <input
+        type="text"
+        class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4"
+        name="othersbreed"
+        placeholder="Detail"
+      />
     </div>
   );
 }

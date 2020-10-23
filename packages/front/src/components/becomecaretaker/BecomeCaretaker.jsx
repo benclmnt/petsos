@@ -8,6 +8,10 @@ function BecomeCaretaker() {
   const [endDate, setEndDate] = useState(new Date());
   const [type, setType] = useState("");
   const [capability, setCapability] = useState("");
+  const [petSize, setPetSize] = useState("Nan");
+  const [petBtnSm, setPetBtnSm] = useState("petBtn-sm");
+  const [petBtnMed, setPetBtnMed] = useState("petBtn");
+  const [petBtnLg, setPetBtnLg] = useState("petBtn-lg");
   const params = { type, startDate, endDate, capability };
   var anehlu = "po6";
 
@@ -71,19 +75,6 @@ function BecomeCaretaker() {
       .then(() => fetchCapability(capabilityOption));
   };
 
-  //   function fetchData(option) {
-  //     fetch("api/caretakers/insert", option)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Success:", data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     })
-  //     .then(() => fetchAvailability(availabilityOption))
-  //     .then(() => fetchCapability(capabilityOption))
-  //   }
-
   function fetchAvailability(availabilityOption) {
     fetch("api/caretakers/availability", availabilityOption)
       .then((response) => response.json())
@@ -139,7 +130,7 @@ function BecomeCaretaker() {
             <form>
               <div class="md:flex md:items-center mb-6">
                 <div class="md:w-1/3">
-                  <div class="md:flex md:items-center mb-6">
+                  <div class="md:flex md:items-center">
                     <select
                       onChange={(e) => setType(e.target.value)}
                       class="border border-grey-light w-full p-3 rounded mb-4 block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4"
@@ -157,34 +148,82 @@ function BecomeCaretaker() {
           </div>
 
           {/* Capabilities*/}
-          <div class="mt-8">
+          <div class="mt-4">
             <h1 class="mb-2 text-sm">Please indicate your capabilities</h1>
             <form>
               <AnimalCapability />
             </form>
-            <div class="items-right">
+
+            <div>
+              <h1 class="font-semibold">Size</h1>
+              <h2>Choose your pet size!</h2>
               <button
-                onClick={() => Form}
-                class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-4 px-4 rounded inline-flex items-center justify-center"
+                class={petBtnLg}
+                onClick={(e) => {
+                  setPetSize("large");
+                  setPetBtnSm("petBtn-sm");
+                  setPetBtnMed("petBtn");
+                  setPetBtnLg(
+                    "petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                  );
+                }}
               >
-                <span>Add</span>
+                <img
+                  alt="Large"
+                  src="https://www.flaticon.com/svg/static/icons/svg/91/91544.svg"
+                />
+                <h3 class="mt-2">Large</h3>
+              </button>
+
+              <button
+                class={petBtnMed}
+                onClick={(e) => {
+                  setPetSize("medium");
+                  setPetBtnSm("petBtn-sm");
+                  setPetBtnMed(
+                    "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                  );
+                  setPetBtnLg("petBtn-lg");
+                }}
+              >
+                <img
+                  alt="Medium"
+                  src="https://www.flaticon.com/svg/static/icons/svg/2965/2965396.svg"
+                  style={{ transform: "scaleX(-1)" }}
+                />
+                <h3 class="mt-2">Medium</h3>
+              </button>
+
+              <button
+                class={petBtnSm}
+                onClick={(e) => {
+                  setPetSize("small");
+                  setPetBtnSm(
+                    "petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                  );
+                  setPetBtnMed("petBtn");
+                  setPetBtnLg("petBtn-lg");
+                }}
+              >
+                <img
+                  alt="Small"
+                  src="https://www.flaticon.com/svg/static/icons/svg/2881/2881761.svg"
+                />
+                <h3 class="mt-2">Small</h3>
               </button>
             </div>
           </div>
 
           {/* Dates */}
-          <div class="flex">
-            <div class="mt-8">
+          <div class="flex mt-4">
+            <div>
               <h1 class="mb-2 text-sm">Start date</h1>
               <div class="flex mb-4 space-x-8">
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
+                <DatePicker selected={startDate} />
               </div>
             </div>
 
-            <div class="mt-8">
+            <div>
               <h1 class="mb-2 text-sm">End date</h1>
               <div class="flex mb-4 space-x-8">
                 <DatePicker

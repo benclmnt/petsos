@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../css/banner.css";
 import logo from "../../resources/petsoslogo.png";
+import bg from "../../resources/wallpaper.jpg";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function Banner() {
@@ -9,7 +10,7 @@ function Banner() {
       className="banner"
       style={{
         backgroundSize: "cover",
-        backgroundImage: `url("https://s2.best-wallpaper.net/wallpaper/2560x1600/1904/Dog-and-cat-friends-pets_2560x1600.jpg")`,
+        backgroundImage: `url(${bg})`,
         backgroundPosition: "center center",
       }}
     >

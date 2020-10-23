@@ -6,7 +6,7 @@ import Balance from "./Balance";
 function Dashboard() {
   return (
     <div className="flex flex-row justify-center items-center dashboard h-screen space-x-5">
-      <div className="flex flex-col space-y-5">
+      <div className="flex flex-col space-y-6">
         <div className="bg-white rounded-lg p-10 flex flex-row">
           <img
             src="https://www.flaticon.com/svg/static/icons/svg/21/21645.svg"
@@ -28,7 +28,7 @@ function Dashboard() {
       </div>
 
       <div className="flex flex-col w-1/3">
-        <div className="bg-white rounded-lg p-5">
+        <div className="bg-white rounded-lg px-8 py-8">
           <h1 class="text-3xl font-bold">Your Pets</h1>
           <h2 class="text-base font-medium opacity-50">
             Add your pets or edit their info.

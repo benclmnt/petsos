@@ -11,3 +11,12 @@ export const addPet =
 export const queryPetByName = 'SELECT * FROM pets WHERE name = $1;';
 
 // Caretaker-related queries
+export const insertNewCaretaker =
+  'INSERT INTO caretakers(username, caretaker_type) VALUES ($1, $2)';
+export const getAllCaretakers = 'SELECT * FROM caretakers LIMIT 25;';
+export const upsertCaretakerAddress =
+  'INSERT INTO caretakers(username, avg_rating, caretaker_type) VALUES ($1, $2, $3)';
+export const upsertCaretakerAvailability =
+  'INSERT INTO availability_span(username, start_date, end_date) VALUES ($1, $2, $3);';
+export const upsertCaretakerCapability =
+  'INSERT INTO is_capable(pc_breed, pc_size, pc_name, ctuname) VALUES ($1, $2, $3, $4);';

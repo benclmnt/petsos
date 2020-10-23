@@ -6,14 +6,40 @@ import {
   queryCaretakerByUsername,
   upsertCaretakerCapability as upsertCaretakerCapabilityQuery,
   upsertCaretakerAvailabilityCapability as upsertCaretakerAvailabilityQuery,
+  insertNewCaretaker as insertNewCaretakerQuery,
 } from '../db/queries';
 
 function getCaretakersRoutes() {
   const router = express.Router();
-  router.get('/:ctuname/availabiity', upsertCaretakerAvailability);
-  router.get('/:ctuname/capability', upsertCaretakerCapability);
-  router.get('', listAllCaretakers);
+  router.post('/insert', insertNewCaretaker);
+  router.post('/:ctuname/availabiity', upsertCaretakerAvailability);
+  router.post('/:ctuname/capability', upsertCaretakerCapability);
+  router.get('/caretakers', listAllCaretakers);
   return router;
+}
+
+async function insertNewCaretaker(req, res) {
+  const { username, type } = req.body;
+  const params = [username, type];
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(insertNewCaretakerQuery, params);
+  } catch (err) {
+    return buildCaretakersErrorObject(res, {
+      status: 400,
+      error: 'Username does not exist.',
+    });
+  }
+
+  const caretaker = await query(insertNewCaretakerQuery, params);
+  return buildSuccessResponse(res, {
+    caretaker: buildCaretakersObject(caretaker),
+  });
 }
 
 async function getCaretakerByUsername(req, res) {

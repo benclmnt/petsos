@@ -8,6 +8,7 @@ import AddPet from "./components/AddPet";
 import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";
 import SearchSitters from "./components/SearchSitters";
+import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
 
 function App() {
   const [foo, setFoo] = useState("N/A");
@@ -38,6 +39,10 @@ function App() {
 
           <Route exact path="/searchsitters">
             <SearchSitters />
+          </Route>
+
+          <Route exact path="/becomect">
+            <BecomeCaretaker />
           </Route>
 
           <Route exact path="/">

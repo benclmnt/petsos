@@ -8,6 +8,8 @@ function BecomeCaretaker() {
   const [endDate, setEndDate] = useState(new Date());
   const [type, setType] = useState("");
   const [capability, setCapability] = useState("");
+  const [species, setSpecies] = useState("dog");
+  const [breed, setBreed] = useState("dogBreed");
   const [petSize, setPetSize] = useState("Nan");
   const [petBtnSm, setPetBtnSm] = useState("petBtn-sm");
   const [petBtnMed, setPetBtnMed] = useState("petBtn");
@@ -151,7 +153,10 @@ function BecomeCaretaker() {
           <div class="mt-4">
             <h1 class="mb-2 text-sm">Please indicate your capabilities</h1>
             <form>
-              <AnimalCapability />
+              <AnimalCapability
+                species={(species) => setSpecies(species)}
+                breed={(breed) => setBreed(breed)}
+              />
             </form>
 
             <div>

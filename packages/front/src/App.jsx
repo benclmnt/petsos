@@ -11,13 +11,6 @@ import SearchSitters from "./components/SearchSitters";
 import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
 
 function App() {
-  const [foo, setFoo] = useState("N/A");
-  useEffect(() => {
-    fetch("/api/foo")
-      .then((res) => res.json())
-      .then((data) => setFoo(data.foo))
-      .catch((err) => setFoo(err.message));
-  }, []);
   return (
     <div className="App">
       <Router>
@@ -51,6 +44,14 @@ function App() {
 
           <Route exact path="/dashboard">
             <Dashboard />
+          </Route>
+
+          <Route exact path="/logout">
+            <Logout />
+          </Route>
+
+          <Route>
+            <Redirect to="/" />
           </Route>
         </Switch>
       </Router>

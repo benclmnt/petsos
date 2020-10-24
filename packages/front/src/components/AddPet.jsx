@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../css/addPet.css";
 import header from "../resources/dogs-cats-header.png";
+import { client as fetch } from "../utils/client";
 
 function AddPet() {
   const [showOther, setShowOther] = useState(false);
@@ -22,10 +23,10 @@ function AddPet() {
     setPetType(data.target.value);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
+    const body = {
       name: petName,
       pouname: "po1",
       species: petType,
@@ -33,22 +34,12 @@ function AddPet() {
       size: petSize,
     };
 
-    const option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    fetch("api/users/addNewPet", option)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const result = await fetch("/users/addNewPet", { body });
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="addPet">

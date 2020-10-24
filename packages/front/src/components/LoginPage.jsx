@@ -1,57 +1,81 @@
-import React from "react";
-import { BrowserRouter as Router, Link, useRouteMatch } from "react-router-dom";
+import React, { useState } from "react";
+import bg from "../resources/wallpaper.jpg";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
 
 function LoginPage() {
-  let match = useRouteMatch();
+  const authClient = useAuth();
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await authClient.login(form);
+    } catch (err) {
+      setErrorMsg(err.error);
+    }
+  };
+
   return (
     <div
       style={{
         backgroundSize: "cover",
-        backgroundImage: `url("https://s2.best-wallpaper.net/wallpaper/2560x1600/1904/Dog-and-cat-friends-pets_2560x1600.jpg")`,
+        backgroundImage: `url(${bg})`,
         backgroundPosition: "center center",
       }}
     >
-      <div class="bg-grey-lighter min-h-screen flex lg:flex-row-reverse">
-        <div class="container max-w-sm lg:mr-24 mx-auto flex-1 flex flex-col items-center justify-center px-2">
-          <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-            <h1 class="mb-8 text-3xl text-center font-semibold">Log In</h1>
+      <div className="bg-grey-lighter min-h-screen flex lg:flex-row-reverse">
+        <div className="container max-w-sm lg:mr-24 mx-auto flex-1 flex flex-col items-center justify-center px-2">
+          <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+            <h1 className="mb-8 text-3xl text-center font-semibold">Log In</h1>
 
             <input
               type="text"
-              class="block border border-grey-light w-full p-3 rounded mb-4"
+              className="block border border-grey-light w-full p-3 rounded mb-4"
               name="email"
               placeholder="Email"
+              onChange={handleChange}
             />
 
             <input
               type="password"
-              class="block border border-grey-light w-full p-3 rounded mb-4"
+              className="block border border-grey-light w-full p-3 rounded mb-4"
               name="password"
               placeholder="Password"
+              onChange={handleChange}
             />
 
-            <button class="w-full text-center bg-orange-500 hover:bg-orange-700 text-white font-bold py-3 px-4 border border-orange-700 rounded">
+            <button
+              className="w-full text-center bg-orange-500 hover:bg-orange-700 text-white font-bold py-3 px-4 border border-orange-700 rounded"
+              onClick={handleSubmit}
+            >
               Sign In
             </button>
 
-            <a
-              class="w-full text-center inline-block align-baseline font-bold text-sm text-orange-500 py-4 hover:text-orange-800"
-              href="#"
-            >
-              Forgot Password?
-            </a>
+            <p className="w-full text-center inline-block align-baseline font-bold text-sm text-orange-700 pt-4">
+              {errorMsg}
+            </p>
           </div>
 
-          <div class="text-white mt-6">
+          <div className="text-white mt-6">
             Don't have an account?
-            <Router>
-              <a
-                href="/signup"
-                class="font-semibold mx-2"
-              >
-                Sign up
-              </a>
-            </Router>
+            <Link to="/signup" className="font-semibold mx-2">
+              Sign up
+            </Link>
           </div>
         </div>
       </div>

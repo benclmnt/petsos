@@ -14,6 +14,7 @@ import AddPet from "./components/AddPet";
 import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";
 import SearchSitters from "./components/SearchSitters";
+import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
 
 function App() {
   return (

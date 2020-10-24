@@ -42,9 +42,9 @@ async function register(req, res) {
     });
   }
 
-  const user = await query(queryUserByEmail, [email]);
+  const users = await query(queryUserByEmail, [email]);
   return buildSuccessResponse(res, {
-    user: buildUsersObject(user),
+    user: buildUsersObject(users[0]),
   });
 }
 
@@ -173,7 +173,7 @@ function buildUsersObject(user) {
 }
 
 function buildSuccessResponse(res, { status, user }) {
-  console.log(user);
+  console.log('returned: ', user);
   return res.status(status || 200).json(user);
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import bg from "../resources/wallpaper.jpg";
 import { BrowserRouter as Router, Link, useRouteMatch } from "react-router-dom";
 
 function LoginPage() {
@@ -7,7 +8,7 @@ function LoginPage() {
     <div
       style={{
         backgroundSize: "cover",
-        backgroundImage: `url("https://s2.best-wallpaper.net/wallpaper/2560x1600/1904/Dog-and-cat-friends-pets_2560x1600.jpg")`,
+        backgroundImage: `url(${bg})`,
         backgroundPosition: "center center",
       }}
     >
@@ -45,10 +46,7 @@ function LoginPage() {
           <div class="text-white mt-6">
             Don't have an account?
             <Router>
-              <a
-                href="/signup"
-                class="font-semibold mx-2"
-              >
+              <a href="/signup" class="font-semibold mx-2">
                 Sign up
               </a>
             </Router>

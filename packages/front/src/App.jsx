@@ -24,7 +24,7 @@ function App() {
             <LoginPage />
           </Route>
 
-          <Route path="/myPets/:name/:pouname">
+          <Route exact path="/myPets/:name/:pouname">
             <MyPets />
           </Route>
 

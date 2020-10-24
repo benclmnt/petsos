@@ -3,6 +3,7 @@ import { Redirect, useParams } from "react-router";
 import "../css/addPet.css";
 import header from "../resources/dogs-cats-header.png";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { client as fetch } from "../utils/client";
 
 function MyPets() {
   const [showOther, setShowOther] = useState(false);
@@ -20,10 +21,10 @@ function MyPets() {
   const [petBtnLg, setPetBtnLg] = useState("petBtn-lg");
   const { name, pouname } = useParams();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
+    const body = {
       name: petName,
       pouname: "po1",
       species: petType,
@@ -31,27 +32,19 @@ function MyPets() {
       size: petSize,
     };
 
-    console.log(data);
+    console.log(body);
 
-    const option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    fetch("/api/pets/addNewPet", option)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+    try {
+      const result = await fetch("/pets/addNewPet", {
+        body: body,
+        redirectTo: "/dashboard",
       });
-
-    window.location.assign("/dashboard");
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <div className="addPet">
       <img src={header} width="100%" />

@@ -4,19 +4,13 @@ import SignUpPage from "./components/SignUpPage";
 import Nav from "./components/Nav";
 import Landing from "./components/landing/Landing";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import AddPet from "./components/AddPet";
+import MyPets from "./components/MyPets";
 import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";
 import SearchSitters from "./components/SearchSitters";
 
 function App() {
   const [foo, setFoo] = useState("N/A");
-  useEffect(() => {
-    fetch("/api/foo")
-      .then((res) => res.json())
-      .then((data) => setFoo(data.foo))
-      .catch((err) => setFoo(err.message));
-  }, []);
   return (
     <div className="App">
       <Router>
@@ -30,8 +24,8 @@ function App() {
             <LoginPage />
           </Route>
 
-          <Route exact path="/addPet">
-            <AddPet />
+          <Route path="/myPets/:name/:pouname">
+            <MyPets />
           </Route>
 
           <Route path="/profile/edit" component={EditProfile} />

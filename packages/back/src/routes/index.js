@@ -1,5 +1,6 @@
 import express from 'express';
 import { getUsersRoutes } from './users';
+import { getUsersRoutesPets } from './pets';
 
 function getRoutes() {
   const router = express.Router();
@@ -9,6 +10,7 @@ function getRoutes() {
   //   next();
   // });
 
+  router.use('/pets', getUsersRoutesPets());
   router.use('/users', getUsersRoutes());
 
   return router;

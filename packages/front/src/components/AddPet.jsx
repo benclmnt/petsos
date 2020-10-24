@@ -1,54 +1,45 @@
-import React, { useState } from "react";
-import "../css/addPet.css";
-import header from "../resources/dogs-cats-header.png";
+import React, { useState } from 'react';
+import '../css/addPet.css';
+import header from '../resources/dogs-cats-header.png';
+import { client as fetch } from '../utils/client';
 
 function AddPet() {
   const [showOther, setShowOther] = useState(false);
-  const [petName, setPetName] = useState("");
-  const [petSex, setPetSex] = useState("Nan");
-  const [petBreed, setPetBreed] = useState("Nan");
-  const [petSize, setPetSize] = useState("Nan");
-  const [petType, setPetType] = useState("");
-  const [petSpReq, setSpReq] = useState("");
-  const [petBtnDog, setPetBtnDog] = useState("petBtn");
-  const [petBtnCat, setPetBtnCat] = useState("petBtn");
-  const [petBtnOther, setPetBtnOther] = useState("petBtn");
-  const [petBtnSm, setPetBtnSm] = useState("petBtn-sm");
-  const [petBtnMed, setPetBtnMed] = useState("petBtn");
-  const [petBtnLg, setPetBtnLg] = useState("petBtn-lg");
+  const [petName, setPetName] = useState('');
+  const [petSex, setPetSex] = useState('Nan');
+  const [petBreed, setPetBreed] = useState('Nan');
+  const [petSize, setPetSize] = useState('Nan');
+  const [petType, setPetType] = useState('');
+  const [petSpReq, setSpReq] = useState('');
+  const [petBtnDog, setPetBtnDog] = useState('petBtn');
+  const [petBtnCat, setPetBtnCat] = useState('petBtn');
+  const [petBtnOther, setPetBtnOther] = useState('petBtn');
+  const [petBtnSm, setPetBtnSm] = useState('petBtn-sm');
+  const [petBtnMed, setPetBtnMed] = useState('petBtn');
+  const [petBtnLg, setPetBtnLg] = useState('petBtn-lg');
 
   const retrieve = (data) => {
     data.preventDefault();
     setPetType(data.target.value);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
+    const body = {
       name: petName,
-      pouname: "po1",
+      pouname: 'po1',
       species: petType,
       breed: petBreed,
       size: petSize,
     };
 
-    const option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    fetch("api/users/addNewPet", option)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const result = await fetch('/users/addNewPet', { body });
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="addPet">
@@ -64,12 +55,12 @@ function AddPet() {
                 value="Dog"
                 onClick={(e) => {
                   setShowOther(false);
-                  setPetType("Dog");
+                  setPetType('Dog');
                   setPetBtnDog(
-                    "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                    'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
                   );
-                  setPetBtnCat("petBtn");
-                  setPetBtnOther("petBtn");
+                  setPetBtnCat('petBtn');
+                  setPetBtnOther('petBtn');
                 }}
               >
                 <img
@@ -83,12 +74,12 @@ function AddPet() {
                 value="Cat"
                 onClick={(e) => {
                   setShowOther(false);
-                  setPetType("Cat");
-                  setPetBtnDog("petBtn");
+                  setPetType('Cat');
+                  setPetBtnDog('petBtn');
                   setPetBtnCat(
-                    "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                    'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
                   );
-                  setPetBtnOther("petBtn");
+                  setPetBtnOther('petBtn');
                 }}
               >
                 <img
@@ -101,10 +92,10 @@ function AddPet() {
                 class={petBtnOther}
                 onClick={(e) => {
                   setShowOther(!showOther);
-                  setPetBtnDog("petBtn");
-                  setPetBtnCat("petBtn");
+                  setPetBtnDog('petBtn');
+                  setPetBtnCat('petBtn');
                   setPetBtnOther(
-                    "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                    'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
                   );
                 }}
               >
@@ -151,21 +142,21 @@ function AddPet() {
                   value="Male"
                   name="gender"
                   onClick={(e) => setPetSex(e.target.value)}
-                />{" "}
+                />{' '}
                 &nbsp;Male &nbsp;&nbsp;
                 <input
                   type="radio"
                   value="Female"
                   name="gender"
                   onClick={(e) => setPetSex(e.target.value)}
-                />{" "}
+                />{' '}
                 &nbsp;Female &nbsp;&nbsp;
                 <input
                   type="radio"
                   value="Other"
                   name="gender"
                   onClick={(e) => setPetSex(e.target.value)}
-                />{" "}
+                />{' '}
                 &nbsp;N/A &nbsp;&nbsp;
               </div>
             </div>
@@ -185,12 +176,12 @@ function AddPet() {
                 <button
                   class={petBtnSm}
                   onClick={(e) => {
-                    setPetSize("small");
+                    setPetSize('small');
                     setPetBtnSm(
-                      "petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                      'petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
                     );
-                    setPetBtnMed("petBtn");
-                    setPetBtnLg("petBtn-lg");
+                    setPetBtnMed('petBtn');
+                    setPetBtnLg('petBtn-lg');
                   }}
                 >
                   <img
@@ -202,29 +193,29 @@ function AddPet() {
                 <button
                   class={petBtnMed}
                   onClick={(e) => {
-                    setPetSize("medium");
-                    setPetBtnSm("petBtn-sm");
+                    setPetSize('medium');
+                    setPetBtnSm('petBtn-sm');
                     setPetBtnMed(
-                      "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                      'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
                     );
-                    setPetBtnLg("petBtn-lg");
+                    setPetBtnLg('petBtn-lg');
                   }}
                 >
                   <img
                     alt="Medium"
                     src="https://www.flaticon.com/svg/static/icons/svg/2965/2965396.svg"
-                    style={{ transform: "scaleX(-1)" }}
+                    style={{ transform: 'scaleX(-1)' }}
                   />
                   <h3 class="mt-2">Medium</h3>
                 </button>
                 <button
                   class={petBtnLg}
                   onClick={(e) => {
-                    setPetSize("large");
-                    setPetBtnSm("petBtn-sm");
-                    setPetBtnMed("petBtn");
+                    setPetSize('large');
+                    setPetBtnSm('petBtn-sm');
+                    setPetBtnMed('petBtn');
                     setPetBtnLg(
-                      "petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
+                      'petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
                     );
                   }}
                 >

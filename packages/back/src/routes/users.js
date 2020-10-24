@@ -70,10 +70,11 @@ async function insertNewPetToTable(req, res) {
     });
   }
 
+  // TODO: Drake to fix return data
   const user = await query('SELECT * FROM pets;');
   console.log(user);
   return buildSuccessResponse(res, {
-    name: buildUsersObject(name),
+    user,
   });
 }
 
@@ -172,6 +173,7 @@ function buildUsersObject(user) {
 }
 
 function buildSuccessResponse(res, { status, user }) {
+  console.log(user);
   return res.status(status || 200).json(user);
 }
 

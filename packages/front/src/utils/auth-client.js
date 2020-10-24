@@ -1,31 +1,22 @@
 import { client, LOCAL_STORAGE_KEY } from './client';
 
-function handleUserResponse({ token, ...user }) {
-  window.localStorage.setItem(LOCAL_STORAGE_KEY, token);
-
+function handleUserResponse(user) {
+  window.localStorage.setItem(LOCAL_STORAGE_KEY, user.username);
   // redirect user to homepage
   window.location.replace('/');
   return user;
 }
 
-// return either a user object or null
-// function getUser() {
-//   const token = getToken();
-//   if (!token) {
-//     return Promise.resolve(null);
-//   }
-//   return client(API_WHOAMI).then(data => data.user);
-// }
-
 function login({ email, password }) {
-  return client('/login', { body: { user: { email, password } } }).then(
+  return client('/users/login', { body: { email, password } }).then(
     handleUserResponse
   );
 }
 
-function register({ name, email, password }) {
-  return client('/register', {
-    body: { user: { name, email, password } },
+function register({ username, email, password }) {
+  console.log(username, email, password);
+  return client('/users/register', {
+    body: { username, email, password },
   }).then(handleUserResponse);
 }
 
@@ -40,8 +31,16 @@ function getToken() {
   return window.localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
+function getUser() {
+  const token = getToken();
+  if (!token) {
+    return Promise.resolve(null);
+  }
+  return client(`/users/${getToken()}`);
+}
+
 function isLoggedIn() {
   return Boolean(getToken());
 }
 
-export { login, register, logout, getToken, isLoggedIn };
+export { login, register, logout, getToken, getUser, isLoggedIn };

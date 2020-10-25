@@ -15,7 +15,6 @@ function BecomeCaretaker(props) {
   const [species, setSpecies] = useState();
   const [breed, setBreed] = useState();
   const [size, setSize] = useState();
-  var anehlu = "po9";
 
   const [capabilityList, setCapabilityList] = useState([
     { species: "", breed: "", size: "" },
@@ -35,6 +34,12 @@ function BecomeCaretaker(props) {
     ]);
   };
 
+  const removeCapability = (index) => {
+    const list = [...capabilityList];
+    list.splice(index, 1);
+    setCapabilityList(list);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,9 +55,9 @@ function BecomeCaretaker(props) {
     };
 
     const capability = {
-      pc_species: species,
-      pc_breed: breed,
-      pc_size: size,
+      pc_species: capabilityList[0][species],
+      pc_breed: capabilityList[0][breed],
+      pc_size: capabilityList[0][size],
       ctuname: user.username,
     };
 
@@ -156,14 +161,13 @@ function BecomeCaretaker(props) {
           /> */}
           {capabilityList.map((x, i) => {
             return (
-              <div>
+              <div class="flex">
                 <AnimalCapability
-                  species={species}
-                  setSpecies={setSpecies}
-                  breed={breed}
-                  setBreed={setBreed}
-                  setSize={setSize}
+                  capability={capabilityList[i]}
+                  setCapability={(e) => handleCapabilityChange(e, i)}
+                  removeCapability={(i) => removeCapability(i)}
                 />
+                {capabilityList.length > 1 && <button>Remove</button>}
                 {capabilityList.length - 1 === i && (
                   <button onClick={addCapability}>Add</button>
                 )}

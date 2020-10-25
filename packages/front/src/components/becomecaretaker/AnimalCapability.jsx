@@ -1,16 +1,16 @@
 import React from "react";
 
-function AnimalCapability({ species, setSpecies, breed, setBreed, setSize }) {
+function AnimalCapability({ capability, setCapability, removeCapability }) {
   var breedOptions;
 
   var makeOptions = () => (
     <select
       class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-      name="pet_breed"
+      name="breed"
       id="2"
       required="required"
-      onChange={(e) => setBreed(e.target.value)}
-      value={breed}
+      onChange={(e) => setCapability(e)}
+      value={capability["breed"]}
     >
       <option value="" disabled selected>
         Select breed
@@ -22,7 +22,7 @@ function AnimalCapability({ species, setSpecies, breed, setBreed, setSize }) {
   );
 
   function ShowBreed() {
-    switch (species) {
+    switch (capability["species"]) {
       case "dog":
         breedOptions = ["doggy", "husky"];
         return makeOptions();
@@ -37,14 +37,14 @@ function AnimalCapability({ species, setSpecies, breed, setBreed, setSize }) {
   }
 
   return (
-    <div class="flex space-x-4 mb-4">
+    <div class="flex space-x-4 mb-4 w-full">
       {/* Size */}
       <select
         class="border border-grey-light w-1/5 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-        name="pet_size"
+        name="size"
         id="3"
         required="required"
-        onChange={(e) => setSize(e.target.value)}
+        onChange={(e) => setCapability(e)}
       >
         <option value="" disabled selected>
           Select size
@@ -57,10 +57,10 @@ function AnimalCapability({ species, setSpecies, breed, setBreed, setSize }) {
       {/* Species */}
       <select
         class="border border-grey-light w-1/4 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-        name="pet_species"
+        name="species"
         id="1"
         required="required"
-        onChange={(e) => setSpecies(e.target.value)}
+        onChange={(e) => setCapability(e)}
       >
         <option value="" disabled selected>
           Select species

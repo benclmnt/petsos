@@ -1,6 +1,6 @@
 import React from "react";
 
-function AnimalCapability({ capability, setCapability, removeCapability }) {
+function AnimalCapability({ capability, setCapability }) {
   var breedOptions;
 
   var makeOptions = () => (

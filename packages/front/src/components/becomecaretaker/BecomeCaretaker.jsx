@@ -9,19 +9,11 @@ import { useUser } from "../../context/auth-context";
 function BecomeCaretaker() {
   const dateFormat = "yyyy-MM-dd";
   const user = useUser();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState("");
   const [type, setType] = useState();
-  const [species, setSpecies] = useState();
-  const [breed, setBreed] = useState();
-  const [size, setSize] = useState();
 
+  // Capabilities
   const [capabilityList, setCapabilityList] = useState([
     { species: "", breed: "", size: "" },
-  ]);
-
-  const [availabilityList, setAvailabilityList] = useState([
-    { start_date: "", end_date: "" },
   ]);
 
   const handleCapabilityChange = (e, index) => {
@@ -31,24 +23,10 @@ function BecomeCaretaker() {
     setCapabilityList(list);
   };
 
-  const handleAvailabilityChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...availabilityList];
-    list[index][name] = value;
-    setAvailabilityList(list);
-  };
-
   const addCapability = () => {
     setCapabilityList([
       ...capabilityList,
       { species: "", breed: "", size: "" },
-    ]);
-  };
-
-  const addAvailability = () => {
-    setAvailabilityList([
-      ...availabilityList,
-      { start_date: "", end_date: "" },
     ]);
   };
 
@@ -58,12 +36,68 @@ function BecomeCaretaker() {
     setCapabilityList(list);
   };
 
+  // Availabilities
+  const [availabilityList, setAvailabilityList] = useState([
+    { start_date: "", end_date: "" },
+  ]);
+
+  const handleAvailabilityChange = (name, value, index) => {
+    const list = [...availabilityList];
+    list[index][name] = value;
+    setAvailabilityList(list);
+  };
+
+  const addAvailability = () => {
+    setAvailabilityList([
+      ...availabilityList,
+      { start_date: "", end_date: "" },
+    ]);
+  };
+
   const removeAvailability = (index) => {
     const list = [...availabilityList];
     list.splice(index, 1);
     setAvailabilityList(list);
   };
 
+  // Datepickers
+  var StartDatepicker = (index) => {
+    return (
+      <DatePicker
+        selected={availabilityList[index]["start_date"]}
+        required="required"
+        //locale = 'en-SG'
+        //disableTime={true}
+        onChange={(date) => handleAvailabilityChange("start_date", date, index)}
+        dateFormat={dateFormat}
+        placeholderText="Start Date"
+      />
+    );
+  };
+
+  var EndDatepicker = (index) => {
+    return (
+      <DatePicker
+        selected={availabilityList[index]["end_date"]}
+        required="required"
+        //locale = 'en-SG'
+        //disableTime={true}
+        onChange={(date) => handleAvailabilityChange("end_date", date, index)}
+        dateFormat={dateFormat}
+        placeholderText="End Date"
+      />
+    );
+  };
+
+  function toJSONLocal(date) {
+    var local = date;
+    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    //local.toJSON().substring(0, 10);
+    //console.log(local);
+    return local;
+  }
+
+  // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -113,51 +147,24 @@ function BecomeCaretaker() {
         console.error(err);
       }
     }
-  };
 
-  const StartDatepicker = () => {
-    return (
-      <DatePicker
-        selected={startDate}
-        required="required"
-        //locale = 'en-SG'
-        //disableTime={true}
-        onChange={(date) => setStartDate(date)}
-        dateFormat={dateFormat}
-      />
-    );
-  };
+    for (let i = 0; i < availabilityList.length; i++) {
+      const availability = {
+        pc_species: availabilityList[i]["start_date"],
+        pc_breed: availabilityList[i]["end_date"],
+        ctuname: user.username,
+      };
 
-  const EndDatepicker = () => {
-    return (
-      <DatePicker
-        selected={endDate}
-        required="required"
-        //locale = 'en-SG'
-        //disableTime={true}
-        onChange={(date) => setEndDate(toJSONLocal(date))}
-        dateFormat={dateFormat}
-        placeholderText="End Date"
-      />
-    );
+      try {
+        const availResults = await fetch("/caretakers/availability", {
+          body: availability,
+        });
+        console.log(availResults);
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
-
-  const Datespicker = () => {
-    return (
-      <div class="flex space-x-4">
-        <StartDatepicker />
-        <EndDatepicker />
-      </div>
-    );
-  };
-
-  function toJSONLocal(date) {
-    var local = date;
-    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    //local.toJSON().substring(0, 10);
-    //console.log(local);
-    return local;
-  }
 
   return (
     <div>
@@ -239,15 +246,13 @@ function BecomeCaretaker() {
           {/* Availabilities */}
           <div>
             <h1 class="text-sm mb-2">Please indicate your availabilities!</h1>
-            {capabilityList.map((x, i) => {
+            {availabilityList.map((x, i) => {
               return (
-                <div class="flex">
-                  <Datespicker
-                    availability={availabilityList[i]}
-                    setAvailability={(e) => handleAvailabilityChange(e, i)}
-                  />
+                <div class="flex space-x-4">
+                  {StartDatepicker(i)}
+                  {EndDatepicker(i)}
 
-                  <div class="w-10">
+                  <div class="flex justify-items-end">
                     {availabilityList.length > 1 && (
                       <button onClick={(i) => removeAvailability(i)}>
                         <svg

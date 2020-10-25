@@ -4,9 +4,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./datepicker.css";
 import { client as fetch } from "../../utils/client";
+import { useUser } from "../../context/auth-context";
 
-function BecomeCaretaker() {
+function BecomeCaretaker(props) {
   const dateFormat = "yyyy-MM-dd";
+  const user = useUser();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState("");
   const [type, setType] = useState();
@@ -20,12 +22,12 @@ function BecomeCaretaker() {
     e.preventDefault();
 
     const data = {
-      username: anehlu,
+      username: user,
       ct_type: type,
     };
 
     const availability = {
-      ctuname: anehlu,
+      ctuname: user,
       start_date: startDate,
       end_date: endDate,
     };
@@ -34,7 +36,7 @@ function BecomeCaretaker() {
       pc_species: species,
       pc_breed: breed,
       pc_size: size,
-      ctuname: anehlu,
+      ctuname: user,
     };
 
     try {
@@ -99,10 +101,6 @@ function BecomeCaretaker() {
   //       console.error("Error:", error);
   //     });
   // }
-
-  const Form = () => {
-    return <AnimalCapability />;
-  };
 
   const StartDatepicker = () => {
     return (

@@ -169,10 +169,13 @@ function BecomeCaretaker() {
                   <AnimalCapability
                     capability={capabilityList[i]}
                     setCapability={(e) => handleCapabilityChange(e, i)}
-                    removeCapability={(i) => removeCapability(i)}
                   />
                   <div class="w-10">
-                    {capabilityList.length > 1 && <button>Remove</button>}
+                    {capabilityList.length > 1 && (
+                      <button onClick={(i) => removeCapability(i)}>
+                        Remove
+                      </button>
+                    )}
                     {capabilityList.length - 1 === i && (
                       <button onClick={addCapability}>Add</button>
                     )}

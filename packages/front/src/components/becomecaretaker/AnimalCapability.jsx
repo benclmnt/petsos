@@ -1,55 +1,76 @@
 import React, { useState } from "react";
-import Dogs from "./Dogs";
-import Cats from "./Cats";
-import Others from "./Others";
 
-function AnimalCapability() {
-  const [species, setSpecies] = useState("dog");
-  const [breed, setBreed] = useState("dogBreed");
-  const [capability, setCapability] = useState();
+function AnimalCapability({ species, setSpecies, breed, setBreed, setSize }) {
+  var breedOptions;
+
+  var makeOptions = (props) => (
+    <select
+      class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+      name="pet_breed"
+      id="2"
+      required="required"
+      onChange={(e) => setBreed(e.target.value)}
+      value={breed}
+    >
+      <option value="" disabled selected>
+        Select breed
+      </option>
+      {breedOptions.map((x, y) => (
+        <option key={y}>{x}</option>
+      ))}
+    </select>
+  );
 
   function ShowBreed(props) {
-    const currSpecies = props.species;
-    switch (currSpecies) {
+    switch (species) {
       case "dog":
-        return <Dogs />;
+        breedOptions = ["doggy", "husky"];
+        return makeOptions();
 
       case "cat":
-        return <Cats />;
-
-      case "others":
-        return <Others />;
+        breedOptions = ["kitty", "morganissa"];
+        return makeOptions();
 
       default:
-        return <Dogs />;
+        return null;
     }
   }
 
   return (
-    <div>
-      <div class="md:flex md:items-center items-end">
-        <div class="md:w-1/3">
-          <div class="md:flex space-x-3 md:items-center mb-6">
-            <select
-              onChange={(e) => setCapability(e.target.value)}
-              class="border border-grey-light w-full p-3 rounded mb-4 block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4"
-              name="caretaker_type"
-              id="1"
-            >
-              <option onClick={() => setSpecies("dog")} value="dog">
-                Dog
-              </option>
-              <option onClick={() => setSpecies("cat")} value="cat">
-                Cat
-              </option>
-              <option onClick={() => setSpecies("others")} value="others">
-                Others
-              </option>
-            </select>
-            <ShowBreed species={species} />
-          </div>
-        </div>
-      </div>
+    <div class="flex space-x-4 mb-4">
+      {/* Size */}
+      <select
+        class="border border-grey-light w-1/5 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        name="pet_size"
+        id="3"
+        required="required"
+        onChange={(e) => setSize(e.target.value)}
+      >
+        <option value="" disabled selected>
+          Select size
+        </option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="big">Large</option>
+      </select>
+
+      {/* Species */}
+      <select
+        class="border border-grey-light w-1/4 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        name="pet_species"
+        id="1"
+        required="required"
+        onChange={(e) => setSpecies(e.target.value)}
+      >
+        <option value="" disabled selected>
+          Select species
+        </option>
+        <option value="dog">Dog</option>
+        <option value="cat">Cat</option>
+        <option value="others">Others</option>
+      </select>
+
+      <ShowBreed />
     </div>
   );
 }

@@ -2,21 +2,18 @@ import React, { useState } from "react";
 import AnimalCapability from "./AnimalCapability";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "./datepicker.css";
 import { client as fetch } from "../../utils/client";
 
 function BecomeCaretaker() {
   const dateFormat = "yyyy-MM-dd";
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [type, setType] = useState("");
-  const [capability, setCapability] = useState("");
-  const [species, setSpecies] = useState("dog");
-  const [breed, setBreed] = useState("dogBreed");
-  const [petSize, setPetSize] = useState("Nan");
-  const [petBtnSm, setPetBtnSm] = useState("petBtn-sm");
-  const [petBtnMed, setPetBtnMed] = useState("petBtn");
-  const [petBtnLg, setPetBtnLg] = useState("petBtn-lg");
-  const params = { type, startDate, endDate, capability };
+  const [endDate, setEndDate] = useState("");
+  const [type, setType] = useState();
+  const [capability, setCapability] = useState();
+  const [species, setSpecies] = useState();
+  const [breed, setBreed] = useState();
+  const [size, setSize] = useState();
   var anehlu = "po9";
 
   const handleSubmit = async (e) => {
@@ -34,9 +31,9 @@ function BecomeCaretaker() {
     };
 
     const capability = {
-      pc_species: "dog",
-      pc_breed: "husky",
-      pc_size: "big",
+      pc_species: species,
+      pc_breed: breed,
+      pc_size: size,
       ctuname: anehlu,
     };
 
@@ -107,26 +104,28 @@ function BecomeCaretaker() {
     return <AnimalCapability />;
   };
 
-  const Startdatepicker = () => {
+  const StartDatepicker = () => {
     return (
       <DatePicker
         selected={startDate}
+        required="required"
         //locale = 'en-SG'
         //disableTime={true}
-        onChange={(date) => setStartDate(toJSONLocal(date))}
-        dateFormat="yyyy-MM-dd"
+        onChange={(date) => setStartDate(date)}
+        dateFormat={dateFormat}
       />
     );
   };
 
-  const Enddatepicker = () => {
+  const EndDatepicker = () => {
     return (
       <DatePicker
         selected={endDate}
+        required="required"
         //locale = 'en-SG'
         //disableTime={true}
         onChange={(date) => setEndDate(toJSONLocal(date))}
-        dateFormat="yyyy-MM-dd"
+        dateFormat={dateFormat}
       />
     );
   };
@@ -140,135 +139,71 @@ function BecomeCaretaker() {
   }
 
   return (
-    <div class="bg-grey-lighter min-h-screen flex flex-col">
-      <div class="container max-h-screen max-w-4xl mx-auto flex-1 flex flex-col items-center justify-center px-20">
-        <div class="bg-white h-full w-full px-12 py-12 rounded shadow text-black">
+    <form
+      class="flex-col max-h-screen max-w-4xl mx-auto bg-white px-20"
+      action=""
+      onSubmit={handleSubmit}
+    >
+      <div class="rounded shadow text-black px-12 py-8 space-y-2">
+        <h1 class="text-3xl font-bold mb-6">Become a Caretaker!</h1>
+        <div>
           {/* Caretaker Type */}
-          <div class="mt-8">
-            <h1 class="mb-2 text-sm">What's your commitment?</h1>
-            {/* <input 
-                            type="text"
-                            class="block border border-grey-light w-full p-3 rounded mb-4"
-                            name="commitment" /> */}
-            <form>
-              <div class="md:flex md:items-center mb-6">
-                <div class="md:w-1/3">
-                  <div class="md:flex md:items-center">
-                    <select
-                      onChange={(e) => setType(e.target.value)}
-                      class="border border-grey-light w-full p-3 rounded mb-4 block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4"
-                      for="inline-full-name"
-                      name="caretaker_type"
-                      id="1"
-                    >
-                      <option value="part-time">Part-time</option>
-                      <option value="full-time">Full-time</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </form>
+          <h1 class="mb-2 text-sm">What's your commitment?</h1>
+          <div class="md:w-1/3">
+            <select
+              onChange={(e) => setType(e.target.value)}
+              required="required"
+              class="border border-gray-300 w-full py-2 px-3 rounded mb-4 text-gray-500 font-bold"
+              name="caretaker_type"
+              id="0"
+            >
+              <option value="" disabled selected>
+                Select commitment
+              </option>
+              <option value="part-time">Part-time</option>
+              <option value="full-time">Full-time</option>
+            </select>
           </div>
+        </div>
+        {/* Capabilities*/}
+        <div>
+          <h1 class="text-sm mb-2">Please indicate your capabilities</h1>
+          <AnimalCapability
+            species={species}
+            setSpecies={setSpecies}
+            breed={breed}
+            setBreed={setBreed}
+            setSize={setSize}
+          />
+        </div>
 
-          {/* Capabilities*/}
-          <div class="mt-4">
-            <h1 class="mb-2 text-sm">Please indicate your capabilities</h1>
-            <form>
-              <AnimalCapability
-                species={(species) => setSpecies(species)}
-                breed={(breed) => setBreed(breed)}
-              />
-            </form>
-
+        {/* Availabilities */}
+        <div>
+          <h1 class="text-sm mb-2">Please indicate your availabilities!</h1>
+          <div class="flex mt-4 space-x-4">
             <div>
-              <h1 class="font-semibold">Size</h1>
-              <h2>Choose your pet size!</h2>
-              <button
-                class={petBtnLg}
-                onClick={(e) => {
-                  setPetSize("large");
-                  setPetBtnSm("petBtn-sm");
-                  setPetBtnMed("petBtn");
-                  setPetBtnLg(
-                    "petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                  );
-                }}
-              >
-                <img
-                  alt="Large"
-                  src="https://www.flaticon.com/svg/static/icons/svg/91/91544.svg"
-                />
-                <h3 class="mt-2">Large</h3>
-              </button>
-
-              <button
-                class={petBtnMed}
-                onClick={(e) => {
-                  setPetSize("medium");
-                  setPetBtnSm("petBtn-sm");
-                  setPetBtnMed(
-                    "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                  );
-                  setPetBtnLg("petBtn-lg");
-                }}
-              >
-                <img
-                  alt="Medium"
-                  src="https://www.flaticon.com/svg/static/icons/svg/2965/2965396.svg"
-                  style={{ transform: "scaleX(-1)" }}
-                />
-                <h3 class="mt-2">Medium</h3>
-              </button>
-
-              <button
-                class={petBtnSm}
-                onClick={(e) => {
-                  setPetSize("small");
-                  setPetBtnSm(
-                    "petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                  );
-                  setPetBtnMed("petBtn");
-                  setPetBtnLg("petBtn-lg");
-                }}
-              >
-                <img
-                  alt="Small"
-                  src="https://www.flaticon.com/svg/static/icons/svg/2881/2881761.svg"
-                />
-                <h3 class="mt-2">Small</h3>
-              </button>
-            </div>
-          </div>
-
-          {/* Dates */}
-          <div class="flex mt-4">
-            <div>
-              <h1 class="mb-2 text-sm">Start date</h1>
-              <div class="flex mb-4 space-x-8">
-                <Startdatepicker />
-              </div>
+              <h1 class="text-sm">Start date</h1>
+              <StartDatepicker />
             </div>
 
             <div>
-              <h1 class="mb-2 text-sm">End date</h1>
-              <div class="flex mb-4 space-x-8">
-                <Enddatepicker />
-              </div>
+              <h1 class="text-sm">End date</h1>
+              <EndDatepicker />
             </div>
           </div>
 
-          {/* Next Button */}
+          {/* Submit Button */}
           <div class="items-right">
             <button
-              onClick={handleSubmit}
-              class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-4 px-4 rounded inline-flex items-center justify-center"
+              type="submit"
+              class="px-6 py-3 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base font-semibold uppercase mt-8 duration-300 ease-in-out"
             >
               <span>Submit</span>
             </button>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 

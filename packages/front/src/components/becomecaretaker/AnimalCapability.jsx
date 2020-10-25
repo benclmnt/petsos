@@ -24,11 +24,16 @@ function AnimalCapability({ capability, setCapability }) {
   function ShowBreed() {
     switch (capability["species"]) {
       case "dog":
-        breedOptions = ["doggy", "husky"];
+        breedOptions = ["doggy", "husky", "shiba inu", "golden retriever"];
         return makeOptions();
 
       case "cat":
-        breedOptions = ["kitty", "morganissa"];
+        breedOptions = [
+          "kitty",
+          "morganissa",
+          "kucing jalanan",
+          "kucing botak",
+        ];
         return makeOptions();
 
       default:

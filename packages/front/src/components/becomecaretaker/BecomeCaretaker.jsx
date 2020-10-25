@@ -6,7 +6,7 @@ import "./datepicker.css";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
 
-function BecomeCaretaker(props) {
+function BecomeCaretaker() {
   const dateFormat = "yyyy-MM-dd";
   const user = useUser();
   const [startDate, setStartDate] = useState(new Date());
@@ -54,13 +54,6 @@ function BecomeCaretaker(props) {
       end_date: endDate,
     };
 
-    const capability = {
-      pc_species: capabilityList[0][species],
-      pc_breed: capabilityList[0][breed],
-      pc_size: capabilityList[0][size],
-      ctuname: user.username,
-    };
-
     try {
       const insertResults = await fetch("/caretakers/insert", { body: data });
       console.log(insertResults);
@@ -68,20 +61,29 @@ function BecomeCaretaker(props) {
       console.error(err);
     }
 
+    for (let i = 0; i < capabilityList.length; i++) {
+      const capability = {
+        pc_species: capabilityList[i]["species"],
+        pc_breed: capabilityList[i]["breed"],
+        pc_size: capabilityList[i]["size"],
+        ctuname: user.username,
+      };
+
+      try {
+        const capabResults = await fetch("/caretakers/capability", {
+          body: capability,
+        });
+        console.log(capabResults);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
     try {
       const availResults = await fetch("/caretakers/availability", {
         body: availability,
       });
       console.log(availResults);
-    } catch (err) {
-      console.error(err);
-    }
-
-    try {
-      const capabResults = await fetch("/caretakers/capability", {
-        body: capability,
-      });
-      console.log(capabResults);
     } catch (err) {
       console.error(err);
     }
@@ -122,87 +124,92 @@ function BecomeCaretaker(props) {
   }
 
   return (
-    <form
-      class="flex-col max-h-screen max-w-4xl mx-auto bg-white px-20"
-      action=""
-      onSubmit={handleSubmit}
-    >
-      <div class="rounded shadow text-black px-12 py-8 space-y-2">
-        <h1 class="text-3xl font-bold mb-6">Become a Caretaker!</h1>
-        <div>
-          {/* Caretaker Type */}
-          <h1 class="mb-2 text-sm">What's your commitment?</h1>
-          <div class="md:w-1/3">
-            <select
-              onChange={(e) => setType(e.target.value)}
-              required="required"
-              class="border border-gray-300 w-full py-2 px-3 rounded mb-4 text-gray-500 font-bold"
-              name="caretaker_type"
-              id="0"
-            >
-              <option value="" disabled selected>
-                Select commitment
-              </option>
-              <option value="part-time">Part-time</option>
-              <option value="full-time">Full-time</option>
-            </select>
+    <div>
+      <br class="mt-16" />
+      <form
+        class="flex-col max-h-screen max-w-4xl mx-auto bg-white px-20"
+        action=""
+        onSubmit={handleSubmit}
+      >
+        <div class="rounded shadow text-black px-12 py-8 space-y-2">
+          <h1 class="text-3xl font-bold mb-6">Become a Caretaker!</h1>
+          <div>
+            {/* Caretaker Type */}
+            <h1 class="mb-2 text-sm">What's your commitment?</h1>
+            <div class="md:w-1/3">
+              <select
+                onChange={(e) => setType(e.target.value)}
+                required="required"
+                class="border border-gray-300 w-full py-2 px-3 rounded mb-4 text-gray-500 font-bold"
+                name="caretaker_type"
+                id="0"
+              >
+                <option value="" disabled selected>
+                  Select commitment
+                </option>
+                <option value="part-time">Part-time</option>
+                <option value="full-time">Full-time</option>
+              </select>
+            </div>
           </div>
-        </div>
 
-        {/* Capabilities*/}
-        <div>
-          <h1 class="text-sm mb-2">Please indicate your capabilities</h1>
-          {/* <AnimalCapability
+          {/* Capabilities*/}
+          <div>
+            <h1 class="text-sm mb-2">Please indicate your capabilities</h1>
+            {/* <AnimalCapability
             species={species}
             setSpecies={setSpecies}
             breed={breed}
             setBreed={setBreed}
             setSize={setSize}
           /> */}
-          {capabilityList.map((x, i) => {
-            return (
-              <div class="flex">
-                <AnimalCapability
-                  capability={capabilityList[i]}
-                  setCapability={(e) => handleCapabilityChange(e, i)}
-                  removeCapability={(i) => removeCapability(i)}
-                />
-                {capabilityList.length > 1 && <button>Remove</button>}
-                {capabilityList.length - 1 === i && (
-                  <button onClick={addCapability}>Add</button>
-                )}
+            {capabilityList.map((x, i) => {
+              return (
+                <div class="flex">
+                  <AnimalCapability
+                    capability={capabilityList[i]}
+                    setCapability={(e) => handleCapabilityChange(e, i)}
+                    removeCapability={(i) => removeCapability(i)}
+                  />
+                  <div class="w-10">
+                    {capabilityList.length > 1 && <button>Remove</button>}
+                    {capabilityList.length - 1 === i && (
+                      <button onClick={addCapability}>Add</button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Availabilities */}
+          <div>
+            <h1 class="text-sm mb-2">Please indicate your availabilities!</h1>
+            <div class="flex mt-4 space-x-4">
+              <div>
+                <h1 class="text-sm">Start date</h1>
+                <StartDatepicker />
               </div>
-            );
-          })}
-        </div>
 
-        {/* Availabilities */}
-        <div>
-          <h1 class="text-sm mb-2">Please indicate your availabilities!</h1>
-          <div class="flex mt-4 space-x-4">
-            <div>
-              <h1 class="text-sm">Start date</h1>
-              <StartDatepicker />
+              <div>
+                <h1 class="text-sm">End date</h1>
+                <EndDatepicker />
+              </div>
             </div>
 
-            <div>
-              <h1 class="text-sm">End date</h1>
-              <EndDatepicker />
+            {/* Submit Button */}
+            <div class="items-right">
+              <button
+                type="submit"
+                class="px-6 py-3 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base font-semibold uppercase mt-8 duration-300 ease-in-out"
+              >
+                <span>Submit</span>
+              </button>
             </div>
           </div>
-
-          {/* Submit Button */}
-          <div class="items-right">
-            <button
-              type="submit"
-              class="px-6 py-3 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base font-semibold uppercase mt-8 duration-300 ease-in-out"
-            >
-              <span>Submit</span>
-            </button>
-          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
 

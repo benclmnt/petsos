@@ -20,11 +20,22 @@ function BecomeCaretaker(props) {
     { species: "", breed: "", size: "" },
   ]);
 
+  const [availabilityList, setAvailabilityList] = useState([
+    { start_date: "", end_date: "" },
+  ]);
+
   const handleCapabilityChange = (e, index) => {
     const { name, value } = e.target;
     const list = [...capabilityList];
     list[index][name] = value;
     setCapabilityList(list);
+  };
+
+  const handleAvailabilityChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...availabilityList];
+    list[index][name] = value;
+    setAvailabilityList(list);
   };
 
   const addCapability = () => {
@@ -34,10 +45,23 @@ function BecomeCaretaker(props) {
     ]);
   };
 
+  const addAvailability = () => {
+    setAvailabilityList([
+      ...availabilityList,
+      { start_date: "", end_date: "" },
+    ]);
+  };
+
   const removeCapability = (index) => {
     const list = [...capabilityList];
     list.splice(index, 1);
     setCapabilityList(list);
+  };
+
+  const removeAvailability = (index) => {
+    const list = [...availabilityList];
+    list.splice(index, 1);
+    setAvailabilityList(list);
   };
 
   const handleSubmit = async (e) => {
@@ -109,7 +133,17 @@ function BecomeCaretaker(props) {
         //disableTime={true}
         onChange={(date) => setEndDate(toJSONLocal(date))}
         dateFormat={dateFormat}
+        placeholderText="End Date"
       />
+    );
+  };
+
+  const Datespicker = () => {
+    return (
+      <div class="flex space-x-4">
+        <StartDatepicker />
+        <EndDatepicker />
+      </div>
     );
   };
 
@@ -179,17 +213,24 @@ function BecomeCaretaker(props) {
         {/* Availabilities */}
         <div>
           <h1 class="text-sm mb-2">Please indicate your availabilities!</h1>
-          <div class="flex mt-4 space-x-4">
-            <div>
-              <h1 class="text-sm">Start date</h1>
-              <StartDatepicker />
-            </div>
+          {capabilityList.map((x, i) => {
+            return (
+              <div>
+                <div class="flex">
+                  <Datespicker
+                    availability={availabilityList[i]}
+                    setAvailability={(e) => handleAvailabilityChange(e, i)}
+                    removeAvailability={(i) => removeAvailability(i)}
+                  />
 
-            <div>
-              <h1 class="text-sm">End date</h1>
-              <EndDatepicker />
-            </div>
-          </div>
+                  {availabilityList.length > 1 && <button>Remove</button>}
+                  {availabilityList.length - 1 === i && (
+                    <button onClick={addAvailability}>Add</button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
 
           {/* Submit Button */}
           <div class="items-right">

@@ -4,8 +4,11 @@ import "./dashboard.css";
 import Balance from "./Balance";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { client as fetch } from "../../utils/client";
+import { useUser } from "../../context/auth-context";
 
 function Dashboard() {
+  const user = useUser();
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [pets, setPets] = useState([]);
 
@@ -21,7 +24,7 @@ function Dashboard() {
   if (isLoaded) {
     console.log(pets.length);
     itemsToRender = pets.slice(0, pets.length - 2).map((item) => {
-      const a = "/myPets/" + item.name + "/po1";
+      const a = "/myPets/" + item.name + "/" + user.username;
       return (
         <Link to={a}>
           <PetCard className="col-span-1" key={item.name} petName={item.name} />
@@ -36,13 +39,13 @@ function Dashboard() {
         <div className="bg-white rounded-lg p-10 flex flex-row">
           <img
             src="https://www.flaticon.com/svg/static/icons/svg/21/21645.svg"
-            class="m-auto"
+            className="m-auto"
             height="150"
             width="100"
           />
           <div className="flex items-center ml-5">
             <div>
-              <h1>User Name</h1>
+              <h1>{user?.username || "Default User Name"}</h1>
               <a>Edit Profile</a>
             </div>
           </div>
@@ -54,8 +57,8 @@ function Dashboard() {
       </div>
       <div className="flex flex-col w-1/3">
         <div className="bg-white rounded-lg px-8 py-8">
-          <h1 class="text-3xl font-bold">Your Pets</h1>
-          <h2 class="text-base font-medium opacity-50">
+          <h1 className="text-3xl font-bold">Your Pets</h1>
+          <h2 className="text-base font-medium opacity-50">
             Add your pets or edit their info.
           </h2>
           <div class="mt-5 flex justify-start grid grid-cols-2 gap-4">

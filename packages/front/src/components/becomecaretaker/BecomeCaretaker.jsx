@@ -12,22 +12,20 @@ function BecomeCaretaker(props) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState("");
   const [type, setType] = useState();
-  const [capability, setCapability] = useState();
   const [species, setSpecies] = useState();
   const [breed, setBreed] = useState();
   const [size, setSize] = useState();
-  var anehlu = "po9";
-
+  //const user = "po2";
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
-      username: user,
+      username: user.username,
       ct_type: type,
     };
 
     const availability = {
-      ctuname: user,
+      ctuname: user.username,
       start_date: startDate,
       end_date: endDate,
     };
@@ -36,7 +34,7 @@ function BecomeCaretaker(props) {
       pc_species: species,
       pc_breed: breed,
       pc_size: size,
-      ctuname: user,
+      ctuname: user.username,
     };
 
     try {
@@ -64,43 +62,6 @@ function BecomeCaretaker(props) {
       console.error(err);
     }
   };
-
-  //   console.log(data);
-  //   console.log(availability);
-  //   console.log(capability);
-  //   fetch("api/caretakers/insert", option)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Success:", data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     })
-  //     .then(() => fetchAvailability(availabilityOption))
-  //     .then(() => fetchCapability(capabilityOption));
-  // };
-
-  // function fetchAvailability(availabilityOption) {
-  //   fetch("api/caretakers/availability", availabilityOption)
-  //     .then((response) => response.json())
-  //     .then((availability) => {
-  //       console.log("Success:", availability);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // }
-
-  // function fetchCapability(capabilityOption) {
-  //   fetch("api/caretakers/capability", capabilityOption)
-  //     .then((response) => response.json())
-  //     .then((capability) => {
-  //       console.log("Success:", capability);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // }
 
   const StartDatepicker = () => {
     return (

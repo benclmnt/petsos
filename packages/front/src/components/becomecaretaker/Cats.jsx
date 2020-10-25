@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
-function Cats() {
+function Cats(props) {
+  console.log(props);
+  const [breed, setBreed] = useState();
+
   return (
     <div>
       {/* Breed */}
@@ -10,11 +13,17 @@ function Cats() {
         name="caretaker_type"
         id="1"
       >
-        <option value="" disabled selected>
-          Select breed
+        <option onClick={(e) => props.onClick("kucing jalanan")}>
+          kucing jalanan
         </option>
-        <option value="part">kitty</option>
-        <option value="full">morganissa</option>
+
+        <option onClick={(e) => props.onChange("morganissa")}>
+          morganissa
+        </option>
+
+        <option onClick={(e) => props.onChange("kucing botak")}>
+          kucing botak
+        </option>
       </select>
     </div>
   );

@@ -13,6 +13,8 @@ export const queryPetByName = 'SELECT * FROM pets WHERE name = $1;';
 // Caretaker-related queries
 export const queryCaretakerByUsername =
   'SELECT * FROM caretakers WHERE username = $1;';
+export const queryBreedsBySpecies =
+  'SELECT * FROM pet_categories WHERE species = $1;';
 export const insertNewCaretaker =
   'INSERT INTO caretakers(username, ct_type) VALUES ($1, $2);';
 export const getAllCaretakers = 'SELECT * FROM caretakers LIMIT 25;';

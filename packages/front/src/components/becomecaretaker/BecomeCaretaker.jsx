@@ -3,41 +3,43 @@ import AnimalCapability from "./AnimalCapability";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { client as fetch } from "../../utils/client";
+import { useUser } from "../../context/auth-context";
 
-function BecomeCaretaker() {
+function BecomeCaretaker(props) {
   const dateFormat = "yyyy-MM-dd";
+  const user = useUser();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [type, setType] = useState("");
   const [capability, setCapability] = useState("");
-  const [species, setSpecies] = useState("dog");
-  const [breed, setBreed] = useState("dogBreed");
+  const [species, setSpecies] = useState("");
+  const [breed, setBreed] = useState("nani");
   const [petSize, setPetSize] = useState("Nan");
   const [petBtnSm, setPetBtnSm] = useState("petBtn-sm");
   const [petBtnMed, setPetBtnMed] = useState("petBtn");
   const [petBtnLg, setPetBtnLg] = useState("petBtn-lg");
-  const params = { type, startDate, endDate, capability };
-  var anehlu = "po9";
+  const params = { type, startDate, endDate, species, breed, petSize };
+  // var anehlu = "po9";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
-      username: anehlu,
+      username: user,
       ct_type: type,
     };
 
     const availability = {
-      ctuname: anehlu,
+      ctuname: user,
       start_date: startDate,
       end_date: endDate,
     };
 
     const capability = {
-      pc_species: "dog",
-      pc_breed: "husky",
-      pc_size: "big",
-      ctuname: anehlu,
+      pc_species: species,
+      pc_breed: breed,
+      pc_size: petSize,
+      ctuname: user,
     };
 
     try {
@@ -103,10 +105,6 @@ function BecomeCaretaker() {
   //     });
   // }
 
-  const Form = () => {
-    return <AnimalCapability />;
-  };
-
   const Startdatepicker = () => {
     return (
       <DatePicker
@@ -157,7 +155,6 @@ function BecomeCaretaker() {
                     <select
                       onChange={(e) => setType(e.target.value)}
                       class="border border-grey-light w-full p-3 rounded mb-4 block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4"
-                      for="inline-full-name"
                       name="caretaker_type"
                       id="1"
                     >
@@ -174,10 +171,7 @@ function BecomeCaretaker() {
           <div class="mt-4">
             <h1 class="mb-2 text-sm">Please indicate your capabilities</h1>
             <form>
-              <AnimalCapability
-                species={(species) => setSpecies(species)}
-                breed={(breed) => setBreed(breed)}
-              />
+              <AnimalCapability onChange={(value) => setSpecies(value)} />
             </form>
 
             <div>

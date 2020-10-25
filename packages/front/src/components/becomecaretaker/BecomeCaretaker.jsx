@@ -9,13 +9,9 @@ import { useUser } from "../../context/auth-context";
 function BecomeCaretaker() {
   const dateFormat = "yyyy-MM-dd";
   const user = useUser();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState("");
   const [type, setType] = useState();
-  const [species, setSpecies] = useState();
-  const [breed, setBreed] = useState();
-  const [size, setSize] = useState();
 
+  // Capabilities
   const [capabilityList, setCapabilityList] = useState([
     { species: "", breed: "", size: "" },
   ]);
@@ -31,8 +27,7 @@ function BecomeCaretaker() {
     setCapabilityList(list);
   };
 
-  const handleAvailabilityChange = (e, index) => {
-    const { name, value } = e.target;
+  const handleAvailabilityChange = (name, value, index) => {
     const list = [...availabilityList];
     list[index][name] = value;
     setAvailabilityList(list);
@@ -64,18 +59,41 @@ function BecomeCaretaker() {
     setAvailabilityList(list);
   };
 
+  // Datepickers
+  var StartDatepicker = (index) => {
+    return (
+      <DatePicker
+        selected={availabilityList[index]["start_date"]}
+        required="required"
+        //locale = 'en-SG'
+        //disableTime={true}
+        onChange={(date) => handleAvailabilityChange("start_date", date, index)}
+        dateFormat={dateFormat}
+        placeholderText="Start Date"
+      />
+    );
+  };
+
+  var EndDatepicker = (index) => {
+    return (
+      <DatePicker
+        selected={availabilityList[index]["end_date"]}
+        required="required"
+        //locale = 'en-SG'
+        //disableTime={true}
+        onChange={(date) => handleAvailabilityChange("end_date", date, index)}
+        dateFormat={dateFormat}
+        placeholderText="End Date"
+      />
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
       username: user.username,
       ct_type: type,
-    };
-
-    const availability = {
-      ctuname: user.username,
-      start_date: startDate,
-      end_date: endDate,
     };
 
     try {
@@ -103,50 +121,22 @@ function BecomeCaretaker() {
       }
     }
 
-    try {
-      const availResults = await fetch("/caretakers/availability", {
-        body: availability,
-      });
-      console.log(availResults);
-    } catch (err) {
-      console.error(err);
+    for (let i = 0; i < availabilityList.length; i++) {
+      const availability = {
+        pc_species: availabilityList[i]["start_date"],
+        pc_breed: availabilityList[i]["end_date"],
+        ctuname: user.username,
+      };
+
+      try {
+        const availResults = await fetch("/caretakers/availability", {
+          body: availability,
+        });
+        console.log(availResults);
+      } catch (err) {
+        console.error(err);
+      }
     }
-  };
-
-  const StartDatepicker = () => {
-    return (
-      <DatePicker
-        selected={startDate}
-        required="required"
-        //locale = 'en-SG'
-        //disableTime={true}
-        onChange={(date) => setStartDate(date)}
-        dateFormat={dateFormat}
-      />
-    );
-  };
-
-  const EndDatepicker = () => {
-    return (
-      <DatePicker
-        selected={endDate}
-        required="required"
-        //locale = 'en-SG'
-        //disableTime={true}
-        onChange={(date) => setEndDate(toJSONLocal(date))}
-        dateFormat={dateFormat}
-        placeholderText="End Date"
-      />
-    );
-  };
-
-  const Datespicker = () => {
-    return (
-      <div class="flex space-x-4">
-        <StartDatepicker />
-        <EndDatepicker />
-      </div>
-    );
   };
 
   function toJSONLocal(date) {
@@ -215,15 +205,13 @@ function BecomeCaretaker() {
           {/* Availabilities */}
           <div>
             <h1 class="text-sm mb-2">Please indicate your availabilities!</h1>
-            {capabilityList.map((x, i) => {
+            {availabilityList.map((x, i) => {
               return (
-                <div class="flex">
-                  <Datespicker
-                    availability={availabilityList[i]}
-                    setAvailability={(e) => handleAvailabilityChange(e, i)}
-                  />
+                <div class="flex space-x-4">
+                  {StartDatepicker(i)}
+                  {EndDatepicker(i)}
 
-                  <div class="w-10">
+                  <div class="flex justify-items-end">
                     {availabilityList.length > 1 && (
                       <button onClick={(i) => removeAvailability(i)}>
                         Remove

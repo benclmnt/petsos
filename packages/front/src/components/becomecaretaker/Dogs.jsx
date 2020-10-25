@@ -12,8 +12,9 @@ function Dogs() {
         <option value="" disabled selected>
           Select breed
         </option>
-        <option value="part">anjing</option>
-        <option value="full">doggy</option>
+        <option value="anjing">anjing</option>
+        <option value="doggy">doggy</option>
+        <option value="husky">husky</option>
       </select>
     </div>
   );

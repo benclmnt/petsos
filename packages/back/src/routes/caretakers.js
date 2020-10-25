@@ -19,8 +19,8 @@ function getCaretakersRoutes() {
 }
 
 async function insertNewCaretaker(req, res) {
-  const { username, type } = req.body;
-  const params = [username, type];
+  const { username, ct_type } = req.body;
+  const params = [username, ct_type];
   console.log(params);
 
   if (checkMissingParameter(params)) {
@@ -43,7 +43,7 @@ async function insertNewCaretaker(req, res) {
 }
 
 async function getCaretakerByUsername(req, res) {
-  const { username } = req.params; // GG SQL INJECTION!
+  const { username } = req.params;
 
   if (checkMissingParameter([username])) {
     return handleMissingParameter(res);
@@ -59,8 +59,8 @@ async function getCaretakerByUsername(req, res) {
 }
 
 async function upsertCaretakerCapability(req, res) {
-  const { breed, size, species, username } = req.body;
-  const params = [breed, size, species, username];
+  const { pc_species, pc_breed, pc_size, ctuname } = req.body;
+  const params = [pc_species, pc_breed, pc_size, ctuname];
 
   console.log(params);
 
@@ -70,7 +70,7 @@ async function upsertCaretakerCapability(req, res) {
 
   await query(upsertCaretakerCapabilityQuery, params);
 
-  const caretakers = await query(queryCaretakerByUsername, [username]);
+  const caretakers = await query(queryCaretakerByUsername, [ctuname]);
 
   return buildSuccessResponse(res, {
     caretaker: buildCaretakersObject(caretakers[0]),
@@ -78,8 +78,8 @@ async function upsertCaretakerCapability(req, res) {
 }
 
 async function upsertCaretakerAvailability(req, res) {
-  const { username, startDate, endDate } = req.body;
-  const params = [username, startDate, endDate];
+  const { ctuname, start_date, end_date } = req.body;
+  const params = [ctuname, start_date, end_date];
 
   console.log(params);
 
@@ -89,7 +89,7 @@ async function upsertCaretakerAvailability(req, res) {
 
   await query(upsertCaretakerAvailabilityQuery, params);
 
-  const caretakers = await query(queryCaretakerByUsername, [username]);
+  const caretakers = await query(queryCaretakerByUsername, [ctuname]);
 
   return buildSuccessResponse(res, {
     caretaker: buildCaretakersObject(caretakers[0]),

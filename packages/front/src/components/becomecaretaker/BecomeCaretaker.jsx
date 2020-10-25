@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import AnimalCapability from "./AnimalCapability";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { client as fetch } from "../../utils/client";
 
 function BecomeCaretaker() {
+  const dateFormat = "yyyy-MM-dd";
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [type, setType] = useState("");
@@ -15,89 +17,91 @@ function BecomeCaretaker() {
   const [petBtnMed, setPetBtnMed] = useState("petBtn");
   const [petBtnLg, setPetBtnLg] = useState("petBtn-lg");
   const params = { type, startDate, endDate, capability };
-  var anehlu = "po6";
+  var anehlu = "po9";
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
       username: anehlu,
-      type: type,
+      ct_type: type,
     };
 
     const availability = {
-      username: anehlu,
-      startDate: startDate,
-      endDate: endDate,
+      ctuname: anehlu,
+      start_date: startDate,
+      end_date: endDate,
     };
 
     const capability = {
-      breed: "husky",
-      size: "big",
-      species: "dog",
-      username: anehlu,
+      pc_species: "dog",
+      pc_breed: "husky",
+      pc_size: "big",
+      ctuname: anehlu,
     };
 
-    const availabilityOption = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(availability),
-    };
+    try {
+      const insertResults = await fetch("/caretakers/insert", { body: data });
+      console.log(insertResults);
+    } catch (err) {
+      console.error(err);
+    }
 
-    const capabilityOption = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(capability),
-    };
+    try {
+      const availResults = await fetch("/caretakers/availability", {
+        body: availability,
+      });
+      console.log(availResults);
+    } catch (err) {
+      console.error(err);
+    }
 
-    const option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    console.log(data);
-    console.log(availability);
-    console.log(capability);
-    fetch("api/caretakers/insert", option)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      })
-      .then(() => fetchAvailability(availabilityOption))
-      .then(() => fetchCapability(capabilityOption));
+    try {
+      const capabResults = await fetch("/caretakers/capability", {
+        body: capability,
+      });
+      console.log(capabResults);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  function fetchAvailability(availabilityOption) {
-    fetch("api/caretakers/availability", availabilityOption)
-      .then((response) => response.json())
-      .then((availability) => {
-        console.log("Success:", availability);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
+  //   console.log(data);
+  //   console.log(availability);
+  //   console.log(capability);
+  //   fetch("api/caretakers/insert", option)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("Success:", data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     })
+  //     .then(() => fetchAvailability(availabilityOption))
+  //     .then(() => fetchCapability(capabilityOption));
+  // };
 
-  function fetchCapability(capabilityOption) {
-    fetch("api/caretakers/capability", capabilityOption)
-      .then((response) => response.json())
-      .then((capability) => {
-        console.log("Success:", capability);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
+  // function fetchAvailability(availabilityOption) {
+  //   fetch("api/caretakers/availability", availabilityOption)
+  //     .then((response) => response.json())
+  //     .then((availability) => {
+  //       console.log("Success:", availability);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // }
+
+  // function fetchCapability(capabilityOption) {
+  //   fetch("api/caretakers/capability", capabilityOption)
+  //     .then((response) => response.json())
+  //     .then((capability) => {
+  //       console.log("Success:", capability);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // }
 
   const Form = () => {
     return <AnimalCapability />;
@@ -107,16 +111,33 @@ function BecomeCaretaker() {
     return (
       <DatePicker
         selected={startDate}
-        onChange={(date) => setStartDate(date)}
+        //locale = 'en-SG'
+        //disableTime={true}
+        onChange={(date) => setStartDate(toJSONLocal(date))}
+        dateFormat="yyyy-MM-dd"
       />
     );
   };
 
   const Enddatepicker = () => {
     return (
-      <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+      <DatePicker
+        selected={endDate}
+        //locale = 'en-SG'
+        //disableTime={true}
+        onChange={(date) => setEndDate(toJSONLocal(date))}
+        dateFormat="yyyy-MM-dd"
+      />
     );
   };
+
+  function toJSONLocal(date) {
+    var local = date;
+    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    //local.toJSON().substring(0, 10);
+    //console.log(local);
+    return local;
+  }
 
   return (
     <div class="bg-grey-lighter min-h-screen flex flex-col">
@@ -140,8 +161,8 @@ function BecomeCaretaker() {
                       name="caretaker_type"
                       id="1"
                     >
-                      <option value="part">Part-time</option>
-                      <option value="full">Full-time</option>
+                      <option value="part-time">Part-time</option>
+                      <option value="full-time">Full-time</option>
                     </select>
                   </div>
                 </div>
@@ -224,17 +245,14 @@ function BecomeCaretaker() {
             <div>
               <h1 class="mb-2 text-sm">Start date</h1>
               <div class="flex mb-4 space-x-8">
-                <DatePicker selected={startDate} />
+                <Startdatepicker />
               </div>
             </div>
 
             <div>
               <h1 class="mb-2 text-sm">End date</h1>
               <div class="flex mb-4 space-x-8">
-                <DatePicker
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
-                />
+                <Enddatepicker />
               </div>
             </div>
           </div>

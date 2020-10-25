@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import LoginPage from "./components/LoginPage";
+import Logout from "./components/Logout";
 import SignUpPage from "./components/SignUpPage";
 import Nav from "./components/Nav";
 import Landing from "./components/landing/Landing";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import AddPet from "./components/AddPet";
 import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";

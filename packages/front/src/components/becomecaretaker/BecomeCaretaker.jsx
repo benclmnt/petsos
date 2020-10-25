@@ -16,21 +16,11 @@ function BecomeCaretaker() {
     { species: "", breed: "", size: "" },
   ]);
 
-  const [availabilityList, setAvailabilityList] = useState([
-    { start_date: "", end_date: "" },
-  ]);
-
   const handleCapabilityChange = (e, index) => {
     const { name, value } = e.target;
     const list = [...capabilityList];
     list[index][name] = value;
     setCapabilityList(list);
-  };
-
-  const handleAvailabilityChange = (name, value, index) => {
-    const list = [...availabilityList];
-    list[index][name] = value;
-    setAvailabilityList(list);
   };
 
   const addCapability = () => {
@@ -40,17 +30,28 @@ function BecomeCaretaker() {
     ]);
   };
 
+  const removeCapability = (index) => {
+    const list = [...capabilityList];
+    list.splice(index, 1);
+    setCapabilityList(list);
+  };
+
+  // Availabilities
+  const [availabilityList, setAvailabilityList] = useState([
+    { start_date: "", end_date: "" },
+  ]);
+
+  const handleAvailabilityChange = (name, value, index) => {
+    const list = [...availabilityList];
+    list[index][name] = value;
+    setAvailabilityList(list);
+  };
+
   const addAvailability = () => {
     setAvailabilityList([
       ...availabilityList,
       { start_date: "", end_date: "" },
     ]);
-  };
-
-  const removeCapability = (index) => {
-    const list = [...capabilityList];
-    list.splice(index, 1);
-    setCapabilityList(list);
   };
 
   const removeAvailability = (index) => {
@@ -88,6 +89,15 @@ function BecomeCaretaker() {
     );
   };
 
+  function toJSONLocal(date) {
+    var local = date;
+    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    //local.toJSON().substring(0, 10);
+    //console.log(local);
+    return local;
+  }
+
+  // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -101,6 +111,23 @@ function BecomeCaretaker() {
       console.log(insertResults);
     } catch (err) {
       console.error(err);
+    }
+
+    for (let i = 0; i < availabilityList.length; i++) {
+      const availability = {
+        ctuname: user.username,
+        start_date: availabilityList[i]["start_date"],
+        end_date: availabilityList[i]["end_date"],
+      };
+
+      try {
+        const availResults = await fetch("/caretakers/availability", {
+          body: availability,
+        });
+        console.log(availResults);
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     for (let i = 0; i < capabilityList.length; i++) {
@@ -138,14 +165,6 @@ function BecomeCaretaker() {
       }
     }
   };
-
-  function toJSONLocal(date) {
-    var local = date;
-    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    //local.toJSON().substring(0, 10);
-    //console.log(local);
-    return local;
-  }
 
   return (
     <div>
@@ -190,11 +209,33 @@ function BecomeCaretaker() {
                   <div class="w-10">
                     {capabilityList.length > 1 && (
                       <button onClick={(i) => removeCapability(i)}>
-                        Remove
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                          fill="#b82727"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
                       </button>
                     )}
                     {capabilityList.length - 1 === i && (
-                      <button onClick={addCapability}>Add</button>
+                      <button onClick={addCapability}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                          fill="#0fa30a"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
                     )}
                   </div>
                 </div>

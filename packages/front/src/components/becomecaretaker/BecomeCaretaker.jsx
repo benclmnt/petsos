@@ -210,6 +210,7 @@ function BecomeCaretaker() {
                     {capabilityList.length > 1 && (
                       <button onClick={(i) => removeCapability(i)}>
                         <svg
+                          class="h-8 w-8"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 30 30"
                           fill="#b82727"
@@ -225,6 +226,7 @@ function BecomeCaretaker() {
                     {capabilityList.length - 1 === i && (
                       <button onClick={addCapability}>
                         <svg
+                          class="h-8 w-8"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 30 30"
                           fill="#0fa30a"
@@ -256,6 +258,7 @@ function BecomeCaretaker() {
                     {availabilityList.length > 1 && (
                       <button onClick={(i) => removeAvailability(i)}>
                         <svg
+                          class="h-8 w-8"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 30 30"
                           fill="#b82727"
@@ -271,6 +274,7 @@ function BecomeCaretaker() {
                     {availabilityList.length - 1 === i && (
                       <button onClick={addAvailability}>
                         <svg
+                          class="h-8 w-8"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 30 30"
                           fill="#0fa30a"

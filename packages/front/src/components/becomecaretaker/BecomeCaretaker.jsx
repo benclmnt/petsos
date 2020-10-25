@@ -15,7 +15,26 @@ function BecomeCaretaker(props) {
   const [species, setSpecies] = useState();
   const [breed, setBreed] = useState();
   const [size, setSize] = useState();
-  //const user = "po2";
+  var anehlu = "po9";
+
+  const [capabilityList, setCapabilityList] = useState([
+    { species: "", breed: "", size: "" },
+  ]);
+
+  const handleCapabilityChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...capabilityList];
+    list[index][name] = value;
+    setCapabilityList(list);
+  };
+
+  const addCapability = () => {
+    setCapabilityList([
+      ...capabilityList,
+      { species: "", breed: "", size: "" },
+    ]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -124,16 +143,33 @@ function BecomeCaretaker(props) {
             </select>
           </div>
         </div>
+
         {/* Capabilities*/}
         <div>
           <h1 class="text-sm mb-2">Please indicate your capabilities</h1>
-          <AnimalCapability
+          {/* <AnimalCapability
             species={species}
             setSpecies={setSpecies}
             breed={breed}
             setBreed={setBreed}
             setSize={setSize}
-          />
+          /> */}
+          {capabilityList.map((x, i) => {
+            return (
+              <div>
+                <AnimalCapability
+                  species={species}
+                  setSpecies={setSpecies}
+                  breed={breed}
+                  setBreed={setBreed}
+                  setSize={setSize}
+                />
+                {capabilityList.length - 1 === i && (
+                  <button onClick={addCapability}>Add</button>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Availabilities */}

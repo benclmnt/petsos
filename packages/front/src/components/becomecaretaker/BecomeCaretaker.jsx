@@ -72,17 +72,28 @@ function BecomeCaretaker() {
       ct_type: type,
     };
 
-    const availability = {
-      ctuname: user.username,
-      start_date: startDate,
-      end_date: endDate,
-    };
-
     try {
       const insertResults = await fetch("/caretakers/insert", { body: data });
       console.log(insertResults);
     } catch (err) {
       console.error(err);
+    }
+
+    for (let i = 0; i < availabilityList.length; i++) {
+      const availability = {
+        ctuname: user.username,
+        start_date: availabilityList[i]["start_date"],
+        end_date: availabilityList[i]["end_date"],
+      };
+
+      try {
+        const availResults = await fetch("/caretakers/availability", {
+          body: availability,
+        });
+        console.log(availResults);
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     for (let i = 0; i < capabilityList.length; i++) {
@@ -101,15 +112,6 @@ function BecomeCaretaker() {
       } catch (err) {
         console.error(err);
       }
-    }
-
-    try {
-      const availResults = await fetch("/caretakers/availability", {
-        body: availability,
-      });
-      console.log(availResults);
-    } catch (err) {
-      console.error(err);
     }
   };
 
@@ -200,11 +202,33 @@ function BecomeCaretaker() {
                   <div class="w-10">
                     {capabilityList.length > 1 && (
                       <button onClick={(i) => removeCapability(i)}>
-                        Remove
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                          fill="#b82727"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
                       </button>
                     )}
                     {capabilityList.length - 1 === i && (
-                      <button onClick={addCapability}>Add</button>
+                      <button onClick={addCapability}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                          fill="#0fa30a"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
                     )}
                   </div>
                 </div>

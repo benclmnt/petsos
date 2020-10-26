@@ -7,12 +7,15 @@ import {
   queryUserByUsername,
   queryUserByEmail,
   upsertUserAddress as upsertUserAddressQuery,
+  queryPetByName,
+  addPet,
 } from '../db/queries';
 
 function getUsersRoutes() {
   const router = express.Router();
   router.post('/login', login);
   router.post('/register', register);
+  router.post('/addNewPet', insertNewPetToTable);
   router.get('/:username', getUserByUsername);
   router.post('/:username/address', upsertUserAddress);
   router.get('', listAllUsers);
@@ -39,9 +42,39 @@ async function register(req, res) {
     });
   }
 
-  const user = await query(queryUserByEmail, [email]);
+  const users = await query(queryUserByEmail, [email]);
   return buildSuccessResponse(res, {
-    user: buildUsersObject(user),
+    user: buildUsersObject(users[0]),
+  });
+}
+
+/**
+ * Insert new pet to table
+ */
+async function insertNewPetToTable(req, res) {
+  const { name, pouname, species, breed, size } = req.body;
+  const params = [name, pouname, species, breed, size];
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(addPet, params);
+  } catch (err) {
+    console.log(err);
+    return buildUsersErrorObject(res, {
+      status: 400,
+      error: 'Pet has already existed',
+    });
+  }
+
+  // TODO: Drake to fix return data
+  const user = await query('SELECT * FROM pets;');
+  console.log(user);
+  return buildSuccessResponse(res, {
+    user,
   });
 }
 
@@ -140,6 +173,7 @@ function buildUsersObject(user) {
 }
 
 function buildSuccessResponse(res, { status, user }) {
+  console.log('returned: ', user);
   return res.status(status || 200).json(user);
 }
 

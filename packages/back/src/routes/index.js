@@ -1,5 +1,6 @@
 import express from 'express';
 import { getUsersRoutes } from './users';
+import { getCaretakersRoutes } from './caretakers';
 
 function getRoutes() {
   const router = express.Router();
@@ -10,6 +11,7 @@ function getRoutes() {
   // });
 
   router.use('/users', getUsersRoutes());
+  router.use('/caretakers', getCaretakersRoutes());
 
   return router;
 }

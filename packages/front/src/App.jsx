@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import LoginPage from "./components/LoginPage";
+import Logout from "./components/Logout";
 import SignUpPage from "./components/SignUpPage";
 import Nav from "./components/Nav";
 import Landing from "./components/landing/Landing";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import AddPet from "./components/AddPet";
 import EditProfile from "./components/editprofile/EditProfile";
-import SearchSitters from "./components/SearchSitters";
 import Dashboard from "./components/dashboard/Dashboard";
+import SearchSitters from "./components/SearchSitters";
+import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
 
 function App() {
-  // const [foo, setFoo] = useState("N/A");
-  // useEffect(() => {
-  //   fetch("/api/foo")
-  //     .then((res) => res.json())
-  //     .then((data) => setFoo(data.foo))
-  //     .catch((err) => setFoo(err.message));
-  // }, []);
   return (
     <div className="App">
       <Router>
@@ -40,13 +40,24 @@ function App() {
             <SearchSitters />
           </Route>
 
+          <Route exact path="/becomect">
+            <BecomeCaretaker />
+          </Route>
+
           <Route exact path="/">
             <Landing />
           </Route>
 
           <Route exact path="/dashboard">
-            <Nav />
             <Dashboard />
+          </Route>
+
+          <Route exact path="/logout">
+            <Logout />
+          </Route>
+
+          <Route>
+            <Redirect to="/" />
           </Route>
         </Switch>
       </Router>

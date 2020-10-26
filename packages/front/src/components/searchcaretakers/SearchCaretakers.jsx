@@ -1,35 +1,117 @@
 import React, { useState } from "react";
-import HouseSitting from "./HouseSitting";
-import Boarding from "./Boarding";
-import DropIn from "./DropIn";
-import DayCare from "./DayCare";
-import DogWalk from "./DogWalk";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../css/datepicker.css";
+import PetCard from "./PetCard";
+import { client as fetch } from "../../utils/client";
+import { useUser } from "../../context/auth-context";
+
+function _toJSONLocal(date) {
+  var local = date;
+  local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  console.log(date, local);
+  return local.toJSON().substring(0, 10);
+}
 
 function SearchCaretakers() {
-  const [page, setPage] = useState("boarding");
+  const user = useUser();
+  const [serviceType, setServiceType] = useState("boarding");
+  const [pet, setPet] = useState({ species: "", breed: "", size: "" });
+  const [address, setAddress] = useState({
+    country: "",
+    city: "",
+    postal_code: "",
+  });
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
+  const [selectedID, setSelected] = useState();
 
-  function ShowPage(props) {
-    const currPage = props.page;
-    switch (currPage) {
-      case "boarding":
-        return <Boarding />;
+  // Pets
+  var petOptions = [
+    { species: "Dog", breed: "Husky", size: "Big" },
+    { species: "Cat", breed: "Sphinx", size: "Medium" },
+  ];
 
-      case "housesitting":
-        return <HouseSitting />;
+  // Address
+  var countryOptions = ["Singapore"];
+  var cityOptions = ["Singapore"];
+  var postalCodeOptions = [1, 2, 3, 4, 5, 6, 7];
 
-      case "dropin":
-        return <DropIn />;
+  var addressOptions = (choices, name) => (
+    <select
+      className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+      name="breed"
+      id="2"
+      required="required"
+      onChange={(e) => setAddress({ name: e.target.value })}
+      value={address.name}
+    >
+      <option value="" disabled>
+        Select {name === "postal_code" ? "postal code" : name}
+      </option>
+      {choices.map((x, y) => (
+        <option key={y}>{x}</option>
+      ))}
+    </select>
+  );
 
-      case "daycare":
-        return <DayCare />;
+  // Datepickers
+  const dateFormat = "dd-MM-yyyy";
 
-      case "dogwalk":
-        return <DogWalk />;
+  const StartDatepicker = () => {
+    return (
+      <DatePicker
+        selected={startDate}
+        required="required"
+        //locale = 'en-SG'
+        //disableTime={true}
+        onChange={(date) => setStartDate(date)}
+        dateFormat={dateFormat}
+        placeholderText="Start Date"
+      />
+    );
+  };
 
-      default:
-        return <Boarding />;
+  const EndDatepicker = (index) => {
+    return (
+      <DatePicker
+        selected={endDate}
+        required="required"
+        //locale = 'en-SG'
+        //disableTime={true}
+        onChange={(date) => setEndDate(date)}
+        dateFormat={dateFormat}
+        placeholderText="End Date"
+      />
+    );
+  };
+
+  //Search
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    const searchParams = {
+      uname: user.username,
+      service_type: serviceType,
+      country: address.country,
+      city: address.city,
+      postal_code: address.postal_code,
+      start_date: _toJSONLocal(startDate),
+      end_date: _toJSONLocal(endDate),
+      species: pet.species,
+      breed: pet.breed,
+      size: pet.size,
+    };
+
+    try {
+      const insertResults = await fetch("/caretakers", { body: searchParams });
+      console.log(insertResults);
+    } catch (err) {
+      setErrorMsg(err.error);
+      return;
     }
-  }
+  };
 
   return (
     <div
@@ -41,30 +123,29 @@ function SearchCaretakers() {
         backgroundPosition: "center center",
       }}
     >
-      <div class="flex-col max-h-screen max-w-2xl mx-auto">
+      <form
+        onSubmit={handleSearch}
+        class="flex-col max-h-screen max-w-2xl mx-auto"
+      >
         <div class="bg-white text-black px-10 py-8 rounded shadow space-y-3">
           <h1 class="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
-          {/* Checkboxes */}
+          {/* Pets */}
           <div>
-            <h1 class="text-sm">I'm looking for services for my :</h1>
-
-            <div class="flex space-x-8 pt-3">
-              <label class="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-5 w-5 text-orange-600"
-                />
-                <span class="ml-2 text-gray-700">Dog</span>
-              </label>
-
-              <label class="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-5 w-5 text-orange-600"
-                />
-                <span class="ml-2 text-gray-700">Cat</span>
-              </label>
+            <h1 class="text-sm mb-4">I'm looking for services for:</h1>
+            <div class="md:flex space-x-4">
+              {petOptions.map((p, i) => {
+                return (
+                  <PetCard
+                    Pet={p}
+                    setPet={setPet}
+                    key={i}
+                    id={i}
+                    selectedID={selectedID}
+                    setSelected={setSelected}
+                  />
+                );
+              })}
             </div>
           </div>
 
@@ -72,7 +153,13 @@ function SearchCaretakers() {
           <h1 class="text-sm text-left">What service do you need?</h1>
 
           <div class="flex items-center justify-between py-2 px-4">
-            <button onClick={() => setPage("boarding")} class="btn">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setServiceType("boarding");
+              }}
+              class={serviceType === "boarding" ? "btn bg-orange-400" : "btn"}
+            >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +177,15 @@ function SearchCaretakers() {
               </span>
             </button>
 
-            <button onClick={() => setPage("housesitting")} class="btn">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setServiceType("housesitting");
+              }}
+              class={
+                serviceType === "housesitting" ? "btn bg-orange-400" : "btn"
+              }
+            >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +198,13 @@ function SearchCaretakers() {
               </span>
             </button>
 
-            <button onClick={() => setPage("dropin")} class="btn">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setServiceType("drop-in");
+              }}
+              class={serviceType === "drop-in" ? "btn bg-orange-400" : "btn"}
+            >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +221,13 @@ function SearchCaretakers() {
               </span>
             </button>
 
-            <button onClick={() => setPage("daycare")} class="btn">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setServiceType("daycare");
+              }}
+              class={serviceType === "daycare" ? "btn bg-orange-400" : "btn"}
+            >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +244,13 @@ function SearchCaretakers() {
               </span>
             </button>
 
-            <button onClick={() => setPage("dogwalk")} class="btn">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setServiceType("dog-walk");
+              }}
+              class={serviceType === "dog-walk" ? "btn bg-orange-400" : "btn"}
+            >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -156,16 +269,34 @@ function SearchCaretakers() {
             </button>
           </div>
 
-          {/* Subcomponents */}
+          {/* Address */}
+          <div>
+            <h1 class="mb-2 text-sm">What's your address or cross-streets?</h1>
+            <div class="flex space-x-4">
+              {addressOptions(countryOptions, "country")}
+              {addressOptions(cityOptions, "city")}
+              {addressOptions(postalCodeOptions, "postal_code")}
+            </div>
+          </div>
 
-          <ShowPage page={page} />
+          {/* Dates */}
+          <div>
+            <h1 class="mb-2 text-sm">Which dates do you need?</h1>
+            <div class="flex mb-4 space-x-8">
+              <StartDatepicker />
+              <EndDatepicker />
+            </div>
+          </div>
 
           {/* Next Button */}
-          <button class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded">
+          <button
+            type="submit"
+            class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded"
+          >
             Search Now!
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

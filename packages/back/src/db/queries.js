@@ -28,8 +28,4 @@ export const upsertCaretakerCapability =
 // Queries to search caretakers
 export const querySearchCaretakers =
   'SELECT * FROM all_ct WHERE service = $1 AND postal_code = $2 AND start_date >= $3 AND end_date <= $4 AND pc_species = $5 AND pc_breed = $6 AND pc_size = $7;';
-export const getAllSpecies = 'SELECT DISTINCT species FROM pet_categories';
-export const getAllBreeds =
-  'SELECT DISTINCT species, breed FROM pet_categories GROUP BY species;';
-export const getAllSizes = 'SELECT DISTINCT size FROM pet_categories;';
 export const getPetCategories = 'SELECT * FROM pet_categories;';

@@ -49,12 +49,6 @@ CREATE TABLE caretakers (
 	CHECK(avg_rating <= 5)
 );
 
--- CREATE TABLE offers_service (
--- 	ctuname VARCHAR REFERENCES caretakers(ctuname),
--- 	-- service service_type,
--- 	PRIMARY KEY (ctuname)
--- );
-
 CREATE TABLE availability_span (
 	ctuname VARCHAR REFERENCES caretakers(ctuname),
     start_date DATE NOT NULL,

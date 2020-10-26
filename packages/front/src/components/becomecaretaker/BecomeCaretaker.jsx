@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AnimalCapability from "./AnimalCapability";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./datepicker.css";
+import "../../css/datepicker.css";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
 
@@ -157,7 +157,7 @@ function BecomeCaretaker() {
     <div>
       <br className="mt-16" />
       <form
-        className="flex-col max-h-screen max-w-4xl mx-auto bg-white px-20"
+        className="flex-col max-h-screen max-w-4xl mx-auto bg-white"
         action=""
         onSubmit={handleSubmit}
       >
@@ -194,11 +194,11 @@ function BecomeCaretaker() {
                     capability={capability}
                     setCapability={(e) => handleCapabilityChange(e, i)}
                   />
-                  <div className="w-10">
+                  <div className="w-1/6">
                     {capabilityList.length > 1 && (
                       <button onClick={removeCapability}>
                         <svg
-                          className="h-8 w-8"
+                          className="w-8"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 30 30"
                           fill="#b82727"
@@ -214,7 +214,7 @@ function BecomeCaretaker() {
                     {capabilityList.length - 1 === i && (
                       <button onClick={addCapability}>
                         <svg
-                          className="h-8 w-8"
+                          className="w-8"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 30 30"
                           fill="#0fa30a"

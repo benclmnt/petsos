@@ -1,12 +1,22 @@
 import express from 'express';
 import logger from '../logger';
 import { query } from '../db';
-import { addPet, queryPetByPouname } from '../db/queries';
+import {
+  addPet,
+  queryPetByPouname,
+  queryPetByPounameAndName,
+  deletePetByPounameAndName,
+} from '../db/queries';
 
 function getUsersRoutesPets() {
   const router = express.Router();
   router.post('/addNewPet', insertNewPetToTable);
   router.get('/getPetByPouname/:pouname', getPetByPouname);
+  router.get('/getPetByPounameAndName/:pouname/:name', getPetByPounameAndName);
+  router.delete(
+    '/deletePetByPounameAndName/:pouname/:name',
+    removePetByPounameAndName
+  );
   return router;
 }
 
@@ -49,6 +59,46 @@ async function getPetByPouname(req, res) {
   }
 
   const users = await query(queryPetByPouname, params);
+
+  checkUserExists(res, users);
+
+  return buildSuccessResponse(res, {
+    user: buildUsersObject(users),
+  });
+}
+
+async function getPetByPounameAndName(req, res) {
+  const pouname = req.params.pouname.slice(1);
+  const name = req.params.name.slice(1);
+  const params = [pouname, name];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  const users = await query(queryPetByPounameAndName, params);
+
+  checkUserExists(res, users);
+
+  return buildSuccessResponse(res, {
+    user: buildUsersObject(users),
+  });
+}
+
+async function removePetByPounameAndName(req, res) {
+  const pouname = req.params.pouname.slice(1);
+  const name = req.params.name.slice(1);
+  const params = [pouname, name];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  const users = await query(deletePetByPounameAndName, params);
 
   checkUserExists(res, users);
 

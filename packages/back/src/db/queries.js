@@ -9,6 +9,10 @@ export const upsertUserAddress =
 export const addPet =
   'INSERT INTO pets(name, pouname, species, breed, size) VALUES ($1, $2, $3, $4, $5);';
 export const queryPetByPouname = 'SELECT * FROM pets WHERE pouname = $1;';
+export const queryPetByPounameAndName =
+  'SELECT * FROM pets WHERE pouname = $1 AND name = $2;';
+export const deletePetByPounameAndName =
+  'DELETE FROM pets WHERE pouname = $1 AND name = $2;';
 export const queryPetByName = 'SELECT * FROM pets WHERE name = $1;';
 
 // Caretaker-related queries

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect, useParams } from "react-router";
 import "../css/addPet.css";
 import header from "../resources/dogs-cats-header.png";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { client as fetch } from "../utils/client";
+import { useUser } from "../context/auth-context";
 
 function MyPets() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [showOther, setShowOther] = useState(false);
   const [petName, setPetName] = useState("");
   const [petSex, setPetSex] = useState("Nan");
@@ -19,14 +21,36 @@ function MyPets() {
   const [petBtnSm, setPetBtnSm] = useState("petBtn-sm");
   const [petBtnMed, setPetBtnMed] = useState("petBtn");
   const [petBtnLg, setPetBtnLg] = useState("petBtn-lg");
-  const { name, pouname } = useParams();
+  const { name } = useParams();
+  const user = useUser();
+
+  let buttonPet = "Add Pet";
+  let linkfetch = "/pets/addNewPet";
+  let pets = [];
+
+  useEffect(async () => {
+    // GET request using fetch inside useEffect React hook
+    if (name != "add") {
+      const link =
+        "/pets/getPetByPounameAndName/:" + user.username + "/:" + name;
+      const result = await fetch(link);
+      console.log([result]);
+      setIsLoaded(true);
+      pets = result;
+    }
+  }, []);
+
+  if (isLoaded) {
+    buttonPet = "Edit Pet";
+    console.log(pets);
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     const body = {
       name: petName,
-      pouname: "po1",
+      pouname: user.username,
       species: petType,
       breed: petBreed,
       size: petSize,
@@ -35,7 +59,7 @@ function MyPets() {
     console.log(body);
 
     try {
-      const result = await fetch("/pets/addNewPet", {
+      const result = await fetch(linkfetch, {
         body: body,
         redirectTo: "/dashboard",
       });
@@ -260,7 +284,7 @@ function MyPets() {
             onClick={onSubmit}
             class="border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 font-semibold text-lg px-8 py-4 m-2 duration-500 ease-in-out "
           >
-            Add Pet
+            {buttonPet}
           </button>
 
           <button class="font-semibold text-lg px-8 py-4 m-2 border border-red-600 hover:bg-red-600 rounded-lg hover:text-white text-red-600  duration-500 ease-in-out ">

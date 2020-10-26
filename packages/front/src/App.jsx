@@ -15,6 +15,7 @@ import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";
 import SearchCaretakers from "./components/searchcaretakers/SearchCaretakers";
 import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
+import CaretakersCard from "./components/searchcaretakers/CaretakersCard";
 
 function App() {
   return (
@@ -42,6 +43,10 @@ function App() {
 
           <Route exact path="/becomect">
             <BecomeCaretaker />
+          </Route>
+
+          <Route exact path="/ctcard">
+            <CaretakersCard />
           </Route>
 
           <Route exact path="/">

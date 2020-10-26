@@ -1,19 +1,20 @@
-import React from 'react';
-import LoginPage from './components/LoginPage';
-import Logout from './components/Logout';
-import SignUpPage from './components/SignUpPage';
-import Nav from './components/Nav';
-import Landing from './components/landing/Landing';
+import React from "react";
+import LoginPage from "./components/LoginPage";
+import Logout from "./components/Logout";
+import SignUpPage from "./components/SignUpPage";
+import Nav from "./components/Nav";
+import Landing from "./components/landing/Landing";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from 'react-router-dom';
-import AddPet from './components/AddPet';
-import EditProfile from './components/editprofile/EditProfile';
-import Dashboard from './components/dashboard/Dashboard';
-import SearchSitters from './components/SearchSitters';
+} from "react-router-dom";
+import AddPet from "./components/AddPet";
+import EditProfile from "./components/editprofile/EditProfile";
+import Dashboard from "./components/dashboard/Dashboard";
+import SearchSitters from "./components/SearchSitters";
+import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
 
 function App() {
   return (
@@ -37,6 +38,10 @@ function App() {
 
           <Route exact path="/searchsitters">
             <SearchSitters />
+          </Route>
+
+          <Route exact path="/becomect">
+            <BecomeCaretaker />
           </Route>
 
           <Route exact path="/">

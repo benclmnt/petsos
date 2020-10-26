@@ -1,4 +1,4 @@
-import { logout } from './auth-client';
+import { logout } from "./auth-client";
 
 // endpoint should start with a /
 
@@ -10,18 +10,18 @@ import { logout } from './auth-client';
 // - onSuccess : fn to execute on success
 // - redirecTo: string (starting with /)
 
-export const LOCAL_STORAGE_KEY = 'token';
+export const LOCAL_STORAGE_KEY = "token";
 
 export async function client(endpoint, { body, file, ...customConfig } = {}) {
   const token = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = { "Content-Type": "application/json" };
 
   if (token) {
     headers.Authorization = `${token}`;
   }
 
   const config = {
-    method: customConfig.method ?? (body || file ? 'POST' : 'GET'),
+    method: customConfig.method ?? (body || file ? "POST" : "GET"),
     headers: {
       ...headers,
       ...customConfig.headers,
@@ -30,7 +30,7 @@ export async function client(endpoint, { body, file, ...customConfig } = {}) {
 
   if (file) {
     config.body = file;
-    delete config.headers['Content-Type'];
+    delete config.headers["Content-Type"];
   }
 
   if (body) {
@@ -42,8 +42,8 @@ export async function client(endpoint, { body, file, ...customConfig } = {}) {
       logout();
       // TODO: shoule we refresh the page for them or redirect to login page ???
       // window.location.assign(window.location);
-      window.location.assign('/login');
-      return Promise.reject({ message: 'Please re-authenticate.' });
+      window.location.assign("/login");
+      return Promise.reject({ message: "Please re-authenticate." });
     }
 
     const data = await response.json();
@@ -51,7 +51,7 @@ export async function client(endpoint, { body, file, ...customConfig } = {}) {
     if (response.ok) {
       if (
         customConfig.onSuccess &&
-        typeof customConfig.onSuccess === 'function'
+        typeof customConfig.onSuccess === "function"
       ) {
         customConfig.onSuccess();
       }

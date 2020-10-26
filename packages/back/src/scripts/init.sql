@@ -91,8 +91,8 @@ CREATE TABLE is_capable (
 	pc_size VARCHAR NOT NULL,
     ctuname VARCHAR NOT NULL REFERENCES caretakers(username)
         ON DELETE CASCADE,
-	FOREIGN KEY (pc_breed, pc_species, pc_size)
-		REFERENCES pet_categories(breed, species, size),
+	FOREIGN KEY (pc_species, pc_breed, pc_size)
+		REFERENCES pet_categories(species, breed, size),
 	PRIMARY KEY (pc_breed, pc_size, pc_species, ctuname)
 );
 
@@ -138,14 +138,11 @@ $$
 	DECLARE flag INTEGER;
 	BEGIN
 		SELECT COUNT(*) INTO flag FROM pet_categories C
-			WHERE C.species = NEW.species AND C.breed = NEW.breed AND C.size = NEW.size;
-		IF flag > 0 THEN
-			RETURN NULL;
-		ELSE
-			INSERT INTO pet_categories(species, breed, size) SELECT NEW.species, NEW.breed, NEW.size;
-			RETURN NEW;
+			WHERE C.species = NEW.pc_species AND C.breed = NEW.pc_breed AND C.size = NEW.pc_size;
+		IF flag = 0 THEN
+			INSERT INTO pet_categories(species, breed, size) SELECT NEW.pc_species, NEW.pc_breed, NEW.pc_size;
 		END IF;
-	RETURN 1;
+	RETURN NEW;
 	END;
 $$
 LANGUAGE plpgsql;

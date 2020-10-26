@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import bg from '../resources/wallpaper.jpg';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/auth-context';
+import React, { useState } from "react";
+import bg from "../resources/wallpaper.jpg";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
 
 function SignUpPage() {
   const authClient = useAuth();
 
   const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
 
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     setForm({
@@ -34,9 +34,9 @@ function SignUpPage() {
   return (
     <div
       style={{
-        backgroundSize: 'cover',
+        backgroundSize: "cover",
         backgroundImage: `url(${bg})`,
-        backgroundPosition: 'center center',
+        backgroundPosition: "center center",
       }}
     >
       <div className="bg-grey-lighter min-h-screen flex lg:flex-row-reverse">

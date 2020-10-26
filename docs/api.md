@@ -117,6 +117,19 @@ Body:
 
 Get a list of available caretakers.
 
+### POST `/caretakers`
+
+Make user a caretaker
+
+#### Request
+
+```
+{
+    username: ...
+    ct_type: ...
+}
+```
+
 ### GET `/caretakers/[:userId]`
 
 Get specific info about a caretaker (past jobs, availability, capability, expected salary, pet-days)

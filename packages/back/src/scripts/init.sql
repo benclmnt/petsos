@@ -139,13 +139,10 @@ $$
 	BEGIN
 		SELECT COUNT(*) INTO flag FROM pet_categories C
 			WHERE C.species = NEW.pc_species AND C.breed = NEW.pc_breed AND C.size = NEW.pc_size;
-		IF flag > 0 THEN
-			RETURN NULL;
-		ELSE
+		IF flag = 0 THEN
 			INSERT INTO pet_categories(species, breed, size) SELECT NEW.pc_species, NEW.pc_breed, NEW.pc_size;
-			RETURN NEW;
 		END IF;
-	RETURN 1;
+	RETURN NEW;
 	END;
 $$
 LANGUAGE plpgsql;

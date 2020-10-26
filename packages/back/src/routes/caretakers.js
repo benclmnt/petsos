@@ -11,10 +11,11 @@ import {
 
 function getCaretakersRoutes() {
   const router = express.Router();
-  router.post('/insert', insertNewCaretaker);
   router.post('/availability', upsertCaretakerAvailability);
   router.post('/capability', upsertCaretakerCapability);
-  router.get('/caretakers', listAllCaretakers);
+  router.get('/:username', getCaretakerByUsername);
+  router.post('/', insertNewCaretaker);
+  router.get('/', listAllCaretakers);
   return router;
 }
 
@@ -29,17 +30,16 @@ async function insertNewCaretaker(req, res) {
 
   try {
     await query(insertNewCaretakerQuery, params);
+    const caretakers = await query(queryCaretakerByUsername, [ctuname]);
+    return buildSuccessResponse(res, {
+      caretaker: buildCaretakersObject(caretakers[0]),
+    });
   } catch (err) {
     return buildCaretakersErrorObject(res, {
-      status: 400,
-      error: 'Username does not exist.',
+      status: 200,
+      error: err.detail,
     });
   }
-
-  const caretaker = await query(insertNewCaretakerQuery, params);
-  return buildSuccessResponse(res, {
-    caretaker: buildCaretakersObject(caretaker),
-  });
 }
 
 async function getCaretakerByUsername(req, res) {
@@ -68,7 +68,14 @@ async function upsertCaretakerCapability(req, res) {
     return handleMissingParameter(res);
   }
 
-  await query(upsertCaretakerCapabilityQuery, params);
+  try {
+    await query(upsertCaretakerCapabilityQuery, params);
+  } catch (err) {
+    return buildCaretakersErrorObject(res, {
+      status: 200,
+      error: err.detail,
+    });
+  }
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
 
@@ -87,7 +94,14 @@ async function upsertCaretakerAvailability(req, res) {
     return handleMissingParameter(res);
   }
 
-  await query(upsertCaretakerAvailabilityQuery, params);
+  try {
+    await query(upsertCaretakerAvailabilityQuery, params);
+  } catch (err) {
+    return buildCaretakersErrorObject(res, {
+      status: 200,
+      error: err.detail,
+    });
+  }
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
 
@@ -127,7 +141,6 @@ function buildCaretakersObject(caretaker) {
     ...caretaker,
     selfLink: `/caretakers/${caretaker.username}`,
   };
-  delete obj.password;
   return obj;
 }
 

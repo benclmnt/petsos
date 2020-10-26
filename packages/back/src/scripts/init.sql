@@ -120,8 +120,8 @@ CREATE VIEW ratings AS (
 );
 
 CREATE VIEW all_ct AS (
-	SELECT * FROM is_capable B 
-		NATURAL JOIN caretakers C 
+	SELECT * FROM is_capable B
+		NATURAL JOIN caretakers C
 		NATURAL JOIN availability_span A
 );
 
@@ -162,17 +162,16 @@ CREATE TRIGGER insert_pet_category_if_not_exists
 	BEFORE INSERT OR UPDATE ON pets
 	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
 
-CREATE OR REPLACE FUNCTION check_availability() RETURNS trigger AS
+CREATE OR REPLACE FUNCTION merge_availabilities() RETURNS trigger AS
 $$
-	-- flag INTEGER := 0;
 	DECLARE flag INTEGER := 0;
-	
-	DECLARE temp DATE;
+	DECLARE temp_start DATE;
+	DECLARE temp_end DATE;
 	BEGIN
-		DELETE FROM availability_span A WHERE A.ctuname = NEW.ctuname AND A.start_date >= NEW.start_date AND A.end_date <= NEW.end_date; 
+		DELETE FROM availability_span A WHERE A.ctuname = NEW.ctuname AND A.start_date >= NEW.start_date AND A.end_date <= NEW.end_date;
 		SELECT SUM(
-			CASE 
-				WHEN A.start_date < NEW.start_date AND A.end_date > NEW.end_date THEN 4
+			CASE
+				WHEN A.start_date <= NEW.start_date AND A.end_date >= NEW.end_date THEN 4
 				WHEN NEW.end_date >= A.start_date AND NEW.end_date <= A.end_date THEN 1
 				WHEN NEW.start_date <= A.end_date AND NEW.start_date >= A.start_date THEN 2
 				ELSE 0
@@ -181,23 +180,31 @@ $$
 			FROM availability_span A
 			WHERE A.ctuname = NEW.ctuname;
 
-	IF flag IS NULL THEN flag := 0;
-	END IF;
-	RAISE NOTICE '%', flag;
-		CASE flag 
+	-- RAISE NOTICE '%', flag;
+		CASE COALESCE(flag, 0)
 			WHEN 0 THEN RETURN NEW;
-			WHEN 1 THEN UPDATE availability_span A
-				SET start_date	= NEW.start_date WHERE NEW.end_date >= A.start_date AND NEW.end_date <= A.end_date AND NEW.ctuname = A.ctuname;
-			WHEN 2 THEN UPDATE availability_span A 
-				SET end_date = NEW.end_date WHERE NEW.start_date <= A.end_date AND NEW.start_date >= A.start_date AND NEW.ctuname = A.ctuname;
-			WHEN 3 THEN 
-				SELECT end_date INTO temp FROM availability_span A
-				WHERE NEW.end_date >= A.start_date AND NEW.end_date <= A.end_date AND NEW.ctuname = A.ctuname;
-				DELETE FROM availability_span A WHERE end_date = temp AND NEW.ctuname = A.ctuname;
-					RAISE NOTICE '%', temp;
-				UPDATE availability_span A
-				SET end_date = temp WHERE NEW.start_date <= A.end_date AND NEW.start_date >= A.start_date AND NEW.ctuname = A.ctuname;
-			
+			WHEN 1 THEN
+				SELECT end_date INTO temp_end FROM availability_span A
+					WHERE NEW.end_date >= A.start_date AND NEW.end_date <= A.end_date AND NEW.ctuname = A.ctuname;
+				DELETE FROM availability_span A WHERE end_date = temp_end AND NEW.ctuname = A.ctuname;
+				INSERT INTO availability_span(ctuname, start_date, end_date) VALUES (NEW.ctuname, NEW.start_date, temp_end);
+			WHEN 2 THEN
+				SELECT start_date INTO temp_start FROM availability_span A
+					WHERE NEW.start_date <= A.end_date AND NEW.start_date >= A.start_date AND NEW.ctuname = A.ctuname;
+				DELETE FROM availability_span A WHERE start_date = temp_start AND NEW.ctuname = A.ctuname;
+				-- RAISE NOTICE 'deleted start: %', temp_start;
+				INSERT INTO availability_span(ctuname, start_date, end_date) VALUES (NEW.ctuname, temp_start, NEW.end_date);
+			WHEN 3 THEN
+				SELECT end_date INTO temp_end FROM availability_span A
+					WHERE NEW.end_date >= A.start_date AND NEW.end_date <= A.end_date AND NEW.ctuname = A.ctuname;
+				DELETE FROM availability_span A WHERE end_date = temp_end AND NEW.ctuname = A.ctuname;
+				-- RAISE NOTICE 'deleted end: %', temp_end;
+				SELECT start_date INTO temp_start FROM availability_span A
+					WHERE NEW.start_date <= A.end_date AND NEW.start_date >= A.start_date AND NEW.ctuname = A.ctuname;
+				DELETE FROM availability_span A WHERE start_date = temp_start AND NEW.ctuname = A.ctuname;
+				-- RAISE NOTICE 'deleted start: %', temp_start;
+				-- RAISE NOTICE 'deleted end: %', temp_end;
+				INSERT INTO availability_span(ctuname, start_date, end_date) VALUES (NEW.ctuname, temp_start, temp_end);
 			ELSE NULL;
 		END CASE;
 	RETURN NULL;
@@ -205,8 +212,8 @@ $$
 $$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER insert_availability_if_not_exists
-	BEFORE INSERT ON availability_span
-	FOR EACH ROW EXECUTE PROCEDURE check_availability();
+CREATE TRIGGER maintain_availability_non_overlapness
+	BEFORE INSERT OR UPDATE ON availability_span
+	FOR EACH ROW EXECUTE PROCEDURE merge_availabilities();
 
 -- SEED DATA

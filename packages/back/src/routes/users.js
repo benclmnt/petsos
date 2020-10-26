@@ -5,7 +5,7 @@ import {
   getAllUsers,
   registerUser,
   queryUserByUsername,
-  queryUserByEmail,
+  deleteUser as deleteUserQuery,
   upsertUserAddress as upsertUserAddressQuery,
   queryPetByName,
   addPet,
@@ -16,8 +16,9 @@ function getUsersRoutes() {
   router.post('/login', login);
   router.post('/register', register);
   router.post('/addNewPet', insertNewPetToTable);
-  router.get('/:username', getUserByUsername);
-  router.post('/:username/address', upsertUserAddress);
+  router.get('/:username', getUserInfo);
+  router.delete('/:username', deleteUser);
+  router.patch('/:username', editUserDetails);
   router.get('', listAllUsers);
   return router;
 }
@@ -42,9 +43,26 @@ async function register(req, res) {
     });
   }
 
-  const users = await query(queryUserByEmail, [email]);
+  const users = await query(queryUserByUsername, [username]);
   return buildSuccessResponse(res, {
     user: buildUsersObject(users[0]),
+  });
+}
+
+/**
+ * Delete user account
+ */
+async function deleteUser(req, res) {
+  const { username } = req.params;
+  const params = [username];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  await query(deleteUserQuery, [username]);
+  return buildSuccessResponse(res, {
+    user: 'success',
   });
 }
 
@@ -88,7 +106,7 @@ async function login(req, res) {
     return handleMissingParameter(res);
   }
 
-  const users = await query(queryUserByEmail, [email]);
+  const users = await query(queryUserByUsername, [username]);
 
   checkUserExists(res, users);
 
@@ -104,7 +122,7 @@ async function login(req, res) {
   });
 }
 
-async function getUserByUsername(req, res) {
+async function getUserInfo(req, res) {
   const { username } = req.params; // GG SQL INJECTION!
 
   if (checkMissingParameter([username])) {
@@ -121,21 +139,44 @@ async function getUserByUsername(req, res) {
 }
 
 async function listAllUsers(req, res) {
-  users = users.map(buildUsersObject);
+  const users = await query(getAllUsers);
   return buildSuccessResponse(res, {
-    user: users,
+    user: users.map(buildUsersObject),
   });
 }
 
-async function upsertUserAddress(req, res) {
-  const { username, address, city, country, postal } = req.body; // GG SQL INJECTION!
-  const params = [username, address, city, country, postal];
+async function editUserDetails(req, res) {
+  const { username } = req.params; // GG SQL INJECTION!
+  const possibleParams = [
+    'email',
+    'password',
+    'address',
+    'city',
+    'country',
+    'postal_code',
+  ];
 
-  if (checkMissingParameter(params)) {
+  if (checkMissingParameter([username])) {
     return handleMissingParameter(res);
   }
 
-  await query(upsertUserAddressQuery, params);
+  let queryStmt = 'UPDATE users SET ';
+  queryStmt += possibleParams
+    .map((param) =>
+      !!req.body[param] ? `${param} = '${req.body[param]}'` : ''
+    )
+    .filter((x) => x !== '')
+    .join(', ');
+  queryStmt += ` WHERE username = '${username}';`;
+
+  try {
+    await query(queryStmt);
+  } catch (err) {
+    return buildUsersErrorObject(res, {
+      status: 400,
+      error: err.message,
+    });
+  }
 
   const users = await query(queryUserByUsername, [username]);
 

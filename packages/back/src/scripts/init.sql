@@ -22,13 +22,13 @@ CREATE TYPE caretaker_type AS ENUM ('part-time', 'full-time');
 CREATE TYPE pet_size AS ENUM('small', 'medium', 'large');
 
 CREATE TABLE users (
-    username VARCHAR PRIMARY KEY,
-	email VARCHAR NOT NULL,
+    username VARCHAR PRIMARY KEY, -- username cannot be changed
+	email VARCHAR UNIQUE NOT NULL, -- enforce no duplicate emails
 	password VARCHAR NOT NULL,
 	address VARCHAR,
 	city VARCHAR,
 	country VARCHAR,
-	postal_code VARCHAR
+	postal_code INTEGER
 );
 
 CREATE TABLE pet_owners (
@@ -44,7 +44,7 @@ CREATE TABLE pcs_admin (
 CREATE TABLE caretakers (
     ctuname VARCHAR PRIMARY KEY REFERENCES users(username)
 		ON DELETE CASCADE,
-    avg_rating NUMERIC DEFAULT 4,
+    avg_rating NUMERIC DEFAULT 3.9,
 	ct_type caretaker_type NOT NULL,
 	CHECK(avg_rating <= 5)
 );
@@ -109,6 +109,7 @@ CREATE TABLE bid (
 	pouname VARCHAR NOT NULL,
 	petname VARCHAR NOT NULL,
 	is_win BOOLEAN NOT NULL DEFAULT false,
+	CHECK (ctuname <> pouname),
 	FOREIGN KEY (pouname, petname) REFERENCES pets(pouname, name),
 	PRIMARY KEY(pouname, petname, start_date, end_date)
 );

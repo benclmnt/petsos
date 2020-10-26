@@ -121,7 +121,6 @@ async function getUserByUsername(req, res) {
 }
 
 async function listAllUsers(req, res) {
-  let users = await query(getAllUsers);
   users = users.map(buildUsersObject);
   return buildSuccessResponse(res, {
     user: users,

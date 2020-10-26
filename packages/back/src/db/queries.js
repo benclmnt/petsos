@@ -12,15 +12,24 @@ export const queryPetByName = 'SELECT * FROM pets WHERE name = $1;';
 
 // Caretaker-related queries
 export const queryCaretakerByUsername =
-  'SELECT * FROM caretakers WHERE username = $1;';
+  'SELECT * FROM caretakers WHERE ctuname = $1;';
 export const queryBreedsBySpecies =
   'SELECT * FROM pet_categories WHERE species = $1;';
 export const insertNewCaretaker =
-  'INSERT INTO caretakers(username, ct_type) VALUES ($1, $2);';
+  'INSERT INTO caretakers(ctuname, ct_type) VALUES ($1, $2);';
 export const getAllCaretakers = 'SELECT * FROM caretakers LIMIT 25;';
 export const upsertCaretakerAddress =
-  'INSERT INTO caretakers(username, avg_rating, caretaker_type) VALUES ($1, $2, $3);';
+  'INSERT INTO caretakers(ctuname, avg_rating, caretaker_type) VALUES ($1, $2, $3);';
 export const upsertCaretakerAvailability =
   'INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ($1, $2, $3);';
 export const upsertCaretakerCapability =
   'INSERT INTO is_capable(pc_species, pc_breed, pc_size, ctuname) VALUES ($1, $2, $3, $4);';
+
+// Queries to search caretakers
+export const querySearchCaretakers =
+  'SELECT * FROM all_ct WHERE service = $1 AND postal_code = $2 AND start_date >= $3 AND end_date <= $4 AND pc_species = $5 AND pc_breed = $6 AND pc_size = $7;';
+export const getAllSpecies = 'SELECT DISTINCT species FROM pet_categories';
+export const getAllBreeds =
+  'SELECT DISTINCT species, breed FROM pet_categories GROUP BY species;';
+export const getAllSizes = 'SELECT DISTINCT size FROM pet_categories;';
+export const getPetCategories = 'SELECT * FROM pet_categories;';

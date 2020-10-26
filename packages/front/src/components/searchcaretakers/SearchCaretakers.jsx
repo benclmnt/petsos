@@ -6,12 +6,16 @@ import PetCard from "./PetCard";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
 
+function _toJSONLocal(date) {
+  var local = date;
+  local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  console.log(date, local);
+  return local.toJSON().substring(0, 10);
+}
+
 function SearchCaretakers() {
   const user = useUser();
   const [serviceType, setServiceType] = useState("boarding");
-  // const [species, setSpecies] = useState();
-  // const [breed, setBreed] = useState();
-  // const [size, setSize] = useState();
   const [pet, setPet] = useState({ species: "", breed: "", size: "" });
   const [address, setAddress] = useState({
     country: "",
@@ -21,9 +25,13 @@ function SearchCaretakers() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [errorMsg, setErrorMsg] = useState("");
+  const [selectedID, setSelected] = useState();
 
   // Pets
-  var petOptions = [{ species: "Dog", breed: "Husky", size: "Big" }];
+  var petOptions = [
+    { species: "Dog", breed: "Husky", size: "Big" },
+    { species: "Cat", breed: "Sphinx", size: "Medium" },
+  ];
 
   // Address
   var countryOptions = ["Singapore"];
@@ -40,7 +48,7 @@ function SearchCaretakers() {
       value={address.name}
     >
       <option value="" disabled>
-        Select {name == "postal_code" ? "postal code" : name}
+        Select {name === "postal_code" ? "postal code" : name}
       </option>
       {choices.map((x, y) => (
         <option key={y}>{x}</option>
@@ -85,11 +93,12 @@ function SearchCaretakers() {
 
     const searchParams = {
       uname: user.username,
+      service_type: serviceType,
       country: address.country,
       city: address.city,
       postal_code: address.postal_code,
-      start_date: startDate,
-      end_date: endDate,
+      start_date: _toJSONLocal(startDate),
+      end_date: _toJSONLocal(endDate),
       species: pet.species,
       breed: pet.breed,
       size: pet.size,
@@ -123,19 +132,21 @@ function SearchCaretakers() {
 
           {/* Pets */}
           <div>
-            <h1 class="text-sm">I'm looking for services for:</h1>
-            {petOptions.map((pet, i) => {
-              return (
-                <PetCard
-                  species={pet["species"]}
-                  setSpecies={(e) => setPet({ species: e })}
-                  breed={pet["breed"]}
-                  setBreed={(e) => setPet({ breed: e })}
-                  size={pet["size"]}
-                  setSize={(e) => setPet({ size: e })}
-                />
-              );
-            })}
+            <h1 class="text-sm mb-4">I'm looking for services for:</h1>
+            <div class="md:flex space-x-4">
+              {petOptions.map((p, i) => {
+                return (
+                  <PetCard
+                    Pet={p}
+                    setPet={setPet}
+                    key={i}
+                    id={i}
+                    selectedID={selectedID}
+                    setSelected={setSelected}
+                  />
+                );
+              })}
+            </div>
           </div>
 
           {/* Option boxes */}
@@ -147,7 +158,7 @@ function SearchCaretakers() {
                 e.preventDefault();
                 setServiceType("boarding");
               }}
-              class="btn"
+              class={serviceType === "boarding" ? "btn bg-orange-400" : "btn"}
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
@@ -171,7 +182,9 @@ function SearchCaretakers() {
                 e.preventDefault();
                 setServiceType("housesitting");
               }}
-              class="btn"
+              class={
+                serviceType === "housesitting" ? "btn bg-orange-400" : "btn"
+              }
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
@@ -188,9 +201,9 @@ function SearchCaretakers() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setServiceType("dropin");
+                setServiceType("drop-in");
               }}
-              class="btn"
+              class={serviceType === "drop-in" ? "btn bg-orange-400" : "btn"}
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
@@ -213,7 +226,7 @@ function SearchCaretakers() {
                 e.preventDefault();
                 setServiceType("daycare");
               }}
-              class="btn"
+              class={serviceType === "daycare" ? "btn bg-orange-400" : "btn"}
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
@@ -234,9 +247,9 @@ function SearchCaretakers() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setServiceType("dogwalk");
+                setServiceType("dog-walk");
               }}
-              class="btn"
+              class={serviceType === "dog-walk" ? "btn bg-orange-400" : "btn"}
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"

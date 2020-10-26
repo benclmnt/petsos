@@ -6,10 +6,7 @@ import Box from "@material-ui/core/Box";
 function CaretakersCard() {
   const [value, setValue] = React.useState(4.5);
   return (
-    <div class="md:flex">
-      <div class="md:flex-shrink-0">
-        <img class="rounded-lg md:w-56" src="" />
-      </div>
+    <div class="justify-self-center md:flex rounded-lg shadow">
       <div class="mt-4 md:mt-0 md:ml-6">
         {/* Basic information */}
         <div class="uppercase tracking-wide text-lg text-indigo-600 font-bold">
@@ -41,7 +38,7 @@ function CaretakersCard() {
               class="h-4 w-4 mt-1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
-              fill="currentColor"
+              fill="#0f9434"
             >
               <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
               <path

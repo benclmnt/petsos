@@ -162,7 +162,7 @@ function SearchCaretakers() {
 
           {/* Next Button */}
           <button class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded">
-            Next
+            Search Now!
           </button>
         </div>
       </div>

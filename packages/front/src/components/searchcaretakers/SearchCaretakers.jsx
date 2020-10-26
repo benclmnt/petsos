@@ -5,7 +5,7 @@ import DropIn from "./DropIn";
 import DayCare from "./DayCare";
 import DogWalk from "./DogWalk";
 
-function SearchSitters() {
+function SearchCaretakers() {
   const [page, setPage] = useState("boarding");
 
   function ShowPage(props) {
@@ -170,4 +170,4 @@ function SearchSitters() {
   );
 }
 
-export default SearchSitters;
+export default SearchCaretakers;

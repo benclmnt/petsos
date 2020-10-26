@@ -13,7 +13,7 @@ import {
 import AddPet from "./components/AddPet";
 import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";
-import SearchSitters from "./components/SearchSitters";
+import SearchCaretakers from "./components/searchcaretakers/SearchCaretakers";
 import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
 
 function App() {
@@ -36,8 +36,8 @@ function App() {
 
           <Route path="/profile/edit" component={EditProfile} />
 
-          <Route exact path="/searchsitters">
-            <SearchSitters />
+          <Route exact path="/searchct">
+            <SearchCaretakers />
           </Route>
 
           <Route exact path="/becomect">

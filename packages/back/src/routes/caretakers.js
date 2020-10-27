@@ -4,6 +4,8 @@ import { query } from '../db';
 import {
   getAllCaretakers,
   queryCaretakerByUsername,
+  querySearchCaretakers as searchCaretakersQuery,
+  getPetCategories,
   upsertCaretakerCapability as upsertCaretakerCapabilityQuery,
   upsertCaretakerAvailability as upsertCaretakerAvailabilityQuery,
   insertNewCaretaker as insertNewCaretakerQuery,
@@ -13,15 +15,78 @@ function getCaretakersRoutes() {
   const router = express.Router();
   router.post('/availability', upsertCaretakerAvailability);
   router.post('/capability', upsertCaretakerCapability);
+  router.get('/categories', listAllPetCategories);
+  router.get('/searchct', querySearchCaretakers);
   router.get('/:username', getCaretakerByUsername);
   router.post('/', insertNewCaretaker);
   router.get('/', listAllCaretakers);
   return router;
 }
 
+async function listAllPetCategories(req, res) {
+  const categories = await query(getPetCategories);
+  //console.log(categories);
+
+  const data = {};
+  for (let category of categories) {
+    if (!data[category.species]) {
+      data[category.species] = [];
+    }
+
+    if (!data[category.species].includes(category.breed)) {
+      data[category.species].push(category.breed);
+    }
+  }
+  console.log(data);
+
+  // const a = [];
+  return buildSuccessResponse(res, {
+    caretaker: data,
+  });
+}
+
+async function querySearchCaretakers(req, res) {
+  const {
+    service,
+    postal_code,
+    start_date,
+    end_date,
+    species,
+    breed,
+    size,
+  } = req.body;
+  const params = [
+    service,
+    postal_code,
+    start_date,
+    end_date,
+    species,
+    breed,
+    size,
+  ];
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    let caretakers = await query(searchCaretakersQuery, params);
+    caretakers = caretakers.map(buildCaretakersObject);
+    return buildSuccessResponse(res, {
+      caretaker: caretakers,
+    });
+  } catch (err) {
+    return buildCaretakersErrorObject(res, {
+      status: 200,
+      error: err.detail,
+    });
+  }
+}
+
 async function insertNewCaretaker(req, res) {
-  const { username, ct_type } = req.body;
-  const params = [username, ct_type];
+  const { ctuname, ct_type } = req.body;
+  const params = [ctuname, ct_type];
   console.log(params);
 
   if (checkMissingParameter(params)) {
@@ -43,13 +108,13 @@ async function insertNewCaretaker(req, res) {
 }
 
 async function getCaretakerByUsername(req, res) {
-  const { username } = req.params;
+  const { ctuname } = req.params;
 
-  if (checkMissingParameter([username])) {
+  if (checkMissingParameter([ctuname])) {
     return handleMissingParameter(res);
   }
 
-  const caretakers = await query(queryCaretakerByUsername, [username]);
+  const caretakers = await query(queryCaretakerByUsername, [ctuname]);
 
   checkCaretakerExists(res, caretakers);
 
@@ -146,15 +211,6 @@ function buildCaretakersObject(caretaker) {
 
 function buildSuccessResponse(res, { status, caretaker }) {
   return res.status(status || 200).json(caretaker);
-}
-
-function buildAvailabilityObject(availability) {
-  const obj = {
-    kind: 'Availability',
-    ...availability,
-    selfLink: `/availability/${caretakers.username}`,
-  };
-  return obj;
 }
 
 function checkCaretakerExists(res, caretakers) {

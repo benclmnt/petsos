@@ -3,6 +3,7 @@ import PetCard from "./PetCard";
 import "./dashboard.css";
 import Balance from "./Balance";
 import { useUser } from "../../context/auth-context";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
   const user = useUser();
@@ -20,7 +21,7 @@ function Dashboard() {
           <div className="flex items-center ml-5">
             <div>
               <h1>{user?.username || "Default User Name"}</h1>
-              <a>Edit Profile</a>
+              <Link to="/profile/edit">Edit profile</Link>
             </div>
           </div>
         </div>

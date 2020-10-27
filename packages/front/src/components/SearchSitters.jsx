@@ -45,7 +45,7 @@ function SearchSitters() {
         <div class="bg-white text-black px-10 py-8 rounded shadow space-y-3">
           <h1 class="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
-          {/* Checkboxes */}
+          {/* Pets */}
           <div>
             <h1 class="text-sm">I'm looking for services for my :</h1>
 

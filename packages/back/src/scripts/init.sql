@@ -21,6 +21,13 @@ DROP TABLE IF EXISTS users;
 CREATE TYPE caretaker_type AS ENUM ('part-time', 'full-time');
 CREATE TYPE pet_size AS ENUM('small', 'medium', 'large');
 
+-- CREATE TABLE address (
+-- 	city VARCHAR,
+-- 	country VARCHAR,
+-- 	postal_code INTEGER,
+-- 	PRIMARY KEY (city, country, postal_code)
+-- )
+
 CREATE TABLE users (
     username VARCHAR PRIMARY KEY, -- username cannot be changed
 	email VARCHAR UNIQUE NOT NULL, -- enforce no duplicate emails
@@ -29,6 +36,8 @@ CREATE TABLE users (
 	city VARCHAR,
 	country VARCHAR,
 	postal_code INTEGER
+	-- FOREIGN KEY (city, country, postal_code) 
+	-- 	REFERENCES address(city, country, postal_code);
 );
 
 CREATE TABLE pet_owners (
@@ -75,7 +84,6 @@ CREATE TABLE pets (
     FOREIGN KEY (species, breed, size) REFERENCES pet_categories(species, breed, size),
 	PRIMARY KEY (name, pouname)
 );
-
 
 CREATE TABLE special_reqs (
 	pouname VARCHAR NOT NULL,

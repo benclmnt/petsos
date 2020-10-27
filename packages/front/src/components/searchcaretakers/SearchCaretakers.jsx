@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../css/datepicker.css";
 import PetCard from "./PetCard";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import AnimalCapability from "../becomecaretaker/AnimalCapability";
 
 function _toJSONLocal(date) {
   var local = date;
@@ -16,6 +18,8 @@ function _toJSONLocal(date) {
 function SearchCaretakers() {
   const user = useUser();
   const [serviceType, setServiceType] = useState("boarding");
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [capabilities, setCapabilities] = useState([]);
   const [pet, setPet] = useState({ species: "", breed: "", size: "" });
   const [address, setAddress] = useState({
     country: "",
@@ -24,6 +28,8 @@ function SearchCaretakers() {
   });
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [species, setSpecies] = useState(0);
+  const [breed, setBreed] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [selectedID, setSelected] = useState();
 
@@ -87,57 +93,23 @@ function SearchCaretakers() {
     );
   };
 
-  const results = async () => {
-    try {
-      const sp = await fetch("/caretakers/categories");
-      console.log(sp);
-      //return sp;
-    } catch (err) {
-      setErrorMsg(err.error);
-      return;
-    }
-  };
+  useEffect(async () => {
+    // GET request using fetch inside useEffect React hook
+    const link = "/caretakers/categories";
+    const result = await fetch(link);
+    setCapabilities(Object.values(result));
+    setIsLoaded(true);
+    console.log(capabilities);
+  }, []);
 
-  const getSpecies = async () => {
-    try {
-      const results = await fetch("/caretakers/categories");
-      const sp = Object.keys(results);
-    } catch (err) {
-      setErrorMsg(err.error);
-      return;
-    }
-  };
+  let table;
 
-  const getDogBreeds = async () => {
-    try {
-      const results = await fetch("/caretakers/categories");
-      const breed = results["dog"];
-      let dataName = [];
-      dataName = breed.name;
-      let name = document.getElementById("name");
-      name.textContent = dataName;
-    } catch (err) {
-      setErrorMsg(err.error);
-      return;
-    }
-  };
-
-  const getCatBreeds = async () => {
-    try {
-      const results = await fetch("/caretakers/categories");
-      const breed = results["cat"];
-      let a = [];
-      for (let id in breed) {
-        if (!a.includes(breed[id])) {
-          a.push(breed[id]);
-        }
-      }
-      return a;
-    } catch (err) {
-      setErrorMsg(err.error);
-      return;
-    }
-  };
+  if (isLoaded) {
+    console.log(capabilities[species]);
+    table = capabilities[species].map((item) => {
+      return <option value={item}>{item}</option>;
+    });
+  }
 
   //Search
   const handleSearch = async (e) => {
@@ -186,19 +158,18 @@ function SearchCaretakers() {
           <div>
             <h1 class="text-sm mb-4">I'm looking for services for:</h1>
             <div class="md:flex space-x-4">
-              {petOptions.map((p, i) => {
-                //getSpecies()
-                return (
-                  <PetCard
-                    Pet={p}
-                    setPet={setPet}
-                    key={i}
-                    id={i}
-                    selectedID={selectedID}
-                    setSelected={setSelected}
-                  />
-                );
-              })}
+              <select onChange={(e) => setSpecies(parseInt(e.target.value))}>
+                <option value="0">dog</option>
+                <option value="1">cat</option>
+              </select>
+
+              <select
+                onClick={(e) => {
+                  setBreed(e.target.value);
+                }}
+              >
+                {table}
+              </select>
             </div>
           </div>
 
@@ -342,12 +313,14 @@ function SearchCaretakers() {
           </div>
 
           {/* Next Button */}
-          <button
+          <Link
+            to="/ctresults"
+            // onClick = {() => }
             type="submit"
             class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded"
           >
             Search Now!
-          </button>
+          </Link>
         </div>
       </form>
     </div>

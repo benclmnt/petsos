@@ -9,13 +9,6 @@ function CaretakersCard(full_name, cust_rating, capabilities, base_price) {
   const [price, setPrice] = useState(100);
   const [capability, setCapability] = useState("");
 
-  // function generateCard() {
-  //   setName(full_name);
-  //   setRating(cust_rating);
-  //   setPrice(base_price);
-  // }
-
-  // generateCard();
   return (
     <div>
       <div class="mt-40 w-2/6 md:flex rounded-lg shadow">

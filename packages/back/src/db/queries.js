@@ -25,7 +25,7 @@ export const queryBreedsBySpecies =
   'SELECT * FROM pet_categories WHERE species = $1;';
 export const insertNewCaretaker =
   'INSERT INTO caretakers(ctuname, ct_type) VALUES ($1, $2);';
-export const getAllCaretakers = 'SELECT * FROM caretakers LIMIT 25;';
+//export const getAllCaretakers = 'SELECT * FROM caretakers LIMIT 25;';
 export const upsertCaretakerAddress =
   'INSERT INTO caretakers(ctuname, avg_rating, caretaker_type) VALUES ($1, $2, $3);';
 export const upsertCaretakerAvailability =
@@ -35,6 +35,8 @@ export const upsertCaretakerCapability =
 export const getAllCapabilities =
   'SELECT * FROM is_capable GROUP BY ctuname, pc_species, pc_breed, pc_size';
 // Queries to search caretakers
+export const queryAllCaretakers =
+  'SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code';
 export const querySearchCaretakers =
   'SELECT * FROM all_ct WHERE service = $1 AND postal_code = $2 AND start_date >= $3 AND end_date <= $4 AND pc_species = $5 AND pc_breed = $6 AND pc_size = $7;';
 export const getPetCategories = 'SELECT * FROM pet_categories;';

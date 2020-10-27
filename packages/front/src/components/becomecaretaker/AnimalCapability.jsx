@@ -2,6 +2,10 @@ import React from "react";
 
 function AnimalCapability({ capability, setCapability }) {
   var breedOptions;
+  // const [isLoaded, setIsLoaded] = useState(false);
+  // const [capabilities, setCapabilities] = useState([]);
+  // const [pet, setPet] = useState({ species: "", breed: "", size: "" });
+  // const [species, setSpecies] = useState(0  );
 
   var makeOptions = () => (
     <select
@@ -20,6 +24,26 @@ function AnimalCapability({ capability, setCapability }) {
       ))}
     </select>
   );
+
+  // useEffect(async () => {
+  //   // GET request using fetch inside useEffect React hook
+  //   const link = "/caretakers/categories";
+  //   const result = await fetch(link);
+  //   setCapabilities(Object.values(result));
+  //   setIsLoaded(true);
+  //   console.log(capabilities);
+  // }, []);
+
+  // let table;
+
+  // if(isLoaded) {
+  //   console.log(capabilities[species]);
+  //   table = capabilities[species].map((item) => {
+  //     return (
+  //       <option>{item}</option>
+  //     );
+  //   })
+  // }
 
   function ShowBreed() {
     switch (capability["species"]) {
@@ -72,9 +96,12 @@ function AnimalCapability({ capability, setCapability }) {
         <option value="" disabled>
           Select species
         </option>
-        <option value="dog">Dog</option>
-        <option value="cat">Cat</option>
-        <option value="others">Others</option>
+        {/* <option value="0">dog</option>
+            <option value="1">cat</option>
+              
+            <select>
+              {table}
+            </select> */}
       </select>
 
       <ShowBreed />

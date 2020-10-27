@@ -2,7 +2,7 @@ import express from 'express';
 import logger from '../logger';
 import { query } from '../db';
 import {
-  getAllCaretakers,
+  queryAllCaretakers as getCaretakersQuery,
   queryCaretakerByUsername,
   getAllCapabilities,
   querySearchCaretakers as searchCaretakersQuery,
@@ -17,12 +17,20 @@ function getCaretakersRoutes() {
   router.post('/availability', upsertCaretakerAvailability);
   router.post('/capability', upsertCaretakerCapability);
   router.get('/categories', listAllPetCategories);
+  router.get('/ctresults', getAllCaretakers);
   router.get('/searchct', querySearchCaretakers);
   router.get('/ctcapability', listAllCapabilities);
   router.get('/:username', getCaretakerByUsername);
   router.post('/', insertNewCaretaker);
-  router.get('/', listAllCaretakers);
+  //router.get('/', listAllCaretakers);
   return router;
+}
+
+async function getAllCaretakers(req, res) {
+  const caretakers = await query(getCaretakersQuery);
+  return buildSuccessResponse(res, {
+    caretaker: caretakers,
+  });
 }
 
 async function listAllCapabilities(req, res) {
@@ -55,24 +63,8 @@ async function listAllPetCategories(req, res) {
 }
 
 async function querySearchCaretakers(req, res) {
-  const {
-    service,
-    postal_code,
-    start_date,
-    end_date,
-    species,
-    breed,
-    size,
-  } = req.body;
-  const params = [
-    service,
-    postal_code,
-    start_date,
-    end_date,
-    species,
-    breed,
-    size,
-  ];
+  const { postal_code, start_date, end_date, species, breed, size } = req.body;
+  const params = [postal_code, start_date, end_date, species, breed, size];
   console.log(params);
 
   if (checkMissingParameter(params)) {
@@ -184,13 +176,13 @@ async function upsertCaretakerAvailability(req, res) {
   });
 }
 
-async function listAllCaretakers(req, res) {
-  let caretakers = await query(getAllCaretakers);
-  caretakers = caretakers.map(buildCaretakersObject);
-  return buildSuccessResponse(res, {
-    caretaker: caretakers,
-  });
-}
+// async function listAllCaretakers(req, res) {
+//   let caretakers = await query(getAllCaretakers);
+//   caretakers = caretakers.map(buildCaretakersObject);
+//   return buildSuccessResponse(res, {
+//     caretaker: caretakers,
+//   });
+// }
 
 export { getCaretakersRoutes };
 

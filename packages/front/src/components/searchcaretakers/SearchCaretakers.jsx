@@ -29,6 +29,7 @@ function SearchCaretakers() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [species, setSpecies] = useState(0);
+  const [size, setSize] = useState("");
   const [breed, setBreed] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [selectedID, setSelected] = useState();
@@ -158,17 +159,35 @@ function SearchCaretakers() {
           <div>
             <h1 class="text-sm mb-4">I'm looking for services for:</h1>
             <div class="md:flex space-x-4">
-              <select onChange={(e) => setSpecies(parseInt(e.target.value))}>
+              <select
+                class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+                onChange={(e) => setSpecies(parseInt(e.target.value))}
+              >
+                {/* <option value="2" disabled>Select species</option> */}
                 <option value="0">dog</option>
                 <option value="1">cat</option>
               </select>
 
               <select
+                class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
                 onClick={(e) => {
                   setBreed(e.target.value);
                 }}
               >
+                {/* <option value="" disabled>Select breed</option> */}
                 {table}
+              </select>
+
+              <select
+                class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+                onClick={(e) => {
+                  setSize(e.target.value);
+                }}
+              >
+                {/* <option value="" disabled>Select size</option> */}
+                <option value="big">big</option>
+                <option value="medium">medium</option>
+                <option value="small">small</option>
               </select>
             </div>
           </div>

@@ -7,6 +7,7 @@ import {
   queryUserByUsername,
   queryUserByEmail,
   upsertUserAddress as upsertUserAddressQuery,
+  updateUser as updateUserByUsername,
   queryPetByName,
   addPet,
 } from '../db/queries';
@@ -18,6 +19,7 @@ function getUsersRoutes() {
   router.post('/addNewPet', insertNewPetToTable);
   router.get('/:username', getUserByUsername);
   router.post('/:username/address', upsertUserAddress);
+  router.post('/:username/editProfile', updateUser);
   router.get('', listAllUsers);
   return router;
 }
@@ -137,6 +139,39 @@ async function upsertUserAddress(req, res) {
   }
 
   await query(upsertUserAddressQuery, params);
+
+  const users = await query(queryUserByUsername, [username]);
+
+  return buildSuccessResponse(res, {
+    user: buildUsersObject(users[0]),
+  });
+}
+
+async function updateUser(req, res) {
+  const {
+    prev_username,
+    username,
+    email,
+    addr,
+    city,
+    country,
+    postal_code,
+  } = req.body; // GG SQL INJECTION!
+  const params = [
+    prev_username,
+    username,
+    email,
+    addr,
+    city,
+    country,
+    postal_code,
+  ];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  await query(updateUserByUsername, params);
 
   const users = await query(queryUserByUsername, [username]);
 

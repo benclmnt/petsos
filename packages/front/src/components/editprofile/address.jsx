@@ -1,25 +1,18 @@
 import React, { useState } from "react";
 
-function Address({ user, editProfile }) {
-  const [address, setAddress] = useState({
-    address: user.address,
-    city: user.city,
-    country: user.country,
-    postal_code: user.postal_code,
-  });
-
+function Address({ user, editProfile, address, setAddress }) {
   // Address
   var countryOptions = ["Singapore"];
   var cityOptions = ["Singapore"];
   var postalCodeOptions = [1, 2, 3, 4, 5, 6, 7];
 
-  var addressOptions = (choices, name) => (
+  var addressOptions = (choices, name, setFunction) => (
     <select
       className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
-      name="address"
+      name="addr"
       id="2"
       required="required"
-      onChange={(e) => setAddress({ name: e.target.value })}
+      onChange={(e) => setFunction(e.target.value)}
       value={address.name}
     >
       <option value="" disabled>
@@ -36,20 +29,49 @@ function Address({ user, editProfile }) {
       <input
         type="text"
         name="address"
-        placeholder={address.address}
+        placeholder={address.addr}
+        onChange={(e) =>
+          setAddress({
+            addr: e.target.value,
+            country: address.country,
+            city: address.city,
+            postal_code: address.postal_code,
+          })
+        }
         className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
       ></input>
       <div class="flex space-x-4">
-        {addressOptions(countryOptions, "country")}
-        {addressOptions(cityOptions, "city")}
-        {addressOptions(postalCodeOptions, "postal_code")}
+        {addressOptions(countryOptions, "country", (e) =>
+          setAddress({
+            addr: address.addr,
+            country: e,
+            city: address.city,
+            postal_code: address.postal_code,
+          })
+        )}
+        {addressOptions(cityOptions, "city", (e) =>
+          setAddress({
+            addr: address.addr,
+            country: address.country,
+            city: e,
+            postal_code: address.postal_code,
+          })
+        )}
+        {addressOptions(postalCodeOptions, "postal_code", (e) =>
+          setAddress({
+            addr: address.addr,
+            country: address.country,
+            city: address.city,
+            postal_code: e,
+          })
+        )}
       </div>
     </form>
   );
 
   const addressView = (
     <div>
-      <h1>{address.address}</h1>
+      <h1>{address.addr}</h1>
       <h2>
         {address.city}, {address.postal_code}
       </h2>

@@ -6,6 +6,8 @@ export const registerUser =
   'INSERT INTO users(username, email, password) VALUES ($1, $2, $3);';
 export const upsertUserAddress =
   'UPDATE users SET address = $2, city = $3, country = $4, postal_code = $5 WHERE username = $1;';
+export const updateUser =
+  'UPDATE users SET username = $2, email = $3, address = $4, city = $5, country = $6, postal_code = $7 WHERE username = $1;';
 export const addPet =
   'INSERT INTO pets(name, pouname, species, breed, size) VALUES ($1, $2, $3, $4, $5);';
 export const queryPetByName = 'SELECT * FROM pets WHERE name = $1;';

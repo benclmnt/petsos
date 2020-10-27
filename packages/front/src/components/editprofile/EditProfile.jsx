@@ -13,7 +13,15 @@ function EditProfile() {
     username: user.username,
     email: user.email,
   });
+  const [address, setAddress] = useState({
+    addr: user.address,
+    city: user.city,
+    country: user.country,
+    postal_code: user.postal_code,
+  });
   const [editProfile, setEditProfile] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const url = "/users/" + user.username + "/editProfile";
 
   const profileView = (
     <div class="grid grid-cols-2 w-1/2 align-middle">
@@ -32,7 +40,7 @@ function EditProfile() {
         placeholder={profile.username}
         className="border border-grey-light w-auto px-4 py-2 rounded mb-4 block md:text-left md:mb-0 pr-4"
         onChange={(e) =>
-          setEditProfile({ username: e.target.value, email: profile.email })
+          setProfile({ username: e.target.value, email: profile.email })
         }
       ></input>
       <label class="font-bold">Email:</label>
@@ -41,14 +49,34 @@ function EditProfile() {
         placeholder={profile.email}
         className="border border-grey-light w-auto px-4 py-2 rounded mb-4 block md:text-left md:mb-0 pr-4"
         onChange={(e) =>
-          setEditProfile({ username: profile.username, email: e.target.value })
+          setProfile({ username: profile.username, email: e.target.value })
         }
       ></input>
     </div>
   );
 
-  const handleSubmit = () => {
-    console.log("submit");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const updatedUser = {
+      prev_username: user.username,
+      username: profile.username,
+      email: profile.email,
+      addr: address.addr,
+      city: address.city,
+      country: address.country,
+      postal_code: address.postal_code,
+    };
+
+    console.log(updatedUser);
+
+    try {
+      const updateResults = await fetch(url, { body: updatedUser });
+      console.log(updateResults);
+    } catch (err) {
+      setErrorMsg(err.error);
+      return;
+    }
   };
 
   return (
@@ -75,7 +103,12 @@ function EditProfile() {
           <h1 className="text-2xl font-semibold mb-4">Profile</h1>
           {editProfile ? editProfileForm : profileView}
         </div>
-        <Address user={user} editProfile={editProfile} />
+        <Address
+          user={user}
+          editProfile={editProfile}
+          address={address}
+          setAddress={setAddress}
+        />
         {/* <PhotoAndEmail />
         <PersonalProfile /> */}
         {editProfile && (

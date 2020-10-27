@@ -4,6 +4,7 @@ import { query } from '../db';
 import {
   getAllCaretakers,
   queryCaretakerByUsername,
+  getAllCapabilities,
   querySearchCaretakers as searchCaretakersQuery,
   getPetCategories,
   upsertCaretakerCapability as upsertCaretakerCapabilityQuery,
@@ -17,10 +18,18 @@ function getCaretakersRoutes() {
   router.post('/capability', upsertCaretakerCapability);
   router.get('/categories', listAllPetCategories);
   router.get('/searchct', querySearchCaretakers);
+  router.get('/ctcapability', listAllCapabilities);
   router.get('/:username', getCaretakerByUsername);
   router.post('/', insertNewCaretaker);
   router.get('/', listAllCaretakers);
   return router;
+}
+
+async function listAllCapabilities(req, res) {
+  const capabilities = await query(getAllCapabilities);
+  return buildSuccessResponse(res, {
+    caretaker: capabilities,
+  });
 }
 
 async function listAllPetCategories(req, res) {

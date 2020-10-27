@@ -3,12 +3,19 @@ import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-function CaretakersCard() {
-  const [rating, setRating] = useState(4.5);
-  const [name, setName] = useState("Boi");
-  const [price, setPrice] = useState("50");
+function CaretakersCard(full_name, cust_rating, capabilities, base_price) {
+  const [rating, setRating] = useState(2.5); //cust_rating);
+  const [name, setName] = useState("full name"); //full_name);
+  const [price, setPrice] = useState(100);
   const [capability, setCapability] = useState("");
 
+  // function generateCard() {
+  //   setName(full_name);
+  //   setRating(cust_rating);
+  //   setPrice(base_price);
+  // }
+
+  // generateCard();
   return (
     <div>
       <div class="mt-40 w-2/6 md:flex rounded-lg shadow">

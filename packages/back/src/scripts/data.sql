@@ -1,6 +1,10 @@
 -- Create manual data here
 INSERT into users (email, username, password) VALUES
 ('test@petsos.com', 'test', 'test');
+INSERT INTO caretakers(ctuname, avg_rating, ct_type) VALUES
+('po1', '3.5', 'full-time');
+INSERT INTO caretakers(ctuname, avg_rating, ct_type) VALUES
+('po2', '4.5', 'part-time');
 INSERT into pet_categories(species, breed, size) VALUES
 ('dog', 'husky', 'big');
 INSERT into pet_categories(species, breed, size) VALUES
@@ -29,3 +33,21 @@ INSERT into pet_categories(species, breed, size) VALUES
 ('cat', 'birman', 'medium');
 INSERT INTO caretakers(ctuname, ct_type) VALUES
 ('po0', 'part-time');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po0', 'dog', 'husky', 'big');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po0', 'dog', 'shiba inu', 'medium');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po0', 'cat', 'sphynx', 'small');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po0', 'cat', 'bengal', 'small');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po1', 'dog', 'cihuahua', 'small');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po1', 'dog', 'pug', 'medium');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po1', 'cat', 'persian', 'medium');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po2', 'dog', 'samoyed', 'big');
+INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+('po2', 'cat', 'siamese', 'big');

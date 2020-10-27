@@ -87,18 +87,26 @@ function SearchCaretakers() {
     );
   };
 
-  const getSpecies = async () => {
-    //try {
-    const results = await fetch("/caretakers/categories");
-    const sp = Object.keys(results);
-
-    // } catch (err) {
-    //   setErrorMsg(err.error);
-    //   return;
-    // }
+  const results = async () => {
+    try {
+      const sp = await fetch("/caretakers/categories");
+      console.log(sp);
+      //return sp;
+    } catch (err) {
+      setErrorMsg(err.error);
+      return;
+    }
   };
 
-  const compo = getSpecies();
+  const getSpecies = async () => {
+    try {
+      const results = await fetch("/caretakers/categories");
+      const sp = Object.keys(results);
+    } catch (err) {
+      setErrorMsg(err.error);
+      return;
+    }
+  };
 
   const getDogBreeds = async () => {
     try {
@@ -113,35 +121,23 @@ function SearchCaretakers() {
       return;
     }
   };
-  const results = async () => {
+
+  const getCatBreeds = async () => {
     try {
-      const sp = await fetch("/caretakers/categories");
-      return sp;
+      const results = await fetch("/caretakers/categories");
+      const breed = results["cat"];
+      let a = [];
+      for (let id in breed) {
+        if (!a.includes(breed[id])) {
+          a.push(breed[id]);
+        }
+      }
+      return a;
     } catch (err) {
       setErrorMsg(err.error);
       return;
     }
   };
-
-  // const getCatBreeds = async () => {
-  //   try {
-  //     const results = await fetch("/caretakers/categories");
-  //     const breed = results['cat'];
-  //     let a = [];
-  //     for (let id in breed) {
-  //       if(!a.includes(breed[id])) {
-  //         a.push(breed[id]);
-  //       }
-  //     }
-  //     return a;
-
-  //   } catch (err) {
-  //     setErrorMsg(err.error);
-  //     return;
-  //   }
-  // }
-
-  // const cb = getCatBreeds();
 
   //Search
   const handleSearch = async (e) => {

@@ -32,7 +32,8 @@ export const upsertCaretakerAvailability =
   'INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ($1, $2, $3);';
 export const upsertCaretakerCapability =
   'INSERT INTO is_capable(pc_species, pc_breed, pc_size, ctuname) VALUES ($1, $2, $3, $4);';
-
+export const getAllCapabilities =
+  'SELECT * FROM is_capable GROUP BY ctuname, pc_species, pc_breed, pc_size';
 // Queries to search caretakers
 export const querySearchCaretakers =
   'SELECT * FROM all_ct WHERE service = $1 AND postal_code = $2 AND start_date >= $3 AND end_date <= $4 AND pc_species = $5 AND pc_breed = $6 AND pc_size = $7;';

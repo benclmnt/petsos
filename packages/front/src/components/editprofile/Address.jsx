@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 function Address({ user, editProfile, address, setAddress }) {
   // Address
-  var countryOptions = ["Singapore"];
-  var cityOptions = ["Singapore"];
+  var countryOptions = ['Singapore'];
+  var cityOptions = ['Singapore'];
   var postalCodeOptions = [1, 2, 3, 4, 5, 6, 7];
 
   var addressOptions = (choices, name, setFunction) => (
@@ -16,7 +16,7 @@ function Address({ user, editProfile, address, setAddress }) {
       value={address.name}
     >
       <option value="" disabled>
-        Select {name === "postal_code" ? "postal code" : name}
+        Select {name === 'postal_code' ? 'postal code' : name}
       </option>
       {choices.map((x, y) => (
         <option key={y}>{x}</option>
@@ -41,7 +41,7 @@ function Address({ user, editProfile, address, setAddress }) {
         className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
       ></input>
       <div class="flex space-x-4">
-        {addressOptions(countryOptions, "country", (e) =>
+        {addressOptions(countryOptions, 'country', (e) =>
           setAddress({
             addr: address.addr,
             country: e,
@@ -49,7 +49,7 @@ function Address({ user, editProfile, address, setAddress }) {
             postal_code: address.postal_code,
           })
         )}
-        {addressOptions(cityOptions, "city", (e) =>
+        {addressOptions(cityOptions, 'city', (e) =>
           setAddress({
             addr: address.addr,
             country: address.country,
@@ -57,7 +57,7 @@ function Address({ user, editProfile, address, setAddress }) {
             postal_code: address.postal_code,
           })
         )}
-        {addressOptions(postalCodeOptions, "postal_code", (e) =>
+        {addressOptions(postalCodeOptions, 'postal_code', (e) =>
           setAddress({
             addr: address.addr,
             country: address.country,

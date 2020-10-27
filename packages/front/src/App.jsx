@@ -23,6 +23,10 @@ function App() {
       <Router>
         <Nav />
         <Switch>
+          <Route exact path="/ctcard">
+            <CaretakersCard />
+          </Route>
+
           <Route exact path="/signup">
             <SignUpPage />
           </Route>
@@ -43,10 +47,6 @@ function App() {
 
           <Route exact path="/becomect">
             <BecomeCaretaker />
-          </Route>
-
-          <Route exact path="/ctcard">
-            <CaretakersCard />
           </Route>
 
           <Route exact path="/">

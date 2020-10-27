@@ -87,6 +87,62 @@ function SearchCaretakers() {
     );
   };
 
+  const getSpecies = async () => {
+    //try {
+    const results = await fetch("/caretakers/categories");
+    const sp = Object.keys(results);
+
+    // } catch (err) {
+    //   setErrorMsg(err.error);
+    //   return;
+    // }
+  };
+
+  const compo = getSpecies();
+
+  const getDogBreeds = async () => {
+    try {
+      const results = await fetch("/caretakers/categories");
+      const breed = results["dog"];
+      let dataName = [];
+      dataName = breed.name;
+      let name = document.getElementById("name");
+      name.textContent = dataName;
+    } catch (err) {
+      setErrorMsg(err.error);
+      return;
+    }
+  };
+  const results = async () => {
+    try {
+      const sp = await fetch("/caretakers/categories");
+      return sp;
+    } catch (err) {
+      setErrorMsg(err.error);
+      return;
+    }
+  };
+
+  // const getCatBreeds = async () => {
+  //   try {
+  //     const results = await fetch("/caretakers/categories");
+  //     const breed = results['cat'];
+  //     let a = [];
+  //     for (let id in breed) {
+  //       if(!a.includes(breed[id])) {
+  //         a.push(breed[id]);
+  //       }
+  //     }
+  //     return a;
+
+  //   } catch (err) {
+  //     setErrorMsg(err.error);
+  //     return;
+  //   }
+  // }
+
+  // const cb = getCatBreeds();
+
   //Search
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -135,6 +191,7 @@ function SearchCaretakers() {
             <h1 class="text-sm mb-4">I'm looking for services for:</h1>
             <div class="md:flex space-x-4">
               {petOptions.map((p, i) => {
+                //getSpecies()
                 return (
                   <PetCard
                     Pet={p}

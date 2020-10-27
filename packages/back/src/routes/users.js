@@ -46,36 +46,6 @@ async function register(req, res) {
 }
 
 /**
- * Insert new pet to table
- */
-async function insertNewPetToTable(req, res) {
-  const { name, pouname, species, breed, size } = req.body;
-  const params = [name, pouname, species, breed, size];
-  console.log(params);
-
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  try {
-    await query(addPet, params);
-  } catch (err) {
-    console.log(err);
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: 'Pet has already existed',
-    });
-  }
-
-  // TODO: Drake to fix return data
-  const user = await query('SELECT * FROM pets;');
-  console.log(user);
-  return buildSuccessResponse(res, {
-    user,
-  });
-}
-
-/**
  * Login using email
  */
 async function login(req, res) {

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { client as fetch } from "../utils/client";
 import { useUser } from "../context/auth-context";
 
-function MyPets() {
+function MyPets({ pet }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showOther, setShowOther] = useState(false);
   const [petName, setPetName] = useState("");
@@ -30,7 +30,7 @@ function MyPets() {
 
   useEffect(async () => {
     // GET request using fetch inside useEffect React hook
-    if (name != "add") {
+    if (name != "Add new pet") {
       const link =
         "/pets/getPetByPounameAndName/:" + user.username + "/:" + name;
       const result = await fetch(link);
@@ -46,7 +46,7 @@ function MyPets() {
   }
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    console.log(user.username);
 
     const body = {
       name: petName,
@@ -59,10 +59,11 @@ function MyPets() {
     console.log(body);
 
     try {
-      const result = await fetch(linkfetch, {
+      const result = await fetch("/pets/addNewPet", {
         body: body,
         redirectTo: "/dashboard",
       });
+      console.log("hhaha");
       console.log(result);
     } catch (error) {
       console.error(error);
@@ -102,6 +103,8 @@ function MyPets() {
               onClick={(e) => {
                 setShowOther(false);
                 setPetType("Cat");
+
+                console.log(petType);
                 setPetBtnDog("petBtn");
                 setPetBtnCat(
                   "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"

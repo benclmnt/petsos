@@ -14,6 +14,7 @@ import MyPets from "./components/MyPets";
 import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";
 import SearchSitters from "./components/SearchSitters";
+import Admin from "./components/admin/Admin";
 
 function App() {
   return (
@@ -45,6 +46,10 @@ function App() {
 
           <Route exact path="/dashboard">
             <Dashboard />
+          </Route>
+
+          <Route exact path="/admin">
+            <Admin />
           </Route>
 
           <Route exact path="/logout">

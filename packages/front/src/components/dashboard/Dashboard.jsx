@@ -14,7 +14,7 @@ function Dashboard() {
 
   useEffect(async () => {
     // GET request using fetch inside useEffect React hook
-    const link = "/pets/getPetByPouname/:" + user.username;
+    const link = "/pets/getPetByPouname/" + user.username;
     const result = await fetch(link);
     console.log(user.username);
     setPets(Object.values(result));
@@ -23,21 +23,24 @@ function Dashboard() {
 
   //const removed = pots.splice(1,1);
   const deletedPet = async (idx) => {
-    const deleted = pets.splice(idx, 1);
-    console.log(deleted[0].name);
-    const link =
-      "/pets/deletePetByPounameAndName/:" +
-      user.username +
-      "/:" +
-      deleted[0].name;
+    const deleted = pets[idx];
+    console.log(deleted.name);
+    const link = "/pets/deletePetByPounameAndName";
+    const body = {
+      name: deleted.name,
+      pouname: user.username,
+    };
     try {
       const result = await fetch(link, {
+        body: body,
         method: "DELETE",
         redirectTo: "/dashboard",
       });
+      console.log(result);
     } catch (error) {
       console.error(error);
     }
+    window.location.reload(false);
   };
 
   let itemsToRender;

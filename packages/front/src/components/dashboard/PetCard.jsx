@@ -1,10 +1,8 @@
 import React from "react";
 import "./pet-card.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { useUser } from "../../context/auth-context";
 
 function PetCard({ petName, deletePet }) {
-  const user = useUser();
   const link = "/myPets/" + petName;
 
   return (

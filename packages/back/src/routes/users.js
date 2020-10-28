@@ -1,25 +1,26 @@
-import express from 'express';
-import logger from '../logger';
-import { query } from '../db';
+import express from "express";
+import logger from "../logger";
+import { query } from "../db";
 import {
   getAllUsers,
   registerUser,
   queryUserByUsername,
   deleteUser as deleteUserQuery,
   upsertUserAddress as upsertUserAddressQuery,
+  editUser as editUserQuery,
   queryPetByName,
   addPet,
-} from '../db/queries';
+} from "../db/queries";
 
 function getUsersRoutes() {
   const router = express.Router();
-  router.post('/login', login);
-  router.post('/register', register);
-  router.post('/addNewPet', insertNewPetToTable);
-  router.get('/:username', getUserInfo);
-  router.delete('/:username', deleteUser);
-  router.patch('/:username', editUserDetails);
-  router.get('', listAllUsers);
+  router.post("/login", login);
+  router.post("/register", register);
+  router.post("/addNewPet", insertNewPetToTable);
+  router.get("/:username", getUserInfo);
+  router.delete("/:username", deleteUser);
+  router.patch("/:username", editUserDetails);
+  router.get("", listAllUsers);
   return router;
 }
 
@@ -39,7 +40,7 @@ async function register(req, res) {
   } catch (err) {
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Username already registered.',
+      error: "Username already registered.",
     });
   }
 
@@ -62,7 +63,7 @@ async function deleteUser(req, res) {
 
   await query(deleteUserQuery, [username]);
   return buildSuccessResponse(res, {
-    user: 'success',
+    user: "success",
   });
 }
 
@@ -84,12 +85,12 @@ async function insertNewPetToTable(req, res) {
     console.log(err);
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Pet has already existed',
+      error: "Pet has already existed",
     });
   }
 
   // TODO: Drake to fix return data
-  const user = await query('SELECT * FROM pets;');
+  const user = await query("SELECT * FROM pets;");
   console.log(user);
   return buildSuccessResponse(res, {
     user,
@@ -97,12 +98,12 @@ async function insertNewPetToTable(req, res) {
 }
 
 /**
- * Login using email
+ * Login using username
  */
 async function login(req, res) {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (checkMissingParameter([email, password])) {
+  if (checkMissingParameter([username, password])) {
     return handleMissingParameter(res);
   }
 
@@ -113,7 +114,7 @@ async function login(req, res) {
   if (password !== users[0].password) {
     return buildUsersErrorObject(res, {
       status: 401,
-      error: 'Wrong email or password',
+      error: "Wrong email or password",
     });
   }
 
@@ -147,42 +148,25 @@ async function listAllUsers(req, res) {
 
 async function editUserDetails(req, res) {
   const { username } = req.params; // GG SQL INJECTION!
-  const possibleParams = [
-    'email',
-    'password',
-    'address',
-    'city',
-    'country',
-    'postal_code',
-  ];
+  const { email, address, city, country, postal_code } = req.body;
+  const params = [username, email, address, city, country, postal_code];
 
   if (checkMissingParameter([username])) {
     return handleMissingParameter(res);
   }
 
-  let queryStmt = 'UPDATE users SET ';
-  queryStmt += possibleParams
-    .map((param) =>
-      !!req.body[param] ? `${param} = '${req.body[param]}'` : ''
-    )
-    .filter((x) => x !== '')
-    .join(', ');
-  queryStmt += ` WHERE username = '${username}';`;
-
   try {
-    await query(queryStmt);
+    const users = await query(editUserQuery, params);
+    console.log(users);
+    return buildSuccessResponse(res, {
+      user: buildUsersObject(users[0]),
+    });
   } catch (err) {
     return buildUsersErrorObject(res, {
       status: 400,
       error: err.message,
     });
   }
-
-  const users = await query(queryUserByUsername, [username]);
-
-  return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
-  });
 }
 
 export { getUsersRoutes };
@@ -195,7 +179,7 @@ function buildUsersErrorObject(res, { status, error }) {
   logger.error(error);
 
   const errorResp = {
-    kind: 'Error',
+    kind: "Error",
     error,
   };
 
@@ -204,7 +188,7 @@ function buildUsersErrorObject(res, { status, error }) {
 
 function buildUsersObject(user) {
   const obj = {
-    kind: 'User',
+    kind: "User",
     ...user,
     selfLink: `/users/${user.username}`,
   };
@@ -213,7 +197,7 @@ function buildUsersObject(user) {
 }
 
 function buildSuccessResponse(res, { status, user }) {
-  console.log('returned: ', user);
+  console.log("returned: ", user);
   return res.status(status || 200).json(user);
 }
 
@@ -221,7 +205,7 @@ function checkUserExists(res, users) {
   if (users.length === 0) {
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Cannot find user',
+      error: "Cannot find user",
     });
   }
 }
@@ -233,6 +217,6 @@ function checkMissingParameter(array) {
 function handleMissingParameter(res) {
   return buildUsersErrorObject(res, {
     status: 400,
-    error: 'Missing some required parameters',
+    error: "Missing some required parameters",
   });
 }

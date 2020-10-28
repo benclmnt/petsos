@@ -36,8 +36,6 @@ CREATE TABLE users (
 	city VARCHAR,
 	country VARCHAR,
 	postal_code INTEGER
-	-- FOREIGN KEY (city, country, postal_code) 
-	-- 	REFERENCES address(city, country, postal_code);
 );
 
 CREATE TABLE pet_owners (

@@ -1,6 +1,6 @@
-import express from 'express';
-import logger from '../logger';
-import { query } from '../db';
+import express from "express";
+import logger from "../logger";
+import { query } from "../db";
 import {
   queryAllCaretakers as getCaretakersQuery,
   queryCaretakerByUsername,
@@ -10,18 +10,18 @@ import {
   upsertCaretakerCapability as upsertCaretakerCapabilityQuery,
   upsertCaretakerAvailability as upsertCaretakerAvailabilityQuery,
   insertNewCaretaker as insertNewCaretakerQuery,
-} from '../db/queries';
+} from "../db/queries";
 
 function getCaretakersRoutes() {
   const router = express.Router();
-  router.post('/availability', upsertCaretakerAvailability);
-  router.post('/capability', upsertCaretakerCapability);
-  router.get('/categories', listAllPetCategories);
-  router.get('/ctresults', getAllCaretakers);
-  router.get('/searchct', querySearchCaretakers);
-  router.get('/ctcapability', listAllCapabilities);
-  router.get('/:username', getCaretakerByUsername);
-  router.post('/', insertNewCaretaker);
+  router.post("/availability", upsertCaretakerAvailability);
+  router.post("/capability", upsertCaretakerCapability);
+  router.get("/categories", listAllPetCategories);
+  router.get("/ctresults", getAllCaretakers);
+  router.get("/searchct", querySearchCaretakers);
+  router.get("/ctcapability", listAllCapabilities);
+  router.get("/:username", getCaretakerByUsername);
+  router.post("/", insertNewCaretaker);
   //router.get('/', listAllCaretakers);
   return router;
 }
@@ -63,8 +63,24 @@ async function listAllPetCategories(req, res) {
 }
 
 async function querySearchCaretakers(req, res) {
-  const { postal_code, start_date, end_date, species, breed, size } = req.body;
-  const params = [postal_code, start_date, end_date, species, breed, size];
+  const {
+    service,
+    postal_code,
+    start_date,
+    end_date,
+    species,
+    breed,
+    size,
+  } = req.body;
+  const params = [
+    service,
+    postal_code,
+    start_date,
+    end_date,
+    species,
+    breed,
+    size,
+  ];
   console.log(params);
 
   if (checkMissingParameter(params)) {
@@ -194,7 +210,7 @@ function buildCaretakersErrorObject(res, { status, error }) {
   logger.error(error);
 
   const errorResp = {
-    kind: 'Error',
+    kind: "Error",
     error,
   };
 
@@ -203,7 +219,7 @@ function buildCaretakersErrorObject(res, { status, error }) {
 
 function buildCaretakersObject(caretaker) {
   const obj = {
-    kind: 'Caretaker',
+    kind: "Caretaker",
     ...caretaker,
     selfLink: `/caretakers/${caretaker.username}`,
   };
@@ -218,7 +234,7 @@ function checkCaretakerExists(res, caretakers) {
   if (caretakers.length === 0) {
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Cannot find caretaker',
+      error: "Cannot find caretaker",
     });
   }
 }
@@ -230,6 +246,6 @@ function checkMissingParameter(array) {
 function handleMissingParameter(res) {
   return buildCaretakersErrorObject(res, {
     status: 400,
-    error: 'Missing some required parameters',
+    error: "Missing some required parameters",
   });
 }

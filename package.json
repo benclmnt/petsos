@@ -22,10 +22,5 @@
     "hooks": {
       "pre-commit": "npx lerna run --concurrency 1 --stream precommit"
     }
-  },
-  "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/lab": "^4.0.0-alpha.56",
-    "moment": "^2.29.1"
   }
 }

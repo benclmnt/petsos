@@ -35,7 +35,9 @@ function App() {
             <AddPet />
           </Route>
 
-          <Route path="/profile/edit" component={EditProfile} />
+          <Route path="/profile/edit">
+            <EditProfile />
+          </Route>
 
           <Route exact path="/searchct">
             <SearchCaretakers />

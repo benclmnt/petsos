@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import bg from "../resources/wallpaper.jpg";
-import { Link } from "react-router-dom";
-import { useAuth } from "../context/auth-context";
+import React, { useState } from 'react';
+import bg from '../resources/wallpaper.jpg';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/auth-context';
 
 function LoginPage() {
   const authClient = useAuth();
 
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    username: '',
+    password: '',
   });
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     setForm({
@@ -33,9 +33,9 @@ function LoginPage() {
   return (
     <div
       style={{
-        backgroundSize: "cover",
+        backgroundSize: 'cover',
         backgroundImage: `url(${bg})`,
-        backgroundPosition: "center center",
+        backgroundPosition: 'center center',
       }}
     >
       <div className="bg-grey-lighter min-h-screen flex lg:flex-row-reverse">
@@ -46,8 +46,8 @@ function LoginPage() {
             <input
               type="text"
               className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="email"
-              placeholder="Email"
+              name="username"
+              placeholder="Username"
               onChange={handleChange}
             />
 

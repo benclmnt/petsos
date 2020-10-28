@@ -36,7 +36,6 @@ function App() {
           </Route>
 
           <Route path="/profile/edit">
-            {" "}
             <EditProfile />
           </Route>
 

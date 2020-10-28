@@ -1,83 +1,69 @@
-import React, { useState } from "react";
-import Address from "./Address";
-import PersonalProfile from "./PersonalProfile";
-import PhotoAndEmail from "./PhotoAndEmail";
-import "./nav.css";
-import "../Nav";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Address from './Address';
+import PersonalProfile from './PersonalProfile';
+import PhotoAndEmail from './PhotoAndEmail';
+import './nav.css';
+import '../Nav';
+import { client as fetch } from '../../utils/client';
+import { useAuth, useUser } from '../../context/auth-context';
 
-function EditProfile() {
+function EditProfile(props) {
   const user = useUser();
-  const [profile, setProfile] = useState({
-    username: user.username,
-    email: user.email,
-  });
-  const [address, setAddress] = useState({
-    addr: user.address,
-    city: user.city,
-    country: user.country,
-    postal_code: user.postal_code,
-  });
-  const [editProfile, setEditProfile] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  const url = "/users/" + user.username + "/editProfile";
+  const authClient = useAuth();
 
-  const profileView = (
-    <div class="grid grid-cols-2 w-1/2 align-middle">
-      <h1 class="font-bold">Username:</h1>
-      <h1>{user.username}</h1>
-      <h1 class="font-bold">Email:</h1>
-      <h1>{user.email}</h1>
-    </div>
-  );
+  const [profile, setProfile] = useState(user);
 
-  const editProfileForm = (
-    <div class="grid grid-cols-2 w-1/2 space-y-2">
-      <label class="font-bold">Username:</label>
-      <input
-        type="text"
-        placeholder={profile.username}
-        className="border border-grey-light w-auto px-4 py-2 rounded mb-4 block md:text-left md:mb-0 pr-4"
-        onChange={(e) =>
-          setProfile({ username: e.target.value, email: profile.email })
-        }
-      ></input>
-      <label class="font-bold">Email:</label>
-      <input
-        type="text"
-        placeholder={profile.email}
-        className="border border-grey-light w-auto px-4 py-2 rounded mb-4 block md:text-left md:mb-0 pr-4"
-        onChange={(e) =>
-          setProfile({ username: profile.username, email: e.target.value })
-        }
-      ></input>
-    </div>
-  );
+  const [isEditingProfile, toggleIsEditingProfile] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleChange = (e) => {
+    setProfile({
+      ...profile,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedUser = {
-      prev_username: user.username,
-      username: profile.username,
-      email: profile.email,
-      addr: address.addr,
-      city: address.city,
-      country: address.country,
-      postal_code: address.postal_code,
-    };
-
-    console.log(updatedUser);
+    const url = '/users/' + user.username;
 
     try {
-      const updateResults = await fetch(url, { body: updatedUser });
-      console.log(updateResults);
+      const editedUser = await fetch(url, {
+        body: profile,
+        method: 'PATCH',
+      });
+      console.log(editedUser);
+      authClient.updateUser(editedUser);
+      toggleIsEditingProfile(false);
     } catch (err) {
       setErrorMsg(err.error);
       return;
     }
   };
+
+  const profileView = (
+    <div class="grid grid-cols-2 w-1/2 align-middle">
+      <h1 class="font-bold">Username:</h1>
+      <h1>{profile.username}</h1>
+      <h1 class="font-bold">Email:</h1>
+      <h1>{profile.email}</h1>
+    </div>
+  );
+
+  const editProfileForm = (
+    <div class="grid grid-cols-2 w-1/2 space-y-2">
+      <h1 class="font-bold">Username:</h1>
+      <h1>{profile.username}</h1>
+      <label class="font-bold">Email:</label>
+      <input
+        type="text"
+        placeholder={profile.email}
+        className="border border-grey-light w-auto px-4 py-2 rounded mb-4 block md:text-left md:mb-0 pr-4"
+        onChange={handleChange}
+      ></input>
+    </div>
+  );
 
   return (
     <form
@@ -88,30 +74,34 @@ function EditProfile() {
         Let's start with the basics
       </h1>
 
-      <button
-        class="text-xl py-8 hover:text-orange-500 font-bold"
-        onClick={(e) => {
-          e.preventDefault();
-          setEditProfile(true);
-        }}
-      >
-        Edit info
-      </button>
+      <div class="mx-auto py-2 text-lg">
+        <button
+          class="py-2 px-5 hover:text-orange-500 font-bold border-none inline-block"
+          onClick={(e) => {
+            e.preventDefault();
+            toggleIsEditingProfile(!isEditingProfile);
+          }}
+        >
+          {!isEditingProfile ? 'Edit info' : 'Cancel'}
+        </button>
+        <button class="py-2 px-5 hover:text-green-500 font-bold border-none inline-block left-auto">
+          <Link to="/dashboard">Back to Dashboard</Link>
+        </button>
+      </div>
 
       <div class="flex flex-col space-y-8">
         <div class="md:mx-48 text-left">
           <h1 className="text-2xl font-semibold mb-4">Profile</h1>
-          {editProfile ? editProfileForm : profileView}
+          {isEditingProfile ? editProfileForm : profileView}
         </div>
         <Address
-          user={user}
-          editProfile={editProfile}
-          address={address}
-          setAddress={setAddress}
+          editProfile={isEditingProfile}
+          address={profile}
+          handleChange={handleChange}
         />
         {/* <PhotoAndEmail />
         <PersonalProfile /> */}
-        {editProfile && (
+        {isEditingProfile && (
           <div className="flex justify-center">
             <button
               type="submit"

@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function Address({ user, editProfile, address, setAddress }) {
+function Address({ editProfile, address, handleChange }) {
   // Address
-  var countryOptions = ['Singapore'];
-  var cityOptions = ['Singapore'];
-  var postalCodeOptions = [1, 2, 3, 4, 5, 6, 7];
+  const countryOptions = ['Singapore'];
+  const cityOptions = ['Singapore'];
 
-  var addressOptions = (choices, name, setFunction) => (
+  const addressOptions = (choices, name) => (
     <select
       className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
-      name="addr"
+      name={name}
       id="2"
       required="required"
-      onChange={(e) => setFunction(e.target.value)}
-      value={address.name}
+      onChange={handleChange}
+      value={address[name]}
     >
       <option value="" disabled>
-        Select {name === 'postal_code' ? 'postal code' : name}
+        Select {name}
       </option>
       {choices.map((x, y) => (
         <option key={y}>{x}</option>
@@ -25,53 +24,31 @@ function Address({ user, editProfile, address, setAddress }) {
   );
 
   const editAddressForm = (
-    <form class="flex-col space-y-4">
+    <div class="flex-col space-y-4">
       <input
         type="text"
         name="address"
-        placeholder={address.addr}
-        onChange={(e) =>
-          setAddress({
-            addr: e.target.value,
-            country: address.country,
-            city: address.city,
-            postal_code: address.postal_code,
-          })
-        }
+        placeholder={address.address}
+        onChange={handleChange}
         className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
       ></input>
       <div class="flex space-x-4">
-        {addressOptions(countryOptions, 'country', (e) =>
-          setAddress({
-            addr: address.addr,
-            country: e,
-            city: address.city,
-            postal_code: address.postal_code,
-          })
-        )}
-        {addressOptions(cityOptions, 'city', (e) =>
-          setAddress({
-            addr: address.addr,
-            country: address.country,
-            city: e,
-            postal_code: address.postal_code,
-          })
-        )}
-        {addressOptions(postalCodeOptions, 'postal_code', (e) =>
-          setAddress({
-            addr: address.addr,
-            country: address.country,
-            city: address.city,
-            postal_code: e,
-          })
-        )}
+        {addressOptions(countryOptions, 'country')}
+        {addressOptions(cityOptions, 'city')}
+        <input
+          type="number"
+          name="postal_code"
+          placeholder={address.postal_code}
+          onChange={handleChange}
+          className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
+        ></input>
       </div>
-    </form>
+    </div>
   );
 
   const addressView = (
     <div>
-      <h1>{address.addr}</h1>
+      <h1>{address.address}</h1>
       <h2>
         {address.city}, {address.postal_code}
       </h2>

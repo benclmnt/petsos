@@ -146,9 +146,9 @@ $$
 	DECLARE flag INTEGER;
 	BEGIN
 		SELECT COUNT(*) INTO flag FROM pet_categories C
-			WHERE C.species = NEW.pc_species AND C.breed = NEW.pc_breed AND C.size = NEW.pc_size;
+			WHERE C.species = NEW.species AND C.breed = NEW.breed AND C.size = NEW.size;
 		IF flag = 0 THEN
-			INSERT INTO pet_categories(species, breed, size) SELECT NEW.pc_species, NEW.pc_breed, NEW.pc_size;
+			INSERT INTO pet_categories(species, breed, size) SELECT NEW.species, NEW.breed, NEW.size;
 		END IF;
 	RETURN NEW;
 	END;

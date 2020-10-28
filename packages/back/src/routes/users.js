@@ -13,7 +13,6 @@ function getUsersRoutes() {
   const router = express.Router();
   router.post("/login", login);
   router.post("/register", register);
-  router.post("/addNewPet", insertNewPetToTable);
   router.get("/:username", getUserInfo);
   router.delete("/:username", deleteUser);
   router.patch("/:username", editUserDetails);

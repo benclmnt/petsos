@@ -22,7 +22,7 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(form);
     try {
       await authClient.login(form);
     } catch (err) {

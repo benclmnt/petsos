@@ -73,7 +73,9 @@ function Dashboard() {
             <div className="flex items-center ml-5">
               <div>
                 <h1>{user?.username || "Default User Name"}</h1>
-                <a>Edit Profile</a>
+                <a onClick={() => window.location.assign("/profile/edit")}>
+                  Edit Profile
+                </a>
               </div>
             </div>
           </div>

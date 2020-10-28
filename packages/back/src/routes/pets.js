@@ -1,6 +1,6 @@
-import express from 'express';
-import logger from '../logger';
-import { query } from '../db';
+import express from "express";
+import logger from "../logger";
+import { query } from "../db";
 import {
   addPet,
   queryPetByPouname,
@@ -11,22 +11,22 @@ import {
   addPetCategory,
   updatePetCategory,
   updatePetInfo,
-} from '../db/queries';
+} from "../db/queries";
 
 function getUsersRoutesPets() {
   const router = express.Router();
-  router.post('/addNewPet', insertNewPetToTable);
-  router.get('/getPetByPouname/:pouname', getPetByPouname);
-  router.get('/getPetByPounameAndName/:pouname/:name', getPetByPounameAndName);
-  router.get('/getPetCategoriesTable', getPetCategoriesTable);
-  router.delete('/deletePetByPounameAndName', removePetByPounameAndName);
+  router.post("/addNewPet", insertNewPetToTable);
+  router.get("/getPetByPouname/:pouname", getPetByPouname);
+  router.get("/getPetByPounameAndName/:pouname/:name", getPetByPounameAndName);
+  router.get("/getPetCategoriesTable", getPetCategoriesTable);
+  router.delete("/deletePetByPounameAndName", removePetByPounameAndName);
   router.delete(
-    '/deletePetCategoryBySpciesBreedSize',
+    "/deletePetCategoryBySpciesBreedSize",
     removePetCategoryBySpeciesBreedSize
   );
-  router.post('/addNewPetCategory', insertNewPetCategory);
-  router.post('/updatePetCategory', upgradePetCategory);
-  router.post('/updatePetInformation', upgradePetInfo);
+  router.post("/addNewPetCategory", insertNewPetCategory);
+  router.post("/updatePetCategory", upgradePetCategory);
+  router.post("/updatePetInformation", upgradePetInfo);
   return router;
 }
 
@@ -45,7 +45,7 @@ async function upgradePetInfo(req, res) {
     console.log(err);
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Pet does not exist in the table',
+      error: "Pet does not exist in the table",
     });
   }
 
@@ -71,7 +71,7 @@ async function upgradePetCategory(req, res) {
     console.log(err);
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Pet does not exist in the table',
+      error: "Pet does not exist in the table",
     });
   }
 
@@ -97,7 +97,7 @@ async function removePetCategoryBySpeciesBreedSize(req, res) {
     console.log(err);
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Pet does not exist in the table',
+      error: "Pet does not exist in the table",
     });
   }
 
@@ -126,10 +126,10 @@ async function insertNewPetCategory(req, res) {
     console.log(err);
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Pet has already existed',
+      error: "Pet has already existed",
     });
   }
-  const user = await query('SELECT * FROM pet_categories;');
+  const user = await query("SELECT * FROM pet_categories;");
   console.log(user);
   return buildSuccessResponse(res, {
     user,
@@ -141,24 +141,24 @@ async function insertNewPetCategory(req, res) {
 async function insertNewPetToTable(req, res) {
   const { name, pouname, species, breed, size } = req.body;
   const params = [name, pouname, species, breed, size];
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
   }
 
   try {
+    console.log(params);
     await query(addPet, params);
   } catch (err) {
     console.log(err);
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Pet has already existed',
+      error: "Pet has already existed",
     });
   }
 
   // TODO: Drake to fix return data
-  const user = await query('SELECT * FROM pets;');
+  const user = await query("SELECT * FROM pets;");
   console.log(user);
   return buildSuccessResponse(res, {
     user,
@@ -233,7 +233,7 @@ async function removePetByPounameAndName(req, res) {
     console.log(err);
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Pet does not exist in the table',
+      error: "Pet does not exist in the table",
     });
   }
 
@@ -254,7 +254,7 @@ function buildUsersErrorObject(res, { status, error }) {
   logger.error(error);
 
   const errorResp = {
-    kind: 'Error',
+    kind: "Error",
     error,
   };
 
@@ -263,7 +263,7 @@ function buildUsersErrorObject(res, { status, error }) {
 
 function buildUsersObject(user) {
   const obj = {
-    kind: 'User',
+    kind: "User",
     ...user,
     selfLink: `/users/${user.username}`,
   };
@@ -279,7 +279,7 @@ function checkUserExists(res, users) {
   if (users.length === 0) {
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Cannot find user',
+      error: "Cannot find user",
     });
   }
 }
@@ -291,6 +291,6 @@ function checkMissingParameter(array) {
 function handleMissingParameter(res) {
   return buildUsersErrorObject(res, {
     status: 400,
-    error: 'Missing some required parameters',
+    error: "Missing some required parameters",
   });
 }

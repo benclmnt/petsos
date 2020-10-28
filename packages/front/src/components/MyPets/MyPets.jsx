@@ -54,9 +54,8 @@ function MyPets({ pet }) {
       size: petSize,
     };
 
-    console.log(body);
-
     try {
+      console.log(linkfetch);
       const result = await fetch(linkfetch, {
         body: body,
         redirectTo: "/dashboard",

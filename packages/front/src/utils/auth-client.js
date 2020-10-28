@@ -7,8 +7,8 @@ function handleUserResponse(user) {
   return user;
 }
 
-function login({ email, password }) {
-  return client("/users/login", { body: { email, password } }).then(
+function login({ username, password }) {
+  return client("/users/login", { body: { username, password } }).then(
     handleUserResponse
   );
 }

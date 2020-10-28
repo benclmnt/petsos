@@ -121,22 +121,24 @@ function SearchForm({ setShowSearchForm, searchResult, setSearchResult }) {
     const searchParams = {
       //   postal_code: address.postal_code,
       postal_code: 10000,
-      start_date: "2020-10-29",
-      end_date: "2020-10-30",
-      species: "dog",
-      breed: "pug",
-      size: "medium",
+      start_date: startDate,
+      end_date: endDate,
+      species: species,
+      breed: breed,
+      size: size,
     };
 
     try {
-      searchResult = await fetch("/caretakers/ctresults");
+      searchResult = await fetch("/caretakers/searchct", {
+        body: searchParams,
+        method: "GET",
+      });
       setSearchResult(searchResult);
       console.log(searchResult);
     } catch (err) {
       setErrorMsg(err.error);
       return;
     }
-
     setShowSearchForm(false);
   };
 
@@ -206,6 +208,7 @@ function SearchForm({ setShowSearchForm, searchResult, setSearchResult }) {
 
         {/* Next Button */}
         <button
+          // onSubmit={(e) => handleSearch(e)}
           type="submit"
           class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded"
         >

@@ -28,7 +28,7 @@ with open(FILE, 'w') as out:
         out.write(f"('pct{i}@petsos.com', 'pct{i}', 'pct{i}', 'Haji Lane {i}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)}),\n")
 
     out.write("('admin@petsos.com', 'admin', 'admin', 'Haji Lane 8', 'Singapore', 'Singapore', 19999);\n\n")
-    out.write("INSERT into caretakers(username, ct_type) VALUES\n")
+    out.write("INSERT into caretakers(ctuname, ct_type) VALUES\n")
 
     for i in range(FCT_NUMBER):
         out.write(f"('fct{i}', 'full-time'),\n")

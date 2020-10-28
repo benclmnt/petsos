@@ -15,6 +15,11 @@ import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";
 import SearchSitters from "./components/SearchSitters";
 import Admin from "./components/admin/Admin";
+import EditProfile from "./components/editprofile/EditProfile";
+import Dashboard from "./components/dashboard/Dashboard";
+import SearchCaretakers from "./components/searchcaretakers/SearchCaretakers";
+import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
+import CaretakersCard from "./components/searchcaretakers/CaretakersCard";
 
 function App() {
   return (
@@ -34,10 +39,20 @@ function App() {
             <MyPets />
           </Route>
 
-          <Route path="/profile/edit" component={EditProfile} />
+          <Route path="/profile/edit">
+            <EditProfile />
+          </Route>
 
-          <Route exact path="/searchsitters">
-            <SearchSitters />
+          <Route exact path="/searchct">
+            <SearchCaretakers />
+          </Route>
+
+          <Route exact path="/becomect">
+            <BecomeCaretaker />
+          </Route>
+
+          <Route exact path="/ctcard">
+            <CaretakersCard />
           </Route>
 
           <Route exact path="/">

@@ -1,21 +1,23 @@
-import express from 'express';
-import logger from '../logger';
-import { query } from '../db';
+import express from "express";
+import logger from "../logger";
+import { query } from "../db";
 import {
   getAllUsers,
   registerUser,
   queryUserByUsername,
-  queryUserByEmail,
-  upsertUserAddress as upsertUserAddressQuery,
-} from '../db/queries';
+  deleteUser as deleteUserQuery,
+  editUser as editUserQuery,
+} from "../db/queries";
 
 function getUsersRoutes() {
   const router = express.Router();
-  router.post('/login', login);
-  router.post('/register', register);
-  router.get('/:username', getUserByUsername);
-  router.post('/:username/address', upsertUserAddress);
-  router.get('', listAllUsers);
+  router.post("/login", login);
+  router.post("/register", register);
+  router.post("/addNewPet", insertNewPetToTable);
+  router.get("/:username", getUserInfo);
+  router.delete("/:username", deleteUser);
+  router.patch("/:username", editUserDetails);
+  router.get("", listAllUsers);
   return router;
 }
 
@@ -35,34 +37,54 @@ async function register(req, res) {
   } catch (err) {
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Username already registered.',
+      error: "Username already registered.",
     });
   }
 
-  const users = await query(queryUserByEmail, [email]);
+  const users = await query(queryUserByUsername, [username]);
   return buildSuccessResponse(res, {
     user: buildUsersObject(users[0]),
   });
 }
 
 /**
+<<<<<<< HEAD
  * Login using email
+=======
+ * Delete user account
  */
-async function login(req, res) {
-  const { email, password } = req.body;
+async function deleteUser(req, res) {
+  const { username } = req.params;
+  const params = [username];
 
-  if (checkMissingParameter([email, password])) {
+  if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
   }
 
-  const users = await query(queryUserByEmail, [email]);
+  await query(deleteUserQuery, [username]);
+  return buildSuccessResponse(res, {
+    user: "success",
+  });
+}
+
+/**
+ * Login using username
+ */
+async function login(req, res) {
+  const { username, password } = req.body;
+
+  if (checkMissingParameter([username, password])) {
+    return handleMissingParameter(res);
+  }
+
+  const users = await query(queryUserByUsername, [username]);
 
   checkUserExists(res, users);
 
   if (password !== users[0].password) {
     return buildUsersErrorObject(res, {
       status: 401,
-      error: 'Wrong email or password',
+      error: "Wrong email or password",
     });
   }
 
@@ -71,7 +93,7 @@ async function login(req, res) {
   });
 }
 
-async function getUserByUsername(req, res) {
+async function getUserInfo(req, res) {
   const { username } = req.params; // GG SQL INJECTION!
 
   if (checkMissingParameter([username])) {
@@ -88,28 +110,33 @@ async function getUserByUsername(req, res) {
 }
 
 async function listAllUsers(req, res) {
-  let users = await query(getAllUsers);
-  users = users.map(buildUsersObject);
+  const users = await query(getAllUsers);
   return buildSuccessResponse(res, {
-    user: users,
+    user: users.map(buildUsersObject),
   });
 }
 
-async function upsertUserAddress(req, res) {
-  const { username, address, city, country, postal } = req.body; // GG SQL INJECTION!
-  const params = [username, address, city, country, postal];
+async function editUserDetails(req, res) {
+  const { username } = req.params; // GG SQL INJECTION!
+  const { email, address, city, country, postal_code } = req.body;
+  const params = [username, email, address, city, country, postal_code];
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
   }
 
-  await query(upsertUserAddressQuery, params);
-
-  const users = await query(queryUserByUsername, [username]);
-
-  return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
-  });
+  try {
+    const users = await query(editUserQuery, params);
+    console.log(users);
+    return buildSuccessResponse(res, {
+      user: buildUsersObject(users[0]),
+    });
+  } catch (err) {
+    return buildUsersErrorObject(res, {
+      status: 400,
+      error: err.message,
+    });
+  }
 }
 
 export { getUsersRoutes };
@@ -122,7 +149,7 @@ function buildUsersErrorObject(res, { status, error }) {
   logger.error(error);
 
   const errorResp = {
-    kind: 'Error',
+    kind: "Error",
     error,
   };
 
@@ -131,7 +158,7 @@ function buildUsersErrorObject(res, { status, error }) {
 
 function buildUsersObject(user) {
   const obj = {
-    kind: 'User',
+    kind: "User",
     ...user,
     selfLink: `/users/${user.username}`,
   };
@@ -140,7 +167,7 @@ function buildUsersObject(user) {
 }
 
 function buildSuccessResponse(res, { status, user }) {
-  console.log('returned: ', user);
+  console.log("returned: ", user);
   return res.status(status || 200).json(user);
 }
 
@@ -148,7 +175,7 @@ function checkUserExists(res, users) {
   if (users.length === 0) {
     return buildUsersErrorObject(res, {
       status: 400,
-      error: 'Cannot find user',
+      error: "Cannot find user",
     });
   }
 }
@@ -160,6 +187,6 @@ function checkMissingParameter(array) {
 function handleMissingParameter(res) {
   return buildUsersErrorObject(res, {
     status: 400,
-    error: 'Missing some required parameters',
+    error: "Missing some required parameters",
   });
 }

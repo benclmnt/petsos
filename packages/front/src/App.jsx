@@ -13,10 +13,7 @@ import {
 import MyPets from "./components/MyPets/MyPets";
 import EditProfile from "./components/editprofile/EditProfile";
 import Dashboard from "./components/dashboard/Dashboard";
-import SearchSitters from "./components/SearchSitters";
 import Admin from "./components/admin/Admin";
-import EditProfile from "./components/editprofile/EditProfile";
-import Dashboard from "./components/dashboard/Dashboard";
 import SearchCaretakers from "./components/searchcaretakers/SearchCaretakers";
 import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
 import CaretakersCard from "./components/searchcaretakers/CaretakersCard";

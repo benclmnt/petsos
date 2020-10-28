@@ -19,6 +19,8 @@ export const deletePetCategoryBySpeciesBreedSize =
   'DELETE FROM pet_categories WHERE species = $1 AND breed = $2 AND size = $3;';
 export const updatePetCategory =
   'UPDATE pet_categories SET base_price = $4 WHERE species = $1 AND breed = $2 AND size = $3;';
+export const updatePetInfo =
+  'UPDATE pets SET species = $3, breed = $4, size = $5 WHERE name = $1 AND pouname = $2;';
 export const queryPetCategories =
   'SELECT * FROM pet_categories GROUP BY species,breed,size ORDER by species;';
 export const queryPetByName = 'SELECT * FROM pets WHERE name = $1;';

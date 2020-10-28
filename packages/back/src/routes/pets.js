@@ -10,6 +10,7 @@ import {
   queryPetCategories,
   addPetCategory,
   updatePetCategory,
+  updatePetInfo,
 } from '../db/queries';
 
 function getUsersRoutesPets() {
@@ -25,7 +26,34 @@ function getUsersRoutesPets() {
   );
   router.post('/addNewPetCategory', insertNewPetCategory);
   router.post('/updatePetCategory', upgradePetCategory);
+  router.post('/updatePetInformation', upgradePetInfo);
   return router;
+}
+
+async function upgradePetInfo(req, res) {
+  const { name, pouname, species, breed, size } = req.body;
+  const params = [name, pouname, species, breed, size];
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(updatePetInfo, params);
+  } catch (err) {
+    console.log(err);
+    return buildUsersErrorObject(res, {
+      status: 400,
+      error: 'Pet does not exist in the table',
+    });
+  }
+
+  const user = await query(queryPetByPounameAndName, [pouname, name]);
+  console.log(user);
+  return buildSuccessResponse(res, {
+    user,
+  });
 }
 
 async function upgradePetCategory(req, res) {
@@ -171,8 +199,8 @@ async function getPetCategoriesTable(req, res) {
 }
 
 async function getPetByPounameAndName(req, res) {
-  const pouname = req.params.pouname.slice(1);
-  const name = req.params.name.slice(1);
+  const pouname = req.params.pouname;
+  const name = req.params.name;
   const params = [pouname, name];
 
   console.log(params);

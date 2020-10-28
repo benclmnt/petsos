@@ -3,11 +3,21 @@ import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-function CaretakersCard(full_name, cust_rating, capabilities, base_price) {
-  const [rating, setRating] = useState(2.5); //cust_rating);
-  const [name, setName] = useState("full name"); //full_name);
-  const [price, setPrice] = useState(100);
+function CaretakersCard(Caretaker) {
+  const [rating, setRating] = useState(Caretaker.avg_rating); //cust_rating);
+  const [name, setName] = useState(Caretaker.ctuname); //full_name);
+  const [price, setPrice] = useState(Caretaker.base_price);
   const [capability, setCapability] = useState("");
+
+  var createCapability = () =>
+    capability.map((x, i) => (
+      <div
+        class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default"
+        key={i}
+      >
+        {x.breed}, {x.size}
+      </div>
+    ));
 
   return (
     <div>
@@ -47,19 +57,7 @@ function CaretakersCard(full_name, cust_rating, capabilities, base_price) {
           </div>
 
           {/* Capability */}
-          <div class="flex mt-2">
-            <div class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2 border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default">
-              Husky
-            </div>
-
-            <div class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default">
-              Golden Retriever
-            </div>
-
-            <div class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default">
-              Sphynx
-            </div>
-          </div>
+          <div class="flex mt-2">{createCapability()}</div>
 
           <div class="flex space-x-10">
             {/* Rating */}

@@ -7,7 +7,6 @@ import {
   queryUserByUsername,
   deleteUser as deleteUserQuery,
   editUser as editUserQuery,
-  updateUser as updateUserByUsername,
   queryPetByName,
   addPet,
 } from "../db/queries";
@@ -155,17 +154,6 @@ async function editUserDetails(req, res) {
     return handleMissingParameter(res);
   }
 
-  // let queryStmt = 'UPDATE users SET ';
-  // queryStmt += possibleParams
-  //   .map((param) =>
-  //     !!req.body[param] ? `${param} = '${req.body[param]}'` : ''
-  //   )
-  //   .filter((x) => x !== '')
-  //   .join(', ');
-  // queryStmt += ` WHERE username = '${username}';`;
-
-  // console.log(queryStmt);
-
   try {
     const users = await query(editUserQuery, params);
     console.log(users);
@@ -178,39 +166,6 @@ async function editUserDetails(req, res) {
       error: err.message,
     });
   }
-}
-
-async function updateUser(req, res) {
-  const {
-    prev_username,
-    username,
-    email,
-    addr,
-    city,
-    country,
-    postal_code,
-  } = req.body; // GG SQL INJECTION!
-  const params = [
-    prev_username,
-    username,
-    email,
-    addr,
-    city,
-    country,
-    postal_code,
-  ];
-
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  await query(updateUserByUsername, params);
-
-  const users = await query(queryUserByUsername, [username]);
-
-  return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
-  });
 }
 
 export { getUsersRoutes };

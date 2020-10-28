@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import Rating from '@material-ui/lab/Rating';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import React, { useState } from "react";
+import Rating from "@material-ui/lab/Rating";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 function CaretakersCard() {
   const [value, setValue] = useState(4.5);
-  const [name, setName] = useState('Full Name');
-  const [price, setPrice] = useState('50');
+  const [name, setName] = useState("Full Name");
+  const [price, setPrice] = useState("50");
   return (
     <div class="justify-self-center w-2/6 md:flex rounded-lg shadow">
       <div class="mt-20 md:ml-6">

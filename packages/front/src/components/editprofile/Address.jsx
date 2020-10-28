@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 function Address({ editProfile, address, handleChange }) {
   // Address
-  const countryOptions = ['Singapore'];
-  const cityOptions = ['Singapore'];
+  const countryOptions = ["Singapore"];
+  const cityOptions = ["Singapore"];
 
   const addressOptions = (choices, name) => (
     <select
@@ -33,8 +33,8 @@ function Address({ editProfile, address, handleChange }) {
         className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
       ></input>
       <div class="flex space-x-4">
-        {addressOptions(countryOptions, 'country')}
-        {addressOptions(cityOptions, 'city')}
+        {addressOptions(countryOptions, "country")}
+        {addressOptions(cityOptions, "city")}
         <input
           type="number"
           name="postal_code"

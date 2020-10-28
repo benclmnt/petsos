@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import '../../css/datepicker.css';
-import PetCard from './PetCard';
-import { client as fetch } from '../../utils/client';
-import { useUser } from '../../context/auth-context';
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../css/datepicker.css";
+import PetCard from "./PetCard";
+import { client as fetch } from "../../utils/client";
+import { useUser } from "../../context/auth-context";
 
 function _toJSONLocal(date) {
   var local = date;
@@ -15,27 +15,27 @@ function _toJSONLocal(date) {
 
 function SearchCaretakers() {
   const user = useUser();
-  const [serviceType, setServiceType] = useState('boarding');
-  const [pet, setPet] = useState({ species: '', breed: '', size: '' });
+  const [serviceType, setServiceType] = useState("boarding");
+  const [pet, setPet] = useState({ species: "", breed: "", size: "" });
   const [address, setAddress] = useState({
-    country: '',
-    city: '',
-    postal_code: '',
+    country: "",
+    city: "",
+    postal_code: "",
   });
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
   const [selectedID, setSelected] = useState();
 
   // Pets
   var petOptions = [
-    { species: 'Dog', breed: 'Husky', size: 'Big' },
-    { species: 'Cat', breed: 'Sphinx', size: 'Medium' },
+    { species: "Dog", breed: "Husky", size: "Big" },
+    { species: "Cat", breed: "Sphinx", size: "Medium" },
   ];
 
   // Address
-  var countryOptions = ['Singapore'];
-  var cityOptions = ['Singapore'];
+  var countryOptions = ["Singapore"];
+  var cityOptions = ["Singapore"];
   var postalCodeOptions = [1, 2, 3, 4, 5, 6, 7];
 
   var addressOptions = (choices, name) => (
@@ -48,7 +48,7 @@ function SearchCaretakers() {
       value={address.name}
     >
       <option value="" disabled>
-        Select {name === 'postal_code' ? 'postal code' : name}
+        Select {name === "postal_code" ? "postal code" : name}
       </option>
       {choices.map((x, y) => (
         <option key={y}>{x}</option>
@@ -57,7 +57,7 @@ function SearchCaretakers() {
   );
 
   // Datepickers
-  const dateFormat = 'dd-MM-yyyy';
+  const dateFormat = "dd-MM-yyyy";
 
   const StartDatepicker = () => {
     return (
@@ -105,7 +105,7 @@ function SearchCaretakers() {
     };
 
     try {
-      const insertResults = await fetch('/caretakers', { body: searchParams });
+      const insertResults = await fetch("/caretakers", { body: searchParams });
       console.log(insertResults);
     } catch (err) {
       setErrorMsg(err.error);
@@ -117,10 +117,10 @@ function SearchCaretakers() {
     <div
       class="py-20 h-screen my-auto"
       style={{
-        backgroundSize: 'cover',
+        backgroundSize: "cover",
         backgroundImage:
-          'url(https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg)',
-        backgroundPosition: 'center center',
+          "url(https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg)",
+        backgroundPosition: "center center",
       }}
     >
       <form
@@ -156,9 +156,9 @@ function SearchCaretakers() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setServiceType('boarding');
+                setServiceType("boarding");
               }}
-              class={serviceType === 'boarding' ? 'btn bg-orange-400' : 'btn'}
+              class={serviceType === "boarding" ? "btn bg-orange-400" : "btn"}
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
@@ -180,10 +180,10 @@ function SearchCaretakers() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setServiceType('housesitting');
+                setServiceType("housesitting");
               }}
               class={
-                serviceType === 'housesitting' ? 'btn bg-orange-400' : 'btn'
+                serviceType === "housesitting" ? "btn bg-orange-400" : "btn"
               }
             >
               <svg
@@ -201,9 +201,9 @@ function SearchCaretakers() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setServiceType('drop-in');
+                setServiceType("drop-in");
               }}
-              class={serviceType === 'drop-in' ? 'btn bg-orange-400' : 'btn'}
+              class={serviceType === "drop-in" ? "btn bg-orange-400" : "btn"}
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
@@ -224,9 +224,9 @@ function SearchCaretakers() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setServiceType('daycare');
+                setServiceType("daycare");
               }}
-              class={serviceType === 'daycare' ? 'btn bg-orange-400' : 'btn'}
+              class={serviceType === "daycare" ? "btn bg-orange-400" : "btn"}
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
@@ -247,9 +247,9 @@ function SearchCaretakers() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setServiceType('dog-walk');
+                setServiceType("dog-walk");
               }}
-              class={serviceType === 'dog-walk' ? 'btn bg-orange-400' : 'btn'}
+              class={serviceType === "dog-walk" ? "btn bg-orange-400" : "btn"}
             >
               <svg
                 class="fill-current h-8 w-8 mx-auto mb-1"
@@ -273,9 +273,9 @@ function SearchCaretakers() {
           <div>
             <h1 class="mb-2 text-sm">What's your address or cross-streets?</h1>
             <div class="flex space-x-4">
-              {addressOptions(countryOptions, 'country')}
-              {addressOptions(cityOptions, 'city')}
-              {addressOptions(postalCodeOptions, 'postal_code')}
+              {addressOptions(countryOptions, "country")}
+              {addressOptions(cityOptions, "city")}
+              {addressOptions(postalCodeOptions, "postal_code")}
             </div>
           </div>
 

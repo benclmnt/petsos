@@ -28,6 +28,8 @@ export async function client(endpoint, { body, file, ...customConfig } = {}) {
     },
   };
 
+  console.log(config);
+
   if (file) {
     config.body = file;
     delete config.headers["Content-Type"];

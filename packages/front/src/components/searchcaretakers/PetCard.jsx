@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 function PetCard({ Pet, setPet, id, selectedID, setSelected }) {
   const btnStyle =
-    'justify-self-center md:flex rounded-lg shadow w-1/3 px-4 py-2 focus:outline-none border-2 duration-300 ease-in-out hover:text-orange-600';
+    "justify-self-center md:flex rounded-lg shadow w-1/3 px-4 py-2 focus:outline-none border-2 duration-300 ease-in-out hover:text-orange-600";
 
-  const iconStyle = 'fill-current w-16 h-16 duration-300 ease-in-out';
+  const iconStyle = "fill-current w-16 h-16 duration-300 ease-in-out";
 
   const cat = (
     <svg
-      class={selectedID == id ? iconStyle + ' text-orange-600' : iconStyle}
+      class={selectedID == id ? iconStyle + " text-orange-600" : iconStyle}
       id="Layer_1"
       enable-background="new 0 0 512.023 512.023"
       height="512"
@@ -25,7 +25,7 @@ function PetCard({ Pet, setPet, id, selectedID, setSelected }) {
 
   const dog = (
     <svg
-      class={selectedID == id ? iconStyle + ' text-orange-600' : iconStyle}
+      class={selectedID == id ? iconStyle + " text-orange-600" : iconStyle}
       id="Layer_1"
       enable-background="new 0 0 512 512"
       height="512"
@@ -43,8 +43,8 @@ function PetCard({ Pet, setPet, id, selectedID, setSelected }) {
     <button
       class={
         id === selectedID
-          ? btnStyle + ' border-orange-600'
-          : btnStyle + ' hover:border-orange-600'
+          ? btnStyle + " border-orange-600"
+          : btnStyle + " hover:border-orange-600"
       }
       onClick={(e) => {
         e.preventDefault();
@@ -52,17 +52,17 @@ function PetCard({ Pet, setPet, id, selectedID, setSelected }) {
         setSelected(id);
       }}
     >
-      {Pet.species === 'Dog' ? dog : cat}
+      {Pet.species === "Dog" ? dog : cat}
       <div class="mt-4 md:mt-0 md:ml-6 text-left">
         {/* Basic information */}
         <div class="uppercase tracking-wide text-lg text-orange-600 font-bold">
-          {Pet['species']}
+          {Pet["species"]}
         </div>
         <div class="block mt-1 text-md leading-tight font-semibold text-gray-900">
-          {Pet['breed']}
+          {Pet["breed"]}
         </div>
         <div class="block mt-1 text-md leading-tight font-semibold text-gray-900">
-          {Pet['size']}
+          {Pet["size"]}
         </div>
       </div>
     </button>

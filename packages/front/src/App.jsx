@@ -1,21 +1,25 @@
-import React from 'react';
-import LoginPage from './components/LoginPage';
-import Logout from './components/Logout';
-import SignUpPage from './components/SignUpPage';
-import Nav from './components/Nav';
-import Landing from './components/landing/Landing';
+import React from "react";
+import LoginPage from "./components/LoginPage";
+import Logout from "./components/Logout";
+import SignUpPage from "./components/SignUpPage";
+import Nav from "./components/Nav";
+import Landing from "./components/landing/Landing";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from 'react-router-dom';
-import AddPet from './components/AddPet';
-import EditProfile from './components/editprofile/EditProfile';
-import Dashboard from './components/dashboard/Dashboard';
-import SearchCaretakers from './components/searchcaretakers/SearchCaretakers';
-import BecomeCaretaker from './components/becomecaretaker/BecomeCaretaker';
-import CaretakersCard from './components/searchcaretakers/CaretakersCard';
+} from "react-router-dom";
+import MyPets from "./components/MyPets/MyPets";
+import EditProfile from "./components/editprofile/EditProfile";
+import Dashboard from "./components/dashboard/Dashboard";
+import SearchSitters from "./components/SearchSitters";
+import Admin from "./components/admin/Admin";
+import EditProfile from "./components/editprofile/EditProfile";
+import Dashboard from "./components/dashboard/Dashboard";
+import SearchCaretakers from "./components/searchcaretakers/SearchCaretakers";
+import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
+import CaretakersCard from "./components/searchcaretakers/CaretakersCard";
 
 function App() {
   return (
@@ -31,8 +35,8 @@ function App() {
             <LoginPage />
           </Route>
 
-          <Route exact path="/addPet">
-            <AddPet />
+          <Route exact path="/myPets/:name/">
+            <MyPets />
           </Route>
 
           <Route path="/profile/edit">
@@ -57,6 +61,10 @@ function App() {
 
           <Route exact path="/dashboard">
             <Dashboard />
+          </Route>
+
+          <Route exact path="/admin">
+            <Admin />
           </Route>
 
           <Route exact path="/logout">

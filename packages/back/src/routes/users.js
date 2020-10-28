@@ -7,8 +7,6 @@ import {
   queryUserByUsername,
   deleteUser as deleteUserQuery,
   editUser as editUserQuery,
-  queryPetByName,
-  addPet,
 } from "../db/queries";
 
 function getUsersRoutes() {
@@ -50,6 +48,9 @@ async function register(req, res) {
 }
 
 /**
+<<<<<<< HEAD
+ * Login using email
+=======
  * Delete user account
  */
 async function deleteUser(req, res) {
@@ -63,36 +64,6 @@ async function deleteUser(req, res) {
   await query(deleteUserQuery, [username]);
   return buildSuccessResponse(res, {
     user: "success",
-  });
-}
-
-/**
- * Insert new pet to table
- */
-async function insertNewPetToTable(req, res) {
-  const { name, pouname, species, breed, size } = req.body;
-  const params = [name, pouname, species, breed, size];
-  console.log(params);
-
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  try {
-    await query(addPet, params);
-  } catch (err) {
-    console.log(err);
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: "Pet has already existed",
-    });
-  }
-
-  // TODO: Drake to fix return data
-  const user = await query("SELECT * FROM pets;");
-  console.log(user);
-  return buildSuccessResponse(res, {
-    user,
   });
 }
 

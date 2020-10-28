@@ -51,3 +51,5 @@ INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES
 ('po2', 'dog', 'samoyed', 'big');
 INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
 ('po2', 'cat', 'siamese', 'big');
+INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
+('po1', '2020-10-29', '2020-10-30');

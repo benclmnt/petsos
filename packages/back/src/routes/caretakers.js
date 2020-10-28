@@ -18,7 +18,7 @@ function getCaretakersRoutes() {
   router.post("/capability", upsertCaretakerCapability);
   router.get("/categories", listAllPetCategories);
   router.get("/ctresults", getAllCaretakers);
-  router.get("/searchct", querySearchCaretakers);
+  router.post("/searchct", querySearchCaretakers);
   router.get("/ctcapability", listAllCapabilities);
   router.get("/:username", getCaretakerByUsername);
   router.post("/", insertNewCaretaker);
@@ -63,24 +63,8 @@ async function listAllPetCategories(req, res) {
 }
 
 async function querySearchCaretakers(req, res) {
-  const {
-    service,
-    postal_code,
-    start_date,
-    end_date,
-    species,
-    breed,
-    size,
-  } = req.body;
-  const params = [
-    service,
-    postal_code,
-    start_date,
-    end_date,
-    species,
-    breed,
-    size,
-  ];
+  const { postal_code, start_date, end_date, species, breed, size } = req.body;
+  const params = [postal_code, start_date, end_date, species, breed, size];
   console.log(params);
 
   if (checkMissingParameter(params)) {
@@ -91,7 +75,7 @@ async function querySearchCaretakers(req, res) {
     let caretakers = await query(searchCaretakersQuery, params);
     caretakers = caretakers.map(buildCaretakersObject);
     return buildSuccessResponse(res, {
-      caretaker: caretakers,
+      caretaker: caretakers.map(buildCaretakersObject),
     });
   } catch (err) {
     return buildCaretakersErrorObject(res, {

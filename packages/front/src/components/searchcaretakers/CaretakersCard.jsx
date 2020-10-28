@@ -3,33 +3,33 @@ import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-function CaretakersCard(Caretaker) {
-  const [rating, setRating] = useState(Caretaker.avg_rating); //cust_rating);
-  const [name, setName] = useState(Caretaker.ctuname); //full_name);
-  const [price, setPrice] = useState(Caretaker.base_price);
+function CaretakersCard({ caretaker }) {
+  const [rating, setRating] = useState(caretaker.avg_rating); //cust_rating);
+  const [name, setName] = useState(caretaker.ctuname); //full_name);
+  const [price, setPrice] = useState(caretaker.base_price);
   const [capability, setCapability] = useState("");
 
-  var createCapability = () =>
-    capability.map((x, i) => (
-      <div
-        class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default"
-        key={i}
-      >
-        {x.breed}, {x.size}
-      </div>
-    ));
+  // var createCapability = () =>
+  //   capability.map((x, i) => (
+  //     <div
+  //       class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default"
+  //       key={i}
+  //     >
+  //       {x.breed}, {x.size}
+  //     </div>
+  //   ));
 
   return (
     <div>
-      <div class="mt-40 w-2/6 md:flex rounded-lg shadow">
-        <div class="ml-6 mt-20 w-full">
+      <div class="bg-white mt-40 w-2/6 md:flex rounded-lg shadow px-10 py-8">
+        <div class="w-full">
           {/* Basic information */}
           <div class="flex justify-between">
             <div class="uppercase tracking-wide text-3xl text-indigo-600 font-bold">
               {name}
             </div>
 
-            <div class="flex flex-col mr-10">
+            <div class="flex flex-col">
               <div class="text-right text-2xl text-indigo-800 opacity-75 font-bold">
                 ${price}
               </div>
@@ -57,12 +57,12 @@ function CaretakersCard(Caretaker) {
           </div>
 
           {/* Capability */}
-          <div class="flex mt-2">{createCapability()}</div>
+          {/* <div class="flex mt-2">{createCapability()}</div> */}
 
-          <div class="flex space-x-10">
+          <div class="flex justify-between">
             {/* Rating */}
             <div>
-              <Box component="fieldset" mb={3} borderColor="transparent">
+              <Box component="fieldset" borderColor="transparent">
                 {/* <Typography component="legend">Rating</Typography> */}
                 <Rating
                   name="read-only"
@@ -71,18 +71,14 @@ function CaretakersCard(Caretaker) {
                   readOnly
                 />
               </Box>
+              {/* {rating} */}
             </div>
 
-            {/*Reviews */}
-            <div>
-              <div class="text-right">
-                <div
-                  href="#"
-                  class="mt-1 ml-64 text-indigo-800 tracking-wide uppercase text-sm font-bold hover:underline"
-                >
-                  See reviews
-                </div>
-              </div>
+            <div
+              href="#"
+              class="text-indigo-800 text-right tracking-wide uppercase text-sm font-bold hover:underline"
+            >
+              See reviews
             </div>
           </div>
         </div>

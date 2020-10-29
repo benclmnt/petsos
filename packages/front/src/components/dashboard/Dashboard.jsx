@@ -61,8 +61,8 @@ function Dashboard() {
 
   return (
     <div className=" dashboard h-screen">
-      <div className="flex items-start flex-row justify-center items-center pt-40  space-x-5">
-        <div className="flex flex-col space-y-6 self-stretch">
+      <div className="flex flex-row justify-center pt-40  space-x-5">
+        <div className="flex flex-col space-y-6">
           <div className="bg-white rounded-lg p-10 flex flex-row">
             <img
               src="https://www.flaticon.com/svg/static/icons/svg/21/21645.svg"
@@ -83,6 +83,19 @@ function Dashboard() {
           <div>
             <Balance />
           </div>
+
+          <Link to="/pastOrders">
+            <div className="p-4 bg-white rounded-md font-semibold text-2xl">
+              <img
+                src="https://www.flaticon.com/svg/static/icons/svg/1751/1751700.svg"
+                alt=""
+                width="30"
+                height="30"
+                className="float-left mr-4"
+              />{" "}
+              View Past Orders
+            </div>
+          </Link>
         </div>
         <div className="flex flex-col w-1/3 self-stretch">
           <div className="bg-white rounded-lg px-8 py-8">

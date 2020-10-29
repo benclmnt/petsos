@@ -109,6 +109,7 @@ CREATE TABLE bid (
 	pouname VARCHAR NOT NULL,
 	petname VARCHAR NOT NULL,
 	is_win BOOLEAN NOT NULL DEFAULT false,
+	review VARCHAR,
 	CHECK (ctuname <> pouname),
 	FOREIGN KEY (pouname, petname) REFERENCES pets(pouname, name),
 	PRIMARY KEY(pouname, petname, start_date, end_date)

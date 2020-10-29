@@ -17,6 +17,7 @@ import Admin from "./components/admin/Admin";
 import SearchCaretakers from "./components/searchcaretakers/SearchCaretakers";
 import BecomeCaretaker from "./components/becomecaretaker/BecomeCaretaker";
 import CaretakersCard from "./components/searchcaretakers/CaretakersCard";
+import PastOrders from "./components/pastOrders/PastOrders";
 
 function App() {
   return (
@@ -58,6 +59,10 @@ function App() {
 
           <Route exact path="/dashboard">
             <Dashboard />
+          </Route>
+
+          <Route exact path="/pastOrders">
+            <PastOrders />
           </Route>
 
           <Route exact path="/admin">

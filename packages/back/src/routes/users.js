@@ -7,6 +7,7 @@ import {
   queryUserByUsername,
   deleteUser as deleteUserQuery,
   editUser as editUserQuery,
+  queryPastOrders,
 } from "../db/queries";
 
 function getUsersRoutes() {
@@ -17,7 +18,26 @@ function getUsersRoutes() {
   router.delete("/:username", deleteUser);
   router.patch("/:username", editUserDetails);
   router.get("", listAllUsers);
+  router.get("/getPastOrders/:pouname", retrievePastOrders);
   return router;
+}
+
+async function retrievePastOrders(req, res) {
+  const pouname = req.params.pouname;
+
+  console.log(pouname);
+
+  if (checkMissingParameter([pouname])) {
+    return handleMissingParameter(res);
+  }
+
+  const orders = await query(queryPastOrders, [pouname]);
+
+  checkUserExists(res, orders);
+
+  return buildSuccessResponse(res, {
+    user: buildUsersObject(orders),
+  });
 }
 
 /**

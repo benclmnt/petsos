@@ -32,7 +32,7 @@ export const updatePetCategory =
 export const updatePetInfo =
   "UPDATE pets SET species = $3, breed = $4, size = $5, name = $6 WHERE name = $1 AND pouname = $2 RETURNING *;";
 export const queryPetCategories =
-  "SELECT * FROM pet_categories GROUP BY species,breed,size ORDER by species;";
+  "SELECT * FROM pet_categories ORDER by species;";
 export const queryPetByName = "SELECT * FROM pets WHERE name = $1;";
 
 // Caretaker-related queries

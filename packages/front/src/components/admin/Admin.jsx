@@ -1,30 +1,31 @@
-import React, { useState, useEffect } from "react";
-import "./admin.css";
-import { client as fetch } from "../../utils/client";
+import React, { useState, useEffect } from 'react';
+import './admin.css';
+import { client as fetch } from '../../utils/client';
 
 function Admin() {
-  const [petCategoryTable, setPetCategoryTable] = useState([]);
+  const [petCategories, setPetCategories] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [addOrEdit, setAddOrEdit] = useState("Add Pet Category");
-  const [species, setSpecies] = useState("");
-  const [breed, setBreed] = useState("");
-  const [size, setSize] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [species, setSpecies] = useState('');
+  const [breed, setBreed] = useState('');
+  const [size, setSize] = useState('');
   const [basePrice, setBasePrice] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [startItem, setStartItem] = useState("");
+  const [startItem, setStartItem] = useState('');
   const [endItem, setEndItem] = useState(itemsPerPage);
-  const [queryLink, setQueryLink] = useState("/pets/addNewPetCategory");
+  const [errorMsg, setErrorMsg] = useState('');
 
-  useEffect(async () => {
+  useEffect(() => {
     // GET request using fetch inside useEffect React hook
-    const link = "/pets/getPetCategoriesTable";
-    const result = await fetch(link);
-    setPetCategoryTable(Object.values(result));
-    setIsLoaded(true);
-    console.log(petCategoryTable);
+    async function fetchData() {
+      const result = await fetch('/pets/categories');
+      setPetCategories(result);
+      setIsLoaded(true);
+    }
+    fetchData();
   }, []);
 
-  const tableLength = petCategoryTable.length - 2;
+  const tableLength = petCategories.length - 2;
   let table;
 
   function pages(length) {
@@ -35,12 +36,12 @@ function Admin() {
     return a;
   }
 
-  let tablePages = pages(tableLength).map((item) => {
+  let tablePages = pages(tableLength).map((item, idx) => {
     const start = (item - 1) * itemsPerPage;
     const end = item * itemsPerPage;
     return (
-      <a
-        href=""
+      <span
+        key={idx}
         onClick={(e) => {
           e.preventDefault();
           setStartItem(start);
@@ -48,11 +49,13 @@ function Admin() {
         }}
       >
         {item}
-      </a>
+      </span>
     );
   });
 
-  const addPetCategory = async () => {
+  const handleUpsert = async (e) => {
+    e.preventDefault();
+
     const body = {
       species: species,
       breed: breed,
@@ -60,31 +63,37 @@ function Admin() {
       base_price: parseInt(basePrice),
     };
 
-    console.log(body);
-
     try {
-      const result = await fetch(queryLink, {
+      const result = await fetch('/pets/categories', {
         body: body,
+        method: isEdit ? 'PUT' : 'POST',
       });
+      setPetCategories(result);
+      setSpecies('');
+      setBreed('');
+      setSize('');
+      setBasePrice('');
+      setErrorMsg('');
     } catch (error) {
       console.error(error);
+      setErrorMsg(error.error);
     }
-    window.location.reload(false);
   };
 
   if (isLoaded) {
-    console.log(petCategoryTable);
     if (endItem > tableLength) {
       setEndItem(tableLength);
     }
-    table = petCategoryTable.slice(startItem, endItem).map((item) => {
+    table = petCategories.slice(startItem, endItem).map((item, idx) => {
       return (
-        <tr>
-          <td class="border border-gray-600 px-4 py-2">{item.species}</td>
-          <td class="border border-gray-600 px-4 py-2">{item.breed}</td>
-          <td class="border border-gray-600 px-4 py-2">{item.size}</td>
-          <td class="border border-gray-600 px-4 py-2">{item.base_price}</td>
-          <td class="border border-gray-600 px-1 py-2">
+        <tr key={idx}>
+          <td className="border border-gray-600 px-4 py-2">{item.species}</td>
+          <td className="border border-gray-600 px-4 py-2">{item.breed}</td>
+          <td className="border border-gray-600 px-4 py-2">{item.size}</td>
+          <td className="border border-gray-600 px-4 py-2">
+            {item.base_price}
+          </td>
+          <td className="border border-gray-600 px-1 py-2">
             <button
               onClick={() =>
                 edit(item.species, item.breed, item.size, item.base_price)
@@ -93,9 +102,11 @@ function Admin() {
               Edit
             </button>
           </td>
-          <td class="border border-gray-600 px-1 py-2">
+          <td className="border border-gray-600 px-1 py-2">
             <button
-              onClick={() => onDelete(item.species, item.breed, item.size)}
+              onClick={(e) =>
+                handleDelete(e, item.species, item.breed, item.size)
+              }
             >
               Delete
             </button>
@@ -105,43 +116,45 @@ function Admin() {
     });
   }
 
-  const onDelete = async (sp, br, sz) => {
-    const link = "/pets/deletePetCategoryBySpciesBreedSize";
+  const handleDelete = async (e, sp, br, sz) => {
+    e.preventDefault();
     const body = {
       species: sp,
       breed: br,
       size: sz,
     };
     try {
-      const result = await fetch(link, {
-        body: body,
-        method: "DELETE",
+      const result = await fetch('/pets/categories', {
+        body,
+        method: 'DELETE',
       });
-      console.log(result);
+      setPetCategories(result);
+      setErrorMsg('');
     } catch (error) {
       console.error(error);
+      setErrorMsg(error.error);
     }
-    window.location.reload(false);
   };
 
   const edit = (sp, br, sz, bp) => {
     setSpecies(sp);
     setBreed(br);
     setSize(sz);
-    setBasePrice(bp.toString());
-    setAddOrEdit("Edit Pet Category");
-    setQueryLink("/pets/updatePetCategory");
+    setBasePrice(bp?.toString());
+    setIsEdit(true);
   };
 
   return (
     <div className="admin h-screen flex justify-center">
-      <div class=" text-gray-700 text-center bg-white px-4 py-2 mt-20 rounded-lg w-1/2">
-        <h1 class="font-bold text-4xl">Set pet category</h1>
-
+      <div className=" text-gray-700 text-center bg-white px-4 py-2 mt-20 rounded-lg w-1/2">
+        <h1 className="font-bold text-4xl">Set pet category</h1>
+        <p className="text-orange-700">
+          {errorMsg !== '' && 'Error: ' + errorMsg}
+        </p>
         <div className="flex flex-col justify-center">
           <div className="flex flex-row mt-10 space-x-6 text-left p-5 ">
             <div>
-              <h1 class="font-semibold">Species</h1>
+              <h1 className="font-semibold">Species</h1>
               <input
                 type="text"
                 name="Pet Name"
@@ -149,71 +162,68 @@ function Admin() {
                 placeholder="Pet Name"
                 className="flex-shrink-0 rounded-md border-2 border-black p-2"
                 onChange={(e) => setSpecies(e.target.value)}
+                disabled={isEdit}
               />
             </div>
 
             <div>
-              <h1 class="font-semibold">Breed</h1>
+              <h1 className="font-semibold">Breed</h1>
               <input
                 type="text"
-                name="Pet Name"
+                name="Breed"
                 value={breed}
-                placeholder="Pet Name"
+                placeholder="Breed"
                 className="flex-shrink-0 rounded-md border-2 border-black p-2"
                 onChange={(e) => setBreed(e.target.value)}
+                disabled={isEdit}
               />
             </div>
 
             <div>
-              <h1 class="font-semibold">Size</h1>
-              <select
+              <h1 className="font-semibold">Size</h1>
+              <input
+                type="text"
+                name="Size"
+                value={size}
+                placeholder="Size"
                 className="flex-shrink-0 rounded-md border-2 border-black p-2"
-                onChange={(e) => setSize(e.target.value)}
-              >
-                <option value="">Size</option>
-                <option value="Small">Small</option>
-                <option value="Medium">Medium</option>
-                <option value="Large">Large</option>
-              </select>
+                onChange={(e) => setBreed(e.target.value)}
+                disabled={isEdit}
+              />
             </div>
 
             <div>
-              <h1 class="font-semibold">Base Price</h1>
+              <h1 className="font-semibold">Base Price</h1>
               <input
                 type="text"
                 placeholder="Base Price"
-                values={basePrice}
+                value={basePrice}
                 className="flex-shrink-0 rounded-md border-2 border-black p-2"
-                onChange={(e) => {
-                  setBasePrice(e.target.value);
-                }}
+                onChange={(e) => setBasePrice(e.target.value)}
               />
             </div>
           </div>
 
           <div className="mt-5 flex flex-col justify-center px-5">
-            <button
-              className="border-2 border-gray-600"
-              onClick={() => addPetCategory()}
-            >
-              {addOrEdit}
+            <button className="border-2 border-gray-600" onClick={handleUpsert}>
+              {isEdit ? 'Edit Pet Category' : 'Add Pet Category'}
             </button>
             <table className="border-collapse border-2 border-gray-500 mt-5">
               <thead>
                 <tr>
-                  <th class="border border-gray-600 px-4 py-2 text-gray-800">
+                  <th className="border border-gray-600 px-4 py-2 text-gray-800">
                     Species
                   </th>
-                  <th class="border border-gray-600 px-4 py-2 text-gray-800">
+                  <th className="border border-gray-600 px-4 py-2 text-gray-800">
                     Breed
                   </th>
-                  <th class="border border-gray-600 px-4 py-2 text-gray-800">
+                  <th className="border border-gray-600 px-4 py-2 text-gray-800">
                     Size
                   </th>
-                  <th class="border border-gray-600 px-4 py-2 text-gray-800">
+                  <th className="border border-gray-600 px-4 py-2 text-gray-800">
                     Base Price
                   </th>
-                  <th class="border border-gray-600 px-4 py-2 text-gray-800">
+                  <th className="border border-gray-600 px-4 py-2 text-gray-800">
                     <a
                       href=""
                       onClick={(e) => {
@@ -223,8 +233,8 @@ function Admin() {
                         setEndItem(itemsPerPage - 1);
                       }}
                     >
-                      {" "}
-                      -{" "}
+                      {' '}
+                      -{' '}
                     </a>
                     <a
                       href=""
@@ -235,8 +245,8 @@ function Admin() {
                         setEndItem(itemsPerPage + 1);
                       }}
                     >
-                      {" "}
-                      +{" "}
+                      {' '}
+                      +{' '}
                     </a>
                   </th>
                 </tr>

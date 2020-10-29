@@ -62,7 +62,8 @@ CREATE TABLE pet_categories (
     breed VARCHAR,
 	size VARCHAR,
 	base_price NUMERIC, -- NULL is to allow insertion to pet_categories when we add pets / capabilities
-	PRIMARY KEY(species, breed, size)
+	PRIMARY KEY(species, breed, size),
+	CHECK (base_price > 0)
 );
 
 CREATE TABLE pets (

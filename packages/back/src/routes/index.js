@@ -1,6 +1,6 @@
 import express from "express";
 import { getUsersRoutes } from "./users";
-import { getUsersRoutesPets } from "./pets";
+import { getPetCategoriesRoutes } from "./pets";
 import { getCaretakersRoutes } from "./caretakers";
 
 function getRoutes() {
@@ -11,7 +11,7 @@ function getRoutes() {
   //   next();
   // });
 
-  router.use("/pets", getUsersRoutesPets());
+  router.use("/pets", getPetCategoriesRoutes());
   router.use("/users", getUsersRoutes());
   router.use("/caretakers", getCaretakersRoutes());
 

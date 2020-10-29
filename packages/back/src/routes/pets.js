@@ -1,8 +1,8 @@
-import express from 'express';
-import logger from '../logger';
-import { query } from '../db';
+import express from "express";
+import logger from "../logger";
+import { query } from "../db";
 import {
-  addPet,
+  addPet as addPetQuery,
   queryPetByPouname,
   queryPetByPounameAndName,
   deletePetByPounameAndName,
@@ -10,28 +10,84 @@ import {
   queryPetCategories,
   addPetCategory,
   updatePetCategory,
-  updatePetInfo,
-} from '../db/queries';
+  updatePetInfo as updatePetInfoQuery,
+} from "../db/queries";
 
-function getUsersRoutesPets() {
+function getPetCategoriesRoutes() {
   const router = express.Router();
-  router.post('/addNewPet', insertNewPetToTable);
-  router.get('/getPetByPouname/:pouname', getPetByPouname);
-  router.get('/getPetByPounameAndName/:pouname/:name', getPetByPounameAndName);
-  router.get('/getPetCategoriesTable', getPetCategoriesTable);
-  router.delete('/deletePetByPounameAndName', removePetByPounameAndName);
-  router.delete(
-    '/deletePetCategoryBySpciesBreedSize',
-    removePetCategoryBySpeciesBreedSize
-  );
-  router.post('/addNewPetCategory', insertNewPetCategory);
-  router.post('/updatePetCategory', upgradePetCategory);
-  router.post('/updatePetInformation', upgradePetInfo);
+  // router.post('/addNewPet', insertNewPetToTable);
+  // router.get('/getPetByPouname/:pouname', getPetByPouname);
+  // router.get('/getPetByPounameAndName/:pouname/:name', getPetByPounameAndName);
+  router.get("/getPetCategoriesTable", listPetCategories);
+  // router.delete('/deletePetByPounameAndName', removePetByPounameAndName);
+  // router.delete(
+  //   '/deletePetCategoryBySpciesBreedSize',
+  //   removePetCategoryBySpeciesBreedSize
+  // );
+  router.post("/addNewPetCategory", insertNewPetCategory);
+  router.post("/updatePetCategory", upgradePetCategory);
+  // router.post('/updatePetInformation', upgradePetInfo);
   return router;
 }
 
-async function upgradePetInfo(req, res) {
-  const { name, pouname, species, breed, size } = req.body;
+// the below routes will be imported under /users/:username
+function getUsersPetsRoutes() {
+  // get params from parent router
+  const router = express.Router({ mergeParams: true });
+  router.post("/pets/:petname", updatePetInfo);
+  router.get("/pets/:petname", getUsersPetsByName);
+  router.delete("/pets", deletePet);
+  router.post("/pets", createPet);
+  router.get("/pets", listUsersPets);
+  return router;
+}
+
+async function listUsersPets(req, res) {
+  const { username: pouname } = req.params;
+  const params = [pouname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  const pets = await query(queryPetByPouname, params);
+
+  console.log(pets);
+
+  return buildSuccessResponse(res, {
+    data: pets.map((pet) => buildPetsObject(pet, pouname)),
+  });
+}
+
+async function getUsersPetsByName(req, res) {
+  const { username: pouname, petname: name } = req.params;
+  const params = [pouname, name];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  const pets = await query(queryPetByPounameAndName, params);
+
+  if (pets.length == 0) {
+    return buildErrorObject(res, {
+      error: "Pet not found",
+    });
+  }
+
+  return buildSuccessResponse(res, {
+    data: buildPetsObject(pets[0], pouname),
+  });
+}
+
+/**
+ * Insert new pet to table
+ */
+async function createPet(req, res) {
+  const { name, species, breed, size } = req.body;
+  const { username: pouname } = req.params;
   const params = [name, pouname, species, breed, size];
   console.log(params);
 
@@ -40,16 +96,97 @@ async function upgradePetInfo(req, res) {
   }
 
   try {
-    await query(updatePetInfo, params);
+    await query(addPetQuery, params);
   } catch (err) {
     console.log(err);
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
-      error: 'Pet does not exist in the table',
+      error: "Pet has already existed",
     });
   }
 
-  const user = await query(queryPetByPounameAndName, [pouname, name]);
+  const pets = await query(queryPetByPouname, [pouname]);
+  console.log(pets);
+  return buildSuccessResponse(res, {
+    data: pets.map((pet) => buildPetsObject(pet, pouname)),
+  });
+}
+
+async function updatePetInfo(req, res) {
+  const { username: pouname, petname: name } = req.params;
+  const { name: newName = name, species, breed, size } = req.body;
+  const params = [name, pouname, species, breed, size, newName];
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    const updatedPet = await query(updatePetInfoQuery, params);
+    return buildSuccessResponse(res, {
+      data: buildPetsObject(updatedPet),
+    });
+  } catch (err) {
+    console.log(err);
+    return buildErrorObject(res, {
+      status: 400,
+      // error: 'Pet does not exist in the table',
+      error: err.message,
+    });
+  }
+}
+
+async function deletePet(req, res) {
+  const { username: pouname } = req.params;
+  const { name } = req.body;
+  const params = [pouname, name];
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    const deletedPet = await query(deletePetByPounameAndName, params);
+    const pets = await query(queryPetByPouname, [pouname]);
+    return buildSuccessResponse(res, {
+      data: {
+        pets: pets.map((pet) => buildPetsObject(pet)),
+        deletedPet: deletedPet[0],
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return buildErrorObject(res, {
+      status: 400,
+      error: "Pet does not exist",
+    });
+  }
+}
+
+/**
+ * Insert new pet category to table
+ */
+async function insertNewPetCategory(req, res) {
+  const { species, breed, size, base_price } = req.body;
+  const params = [species, breed, size, base_price];
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(addPetCategory, params);
+  } catch (err) {
+    console.log(err);
+    return buildErrorObject(res, {
+      status: 400,
+      error: "Pet has already existed",
+    });
+  }
+  const user = await query("SELECT * FROM pet_categories;");
   console.log(user);
   return buildSuccessResponse(res, {
     user,
@@ -69,9 +206,9 @@ async function upgradePetCategory(req, res) {
     await query(updatePetCategory, params);
   } catch (err) {
     console.log(err);
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
-      error: 'Pet does not exist in the table',
+      error: "Pet does not exist in the table",
     });
   }
 
@@ -95,9 +232,9 @@ async function removePetCategoryBySpeciesBreedSize(req, res) {
     await query(deletePetCategoryBySpeciesBreedSize, params);
   } catch (err) {
     console.log(err);
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
-      error: 'Pet does not exist in the table',
+      error: "Pet does not exist in the table",
     });
   }
 
@@ -108,85 +245,7 @@ async function removePetCategoryBySpeciesBreedSize(req, res) {
   });
 }
 
-/**
- * Insert new pet to table
- */
-async function insertNewPetCategory(req, res) {
-  const { species, breed, size, base_price } = req.body;
-  const params = [species, breed, size, base_price];
-  console.log(params);
-
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  try {
-    await query(addPetCategory, params);
-  } catch (err) {
-    console.log(err);
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: 'Pet has already existed',
-    });
-  }
-  const user = await query('SELECT * FROM pet_categories;');
-  console.log(user);
-  return buildSuccessResponse(res, {
-    user,
-  });
-}
-/**
- * Insert new pet to table
- */
-async function insertNewPetToTable(req, res) {
-  const { name, pouname, species, breed, size } = req.body;
-  const params = [name, pouname, species, breed, size];
-  console.log(params);
-
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  try {
-    await query(addPet, params);
-  } catch (err) {
-    console.log(err);
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: 'Pet has already existed',
-    });
-  }
-
-  // TODO: Drake to fix return data
-  const user = await query('SELECT * FROM pets;');
-  console.log(user);
-  return buildSuccessResponse(res, {
-    user,
-  });
-}
-
-async function getPetByPouname(req, res) {
-  const pouname = req.params.pouname;
-  const params = [pouname];
-
-  console.log(params);
-
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  const users = await query(queryPetByPouname, params);
-
-  console.log(users);
-
-  checkUserExists(res, users);
-
-  return buildSuccessResponse(res, {
-    user: buildUsersObject(users),
-  });
-}
-
-async function getPetCategoriesTable(req, res) {
+async function listPetCategories(req, res) {
   const users = await query(queryPetCategories);
 
   console.log(users);
@@ -194,94 +253,50 @@ async function getPetCategoriesTable(req, res) {
   checkUserExists(res, users);
 
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users),
+    user: buildPetsObject(users),
   });
 }
 
-async function getPetByPounameAndName(req, res) {
-  const pouname = req.params.pouname;
-  const name = req.params.name;
-  const params = [pouname, name];
-
-  console.log(params);
-
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  const users = await query(queryPetByPounameAndName, params);
-
-  checkUserExists(res, users);
-
-  return buildSuccessResponse(res, {
-    user: buildUsersObject(users),
-  });
-}
-
-async function removePetByPounameAndName(req, res) {
-  const { name, pouname } = req.body;
-  const params = [pouname, name];
-  console.log(params);
-
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  try {
-    await query(deletePetByPounameAndName, params);
-  } catch (err) {
-    console.log(err);
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: 'Pet does not exist in the table',
-    });
-  }
-
-  const user = await query(queryPetCategories, [pouname]);
-  console.log(user);
-  return buildSuccessResponse(res, {
-    user,
-  });
-}
-
-export { getUsersRoutesPets };
+export { getPetCategoriesRoutes, getUsersPetsRoutes };
 
 /**
  * PRIVATE FUNCTIONS
  */
 
-function buildUsersErrorObject(res, { status, error }) {
+function buildErrorObject(res, { status = 400, error }) {
   logger.error(error);
 
   const errorResp = {
-    kind: 'Error',
+    kind: "Error",
     error,
   };
 
-  return res.status(status).json(errorResp);
+  res.status(status).json(errorResp);
+  return true;
 }
 
-function buildUsersObject(user) {
+function buildPetsObject(pet, pouname) {
   const obj = {
-    kind: 'User',
-    ...user,
-    selfLink: `/users/${user.username}`,
+    kind: "Pet",
+    ...pet,
+    selfLink: `/users/${pouname}/pets/${pet?.name}`,
+    parentLink: `/users/${pouname}`,
   };
-  delete obj.password;
   return obj;
 }
 
-function buildSuccessResponse(res, { status, user }) {
-  return res.status(status || 200).json(user);
+function buildSuccessResponse(res, { status = 200, data }) {
+  return res.status(status).json(data);
 }
 
 function checkUserExists(res, users) {
   if (users.length === 0) {
-    return buildUsersErrorObject(res, {
+    return !buildErrorObject(res, {
       status: 400,
-      error: 'Cannot find user',
+      error: "Cannot find user",
     });
   }
+  return true;
 }
 
 function checkMissingParameter(array) {
@@ -289,8 +304,8 @@ function checkMissingParameter(array) {
 }
 
 function handleMissingParameter(res) {
-  return buildUsersErrorObject(res, {
+  return buildErrorObject(res, {
     status: 400,
-    error: 'Missing some required parameters',
+    error: "Missing some required parameters",
   });
 }

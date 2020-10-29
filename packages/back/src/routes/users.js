@@ -1,6 +1,7 @@
 import express from "express";
 import logger from "../logger";
 import { query } from "../db";
+import { getUsersPetsRoutes } from "./pets";
 import {
   getAllUsers,
   registerUser,
@@ -13,7 +14,7 @@ function getUsersRoutes() {
   const router = express.Router();
   router.post("/login", login);
   router.post("/register", register);
-  router.post("/addNewPet", insertNewPetToTable);
+  router.use("/:username", getUsersPetsRoutes());
   router.get("/:username", getUserInfo);
   router.delete("/:username", deleteUser);
   router.patch("/:username", editUserDetails);
@@ -35,7 +36,7 @@ async function register(req, res) {
   try {
     await query(registerUser, params);
   } catch (err) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
       error: "Username already registered.",
     });
@@ -48,9 +49,6 @@ async function register(req, res) {
 }
 
 /**
-<<<<<<< HEAD
- * Login using email
-=======
  * Delete user account
  */
 async function deleteUser(req, res) {
@@ -79,10 +77,14 @@ async function login(req, res) {
 
   const users = await query(queryUserByUsername, [username]);
 
-  checkUserExists(res, users);
+  if (users.length === 0) {
+    return buildErrorObject(res, {
+      error: "Cannot find user",
+    });
+  }
 
   if (password !== users[0].password) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 401,
       error: "Wrong email or password",
     });
@@ -102,7 +104,11 @@ async function getUserInfo(req, res) {
 
   const users = await query(queryUserByUsername, [username]);
 
-  checkUserExists(res, users);
+  if (users.length === 0) {
+    return buildErrorObject(res, {
+      error: "Cannot find user",
+    });
+  }
 
   return buildSuccessResponse(res, {
     user: buildUsersObject(users[0]),
@@ -132,7 +138,7 @@ async function editUserDetails(req, res) {
       user: buildUsersObject(users[0]),
     });
   } catch (err) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
       error: err.message,
     });
@@ -141,11 +147,11 @@ async function editUserDetails(req, res) {
 
 export { getUsersRoutes };
 
-/**
+/**************************
  * PRIVATE FUNCTIONS
- */
+ **************************/
 
-function buildUsersErrorObject(res, { status, error }) {
+function buildErrorObject(res, { status = 400, error }) {
   logger.error(error);
 
   const errorResp = {
@@ -171,21 +177,12 @@ function buildSuccessResponse(res, { status, user }) {
   return res.status(status || 200).json(user);
 }
 
-function checkUserExists(res, users) {
-  if (users.length === 0) {
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: "Cannot find user",
-    });
-  }
-}
-
 function checkMissingParameter(array) {
   return array.some((param) => param === undefined || param === null);
 }
 
 function handleMissingParameter(res) {
-  return buildUsersErrorObject(res, {
+  return buildErrorObject(res, {
     status: 400,
     error: "Missing some required parameters",
   });

@@ -24,13 +24,13 @@ export const queryPetByPouname = "SELECT * FROM pets WHERE pouname = $1;";
 export const queryPetByPounameAndName =
   "SELECT * FROM pets WHERE pouname = $1 AND name = $2;";
 export const deletePetByPounameAndName =
-  "DELETE FROM pets WHERE pouname = $1 AND name = $2;";
+  "DELETE FROM pets WHERE pouname = $1 AND name = $2 RETURNING *;";
 export const deletePetCategoryBySpeciesBreedSize =
   "DELETE FROM pet_categories WHERE species = $1 AND breed = $2 AND size = $3;";
 export const updatePetCategory =
   "UPDATE pet_categories SET base_price = $4 WHERE species = $1 AND breed = $2 AND size = $3;";
 export const updatePetInfo =
-  "UPDATE pets SET species = $3, breed = $4, size = $5 WHERE name = $1 AND pouname = $2;";
+  "UPDATE pets SET species = $3, breed = $4, size = $5, name = $6 WHERE name = $1 AND pouname = $2 RETURNING *;";
 export const queryPetCategories =
   "SELECT * FROM pet_categories GROUP BY species,breed,size ORDER by species;";
 export const queryPetByName = "SELECT * FROM pets WHERE name = $1;";
@@ -48,7 +48,7 @@ export const upsertCaretakerAddress =
 export const upsertCaretakerAvailability =
   "INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ($1, $2, $3);";
 export const upsertCaretakerCapability =
-  "INSERT INTO is_capable(pc_species, pc_breed, pc_size, ctuname) VALUES ($1, $2, $3, $4);";
+  "INSERT INTO is_capable(species, breed, size, ctuname) VALUES ($1, $2, $3, $4);";
 
 // Queries to search caretakers
 export const querySearchCaretakers =

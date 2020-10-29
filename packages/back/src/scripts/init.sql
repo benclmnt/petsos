@@ -130,6 +130,7 @@ CREATE VIEW all_ct AS (
 	SELECT * FROM is_capable B
 		NATURAL JOIN caretakers C
 		NATURAL JOIN availability_span A
+		NATURAL JOIN users AS users(ctuname, email, password, address, city, country, postal_code)
 );
 
 -- TRIGGERS

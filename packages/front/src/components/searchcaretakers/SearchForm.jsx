@@ -13,7 +13,7 @@ function _toJSONLocal(date) {
   return local.toJSON().substring(0, 10);
 }
 
-function SearchForm({ setShowSearchForm, searchResult, setSearchResult }) {
+function SearchForm({ setShowSearchForm, setSearchResult }) {
   const user = useUser();
   const [capabilities, setCapabilities] = useState([]);
   const [address, setAddress] = useState({
@@ -27,6 +27,7 @@ function SearchForm({ setShowSearchForm, searchResult, setSearchResult }) {
   const [species, setSpecies] = useState(0);
   const [size, setSize] = useState("");
   const [breed, setBreed] = useState("");
+  const [postalCode, setPostalCode] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
 
   // Pets
@@ -38,7 +39,7 @@ function SearchForm({ setShowSearchForm, searchResult, setSearchResult }) {
   // Address
   var countryOptions = ["Singapore"];
   var cityOptions = ["Singapore"];
-  var postalCodeOptions = [1, 2, 3, 4, 5, 6, 7];
+  var postalCodeOptions = [10003, 10008, 10005, 10006];
 
   var addressOptions = (choices, name) => (
     <select
@@ -116,11 +117,11 @@ function SearchForm({ setShowSearchForm, searchResult, setSearchResult }) {
   //Search
 
   const handleSearch = async (e) => {
-    e.preventDefault();
+    //e.preventDefault();
 
     const searchParams = {
       //   postal_code: address.postal_code,
-      postal_code: 10000,
+      postal_code: 10003,
       start_date: startDate,
       end_date: endDate,
       species: species,
@@ -129,12 +130,14 @@ function SearchForm({ setShowSearchForm, searchResult, setSearchResult }) {
     };
 
     try {
-      searchResult = await fetch("/caretakers/searchct", {
+      console.log("hehe");
+      const tmp = await fetch("/caretakers/searchct", {
         body: searchParams,
         method: "GET",
       });
-      setSearchResult(searchResult);
-      console.log(searchResult);
+      console.log("hoho");
+      setSearchResult(tmp);
+      console.log(tmp);
     } catch (err) {
       setErrorMsg(err.error);
       return;
@@ -208,7 +211,6 @@ function SearchForm({ setShowSearchForm, searchResult, setSearchResult }) {
 
         {/* Next Button */}
         <button
-          // onSubmit={(e) => handleSearch(e)}
           type="submit"
           class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded"
         >

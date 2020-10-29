@@ -63,14 +63,7 @@ async function listAllPetCategories(req, res) {
 }
 
 async function querySearchCaretakers(req, res) {
-  const {
-    postal_code,
-    start_date,
-    end_date,
-    species,
-    breed,
-    size,
-  } = req.params;
+  const { postal_code, start_date, end_date, species, breed, size } = req.query;
   // const { ctuname, base_price, avg_rating } = req.body;
   const params = [postal_code, start_date, end_date, species, breed, size];
 
@@ -83,9 +76,10 @@ async function querySearchCaretakers(req, res) {
     console.log(caretakers);
     // caretakers = caretakers.map(buildCaretakersObject);
     return buildSuccessResponse(res, {
-      caretaker: caretakers.map(buildCaretakersObject),
+      caretaker: caretakers,
     });
   } catch (err) {
+    console.log(err);
     return buildCaretakersErrorObject(res, {
       status: 200,
       error: err.detail,

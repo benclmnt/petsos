@@ -71,8 +71,15 @@ async function querySearchCaretakers(req, res) {
     return handleMissingParameter(res);
   }
 
+  console.log(params);
+
   try {
-    const caretakers = await query(searchCaretakersQuery, params);
+    const caretakers = await query(searchCaretakersQuery, [
+      start_date,
+      end_date,
+      species,
+      breed,
+    ]);
     console.log(caretakers);
     // caretakers = caretakers.map(buildCaretakersObject);
     return buildSuccessResponse(res, {

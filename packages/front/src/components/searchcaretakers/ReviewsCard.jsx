@@ -3,21 +3,19 @@ import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-function CaretakersCard({ caretaker }) {
-  const [rating, setRating] = useState(caretaker.avg_rating); //cust_rating);
-  const [name, setName] = useState(caretaker.ctuname); //full_name);
-  const [price, setPrice] = useState(caretaker.base_price);
-  const [capability, setCapability] = useState("");
+function ReviewsCard({ reviews }) {
+  const [ratingFromPetOwner, setRating] = useState(reviews.rating); //cust_rating);
+  const [pouname, setPetOwnerName] = useState(reviews.pouname); //full_name);
 
-  var createCapability = () =>
-    capability.map((x, i) => (
-      <div
-        class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default"
-        key={i}
-      >
-        {x.breed}, {x.size}
-      </div>
-    ));
+  // var createCapability = () =>
+  //   capability.map((x, i) => (
+  //     <div
+  //       class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default"
+  //       key={i}
+  //     >
+  //       {x.breed}, {x.size}
+  //     </div>
+  //   ));
 
   return (
     <div>
@@ -26,17 +24,17 @@ function CaretakersCard({ caretaker }) {
           {/* Basic information */}
           <div class="flex justify-between">
             <div class="uppercase tracking-wide text-3xl text-indigo-600 font-bold">
-              {name}
+              {pouname}
             </div>
 
-            <div class="flex flex-col">
+            {/* <div class="flex flex-col">
               <div class="text-right text-2xl text-indigo-800 opacity-75 font-bold">
                 ${price}
               </div>
 
               <div class="text-sm text-right text-indigo-800 opacity-75">
                 per night
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -87,4 +85,4 @@ function CaretakersCard({ caretaker }) {
   );
 }
 
-export default CaretakersCard;
+export default ReviewsCard;

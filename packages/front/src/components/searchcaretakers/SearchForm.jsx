@@ -4,14 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../css/datepicker.css";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-
-function _toJSONLocal(date) {
-  var local = date;
-  local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-  console.log(date, local);
-  return local.toJSON().substring(0, 10);
-}
+import { toJSONLocal } from "../../utils/dateutils";
 
 function SearchForm({ setShowSearchForm, setSearchResult }) {
   const user = useUser();
@@ -21,14 +14,26 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     city: user.city,
     postal_code: user.postal_code,
   });
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [species, setSpecies] = useState(0);
-  const [size, setSize] = useState("");
-  const [breed, setBreed] = useState("");
-  const [postalCode, setPostalCode] = useState(0);
+  const [formState, setFormState] = useState({
+    start_date: new Date(),
+    end_date: new Date(),
+    species:"dog",
+    breed:"samoyed",
+    size:"small",
+    postal_code:"10008", // TODO: to change to user.postal_code
+    country: user.country,
+    city: user.city,
+  });
+
   const [errorMsg, setErrorMsg] = useState("");
+
+  const handleChange = (e) => {
+    // console.log(e.target.name, e.target.value);
+    setFormState({
+      ...formState,
+      [e.target.name] : e.target.value,
+    })
+  }
 
   // Pets
   var petOptions = [
@@ -69,11 +74,11 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   const StartDatepicker = () => {
     return (
       <DatePicker
-        selected={startDate}
+        selected={formState.start_date}
         required="required"
         //locale = 'en-SG'
         //disableTime={true}
-        onChange={(date) => setStartDate(date)}
+        onChange={date => setFormState({...formState, start_date: date})}
         dateFormat={dateFormat}
         placeholderText="Start Date"
       />
@@ -83,12 +88,12 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   const EndDatepicker = (index) => {
     return (
       <DatePicker
-        selected={endDate}
+        selected={formState.end_date}
         required="required"
         //locale = 'en-SG'
         //disableTime={true}
-        onChange={(date) => setEndDate(date)}
         dateFormat={dateFormat}
+        onChange={date => setFormState({...formState, end_date: date})}
         placeholderText="End Date"
       />
     );
@@ -97,52 +102,39 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   useEffect(() => {
     (async () => {
       // GET request using fetch inside useEffect React hook
-      const link = "/caretakers/categories";
-      const result = await fetch(link);
-      setCapabilities(Object.values(result));
-      setIsLoaded(true);
-      console.log(capabilities);
+      const result = await fetch("/caretakers/categories");
+      setCapabilities(result);
     })();
   }, []);
 
-  let table;
-
-  if (isLoaded) {
-    console.log(capabilities[species]);
-    table = capabilities[species].map((item) => {
-      return <option value={item}>{item}</option>;
-    });
-  }
-
+  console.log("cap", capabilities);
   //Search
-
   const handleSearch = async (e) => {
-    //e.preventDefault();
+    e.preventDefault();
+
 
     const searchParams = {
-      //   postal_code: address.postal_code,
-      postal_code: 10003,
-      start_date: startDate,
-      end_date: endDate,
-      species: species,
-      breed: breed,
-      size: size,
+      ...formState,
+      start_date: toJSONLocal(formState.start_date),
+      end_date: toJSONLocal(formState.end_date),
     };
 
+    // generate the query params
+    let link = "/caretakers/searchct?";
+    const paramsKeyValue = [];
+    Object.entries(searchParams).forEach(([key, value]) => paramsKeyValue.push(`${key}=${value}`));
+    link += paramsKeyValue.join("&");
+
     try {
-      console.log("hehe");
-      const tmp = await fetch("/caretakers/searchct", {
-        body: searchParams,
-        method: "GET",
-      });
-      console.log("hoho");
-      setSearchResult(tmp);
+      const tmp = await fetch(link);
       console.log(tmp);
+      setSearchResult((_) => tmp);
+      setShowSearchForm(false);
     } catch (err) {
-      setErrorMsg(err.error);
+      console.error(err);
+      setErrorMsg(err?.error);
       return;
     }
-    setShowSearchForm(false);
   };
 
   return (
@@ -151,6 +143,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
       class="flex-col max-h-screen max-w-2xl mx-auto"
     >
       <div class="bg-white text-black px-10 py-8 rounded shadow space-y-3">
+      <p className="py-3 text-orange-700">{errorMsg}</p>
         <h1 class="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
         {/* Pets */}
@@ -158,29 +151,31 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
           <h1 class="text-sm mb-4">I'm looking for services for:</h1>
           <div class="md:flex space-x-4">
             <select
+            name="species"
               class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-              onChange={(e) => setSpecies(parseInt(e.target.value))}
+              onChange={handleChange}
+              defaultValue={formState.species}
             >
               {/* <option value="2" disabled>Select species</option> */}
-              <option value="0">dog</option>
-              <option value="1">cat</option>
+              <option value="dog">dog</option>
+              <option value="cat">cat</option>
             </select>
 
             <select
+              name="breed"
               class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-              onClick={(e) => {
-                setBreed(e.target.value);
-              }}
+              onChange={handleChange}
+              defaultValue={formState.breed}
             >
               {/* <option value="" disabled>Select breed</option> */}
-              {table}
+              {capabilities[formState.species]?.map((item, idx) => <option value={item} key={idx}>{item}</option>)}
             </select>
 
             <select
+              name="size"
               class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-              onClick={(e) => {
-                setSize(e.target.value);
-              }}
+              onChange={handleChange}
+              defaultValue={formState.size}
             >
               {/* <option value="" disabled>Select size</option> */}
               <option value="big">big</option>
@@ -196,7 +191,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
           <div class="flex space-x-4">
             {addressOptions(countryOptions, "country")}
             {addressOptions(cityOptions, "city")}
-            {addressOptions(postalCodeOptions, "postal_code")}
+            <input type="number" name="postal_code" defaultValue={formState.postal_code} onChange={handleChange}/>
           </div>
         </div>
 

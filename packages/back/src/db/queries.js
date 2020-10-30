@@ -40,9 +40,9 @@ export const getAllCapabilities =
 // Queries to search caretakers
 export const queryAllCaretakers =
   "SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code";
+// WHERE postal_code = $1\
 export const querySearchCaretakers =
   "SELECT * FROM all_ct\
-  WHERE postal_code = $1\
-  AND start_date <= $2 AND end_date >= $3\
-  AND pc_species = $4 AND pc_breed = $5 AND pc_size = $6;";
+  WHERE start_date <= $1 AND end_date >= $2\
+  AND pc_species = $3 AND pc_breed = $4;";
 export const getPetCategories = "SELECT * FROM pet_categories;";

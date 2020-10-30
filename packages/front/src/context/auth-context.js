@@ -10,7 +10,14 @@ function AuthProvider(props) {
   });
 
   useEffect(() => {
-    authClient.getUser().then((user) => setData({ status: "success", user }));
+    authClient
+      .getUser()
+      .then((user) => setData({ status: "success", user }))
+      .catch((err) => {
+        console.error(err);
+        authClient.logout();
+        setData({ ...data, status: "success" });
+      });
   }, []);
 
   // 🚨 this is the important bit.

@@ -38,6 +38,8 @@ export const deletePetByPounameAndName =
   "DELETE FROM pets WHERE pouname = $1 AND name = $2;";
 export const queryPastOrders =
   "SELECT * FROM bid WHERE pouname = $1 ORDER BY start_date, end_date ";
+export const setRatingAndReview =
+  "UPDATE bid SET rating = $5, review = $6 WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4;";
 
 // Caretaker-related queries
 export const queryCaretakerByUsername =

@@ -8,6 +8,7 @@ import {
   deleteUser as deleteUserQuery,
   editUser as editUserQuery,
   queryPastOrders,
+  setRatingAndReview,
 } from "../db/queries";
 
 function getUsersRoutes() {
@@ -19,7 +20,33 @@ function getUsersRoutes() {
   router.patch("/:username", editUserDetails);
   router.get("", listAllUsers);
   router.get("/getPastOrders/:pouname", retrievePastOrders);
+  router.post("/setRatingAndReview", putRatingAndReview);
   return router;
+}
+
+async function putRatingAndReview(req, res) {
+  const { pouname, petname, start_date, end_date, rating, review } = req.body; // GG SQL INJECTION!
+  const params = [pouname, petname, start_date, end_date, rating, review];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(setRatingAndReview, params);
+  } catch (err) {
+    return buildUsersErrorObject(res, {
+      status: 400,
+      error: err.message,
+    });
+  }
+
+  const users = await query(queryUserByUsername, [pouname]);
+  return buildSuccessResponse(res, {
+    user: buildUsersObject(users[0]),
+  });
 }
 
 async function retrievePastOrders(req, res) {

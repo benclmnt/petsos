@@ -18,6 +18,7 @@ function SearchCaretakers() {
         backgroundPosition: "center center",
       }}
     >
+
       {showSearchForm === true ? (
         <SearchForm
           setShowSearchForm={setShowSearchForm}

@@ -69,7 +69,8 @@ CREATE TABLE pet_categories (
     breed VARCHAR,
 	size VARCHAR,
 	base_price NUMERIC, -- NULL is to allow insertion to pet_categories when we add pets / capabilities
-	PRIMARY KEY(species, breed, size)
+	PRIMARY KEY(species, breed, size),
+	CHECK (base_price > 0)
 );
 
 CREATE TABLE pets (
@@ -93,14 +94,14 @@ CREATE TABLE special_reqs (
 );
 
 CREATE TABLE is_capable (
-    pc_species VARCHAR NOT NULL,
-	pc_breed VARCHAR NOT NULL,
-	pc_size VARCHAR NOT NULL,
+    species VARCHAR NOT NULL,
+	breed VARCHAR NOT NULL,
+	size VARCHAR NOT NULL,
     ctuname VARCHAR NOT NULL REFERENCES caretakers(ctuname)
         ON DELETE CASCADE,
-	FOREIGN KEY (pc_species, pc_breed, pc_size)
+	FOREIGN KEY (species, breed, size)
 		REFERENCES pet_categories(species, breed, size),
-	PRIMARY KEY (pc_breed, pc_size, pc_species, ctuname)
+	PRIMARY KEY (breed, size, species, ctuname)
 );
 
 
@@ -153,9 +154,9 @@ $$
 	DECLARE flag INTEGER;
 	BEGIN
 		SELECT COUNT(*) INTO flag FROM pet_categories C
-			WHERE C.species = NEW.pc_species AND C.breed = NEW.pc_breed AND C.size = NEW.pc_size;
+			WHERE C.species = NEW.species AND C.breed = NEW.breed AND C.size = NEW.size;
 		IF flag = 0 THEN
-			INSERT INTO pet_categories(species, breed, size) SELECT NEW.pc_species, NEW.pc_breed, NEW.pc_size;
+			INSERT INTO pet_categories(species, breed, size) SELECT NEW.species, NEW.breed, NEW.size;
 		END IF;
 	RETURN NEW;
 	END;

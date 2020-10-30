@@ -1,0 +1,61 @@
+.addPet input[type="text"] {
+  display: block;
+  padding: 4px 10px;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.addPet select {
+  display: block;
+  padding: 4px 10px;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.addPet textarea {
+  resize: none;
+}
+
+.addPet textarea:active,
+:focus {
+  outline-color: orange;
+}
+
+.addPet input[type="radio"]:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  border: 1.5px solid orange;
+
+  top: -5px;
+  left: -1px;
+  position: relative;
+  background-color: white;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+}
+
+.addPet input[type="radio"]:checked:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  border: 1.5px solid orange;
+
+  top: -5px;
+  left: -1px;
+  position: relative;
+  background-color: orange;
+  content: "";
+}
+
+.petBtn-toggle {
+  border-width: 1.5px;
+  transform: scale(1.05);
+  filter: invert(61%) sepia(74%) saturate(3155%) hue-rotate(0deg)
+    brightness(103%) contrast(106%);
+}

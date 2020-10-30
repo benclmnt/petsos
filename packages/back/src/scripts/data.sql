@@ -33,23 +33,23 @@ INSERT into pet_categories(species, breed, size) VALUES
 ('cat', 'birman', 'medium');
 INSERT INTO caretakers(ctuname, ct_type) VALUES
 ('po0', 'part-time');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po0', 'dog', 'husky', 'big');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po0', 'dog', 'shiba inu', 'medium');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po0', 'cat', 'sphynx', 'small');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po0', 'cat', 'bengal', 'small');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po1', 'dog', 'cihuahua', 'small');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po1', 'dog', 'pug', 'medium');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po1', 'cat', 'persian', 'medium');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po2', 'dog', 'samoyed', 'big');
-INSERT INTO is_capable(ctuname, pc_species, pc_breed, pc_size) VALUES 
+INSERT INTO is_capable(ctuname, species, breed, size) VALUES 
 ('po2', 'cat', 'siamese', 'big');
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
 ('po1', '2020-10-25', '2020-10-30');

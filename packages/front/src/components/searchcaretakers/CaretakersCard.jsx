@@ -8,6 +8,7 @@ function CaretakersCard({ caretaker, handleSeeReviews, setShowReviews }) {
   const [rating, setRating] = useState(caretaker.avg_rating); //cust_rating);
   const [name, setName] = useState(caretaker.ctuname); //full_name);
   const [price, setPrice] = useState(caretaker.base_price);
+  const [postal_code, setPostalCode] = useState(caretaker.postal_code);
   const [searchResult, setSearchResult] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -59,7 +60,7 @@ function CaretakersCard({ caretaker, handleSeeReviews, setShowReviews }) {
                 clip-rule="evenodd"
               />
             </svg>
-            <p class="text-gray-600">Address of caretaker</p>
+            <p class="text-gray-600">Singapore, {postal_code}</p>
           </div>
 
           {/* Capability */}

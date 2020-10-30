@@ -3,6 +3,7 @@ import logger from "../logger";
 import { query } from "../db";
 import {
   queryAllCaretakers as getCaretakersQuery,
+  queryAllReviews as reviewsQuery,
   queryCaretakerByUsername,
   getAllCapabilities,
   querySearchCaretakers as searchCaretakersQuery,
@@ -20,10 +21,19 @@ function getCaretakersRoutes() {
   router.get("/ctresults", getAllCaretakers);
   router.get("/searchct", querySearchCaretakers);
   router.get("/ctcapability", listAllCapabilities);
+  router.get("/reviews", getAllReviews);
   router.get("/:username", getCaretakerByUsername);
   router.post("/", insertNewCaretaker);
   //router.get('/', listAllCaretakers);
   return router;
+}
+
+async function getAllReviews(req, res) {
+  const { ctuname } = req.query;
+  const reviews = await query(reviewsQuery, [ctuname]);
+  return buildSuccessResponse(res, {
+    caretaker: reviews,
+  });
 }
 
 async function getAllCaretakers(req, res) {

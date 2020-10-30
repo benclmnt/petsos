@@ -61,6 +61,12 @@ export const querySearchCaretakers =
   AND species = $3 AND breed = $4;";
 export const getPetCategories = "SELECT * FROM pet_categories;";
 
+//Queries for reviews
+export const queryAllReviews =
+  "SELECT rating, review, start_date, end_date, ctuname, pouname \
+  FROM bid B GROUP BY ctuname, pouname, start_date, end_date, rating, review, is_win\
+  HAVING is_win = TRUE AND ctuname = $1;";
+
 // Queries for jobs
 export const queryOverlap =
   "WITH filtered_bid (price, payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname) AS (\

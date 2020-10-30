@@ -2,26 +2,32 @@ import React, { useState } from "react";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import { client as fetch } from "../../utils/client";
 
-function CaretakersCard({ caretaker }) {
+function CaretakersCard({ caretaker, handleSeeReviews, setShowReviews }) {
   const [rating, setRating] = useState(caretaker.avg_rating); //cust_rating);
   const [name, setName] = useState(caretaker.ctuname); //full_name);
   const [price, setPrice] = useState(caretaker.base_price);
-  const [capability, setCapability] = useState("");
+  const [searchResult, setSearchResult] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  var createCapability = () =>
-    capability.map((x, i) => (
-      <div
-        class="text-xs text-center mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default"
-        key={i}
-      >
-        {x.breed}, {x.size}
-      </div>
-    ));
+  const [formState, setFormState] = useState({
+    ratingPO: 0,
+    pouname: "NA",
+    review_desc: "NA",
+  });
+
+  const handleChange = (e) => {
+    console.log(e.target.name, e.target.value);
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <div>
-      <div class="bg-white mt-40 w-2/6 md:flex rounded-lg shadow px-10 py-8">
+      <div class="bg-white w-2/6 md:flex rounded-lg shadow px-10 py-8">
         <div class="w-full">
           {/* Basic information */}
           <div class="flex justify-between">
@@ -75,7 +81,12 @@ function CaretakersCard({ caretaker }) {
             </div>
 
             <div
-              href="#"
+              onClick={(e) => {
+                setShowReviews(false);
+                handleChange(e);
+                handleSeeReviews();
+                setShowReviews(true);
+              }}
               class="text-indigo-800 text-right tracking-wide uppercase text-sm font-bold hover:underline"
             >
               See reviews

@@ -110,6 +110,7 @@ CREATE TABLE bid (
     price NUMERIC NOT NULL,
 	payment_method VARCHAR NOT NULL,
 	transfer_method VARCHAR NOT NULL,
+	review VARCHAR,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
 	ctuname VARCHAR NOT NULL REFERENCES caretakers(ctuname),
@@ -192,12 +193,11 @@ $$
 
 		IF FLAG = 1 THEN 
 			IF date(NEW.start_date) + interval '150 days' > date(NEW.end_date) THEN
-				RAISE NOTICE 'GOBLOK LU % %', date(NEW.start_date) + interval '150 days', date(NEW.end_date);
-			ELSE 
-				RETURN NEW;
+				RAISE NOTICE 'RANGE UNDER 150 DAYS % %', date(NEW.start_date) + interval '150 days', date(NEW.end_date);
+				RETURN NULL;
 			END IF;
 		END IF;
-		RETURN NULL;
+		RETURN NEW;
 	END;
 $$
 LANGUAGE plpgsql;

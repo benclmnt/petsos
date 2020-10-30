@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import PetCard from "./PetCard";
 import SearchResult from "./SearchResult";
 import SearchForm from "./SearchForm";
+import ReviewsCard from "./ReviewsCard";
 
 function SearchCaretakers() {
   // const [selectedID, setSelected] = useState();
   const [showSearchForm, setShowSearchForm] = useState(true);
+  const [showReviews, setReviews] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
 
   return (
@@ -18,14 +20,25 @@ function SearchCaretakers() {
         backgroundPosition: "center center",
       }}
     >
-      {showSearchForm === true ? (
-        <SearchForm
-          setShowSearchForm={setShowSearchForm}
-          setSearchResult={setSearchResult}
-        />
-      ) : (
-        <SearchResult caretakerList={searchResult} />
-      )}
+      <div class="flex">
+        {showSearchForm === true ? (
+          <SearchForm
+            setShowSearchForm={setShowSearchForm}
+            setSearchResult={setSearchResult}
+          />
+        ) : (
+          <SearchResult caretakerList={searchResult} />
+        )}
+
+        <div>
+          {showReviews === true ? (
+            <ReviewsCard
+              setShowSearchForm={setShowSearchForm}
+              setSearchResult={setSearchResult}
+            />
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 }

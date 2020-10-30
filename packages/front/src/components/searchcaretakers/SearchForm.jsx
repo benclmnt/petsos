@@ -14,13 +14,14 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     city: user.city,
     postal_code: user.postal_code,
   });
+
   const [formState, setFormState] = useState({
     start_date: new Date(),
     end_date: new Date(),
-    species:"dog",
-    breed:"samoyed",
-    size:"small",
-    postal_code:"10008", // TODO: to change to user.postal_code
+    species: "dog",
+    breed: "samoyed",
+    size: "small",
+    postal_code: user.postal_code, // TODO: to change to user.postal_code
     country: user.country,
     city: user.city,
   });
@@ -28,12 +29,12 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
-    // console.log(e.target.name, e.target.value);
+    console.log(e.target.name, e.target.value);
     setFormState({
       ...formState,
-      [e.target.name] : e.target.value,
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // Pets
   var petOptions = [
@@ -44,7 +45,6 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   // Address
   var countryOptions = ["Singapore"];
   var cityOptions = ["Singapore"];
-  var postalCodeOptions = [10003, 10008, 10005, 10006];
 
   var addressOptions = (choices, name) => (
     <select
@@ -78,7 +78,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         required="required"
         //locale = 'en-SG'
         //disableTime={true}
-        onChange={date => setFormState({...formState, start_date: date})}
+        onChange={(date) => setFormState({ ...formState, start_date: date })}
         dateFormat={dateFormat}
         placeholderText="Start Date"
       />
@@ -93,7 +93,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         //locale = 'en-SG'
         //disableTime={true}
         dateFormat={dateFormat}
-        onChange={date => setFormState({...formState, end_date: date})}
+        onChange={(date) => setFormState({ ...formState, end_date: date })}
         placeholderText="End Date"
       />
     );
@@ -108,10 +108,10 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   }, []);
 
   console.log("cap", capabilities);
+
   //Search
   const handleSearch = async (e) => {
     e.preventDefault();
-
 
     const searchParams = {
       ...formState,
@@ -122,7 +122,9 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     // generate the query params
     let link = "/caretakers/searchct?";
     const paramsKeyValue = [];
-    Object.entries(searchParams).forEach(([key, value]) => paramsKeyValue.push(`${key}=${value}`));
+    Object.entries(searchParams).forEach(([key, value]) =>
+      paramsKeyValue.push(`${key}=${value}`)
+    );
     link += paramsKeyValue.join("&");
 
     try {
@@ -143,7 +145,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
       class="flex-col max-h-screen max-w-2xl mx-auto"
     >
       <div class="bg-white text-black px-10 py-8 rounded shadow space-y-3">
-      <p className="py-3 text-orange-700">{errorMsg}</p>
+        <p className="py-3 text-orange-700">{errorMsg}</p>
         <h1 class="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
         {/* Pets */}
@@ -151,7 +153,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
           <h1 class="text-sm mb-4">I'm looking for services for:</h1>
           <div class="md:flex space-x-4">
             <select
-            name="species"
+              name="species"
               class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
               onChange={handleChange}
               defaultValue={formState.species}
@@ -168,7 +170,11 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
               defaultValue={formState.breed}
             >
               {/* <option value="" disabled>Select breed</option> */}
-              {capabilities[formState.species]?.map((item, idx) => <option value={item} key={idx}>{item}</option>)}
+              {capabilities[formState.species]?.map((item, idx) => (
+                <option value={item} key={idx}>
+                  {item}
+                </option>
+              ))}
             </select>
 
             <select
@@ -191,7 +197,12 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
           <div class="flex space-x-4">
             {addressOptions(countryOptions, "country")}
             {addressOptions(cityOptions, "city")}
-            <input type="number" name="postal_code" defaultValue={formState.postal_code} onChange={handleChange}/>
+            <input
+              type="number"
+              name="postal_code"
+              defaultValue={formState.postal_code}
+              onChange={handleChange}
+            />
           </div>
         </div>
 

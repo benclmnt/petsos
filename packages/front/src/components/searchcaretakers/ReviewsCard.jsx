@@ -12,7 +12,7 @@ function ReviewsCard({ review }) {
 
   return (
     <div>
-      <div class="bg-white md:flex rounded-lg shadow px-10 py-8">
+      <div class="bg-white w-full md:flex rounded-lg shadow px-10 py-8">
         <div class="w-full">
           {/* Basic information */}
           <div class="flex-col justify-between">

@@ -28,7 +28,7 @@ function CaretakersCard({ caretaker, handleSeeReviews, setShowReviews }) {
 
   return (
     <div>
-      <div class="bg-white w-2/6 md:flex rounded-lg shadow px-10 py-8">
+      <div class="bg-white w-full md:flex rounded-lg shadow px-10 py-8">
         <div class="w-full">
           {/* Basic information */}
           <div class="flex justify-between">

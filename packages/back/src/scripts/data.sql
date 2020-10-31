@@ -69,6 +69,8 @@ INSERT INTO pets(name, pouname, species, breed, size) VALUES
 ('jeff', 'po1', 'dog', 'shiba inu', 'small');
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
 ('drek', 'po0', 'cat', 'bengal', 'big');
+INSERT INTO pets(name, pouname, species, breed, size) VALUES
+('uwu', 'po0', 'cat', 'sphynx', 'big');
 
 INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date, 
 ctuname, pouname, petname, is_win) VALUES (3.9, 50, 'whatever', 'what', 'This ct very nice one',

@@ -38,20 +38,15 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   };
 
   // Pets
-  var petOptions = [
-    { species: "Dog", breed: "Husky", size: "Big" },
-    { species: "Cat", breed: "Sphinx", size: "Medium" },
-  ];
-
   const [pets, setPets] = useState([]);
   const [selected, setSelected] = useState();
 
   const fetchPets = async () => {
     try {
-      let link = "/pets/categories?";
-      link += "pouname=" + user.username;
+      let link = "/users/";
+      link += user.username + "/pets";
       const tmp = await fetch(link);
-      setPets(tmp);
+      setPets(Object.values(tmp));
     } catch (err) {
       console.error(err);
       setErrorMsg(err?.error);
@@ -59,12 +54,14 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     }
   };
 
-  useEffect(() => fetchPets(), []);
+  useEffect(() => {
+    fetchPets();
+  }, []);
 
-  const handlePetChange = (name, value) => {
+  const handlePetChange = (obj) => {
     setFormState({
       ...formState,
-      [name]: value,
+      ...obj,
     });
   };
 
@@ -114,16 +111,13 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
       {pets.map((pet, i) => (
         <PetCard
           onClick={() => {
-            handlePetChange("species", pet["species"]);
-            handlePetChange("breed", pet["breed"]);
-            handlePetChange("size", pet["size"]);
+            handlePetChange(pet);
           }}
           Pet={pet}
           setPet={() => {
-            handlePetChange("species", pet["species"]);
-            handlePetChange("breed", pet["breed"]);
-            handlePetChange("size", pet["size"]);
+            handlePetChange(pet);
           }}
+          // handlePetChange={() => handlePetChange(pet)}
           key={i}
           id={i}
           selectedID={selected}

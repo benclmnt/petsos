@@ -1,6 +1,13 @@
 import React from "react";
 
-function PetCard({ Pet, setPet, id, selectedID, setSelected }) {
+function PetCard({
+  Pet,
+  setPet,
+  id,
+  selectedID,
+  setSelected,
+  handlePetChange,
+}) {
   const btnStyle =
     "justify-self-center w-full md:flex rounded-lg shadow w-1/3 px-4 py-2 focus:outline-none border-2 duration-300 ease-in-out hover:text-orange-600";
 
@@ -55,13 +62,22 @@ function PetCard({ Pet, setPet, id, selectedID, setSelected }) {
       {Pet.species === "dog" ? dog : cat}
       <div class="mt-4 md:mt-0 md:ml-6 text-left">
         {/* Basic information */}
-        <div class="uppercase tracking-wide text-lg text-orange-600 font-bold">
+        <div
+          name="species"
+          class="uppercase tracking-wide text-lg text-orange-600 font-bold"
+        >
           {Pet["species"]}
         </div>
-        <div class="block mt-1 text-md leading-tight font-semibold text-gray-900">
+        <div
+          name="breed"
+          class="block mt-1 text-md leading-tight font-semibold text-gray-900"
+        >
           {Pet["breed"]}
         </div>
-        <div class="block mt-1 text-md leading-tight font-semibold text-gray-900">
+        <div
+          name="size"
+          class="block mt-1 text-md leading-tight font-semibold text-gray-900"
+        >
           {Pet["size"]}
         </div>
       </div>

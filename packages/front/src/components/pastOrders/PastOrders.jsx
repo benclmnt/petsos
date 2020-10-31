@@ -30,9 +30,26 @@ function PastOrders() {
   if (isLoaded) {
     tableData = orders.slice(0, orders.length - 2).map((item) => {
       //const index = pets.indexOf(item);
+      var name = item.ctuname;
+      var initials = name.match(/\b\w/g) || [];
+      initials = (
+        (initials.shift() || "") + (initials.pop() || "")
+      ).toUpperCase();
+      console.log(initials);
       return (
         <tr>
-          <td className="px-5 py-4">{item.ctuname}</td>
+          <td className="px-5 py-4">
+            <span
+              className={
+                initials.length == 2
+                  ? "text-center bg-gray-400 rounded-full p-2 mr-2"
+                  : "text-center bg-gray-400 rounded-full py-2 px-4 mr-2"
+              }
+            >
+              <span className="relative">{initials}</span>
+            </span>{" "}
+            {item.ctuname}
+          </td>
           <td>{item.petname}</td>
           <td>{item.payment_method}</td>
           <td>{item.transfer_method}</td>
@@ -72,7 +89,7 @@ function PastOrders() {
 
   return (
     <div className="flex text-center justify-center bg-black h-screen">
-      <div className="bg-white rounded-md p-10 mt-40">
+      <div className="flex flex-col bg-white rounded-md p-10 mt-40">
         <div className="text-3xl font-semibold">
           <h1>Your Past Orders</h1>
         </div>

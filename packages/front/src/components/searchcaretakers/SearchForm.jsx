@@ -5,14 +5,15 @@ import "../../css/datepicker.css";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
 import { toJSONLocal } from "../../utils/dateutils";
+import PetCard from "./PetCard";
 
 function SearchForm({ setShowSearchForm, setSearchResult }) {
   const user = useUser();
   const [capabilities, setCapabilities] = useState([]);
   const [address, setAddress] = useState({
-    country: user.country,
-    city: user.city,
-    postal_code: user.postal_code,
+    country: "Singapore", //user.country,
+    city: "Singapore",
+    postal_code: user == null ? "10000" : user.postal_code,
   });
 
   const [formState, setFormState] = useState({
@@ -21,9 +22,9 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     species: "dog",
     breed: "samoyed",
     size: "small",
-    postal_code: user.postal_code, // TODO: to change to user.postal_code
-    country: user.country,
-    city: user.city,
+    postal_code: user == null ? "10000" : user.postal_code, // TODO: to change to user.postal_code
+    country: user == null ? "Singapore" : user.country,
+    city: user == null ? "Singapore" : user.city,
   });
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -41,6 +42,90 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     { species: "Dog", breed: "Husky", size: "Big" },
     { species: "Cat", breed: "Sphinx", size: "Medium" },
   ];
+
+  const handlePetChange = (name, value) => {
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  const fetchPets = async () => {
+    try {
+      let link = "/pets/categories?";
+      link += "pouname=" + user.username;
+      const tmp = await fetch(link);
+      return Object.values(tmp);
+    } catch (err) {
+      console.error(err);
+      setErrorMsg(err?.error);
+      return;
+    }
+  };
+
+  let petsData = fetchPets();
+
+  const PetComponents = () => {
+    if (user != null) {
+      {
+        Object.values(petsData).map((pet, i) => {
+          return (
+            <PetCard
+              onClick={() => {
+                handlePetChange("species", pet["species"]);
+                handlePetChange("breed", pet["breed"]);
+                handlePetChange("size", pet["size"]);
+              }}
+              species={pet["species"]}
+              breed={pet["breed"]}
+              size={pet["size"]}
+            />
+          );
+        });
+      }
+    } else {
+      return (
+        <div class="md:flex space-x-4">
+          <select
+            name="species"
+            class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+            onChange={handleChange}
+            defaultValue={formState.species}
+          >
+            {/* <option value="2" disabled>Select species</option> */}
+            <option value="dog">dog</option>
+            <option value="cat">cat</option>
+          </select>
+
+          <select
+            name="breed"
+            class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+            onChange={handleChange}
+            defaultValue={formState.breed}
+          >
+            {/* <option value="" disabled>Select breed</option> */}
+            {capabilities[formState.species]?.map((item, idx) => (
+              <option value={item} key={idx}>
+                {item}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="size"
+            class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+            onChange={handleChange}
+            defaultValue={formState.size}
+          >
+            {/* <option value="" disabled>Select size</option> */}
+            <option value="big">big</option>
+            <option value="medium">medium</option>
+            <option value="small">small</option>
+          </select>
+        </div>
+      );
+    }
+  };
 
   // Address
   var countryOptions = ["Singapore"];
@@ -149,47 +234,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         <h1 class="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
         {/* Pets */}
-        <div>
-          <h1 class="text-sm mb-4">I'm looking for services for:</h1>
-          <div class="md:flex space-x-4">
-            <select
-              name="species"
-              class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-              onChange={handleChange}
-              defaultValue={formState.species}
-            >
-              {/* <option value="2" disabled>Select species</option> */}
-              <option value="dog">dog</option>
-              <option value="cat">cat</option>
-            </select>
-
-            <select
-              name="breed"
-              class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-              onChange={handleChange}
-              defaultValue={formState.breed}
-            >
-              {/* <option value="" disabled>Select breed</option> */}
-              {capabilities[formState.species]?.map((item, idx) => (
-                <option value={item} key={idx}>
-                  {item}
-                </option>
-              ))}
-            </select>
-
-            <select
-              name="size"
-              class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-              onChange={handleChange}
-              defaultValue={formState.size}
-            >
-              {/* <option value="" disabled>Select size</option> */}
-              <option value="big">big</option>
-              <option value="medium">medium</option>
-              <option value="small">small</option>
-            </select>
-          </div>
-        </div>
+        <div>{PetComponents()}</div>
 
         {/* Address */}
         <div>

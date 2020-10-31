@@ -1,0 +1,24 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   stream: true,
+0 silly argv   lernaVersion: '3.22.1',
+0 silly argv   '$0': 'node_modules/.bin/lerna',
+0 silly argv   script: 'start'
+0 silly argv }
+1 notice cli v3.22.1
+2 verbose rootPath /mnt/c/Users/Florencia Martina/Documents/NUS/Y2S1/CS2102/teamProject/petsos
+3 info Executing command in 2 packages: "yarn run start"
+4 silly npmRunScript.stream [ 'start', [], 'back' ]
+5 silly getExecOpts /mnt/c/Users/Florencia Martina/Documents/NUS/Y2S1/CS2102/teamProject/petsos/packages/back undefined
+6 silly npmRunScript.stream [ 'start', [], 'front' ]
+7 silly getExecOpts /mnt/c/Users/Florencia Martina/Documents/NUS/Y2S1/CS2102/teamProject/petsos/packages/front undefined
+8 error MaxBufferError: stderr maxBuffer exceeded
+8 error     at PassThrough.<anonymous> (/mnt/c/Users/Florencia Martina/Documents/NUS/Y2S1/CS2102/teamProject/petsos/node_modules/get-stream/index.js:41:19)
+8 error     at PassThrough.emit (events.js:327:22)
+8 error     at addChunk (_stream_readable.js:295:12)
+8 error     at readableAddChunk (_stream_readable.js:267:11)
+8 error     at PassThrough.Readable.push (_stream_readable.js:212:10)
+8 error     at PassThrough.Transform.push (_stream_transform.js:152:32)
+8 error     at PassThrough.afterTransform (_stream_transform.js:96:10)
+8 error     at PassThrough._transform (_stream_passthrough.js:46:3)
+8 error     at PassThrough.Transform._read (_stream_transform.js:191:10)

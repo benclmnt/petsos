@@ -5,13 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../css/datepicker.css";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
-
-function _toJSONLocal(date) {
-  var local = date;
-  local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-  console.log(date, local);
-  return local.toJSON().substring(0, 10);
-}
+import { toJSONLocal } from "../../utils/dateutils";
 
 function BecomeCaretaker() {
   const dateFormat = "dd-MM-yyyy";
@@ -118,8 +112,8 @@ function BecomeCaretaker() {
     for (let i = 0; i < availabilityList.length; i++) {
       const availability = {
         ctuname: user.username,
-        start_date: _toJSONLocal(availabilityList[i]["start_date"]),
-        end_date: _toJSONLocal(availabilityList[i]["end_date"]),
+        start_date: toJSONLocal(availabilityList[i]["start_date"]),
+        end_date: toJSONLocal(availabilityList[i]["end_date"]),
       };
 
       try {

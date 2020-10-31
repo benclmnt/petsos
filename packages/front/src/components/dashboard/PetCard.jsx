@@ -1,13 +1,13 @@
-import React from 'react';
-import './pet-card.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React from "react";
+import "./pet-card.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function PetCard({ petName, deletePet }) {
   // const link = "/myPets/" + petName;
 
   return (
     <div className="text-center pet-card--empty p-4 cursor-pointer">
-      {petName !== 'Add new pet' ? (
+      {petName !== "Add new pet" ? (
         <button className="opacity-50 flex justify-end" onClick={deletePet}>
           <img
             src="https://www.flaticon.com/svg/static/icons/svg/1345/1345823.svg"

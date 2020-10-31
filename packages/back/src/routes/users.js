@@ -7,6 +7,7 @@ import {
   registerUser,
   queryUserByUsername,
   deleteUser as deleteUserQuery,
+  upsertUserAddress as upsertUserAddressQuery,
   editUser as editUserQuery,
 } from "../db/queries";
 
@@ -127,7 +128,7 @@ async function editUserDetails(req, res) {
   const { email, address, city, country, postal_code } = req.body;
   const params = [username, email, address, city, country, postal_code];
 
-  if (checkMissingParameter(params)) {
+  if (checkMissingParameter([username])) {
     return handleMissingParameter(res);
   }
 

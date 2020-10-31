@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import PetCard from './PetCard';
-import './dashboard.css';
-import Balance from './Balance';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { client as fetch } from '../../utils/client';
-import { useUser } from '../../context/auth-context';
+import React, { useState, useEffect } from "react";
+import PetCard from "./PetCard";
+import "./dashboard.css";
+import Balance from "./Balance";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { client as fetch } from "../../utils/client";
+import { useUser } from "../../context/auth-context";
 
 function Dashboard() {
   const user = useUser();
@@ -30,7 +30,7 @@ function Dashboard() {
         body: {
           name: pets[idx].name,
         },
-        method: 'DELETE',
+        method: "DELETE",
       });
       console.log(result);
       setPets(result.pets);
@@ -53,7 +53,7 @@ function Dashboard() {
             <div className="flex items-center ml-5">
               <div>
                 <h1 className="py-3">
-                  Welcome back, {user?.username || 'Default User Name'}!
+                  Welcome back, {user?.username || "Default User Name"}!
                 </h1>
                 <Link to="/profile/edit">
                   <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">

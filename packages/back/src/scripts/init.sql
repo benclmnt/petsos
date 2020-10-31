@@ -21,6 +21,13 @@ DROP TABLE IF EXISTS users;
 CREATE TYPE caretaker_type AS ENUM ('part-time', 'full-time');
 CREATE TYPE pet_size AS ENUM('small', 'medium', 'large');
 
+-- CREATE TABLE address (
+-- 	city VARCHAR,
+-- 	country VARCHAR,
+-- 	postal_code INTEGER,
+-- 	PRIMARY KEY (city, country, postal_code)
+-- )
+
 CREATE TABLE users (
     username VARCHAR PRIMARY KEY, -- username cannot be changed
 	email VARCHAR UNIQUE NOT NULL, -- enforce no duplicate emails
@@ -54,7 +61,7 @@ CREATE TABLE availability_span (
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     PRIMARY KEY (ctuname, start_date, end_date),
-    CHECK (start_date < end_date AND end_date <= date('now') + interval '2 years')
+    CHECK (start_date <= end_date AND end_date <= date('now') + interval '2 years')
 );
 
 CREATE TABLE pet_categories (
@@ -76,7 +83,6 @@ CREATE TABLE pets (
     FOREIGN KEY (species, breed, size) REFERENCES pet_categories(species, breed, size),
 	PRIMARY KEY (name, pouname)
 );
-
 
 CREATE TABLE special_reqs (
 	pouname VARCHAR NOT NULL,
@@ -104,6 +110,7 @@ CREATE TABLE bid (
     price NUMERIC NOT NULL,
 	payment_method VARCHAR NOT NULL,
 	transfer_method VARCHAR NOT NULL,
+	review VARCHAR,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
 	ctuname VARCHAR NOT NULL REFERENCES caretakers(ctuname),
@@ -125,9 +132,12 @@ CREATE VIEW all_ct AS (
 	SELECT * FROM is_capable B
 		NATURAL JOIN caretakers C
 		NATURAL JOIN availability_span A
+		NATURAL JOIN users AS users(ctuname, email, password, address, city, country, postal_code)
 );
 
 -- TRIGGERS
+
+-- make every user a pet owner.  
 
 CREATE OR REPLACE FUNCTION user_is_pet_owner() RETURNS trigger AS
 $$
@@ -141,6 +151,8 @@ LANGUAGE plpgsql;
 CREATE TRIGGER user_is_pet_owner
 	AFTER INSERT ON users
 	FOR EACH ROW EXECUTE PROCEDURE user_is_pet_owner();
+
+-- insert pet category to pet_categories if it doesnt exist yet. Not sure if we still need it. Triggered by upsert to is_capable and pets
 
 CREATE OR REPLACE FUNCTION insert_pet_categories_if_not_exists() RETURNS trigger AS
 $$
@@ -163,6 +175,39 @@ CREATE TRIGGER insert_capability_if_not_exists
 CREATE TRIGGER insert_pet_category_if_not_exists
 	BEFORE INSERT OR UPDATE ON pets
 	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
+
+
+-- trigger for ensuring that full time ct's availability span is 150 days apart. Triggered on availability_span.
+
+CREATE OR REPLACE FUNCTION full_time_must_150() RETURNS trigger AS 
+$$
+	DECLARE flag INTEGER := 0;
+	BEGIN
+		SELECT (
+			CASE 
+				WHEN ct_type = 'full-time' THEN 1
+				ELSE 0
+			END) INTO flag
+			FROM caretakers
+			WHERE ctuname = NEW.ctuname;
+
+		IF FLAG = 1 THEN 
+			IF date(NEW.start_date) + interval '150 days' > date(NEW.end_date) THEN
+				RAISE NOTICE 'RANGE UNDER 150 DAYS % %', date(NEW.start_date) + interval '150 days', date(NEW.end_date);
+				RETURN NULL;
+			END IF;
+		END IF;
+		RETURN NEW;
+	END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER full_time_must_150
+	BEFORE INSERT OR UPDATE on availability_span
+	FOR EACH ROW EXECUTE PROCEDURE full_time_must_150();
+
+
+-- Trigger to ensure that availabilities are merged to the largest availability span possible. Triggered on availability_span.
 
 CREATE OR REPLACE FUNCTION merge_availabilities() RETURNS trigger AS
 $$

@@ -43,19 +43,15 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     { species: "Cat", breed: "Sphinx", size: "Medium" },
   ];
 
-  const handlePetChange = (name, value) => {
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
-  };
+  const [pets, setPets] = useState([]);
+  const [selected, setSelected] = useState();
 
   const fetchPets = async () => {
     try {
       let link = "/pets/categories?";
       link += "pouname=" + user.username;
       const tmp = await fetch(link);
-      return Object.values(tmp);
+      setPets(tmp);
     } catch (err) {
       console.error(err);
       setErrorMsg(err?.error);
@@ -63,69 +59,79 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     }
   };
 
-  let petsData = fetchPets();
+  useEffect(() => fetchPets(), []);
 
-  const PetComponents = () => {
-    if (user != null) {
-      {
-        Object.values(petsData).map((pet, i) => {
-          return (
-            <PetCard
-              onClick={() => {
-                handlePetChange("species", pet["species"]);
-                handlePetChange("breed", pet["breed"]);
-                handlePetChange("size", pet["size"]);
-              }}
-              species={pet["species"]}
-              breed={pet["breed"]}
-              size={pet["size"]}
-            />
-          );
-        });
-      }
-    } else {
-      return (
-        <div class="md:flex space-x-4">
-          <select
-            name="species"
-            class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-            onChange={handleChange}
-            defaultValue={formState.species}
-          >
-            {/* <option value="2" disabled>Select species</option> */}
-            <option value="dog">dog</option>
-            <option value="cat">cat</option>
-          </select>
-
-          <select
-            name="breed"
-            class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-            onChange={handleChange}
-            defaultValue={formState.breed}
-          >
-            {/* <option value="" disabled>Select breed</option> */}
-            {capabilities[formState.species]?.map((item, idx) => (
-              <option value={item} key={idx}>
-                {item}
-              </option>
-            ))}
-          </select>
-
-          <select
-            name="size"
-            class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
-            onChange={handleChange}
-            defaultValue={formState.size}
-          >
-            {/* <option value="" disabled>Select size</option> */}
-            <option value="big">big</option>
-            <option value="medium">medium</option>
-            <option value="small">small</option>
-          </select>
-        </div>
-      );
-    }
+  const handlePetChange = (name, value) => {
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
   };
+
+  const petChoices = (
+    <div class="md:flex space-x-4">
+      <select
+        name="species"
+        class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        onChange={handleChange}
+        defaultValue={formState.species}
+      >
+        {/* <option value="2" disabled>Select species</option> */}
+        <option value="dog">dog</option>
+        <option value="cat">cat</option>
+      </select>
+
+      <select
+        name="breed"
+        class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        onChange={handleChange}
+        defaultValue={formState.breed}
+      >
+        {/* <option value="" disabled>Select breed</option> */}
+        {capabilities[formState.species]?.map((item, idx) => (
+          <option value={item} key={idx}>
+            {item}
+          </option>
+        ))}
+      </select>
+
+      <select
+        name="size"
+        class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        onChange={handleChange}
+        defaultValue={formState.size}
+      >
+        {/* <option value="" disabled>Select size</option> */}
+        <option value="big">big</option>
+        <option value="medium">medium</option>
+        <option value="small">small</option>
+      </select>
+    </div>
+  );
+
+  const selectUsersPet = (
+    <div class="grid grid-cols-3 gap-4">
+      {pets.map((pet, i) => (
+        <PetCard
+          onClick={() => {
+            handlePetChange("species", pet["species"]);
+            handlePetChange("breed", pet["breed"]);
+            handlePetChange("size", pet["size"]);
+          }}
+          Pet={pet}
+          setPet={() => {
+            handlePetChange("species", pet["species"]);
+            handlePetChange("breed", pet["breed"]);
+            handlePetChange("size", pet["size"]);
+          }}
+          key={i}
+          id={i}
+          selectedID={selected}
+          setSelected={setSelected}
+        />
+      ))}
+    </div>
+  );
 
   // Address
   var countryOptions = ["Singapore"];
@@ -234,7 +240,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         <h1 class="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
         {/* Pets */}
-        <div>{PetComponents()}</div>
+        <div>{user ? selectUsersPet : petChoices}</div>
 
         {/* Address */}
         <div>

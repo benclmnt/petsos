@@ -16,7 +16,8 @@ import Dashboard from './components/dashboard/Dashboard';
 import Admin from './components/admin/Admin';
 import SearchCaretakers from './components/searchcaretakers/SearchCaretakers';
 import BecomeCaretaker from './components/becomecaretaker/BecomeCaretaker';
-import CaretakersProfile from './components/searchcaretakers/CaretakersProfile';
+import CaretakerReviews from './components/searchcaretakers/CaretakersProfile';
+import CaretakerProfile from './components/caretakerProfile/CaretakerProfile';
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
             <EditProfile />
           </Route>
 
+          <Route path="/ctprofile/edit">
+            <CaretakerProfile />
+          </Route>
+
           <Route exact path="/search">
             <SearchCaretakers />
           </Route>
@@ -49,7 +54,7 @@ function App() {
           </Route>
 
           <Route path="/ct/:ctuname">
-            <CaretakersProfile />
+            <CaretakerReviews />
           </Route>
 
           <Route exact path="/">

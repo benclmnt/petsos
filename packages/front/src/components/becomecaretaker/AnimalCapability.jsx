@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function AnimalCapability({ capability, setCapability }) {
   var breedOptions;
@@ -14,7 +14,7 @@ function AnimalCapability({ capability, setCapability }) {
       id="2"
       required="required"
       onChange={(e) => setCapability(e)}
-      value={capability["breed"]}
+      value={capability['breed']}
     >
       <option value="" disabled>
         Select breed
@@ -46,17 +46,17 @@ function AnimalCapability({ capability, setCapability }) {
   // }
 
   function ShowBreed() {
-    switch (capability["species"]) {
-      case "dog":
-        breedOptions = ["doggy", "husky", "shiba inu", "golden retriever"];
+    switch (capability['species']) {
+      case 'dog':
+        breedOptions = ['doggy', 'husky', 'shiba inu', 'golden retriever'];
         return makeOptions();
 
-      case "cat":
+      case 'cat':
         breedOptions = [
-          "kitty",
-          "morganissa",
-          "kucing jalanan",
-          "kucing botak",
+          'kitty',
+          'morganissa',
+          'kucing jalanan',
+          'kucing botak',
         ];
         return makeOptions();
 
@@ -74,7 +74,7 @@ function AnimalCapability({ capability, setCapability }) {
         id="3"
         required="required"
         onChange={(e) => setCapability(e)}
-        defaultValue=""
+        defaultValue={capability.size}
       >
         <option value="" disabled>
           Select size
@@ -91,7 +91,7 @@ function AnimalCapability({ capability, setCapability }) {
         id="1"
         required="required"
         onChange={(e) => setCapability(e)}
-        defaultValue=""
+        defaultValue={capability.species}
       >
         <option value="" disabled>
           Select species

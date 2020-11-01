@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import PetCard from "./PetCard";
-import "./dashboard.css";
-import Balance from "./Balance";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
+import React, { useState, useEffect } from 'react';
+import PetCard from './PetCard';
+import './dashboard.css';
+import Balance from './Balance';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
+import bg from '../../resources/wallpaper2.jpg';
 
 function Dashboard() {
   const user = useUser();
@@ -30,7 +31,7 @@ function Dashboard() {
         body: {
           name: pets[idx].name,
         },
-        method: "DELETE",
+        method: 'DELETE',
       });
       console.log(result);
       setPets(result.pets);
@@ -40,24 +41,30 @@ function Dashboard() {
   };
 
   return (
-    <div className=" dashboard h-screen">
-      <div className="flex flex-row justify-center items-center pt-40  space-x-5">
-        <div className="flex flex-col space-y-6 self-stretch">
-          <div className="bg-white rounded-lg p-10 flex flex-row">
+    <div className="h-screen">
+      <img src={bg} className="min-h-screen bg-cover fixed p-0 z-0" />
+      <div className="flex flex-col  md:flex-row justify-center items-center pt-40 md:space-x-5 space-y-6 z-10">
+        <div className="flex flex-col space-y-6 self-stretch z-10">
+          <div className="bg-white rounded-lg p-10 flex flex-row z-10">
             <img
               src="https://www.flaticon.com/svg/static/icons/svg/21/21645.svg"
               className="m-auto"
               height="150"
               width="100"
             />
-            <div className="flex items-center ml-5">
+            <div className="flex items-center ml-5 z-10">
               <div>
                 <h1 className="py-3">
-                  Welcome back, {user?.username || "Default User Name"}!
+                  Welcome back, {user?.username || 'Default User Name'}!
                 </h1>
                 <Link to="/profile/edit">
                   <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
                     Edit profile
+                  </button>
+                </Link>
+                <Link to="/ctprofile/edit">
+                  <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
+                    Edit caretaker profile
                   </button>
                 </Link>
               </div>
@@ -68,7 +75,7 @@ function Dashboard() {
             <Balance />
           </div>
         </div>
-        <div className="flex flex-col w-1/3 self-stretch">
+        <div className="flex flex-col w-auto md:w-1/3 self-stretch z-10">
           <div className="bg-white rounded-lg px-8 py-8">
             <div>
               <div>

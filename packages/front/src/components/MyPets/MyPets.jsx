@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router";
-import "./addPet.css";
-import header from "../../resources/dogs-cats-header.png";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
+import './addPet.css';
+import header from '../../resources/dogs-cats-header.png';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
 
 function MyPets() {
-  const [isEdit, setIsEdit] = useState("");
-  const [petSpReq, setSpReq] = useState("");
+  const [isEdit, setIsEdit] = useState('');
+  const [petSpReq, setSpReq] = useState('');
   const [pets, setPets] = useState({});
   const { name } = useParams();
   const user = useUser();
@@ -22,7 +22,7 @@ function MyPets() {
       setPets(result);
       setIsEdit(true);
     }
-    if (name != "add") {
+    if (name !== 'add') {
       fetchData();
     }
   }, []);
@@ -41,9 +41,9 @@ function MyPets() {
     e.preventDefault();
 
     try {
-      const result = await fetch(basePetsAPIUrl + (isEdit ? `/${name}` : ""), {
+      const result = await fetch(basePetsAPIUrl + (isEdit ? `/${name}` : ''), {
         body: pets,
-        redirectTo: "/dashboard",
+        redirectTo: '/dashboard',
       });
       console.log(result);
     } catch (error) {
@@ -61,9 +61,9 @@ function MyPets() {
           <div className="flex justify-center">
             <button
               className={
-                pets.species == "dog"
-                  ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                  : "petBtn"
+                pets.species === 'dog'
+                  ? 'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                  : 'petBtn'
               }
               name="species"
               value="dog"
@@ -77,9 +77,9 @@ function MyPets() {
             </button>
             <button
               className={
-                pets.species == "cat"
-                  ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                  : "petBtn"
+                pets.species === 'cat'
+                  ? 'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                  : 'petBtn'
               }
               name="species"
               value="cat"
@@ -130,9 +130,9 @@ function MyPets() {
             <div className="text-center">
               <button
                 className={
-                  pets.size === "small"
-                    ? "petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                    : "petBtn-sm"
+                  pets.size === 'small'
+                    ? 'petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                    : 'petBtn-sm'
                 }
                 name="size"
                 value="small"
@@ -146,9 +146,9 @@ function MyPets() {
               </button>
               <button
                 className={
-                  pets.size === "medium"
-                    ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                    : "petBtn"
+                  pets.size === 'medium'
+                    ? 'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                    : 'petBtn'
                 }
                 name="size"
                 value="medium"
@@ -157,15 +157,15 @@ function MyPets() {
                 <img
                   alt="Medium"
                   src="https://www.flaticon.com/svg/static/icons/svg/2965/2965396.svg"
-                  style={{ transform: "scaleX(-1)" }}
+                  style={{ transform: 'scaleX(-1)' }}
                 />
                 <h3 className="mt-2">Medium</h3>
               </button>
               <button
                 className={
-                  pets.size === "large"
-                    ? "petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                    : "petBtn-lg"
+                  pets.size === 'large'
+                    ? 'petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                    : 'petBtn-lg'
                 }
                 name="size"
                 value="large"
@@ -209,7 +209,7 @@ function MyPets() {
             onClick={handleSubmit}
             className="border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 font-semibold text-lg px-8 py-4 m-2 duration-500 ease-in-out "
           >
-            {isEdit ? "Edit Pet" : "Add Pet"}
+            {isEdit ? 'Edit Pet' : 'Add Pet'}
           </button>
 
           <button

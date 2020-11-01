@@ -38,6 +38,8 @@ export const queryPetByName = "SELECT * FROM pets WHERE name = $1;";
 // Caretaker-related queries
 export const queryCaretakerByUsername =
   "SELECT * FROM caretakers WHERE ctuname = $1;";
+export const editCaretakerType =
+  "UPDATE caretakers SET ct_type = $2 WHERE ctuname = $1 RETURNING *";
 export const queryBreedsBySpecies =
   "SELECT * FROM pet_categories WHERE species = $1;";
 export const insertNewCaretaker =
@@ -45,12 +47,19 @@ export const insertNewCaretaker =
 export const getAllCaretakers = "SELECT * FROM caretakers LIMIT 25;";
 export const upsertCaretakerAddress =
   "INSERT INTO caretakers(ctuname, avg_rating, caretaker_type) VALUES ($1, $2, $3);";
+export const getCapability =
+  "SELECT * FROM is_capable WHERE ctuname = $1 GROUP BY ctuname, species, breed, size;";
 export const upsertCaretakerAvailability =
   "INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ($1, $2, $3);";
+export const deleteAvailabilities =
+  "DELETE FROM availability_span WHERE ctuname = $1;";
+export const getAvailability =
+  "SELECT * FROM availability_span WHERE ctuname = $1;";
 export const upsertCaretakerCapability =
   "INSERT INTO is_capable(species, breed, size, ctuname) VALUES ($1, $2, $3, $4);";
 export const getAllCapabilities =
   "SELECT * FROM is_capable GROUP BY ctuname, species, breed, size;";
+export const deleteCapabilities = "DELETE FROM is_capable WHERE ctuname = $1;";
 
 // Queries to search caretakers
 export const queryAllCaretakers =

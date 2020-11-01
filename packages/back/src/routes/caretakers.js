@@ -6,10 +6,14 @@ import {
   queryAllReviews as reviewsQuery,
   queryCaretakerByUsername,
   getAllCapabilities,
+  editCaretakerType as editCaretakerTypeQuery,
   querySearchCaretakers as searchCaretakersQuery,
-  getPetCategories,
   upsertCaretakerCapability as upsertCaretakerCapabilityQuery,
   upsertCaretakerAvailability as upsertCaretakerAvailabilityQuery,
+  getCapability,
+  getAvailability,
+  deleteCapabilities as deleteCapabilitiesQuery,
+  deleteAvailabilities as deleteAvailabilitiesQuery,
   insertNewCaretaker as insertNewCaretakerQuery,
 } from "../db/queries";
 
@@ -17,13 +21,17 @@ function getCaretakersRoutes() {
   const router = express.Router();
   router.post("/availability", upsertCaretakerAvailability);
   router.post("/capability", upsertCaretakerCapability);
-  router.get("/ctresults", getAllCaretakers);
   router.get("/search", querySearchCaretakers);
-  // router.get("/ctcapability", listAllCapabilities); -- not used
   router.get("/reviews", getAllReviews);
-  router.get("/:username", getCaretakerByUsername);
+  router.get("/searchct", querySearchCaretakers);
+  router.get("/:ctuname", getCaretakerByUsername);
+  router.patch("/:ctuname", editCaretakerType);
+  router.get("/:ctuname/capabilities", getCaretakerCapability);
+  router.get("/:ctuname/availabilities", getCaretakerAvailability);
+  router.delete("/:ctuname/capabilities", deleteCapabilities);
+  router.delete("/:ctuname/availabilities", deleteAvailabilities);
   router.post("/", insertNewCaretaker);
-  //router.get('/', listAllCaretakers);
+  router.get("/", getAllCaretakers);
   return router;
 }
 
@@ -122,6 +130,21 @@ async function getCaretakerByUsername(req, res) {
   });
 }
 
+async function getCaretakerCapability(req, res) {
+  const { ctuname } = req.params; // GG SQL INJECTION!
+
+  if (checkMissingParameter([ctuname])) {
+    return handleMissingParameter(res);
+  }
+
+  const capabilities = await query(getCapability, [ctuname]);
+  console.log(capabilities);
+
+  return buildSuccessResponse(res, {
+    caretaker: capabilities,
+  });
+}
+
 async function upsertCaretakerCapability(req, res) {
   const { pc_species, pc_breed, pc_size, ctuname } = req.body;
   const params = [pc_species, pc_breed, pc_size, ctuname];
@@ -145,6 +168,35 @@ async function upsertCaretakerCapability(req, res) {
 
   return buildSuccessResponse(res, {
     caretaker: buildCaretakersObject(caretakers[0]),
+  });
+}
+
+async function deleteCapabilities(req, res) {
+  const { ctuname } = req.params;
+  const params = [ctuname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  await query(deleteCapabilitiesQuery, [ctuname]);
+  return buildSuccessResponse(res, {
+    caretaker: "success",
+  });
+}
+
+async function getCaretakerAvailability(req, res) {
+  const { ctuname } = req.params; // GG SQL INJECTION!
+
+  if (checkMissingParameter([ctuname])) {
+    return handleMissingParameter(res);
+  }
+
+  const availabilities = await query(getAvailability, [ctuname]);
+  console.log(availabilities);
+
+  return buildSuccessResponse(res, {
+    caretaker: availabilities,
   });
 }
 
@@ -174,13 +226,42 @@ async function upsertCaretakerAvailability(req, res) {
   });
 }
 
-// async function listAllCaretakers(req, res) {
-//   let caretakers = await query(getAllCaretakers);
-//   caretakers = caretakers.map(buildCaretakersObject);
-//   return buildSuccessResponse(res, {
-//     caretaker: caretakers,
-//   });
-// }
+async function deleteAvailabilities(req, res) {
+  const { ctuname } = req.params;
+  const params = [ctuname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  await query(deleteAvailabilitiesQuery, [ctuname]);
+  return buildSuccessResponse(res, {
+    caretaker: "success",
+  });
+}
+
+async function editCaretakerType(req, res) {
+  const { ctuname } = req.params; // GG SQL INJECTION!
+  const { ct_type } = req.body;
+  const params = [ctuname, ct_type];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    const caretakers = await query(editCaretakerTypeQuery, params);
+    console.log(caretakers);
+    return buildSuccessResponse(res, {
+      caretaker: buildCaretakersObject(caretakers[0]),
+    });
+  } catch (err) {
+    return buildCaretakersErrorObject(res, {
+      status: 400,
+      error: err.message,
+    });
+  }
+}
 
 export { getCaretakersRoutes };
 
@@ -203,7 +284,7 @@ function buildCaretakersObject(caretaker) {
   const obj = {
     kind: "Caretaker",
     ...caretaker,
-    selfLink: `/caretakers/${caretaker.username}`,
+    selfLink: `/caretakers/${caretaker.ctuname}`,
   };
   return obj;
 }

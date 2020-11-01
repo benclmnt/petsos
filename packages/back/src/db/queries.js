@@ -72,9 +72,8 @@ export const getPetCategories = "SELECT * FROM pet_categories;";
 
 //Queries for reviews
 export const queryAllReviews =
-  "SELECT rating, review, start_date, end_date, ctuname, pouname \
-  FROM bid B GROUP BY ctuname, pouname, start_date, end_date, rating, review, is_win\
-  HAVING is_win = TRUE AND ctuname = $1;";
+  "SELECT rating, review, start_date, end_date, ctuname, pouname, petname \
+  FROM bid B WHERE is_win = TRUE AND ctuname = $1 AND NOT (review is NULL AND rating is NULL) ORDER BY end_date DESC LIMIT $2;";
 
 // Queries for jobs
 export const queryOverlap =
@@ -117,4 +116,4 @@ export const petsCareFrequency =
 start_date <= date('now') GROUP BY pouname, petname;";
 export const allCaretakerInsightQuery =
   "SELECT ctuname, SUM(price) as total_payout, COUNT(*) as num_jobs, SUM(end_date - start_date) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
-    FROM bid WHERE is_win = true GROUP BY ctuname, mon, yyyy;";
+    FROM bid WHERE is_win = true GROUP BY ctuname, mon, yyyy "; // don't add semicolon here. I'm concatenating it with another string. See caretakers.js (getCaretakerByUsername)

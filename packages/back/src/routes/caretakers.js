@@ -15,6 +15,7 @@ import {
   deleteCapabilities as deleteCapabilitiesQuery,
   deleteAvailabilities as deleteAvailabilitiesQuery,
   insertNewCaretaker as insertNewCaretakerQuery,
+  allCaretakerInsightQuery as getPayoutQuery,
 } from "../db/queries";
 import {
   buildErrorObject,
@@ -27,8 +28,7 @@ function getCaretakersRoutes() {
   const router = express.Router();
   router.post("/availability", upsertCaretakerAvailability);
   router.post("/capability", upsertCaretakerCapability);
-  router.get("/search", querySearchCaretakers);
-  router.get("/reviews", getAllReviews);
+  router.get("/reviews", getAllReviewsByUser);
   router.get("/searchct", querySearchCaretakers);
   router.get("/:ctuname", getCaretakerByUsername);
   router.patch("/:ctuname", editCaretakerType);
@@ -41,9 +41,9 @@ function getCaretakersRoutes() {
   return router;
 }
 
-async function getAllReviews(req, res) {
+async function getAllReviewsByUser(req, res) {
   const { ctuname } = req.query;
-  const reviews = await query(reviewsQuery, [ctuname]);
+  const reviews = await query(reviewsQuery, [ctuname, 10]);
   console.log(reviews);
   return buildSuccessResponse(res, {
     data: reviews,
@@ -65,9 +65,9 @@ async function getAllCaretakers(req, res) {
 // }
 
 async function querySearchCaretakers(req, res) {
-  const { postal_code, start_date, end_date, species, breed, size } = req.query;
+  const { postal_code, start_date, end_date, species, breed } = req.query;
   // const { ctuname, base_price, avg_rating } = req.body;
-  const params = [postal_code, start_date, end_date, species, breed, size];
+  const params = [postal_code, start_date, end_date, species, breed];
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -124,11 +124,25 @@ async function getCaretakerByUsername(req, res) {
   }
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
-
   checkCaretakerExists(res, caretakers);
 
+  const insight = await query(
+    getPayoutQuery +
+      ", start_date, end_date HAVING ctuname = $1 AND end_date <= date('now') AND start_date >= date('now') - interval '1 month';",
+    [ctuname]
+  );
+  const pastReviews = await query(reviewsQuery, [ctuname, 5]); // only past 5 reviews are shown
+
   return buildSuccessResponse(res, {
-    data: buildCaretakersObject(caretakers[0]),
+    data: {
+      ...buildCaretakersObject(caretakers[0]),
+      past_month: {
+        total_payout: Number(insight[0]?.total_payout) || 0,
+        pet_days: Number(insight[0]?.pet_days) || 0,
+        num_jobs: Number(insight[0]?.num_jobs) || 0,
+      },
+      reviews: pastReviews,
+    },
   });
 }
 

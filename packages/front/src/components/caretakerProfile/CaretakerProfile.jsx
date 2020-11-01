@@ -30,26 +30,21 @@ function CaretakerProfile() {
   const [isEditingProfile, toggleIsEditingProfile] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const getCapabilities = async () => {
-    const result = await fetch(
+  const fetchData = async () => {
+    const getCapability = fetch(
       '/caretakers/' + user.username + '/capabilities'
     );
-    setCapabilityList(result);
-  };
-
-  useEffect(() => {
-    getCapabilities();
-  }, []);
-
-  const getAvailabilities = async () => {
-    const result = await fetch(
+    const getAvailability = fetch(
       '/caretakers/' + user.username + '/availabilities'
     );
-    setAvailabilityList(result);
+    // triggering 2 parallel requests then waiting for all of them to finish.
+    const result = await Promise.all([getCapability, getAvailability]);
+    setCapabilityList(result[0]);
+    setAvailabilityList(result[1]);
   };
 
   useEffect(() => {
-    getAvailabilities();
+    fetchData();
   }, []);
 
   const commitmentType =

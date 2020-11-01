@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PetCard from './PetCard';
+import CTOverview from './CTOverview';
 import './dashboard.css';
-import Balance from './Balance';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { client as fetch } from '../../utils/client';
 import { useUser } from '../../context/auth-context';
 import bg from '../../resources/wallpaper2.jpg';
@@ -15,13 +15,12 @@ function Dashboard() {
 
   useEffect(() => {
     // GET request using fetch inside useEffect React hook
-    async function fetchData() {
+    async function fetchUserData() {
       const result = await fetch(basePetsAPILink);
-      console.log(result);
       setPets(result);
     }
 
-    fetchData();
+    fetchUserData();
   }, []);
 
   const deletedPet = async (e, idx) => {
@@ -62,18 +61,17 @@ function Dashboard() {
                     Edit profile
                   </button>
                 </Link>
-                <Link to="/ctprofile/edit">
-                  <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
-                    Edit caretaker profile
-                  </button>
-                </Link>
+                {user.is_caretaker && (
+                  <Link to="/ctprofile/edit">
+                    <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
+                      Edit caretaker profile
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
-
-          <div>
-            <Balance />
-          </div>
+          {user.is_caretaker && <CTOverview />}
         </div>
         <div className="flex flex-col w-auto md:w-1/3 self-stretch z-10">
           <div className="bg-white rounded-lg px-8 py-8">

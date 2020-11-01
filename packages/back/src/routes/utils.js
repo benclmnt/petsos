@@ -1,5 +1,7 @@
-export function buildErrorObject(res, { status, error = 400 }) {
-  logger.error("error: ", error);
+import logger from "../logger";
+
+export function buildErrorObject(res, { status = 400, error }) {
+  logger.error(error);
 
   const errorResp = {
     kind: "Error",

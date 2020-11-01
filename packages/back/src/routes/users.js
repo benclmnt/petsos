@@ -1,5 +1,4 @@
 import express from "express";
-import logger from "../logger";
 import { query } from "../db";
 import { getUsersPetsRoutes } from "./pets";
 import {

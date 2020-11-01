@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import PetCard from "./PetCard";
-import SearchResult from "./SearchResult";
-import SearchForm from "./SearchForm";
-import ReviewsCard from "./ReviewsCard";
+import React, { useState, useEffect } from 'react';
+import PetCard from './PetCard';
+import SearchResult from './SearchResult';
+import SearchForm from './SearchForm';
+import ReviewsCard from './ReviewsCard';
 
 function SearchCaretakers() {
   // const [selectedID, setSelected] = useState();
@@ -12,33 +12,36 @@ function SearchCaretakers() {
 
   return (
     <div
-      class="py-20 h-screen my-auto"
+      className="py-20 h-screen my-auto"
       style={{
-        backgroundSize: "cover",
+        backgroundSize: 'cover',
         backgroundImage:
-          "url(https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg)",
-        backgroundPosition: "center center",
+          'url(https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg)',
+        backgroundPosition: 'center center',
       }}
     >
-      <div class="flex">
-        {showSearchForm === true ? (
+      <>
+        {showSearchForm ? (
           <SearchForm
             setShowSearchForm={setShowSearchForm}
             setSearchResult={setSearchResult}
           />
         ) : (
-          <SearchResult caretakerList={searchResult} />
+          <SearchResult
+            setShowSearchForm={setShowSearchForm}
+            caretakerList={searchResult}
+          />
         )}
 
         <div>
-          {showReviews === true ? (
+          {showReviews ? (
             <ReviewsCard
               setShowSearchForm={setShowSearchForm}
               setSearchResult={setSearchResult}
             />
           ) : null}
         </div>
-      </div>
+      </>
     </div>
   );
 }

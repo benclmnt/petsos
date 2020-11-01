@@ -1,48 +1,29 @@
-import React, { useState } from "react";
-import Rating from "@material-ui/lab/Rating";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import { client as fetch } from "../../utils/client";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 
-function CaretakersCard({ caretaker, handleSeeReviews, setShowReviews }) {
-  const [rating, setRating] = useState(caretaker.avg_rating); //cust_rating);
-  const [name, setName] = useState(caretaker.ctuname); //full_name);
-  const [price, setPrice] = useState(caretaker.base_price);
-  const [postal_code, setPostalCode] = useState(caretaker.postal_code);
-  const [searchResult, setSearchResult] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const [formState, setFormState] = useState({
-    ratingPO: 0,
-    pouname: "NA",
-    review_desc: "NA",
-  });
-
-  const handleChange = (e) => {
-    console.log(e.target.name, e.target.value);
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+function CaretakersCard({ caretaker = {} }) {
   return (
-    <div>
-      <div class="bg-white w-full md:flex rounded-lg shadow px-10 py-8">
+    <>
+      <div
+        class="bg-white rounded-lg shadow px-10 py-8"
+        style={{ minWidth: 360 }}
+      >
         <div class="w-full">
           {/* Basic information */}
           <div class="flex justify-between">
             <div class="uppercase tracking-wide text-3xl text-indigo-600 font-bold">
-              {name}
+              {caretaker.ctuname}
             </div>
 
             <div class="flex flex-col">
               <div class="text-right text-2xl text-indigo-800 opacity-75 font-bold">
-                ${price}
+                ${caretaker.price}
               </div>
 
               <div class="text-sm text-right text-indigo-800 opacity-75">
-                per night
+                per day
               </div>
             </div>
           </div>
@@ -60,42 +41,46 @@ function CaretakersCard({ caretaker, handleSeeReviews, setShowReviews }) {
                 clip-rule="evenodd"
               />
             </svg>
-            <p class="text-gray-600">Singapore, {postal_code}</p>
+            <p class="text-gray-600">
+              {caretaker.city}, {caretaker.postal_code}
+            </p>
           </div>
 
           {/* Capability */}
           {/* <div class="flex mt-2">{createCapability()}</div> */}
 
-          <div class="flex justify-between">
-            {/* Rating */}
-            <div>
-              <Box component="fieldset" borderColor="transparent">
-                {/* <Typography component="legend">Rating</Typography> */}
-                <Rating
-                  name="read-only"
-                  precision={0.5}
-                  value={rating}
-                  readOnly
-                />
-              </Box>
-              {/* {rating} */}
-            </div>
-
-            <div
-              onClick={(e) => {
-                setShowReviews(false);
-                handleChange(e);
-                handleSeeReviews();
-                setShowReviews(true);
-              }}
-              class="text-indigo-800 text-right tracking-wide uppercase text-sm font-bold hover:underline"
+          {/* Rating */}
+          <div class="h-2"></div>
+          <div class="flex align-middle">
+            <Box
+              component="fieldset"
+              borderColor="transparent"
+              class="flex-1 py-1"
+            >
+              <Rating
+                name="read-only"
+                precision={0.5}
+                value={caretaker.avg_rating}
+                readOnly
+              />
+            </Box>
+            <div class="w-5"></div>
+            {/* <button
+              class="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
+            >
+              Book a time
+            </button> */}
+            <div class="w-2"></div>
+            <Link
+              to={`/ct/${caretaker.ctuname}`}
+              class="py-2 text-indigo-800 text-right tracking-wide uppercase text-sm font-bold"
             >
               See reviews
-            </div>
+            </Link>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -17,10 +17,9 @@ function getCaretakersRoutes() {
   const router = express.Router();
   router.post("/availability", upsertCaretakerAvailability);
   router.post("/capability", upsertCaretakerCapability);
-  router.get("/categories", listAllPetCategories);
   router.get("/ctresults", getAllCaretakers);
-  router.get("/searchct", querySearchCaretakers);
-  router.get("/ctcapability", listAllCapabilities);
+  router.get("/search", querySearchCaretakers);
+  // router.get("/ctcapability", listAllCapabilities); -- not used
   router.get("/reviews", getAllReviews);
   router.get("/:username", getCaretakerByUsername);
   router.post("/", insertNewCaretaker);
@@ -30,7 +29,9 @@ function getCaretakersRoutes() {
 
 async function getAllReviews(req, res) {
   const { ctuname } = req.query;
+  console.log("ctuname", ctuname);
   const reviews = await query(reviewsQuery, [ctuname]);
+  console.log(reviews);
   return buildSuccessResponse(res, {
     caretaker: reviews,
   });
@@ -43,34 +44,12 @@ async function getAllCaretakers(req, res) {
   });
 }
 
-async function listAllCapabilities(req, res) {
-  const capabilities = await query(getAllCapabilities);
-  return buildSuccessResponse(res, {
-    caretaker: capabilities,
-  });
-}
-
-async function listAllPetCategories(req, res) {
-  const categories = await query(getPetCategories);
-  //console.log(categories);
-
-  const data = {};
-  for (let category of categories) {
-    if (!data[category.species]) {
-      data[category.species] = [];
-    }
-
-    if (!data[category.species].includes(category.breed)) {
-      data[category.species].push(category.breed);
-    }
-  }
-  console.log(data);
-
-  // const a = [];
-  return buildSuccessResponse(res, {
-    caretaker: data,
-  });
-}
+// async function listAllCapabilities(req, res) {
+//   const capabilities = await query(getAllCapabilities);
+//   return buildSuccessResponse(res, {
+//     caretaker: capabilities,
+//   });
+// }
 
 async function querySearchCaretakers(req, res) {
   const { postal_code, start_date, end_date, species, breed, size } = req.query;

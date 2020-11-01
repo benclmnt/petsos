@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../../css/datepicker.css";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
-import { toJSONLocal } from "../../utils/dateutils";
-import PetCard from "./PetCard";
+import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../css/datepicker.css';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
+import { toJSONLocal } from '../../utils/dateutils';
+import PetCard from './PetCard';
 
 function SearchForm({ setShowSearchForm, setSearchResult }) {
   const user = useUser();
   const [capabilities, setCapabilities] = useState([]);
   const [address, setAddress] = useState({
-    country: "Singapore", //user.country,
-    city: "Singapore",
-    postal_code: user == null ? "10000" : user.postal_code,
+    country: 'Singapore', //user.country,
+    city: 'Singapore',
+    postal_code: user == null ? '10000' : user.postal_code,
   });
 
   const [formState, setFormState] = useState({
     start_date: new Date(),
     end_date: new Date(),
-    species: "dog",
-    breed: "samoyed",
-    size: "small",
-    postal_code: user == null ? "10000" : user.postal_code, // TODO: to change to user.postal_code
-    country: user == null ? "Singapore" : user.country,
-    city: user == null ? "Singapore" : user.city,
+    species: 'dog',
+    breed: 'samoyed',
+    size: 'small',
+    postal_code: user == null ? '10000' : user.postal_code, // TODO: to change to user.postal_code
+    country: user == null ? 'Singapore' : user.country,
+    city: user == null ? 'Singapore' : user.city,
   });
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
@@ -42,15 +42,17 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   const [selected, setSelected] = useState();
 
   const fetchPets = async () => {
-    try {
-      let link = "/users/";
-      link += user.username + "/pets";
-      const tmp = await fetch(link);
-      setPets(Object.values(tmp));
-    } catch (err) {
-      console.error(err);
-      setErrorMsg(err?.error);
-      return;
+    if (user) {
+      try {
+        let link = '/users/';
+        link += user.username + '/pets';
+        const tmp = await fetch(link);
+        setPets(Object.values(tmp));
+      } catch (err) {
+        console.error(err);
+        setErrorMsg(err?.error);
+        return;
+      }
     }
   };
 
@@ -66,10 +68,10 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   };
 
   const petChoices = (
-    <div class="md:flex space-x-4">
+    <div className="md:flex space-x-4">
       <select
         name="species"
-        class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
         defaultValue={formState.species}
       >
@@ -80,7 +82,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
       <select
         name="breed"
-        class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
         defaultValue={formState.breed}
       >
@@ -94,7 +96,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
       <select
         name="size"
-        class="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
         defaultValue={formState.size}
       >
@@ -107,7 +109,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   );
 
   const selectUsersPet = (
-    <div class="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-4">
       {pets.map((pet, i) => (
         <PetCard
           onClick={() => {
@@ -128,8 +130,8 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   );
 
   // Address
-  var countryOptions = ["Singapore"];
-  var cityOptions = ["Singapore"];
+  var countryOptions = ['Singapore'];
+  var cityOptions = ['Singapore'];
 
   var addressOptions = (choices, name) => (
     <select
@@ -141,7 +143,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
       value={address.name}
     >
       <option value="" disabled>
-        Select {name === "postal_code" ? "postal code" : name}
+        Select {name === 'postal_code' ? 'postal code' : name}
       </option>
       {choices.map((x, y) => (
         <option key={y}>{x}</option>
@@ -154,7 +156,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   };
 
   // Datepickers
-  const dateFormat = "dd-MM-yyyy";
+  const dateFormat = 'dd-MM-yyyy';
 
   const StartDatepicker = () => {
     return (
@@ -186,13 +188,20 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
   useEffect(() => {
     (async () => {
-      // GET request using fetch inside useEffect React hook
-      const result = await fetch("/caretakers/categories");
-      setCapabilities(result);
+      const allPetCategories = await fetch('/pets/categories');
+      const _tmp = {};
+      for (let category of allPetCategories) {
+        if (!_tmp[category.species]) {
+          _tmp[category.species] = [];
+        }
+
+        if (!_tmp[category.species].includes(category.breed)) {
+          _tmp[category.species].push(category.breed);
+        }
+      }
+      setCapabilities(_tmp);
     })();
   }, []);
-
-  console.log("cap", capabilities);
 
   //Search
   const handleSearch = async (e) => {
@@ -205,12 +214,12 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     };
 
     // generate the query params
-    let link = "/caretakers/searchct?";
+    let link = '/caretakers/search?';
     const paramsKeyValue = [];
     Object.entries(searchParams).forEach(([key, value]) =>
       paramsKeyValue.push(`${key}=${value}`)
     );
-    link += paramsKeyValue.join("&");
+    link += paramsKeyValue.join('&');
 
     try {
       const tmp = await fetch(link);
@@ -227,22 +236,25 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   return (
     <form
       onSubmit={handleSearch}
-      class="flex-col max-h-screen max-w-2xl mx-auto"
+      className="flex-col max-h-screen max-w-2xl mx-auto"
     >
-      <div class="bg-white text-black px-10 py-8 rounded shadow space-y-3">
+      <div className="bg-white text-black px-10 py-8 rounded shadow space-y-3">
         <p className="py-3 text-orange-700">{errorMsg}</p>
-        <h1 class="text-3xl text-left font-bold">Find the Perfect Match</h1>
+        <h1 className="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
         {/* Pets */}
         <div>{user ? selectUsersPet : petChoices}</div>
 
         {/* Address */}
         <div>
-          <h1 class="mb-2 text-sm">What's your address or cross-streets?</h1>
-          <div class="flex space-x-4">
-            {addressOptions(countryOptions, "country")}
-            {addressOptions(cityOptions, "city")}
+          <h1 className="mb-2 text-sm">
+            What's your address or cross-streets?
+          </h1>
+          <div className="flex space-x-4">
+            {addressOptions(countryOptions, 'country')}
+            {addressOptions(cityOptions, 'city')}
             <input
+              class="border p-2"
               type="number"
               name="postal_code"
               defaultValue={formState.postal_code}
@@ -253,8 +265,8 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
         {/* Dates */}
         <div>
-          <h1 class="mb-2 text-sm">Which dates do you need?</h1>
-          <div class="flex mb-4 space-x-8">
+          <h1 className="mb-2 text-sm">Which dates do you need?</h1>
+          <div className="flex mb-4 space-x-8">
             <StartDatepicker />
             <EndDatepicker />
           </div>
@@ -263,7 +275,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         {/* Next Button */}
         <button
           type="submit"
-          class="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded"
+          className="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded"
         >
           Search Now!
         </button>

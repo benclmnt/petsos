@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { client as fetch } from '../../utils/client';
+import { getAllPetCategories } from '../../utils/fetchutils';
 import AnimalCapability from './AnimalCapability';
 
 function CapabilityForm(props) {
   const [categories, setCategories] = useState([]);
 
-  const getCategories = async () => {
-    const result = await fetch('/caretakers/categories');
-    setCategories(result);
-  };
-
   useEffect(() => {
-    getCategories();
+    (async () => {
+      const _tmp = await getAllPetCategories();
+      setCategories(_tmp);
+    })();
   }, []);
 
   const handleCapabilityChange = (e, index) => {

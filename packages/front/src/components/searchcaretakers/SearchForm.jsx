@@ -6,6 +6,7 @@ import { client as fetch } from '../../utils/client';
 import { useUser } from '../../context/auth-context';
 import { toJSONLocal } from '../../utils/dateutils';
 import PetCard from './PetCard';
+import { getAllPetCategories } from '../../utils/fetchutils';
 
 function SearchForm({ setShowSearchForm, setSearchResult }) {
   const user = useUser();
@@ -188,17 +189,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
   useEffect(() => {
     (async () => {
-      const allPetCategories = await fetch('/pets/categories');
-      const _tmp = {};
-      for (let category of allPetCategories) {
-        if (!_tmp[category.species]) {
-          _tmp[category.species] = [];
-        }
-
-        if (!_tmp[category.species].includes(category.breed)) {
-          _tmp[category.species].push(category.breed);
-        }
-      }
+      const _tmp = await getAllPetCategories();
       setCapabilities(_tmp);
     })();
   }, []);
@@ -243,7 +234,14 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         <h1 className="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
         {/* Pets */}
-        <div>{user ? selectUsersPet : petChoices}</div>
+        {user && (
+          <>
+            <div> {selectUsersPet} </div>
+            <div class="text-center text-gray-600">or </div>
+          </>
+        )}
+
+        {petChoices}
 
         {/* Address */}
         <div>

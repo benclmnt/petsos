@@ -7,9 +7,14 @@ import {
   registerUser,
   queryUserByUsername,
   deleteUser as deleteUserQuery,
-  upsertUserAddress as upsertUserAddressQuery,
   editUser as editUserQuery,
 } from "../db/queries";
+import {
+  buildErrorObject,
+  buildSuccessResponse,
+  checkMissingParameter,
+  handleMissingParameter,
+} from "./utils";
 
 function getUsersRoutes() {
   const router = express.Router();
@@ -45,7 +50,7 @@ async function register(req, res) {
 
   const users = await query(queryUserByUsername, [username]);
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
@@ -62,7 +67,7 @@ async function deleteUser(req, res) {
 
   await query(deleteUserQuery, [username]);
   return buildSuccessResponse(res, {
-    user: "success",
+    data: "success",
   });
 }
 
@@ -92,7 +97,7 @@ async function login(req, res) {
   }
 
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
@@ -112,14 +117,14 @@ async function getUserInfo(req, res) {
   }
 
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
 async function listAllUsers(req, res) {
   const users = await query(getAllUsers);
   return buildSuccessResponse(res, {
-    user: users.map(buildUsersObject),
+    data: users.map(buildUsersObject),
   });
 }
 
@@ -134,9 +139,8 @@ async function editUserDetails(req, res) {
 
   try {
     const users = await query(editUserQuery, params);
-    console.log(users);
     return buildSuccessResponse(res, {
-      user: buildUsersObject(users[0]),
+      data: buildUsersObject(users[0]),
     });
   } catch (err) {
     return buildErrorObject(res, {
@@ -152,17 +156,6 @@ export { getUsersRoutes };
  * PRIVATE FUNCTIONS
  **************************/
 
-function buildErrorObject(res, { status = 400, error }) {
-  logger.error(error);
-
-  const errorResp = {
-    kind: "Error",
-    error,
-  };
-
-  return res.status(status).json(errorResp);
-}
-
 function buildUsersObject(user) {
   const obj = {
     kind: "User",
@@ -171,20 +164,4 @@ function buildUsersObject(user) {
   };
   delete obj.password;
   return obj;
-}
-
-function buildSuccessResponse(res, { status, user }) {
-  console.log("returned: ", user);
-  return res.status(status || 200).json(user);
-}
-
-function checkMissingParameter(array) {
-  return array.some((param) => param === undefined || param === null);
-}
-
-function handleMissingParameter(res) {
-  return buildErrorObject(res, {
-    status: 400,
-    error: "Missing some required parameters",
-  });
 }

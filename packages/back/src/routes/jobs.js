@@ -8,6 +8,12 @@ import {
   getBid,
   updateRating,
 } from "../db/queries";
+import {
+  buildErrorObject,
+  buildSuccessResponse,
+  checkMissingParameter,
+  handleMissingParameter,
+} from "./utils";
 
 function getJobsRoutes() {
   const router = express.Router();
@@ -70,7 +76,7 @@ async function createBid(req, res) {
   getBidParams = [params[6], params[7], params[3], params[4], params[5]];
   const bids = await query(getBid, getBidParams);
   return buildSuccessResponse(res, {
-    bid: buildBidObject(bids[0]),
+    data: buildBidObject(bids[0]),
   });
 }
 
@@ -85,7 +91,7 @@ async function winBidQuery(req, res) {
   try {
     const bids = await query(winBid, params);
     return buildSuccessResponse(res, {
-      bid: buildBidObject(bids[0]),
+      data: buildBidObject(bids[0]),
     });
   } catch (err) {
     return buildErrorObject(res, {
@@ -107,7 +113,7 @@ async function updateRatingQuery(req, res) {
     const bids = await query(updateRating, params);
     console.log(bids);
     return buildSuccessResponse(res, {
-      bid: buildBidObject(bids[0]),
+      data: buildBidObject(bids[0]),
     });
   } catch (err) {
     return buildErrorObject(res, {
@@ -123,20 +129,6 @@ export { getJobsRoutes };
  * PRIVATE FUNCTIONS
  */
 
-function checkMissingParameter(array) {
-  return array.some((param) => param === undefined || param === null);
-}
-
-function buildErrorObject(res, { status, error }) {
-  logger.error(error);
-  const errorResp = {
-    kind: "Error",
-    error,
-  };
-
-  return res.status(status).json(errorResp);
-}
-
 function buildOverlapObject(job) {
   const obj = {
     kind: "Overlap",
@@ -151,21 +143,4 @@ function buildBidObject(bid) {
     ...bid,
   };
   return obj;
-}
-
-function buildOverlapSuccessResponse(res, { status, jobs }) {
-  console.log("returned: ", jobs);
-  return res.status(status || 200).json(jobs);
-}
-
-function buildBidSuccessResponse(res, { status, bid }) {
-  console.log("returned: ", bid);
-  return res.status(status || 200).json(bid);
-}
-
-function handleMissingParameter(res) {
-  return buildErrorObject(res, {
-    status: 400,
-    error: "Missing some required parameters",
-  });
 }

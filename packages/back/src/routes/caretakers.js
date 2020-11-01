@@ -16,6 +16,12 @@ import {
   deleteAvailabilities as deleteAvailabilitiesQuery,
   insertNewCaretaker as insertNewCaretakerQuery,
 } from "../db/queries";
+import {
+  buildErrorObject,
+  buildSuccessResponse,
+  checkMissingParameter,
+  handleMissingParameter,
+} from "./utils";
 
 function getCaretakersRoutes() {
   const router = express.Router();
@@ -37,25 +43,24 @@ function getCaretakersRoutes() {
 
 async function getAllReviews(req, res) {
   const { ctuname } = req.query;
-  console.log("ctuname", ctuname);
   const reviews = await query(reviewsQuery, [ctuname]);
   console.log(reviews);
   return buildSuccessResponse(res, {
-    caretaker: reviews,
+    data: reviews,
   });
 }
 
 async function getAllCaretakers(req, res) {
   const caretakers = await query(getCaretakersQuery);
   return buildSuccessResponse(res, {
-    caretaker: caretakers,
+    data: caretakers,
   });
 }
 
 // async function listAllCapabilities(req, res) {
 //   const capabilities = await query(getAllCapabilities);
 //   return buildSuccessResponse(res, {
-//     caretaker: capabilities,
+//     data: capabilities,
 //   });
 // }
 
@@ -68,8 +73,6 @@ async function querySearchCaretakers(req, res) {
     return handleMissingParameter(res);
   }
 
-  console.log(params);
-
   try {
     const caretakers = await query(searchCaretakersQuery, [
       start_date,
@@ -80,11 +83,11 @@ async function querySearchCaretakers(req, res) {
     console.log(caretakers);
     // caretakers = caretakers.map(buildCaretakersObject);
     return buildSuccessResponse(res, {
-      caretaker: caretakers,
+      data: caretakers,
     });
   } catch (err) {
     console.log(err);
-    return buildCaretakersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 200,
       error: err.detail,
     });
@@ -94,7 +97,6 @@ async function querySearchCaretakers(req, res) {
 async function insertNewCaretaker(req, res) {
   const { ctuname, ct_type } = req.body;
   const params = [ctuname, ct_type];
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -104,10 +106,10 @@ async function insertNewCaretaker(req, res) {
     await query(insertNewCaretakerQuery, params);
     const caretakers = await query(queryCaretakerByUsername, [ctuname]);
     return buildSuccessResponse(res, {
-      caretaker: buildCaretakersObject(caretakers[0]),
+      data: buildCaretakersObject(caretakers[0]),
     });
   } catch (err) {
-    return buildCaretakersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 200,
       error: err.detail,
     });
@@ -126,7 +128,7 @@ async function getCaretakerByUsername(req, res) {
   checkCaretakerExists(res, caretakers);
 
   return buildSuccessResponse(res, {
-    caretaker: buildCaretakersObject(caretakers[0]),
+    data: buildCaretakersObject(caretakers[0]),
   });
 }
 
@@ -141,15 +143,13 @@ async function getCaretakerCapability(req, res) {
   console.log(capabilities);
 
   return buildSuccessResponse(res, {
-    caretaker: capabilities,
+    data: capabilities,
   });
 }
 
 async function upsertCaretakerCapability(req, res) {
   const { pc_species, pc_breed, pc_size, ctuname } = req.body;
   const params = [pc_species, pc_breed, pc_size, ctuname];
-
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -158,7 +158,7 @@ async function upsertCaretakerCapability(req, res) {
   try {
     await query(upsertCaretakerCapabilityQuery, params);
   } catch (err) {
-    return buildCaretakersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 200,
       error: err.detail,
     });
@@ -167,7 +167,7 @@ async function upsertCaretakerCapability(req, res) {
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
 
   return buildSuccessResponse(res, {
-    caretaker: buildCaretakersObject(caretakers[0]),
+    data: buildCaretakersObject(caretakers[0]),
   });
 }
 
@@ -181,7 +181,7 @@ async function deleteCapabilities(req, res) {
 
   await query(deleteCapabilitiesQuery, [ctuname]);
   return buildSuccessResponse(res, {
-    caretaker: "success",
+    data: "success",
   });
 }
 
@@ -196,15 +196,13 @@ async function getCaretakerAvailability(req, res) {
   console.log(availabilities);
 
   return buildSuccessResponse(res, {
-    caretaker: availabilities,
+    data: availabilities,
   });
 }
 
 async function upsertCaretakerAvailability(req, res) {
   const { ctuname, start_date, end_date } = req.body;
   const params = [ctuname, start_date, end_date];
-
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -213,7 +211,7 @@ async function upsertCaretakerAvailability(req, res) {
   try {
     await query(upsertCaretakerAvailabilityQuery, params);
   } catch (err) {
-    return buildCaretakersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 200,
       error: err.detail,
     });
@@ -222,7 +220,7 @@ async function upsertCaretakerAvailability(req, res) {
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
 
   return buildSuccessResponse(res, {
-    caretaker: buildCaretakersObject(caretakers[0]),
+    data: buildCaretakersObject(caretakers[0]),
   });
 }
 
@@ -236,7 +234,7 @@ async function deleteAvailabilities(req, res) {
 
   await query(deleteAvailabilitiesQuery, [ctuname]);
   return buildSuccessResponse(res, {
-    caretaker: "success",
+    data: "success",
   });
 }
 
@@ -253,10 +251,10 @@ async function editCaretakerType(req, res) {
     const caretakers = await query(editCaretakerTypeQuery, params);
     console.log(caretakers);
     return buildSuccessResponse(res, {
-      caretaker: buildCaretakersObject(caretakers[0]),
+      data: buildCaretakersObject(caretakers[0]),
     });
   } catch (err) {
-    return buildCaretakersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
       error: err.message,
     });
@@ -269,17 +267,6 @@ export { getCaretakersRoutes };
  * PRIVATE FUNCTIONS
  */
 
-function buildCaretakersErrorObject(res, { status, error }) {
-  logger.error(error);
-
-  const errorResp = {
-    kind: "Error",
-    error,
-  };
-
-  return res.status(status).json(errorResp);
-}
-
 function buildCaretakersObject(caretaker) {
   const obj = {
     kind: "Caretaker",
@@ -289,26 +276,11 @@ function buildCaretakersObject(caretaker) {
   return obj;
 }
 
-function buildSuccessResponse(res, { status, caretaker }) {
-  return res.status(status || 200).json(caretaker);
-}
-
 function checkCaretakerExists(res, caretakers) {
   if (caretakers.length === 0) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
       error: "Cannot find caretaker",
     });
   }
-}
-
-function checkMissingParameter(array) {
-  return array.some((param) => param === undefined || param === null);
-}
-
-function handleMissingParameter(res) {
-  return buildCaretakersErrorObject(res, {
-    status: 400,
-    error: "Missing some required parameters",
-  });
 }

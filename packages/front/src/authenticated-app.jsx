@@ -13,7 +13,7 @@ import {
 import MyPets from './components/MyPets/MyPets';
 import EditProfile from './components/editprofile/EditProfile';
 import Dashboard from './components/dashboard/Dashboard';
-import Admin from './components/admin/Admin';
+import Admin from './components/admin';
 import SearchCaretakers from './components/searchcaretakers/SearchCaretakers';
 import BecomeCaretaker from './components/becomecaretaker/BecomeCaretaker';
 import CaretakerReviews from './components/searchcaretakers/CaretakersProfile';
@@ -33,7 +33,19 @@ function Authenticatedapp() {
             <LoginPage />
           </Route>
 
-          <Route exact path="/myPets/:name/">
+          <Route exact path="/search">
+            <SearchCaretakers />
+          </Route>
+
+          <Route path="/logout">
+            <Logout />
+          </Route>
+
+          <Route path="/ct/:ctuname">
+            <CaretakerReviews />
+          </Route>
+
+          <Route path="/myPets/:name/">
             <MyPets />
           </Route>
 
@@ -45,32 +57,20 @@ function Authenticatedapp() {
             <CaretakerProfile />
           </Route>
 
-          <Route exact path="/search">
-            <SearchCaretakers />
-          </Route>
-
-          <Route exact path="/becomect">
+          <Route path="/becomect">
             <BecomeCaretaker />
           </Route>
 
-          <Route path="/ct/:ctuname">
-            <CaretakerReviews />
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
+
+          <Route path="/admin">
+            <Admin />
           </Route>
 
           <Route exact path="/">
             <Landing />
-          </Route>
-
-          <Route exact path="/dashboard">
-            <Dashboard />
-          </Route>
-
-          <Route exact path="/admin">
-            <Admin />
-          </Route>
-
-          <Route exact path="/logout">
-            <Logout />
           </Route>
 
           <Route>

@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import "./admin.css";
-import { client as fetch } from "../../utils/client";
+import React, { useState, useEffect } from 'react';
+import './admin.css';
+import { client as fetch } from '../../utils/client';
 
-function Admin() {
+function PetCategoriesAdmin() {
   const [petCategories, setPetCategories] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [species, setSpecies] = useState("");
-  const [breed, setBreed] = useState("");
-  const [size, setSize] = useState("");
+  const [species, setSpecies] = useState('');
+  const [breed, setBreed] = useState('');
+  const [size, setSize] = useState('');
   const [basePrice, setBasePrice] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [startItem, setStartItem] = useState("");
+  const [startItem, setStartItem] = useState('');
   const [endItem, setEndItem] = useState(itemsPerPage);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     // GET request using fetch inside useEffect React hook
     async function fetchData() {
-      const result = await fetch("/pets/categories");
+      const result = await fetch('/pets/categories');
       setPetCategories(result);
       setIsLoaded(true);
     }
@@ -64,16 +64,16 @@ function Admin() {
     };
 
     try {
-      const result = await fetch("/pets/categories", {
+      const result = await fetch('/pets/categories', {
         body: body,
-        method: isEdit ? "PUT" : "POST",
+        method: isEdit ? 'PUT' : 'POST',
       });
       setPetCategories(result);
-      setSpecies("");
-      setBreed("");
-      setSize("");
-      setBasePrice("");
-      setErrorMsg("");
+      setSpecies('');
+      setBreed('');
+      setSize('');
+      setBasePrice('');
+      setErrorMsg('');
     } catch (error) {
       console.error(error);
       setErrorMsg(error.error);
@@ -124,12 +124,12 @@ function Admin() {
       size: sz,
     };
     try {
-      const result = await fetch("/pets/categories", {
+      const result = await fetch('/pets/categories', {
         body,
-        method: "DELETE",
+        method: 'DELETE',
       });
       setPetCategories(result);
-      setErrorMsg("");
+      setErrorMsg('');
     } catch (error) {
       console.error(error);
       setErrorMsg(error.error);
@@ -149,7 +149,7 @@ function Admin() {
       <div className=" text-gray-700 text-center bg-white px-4 py-2 mt-20 rounded-lg w-1/2">
         <h1 className="font-bold text-4xl">Set pet category</h1>
         <p className="text-orange-700">
-          {errorMsg !== "" && "Error: " + errorMsg}
+          {errorMsg !== '' && 'Error: ' + errorMsg}
         </p>
         <div className="flex flex-col justify-center">
           <div className="flex flex-row mt-10 space-x-6 text-left p-5 ">
@@ -206,7 +206,7 @@ function Admin() {
 
           <div className="mt-5 flex flex-col justify-center px-5">
             <button className="border-2 border-gray-600" onClick={handleUpsert}>
-              {isEdit ? "Edit Pet Category" : "Add Pet Category"}
+              {isEdit ? 'Edit Pet Category' : 'Add Pet Category'}
             </button>
             <table className="border-collapse border-2 border-gray-500 mt-5">
               <thead>
@@ -233,8 +233,8 @@ function Admin() {
                         setEndItem(itemsPerPage - 1);
                       }}
                     >
-                      {" "}
-                      -{" "}
+                      {' '}
+                      -{' '}
                     </a>
                     <a
                       href=""
@@ -245,8 +245,8 @@ function Admin() {
                         setEndItem(itemsPerPage + 1);
                       }}
                     >
-                      {" "}
-                      +{" "}
+                      {' '}
+                      +{' '}
                     </a>
                   </th>
                 </tr>
@@ -262,4 +262,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default PetCategoriesAdmin;

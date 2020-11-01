@@ -107,14 +107,14 @@ export const getBid =
   "SELECT * FROM bid WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5;";
 export const updateRating =
   "UPDATE bid SET rating = $6 WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5 RETURNING *;";
+
+// admin insights queries
 export const petsTakenCareOf =
-  "SELECT COUNT(DISTINCT (petname, pouname)) FROM (SELECT petname, pouname, COUNT(*) as freq FROM bid WHERE is_win\
- = true AND date('now') - start_date <= 90 AND start_date <= date('now') GROUP BY pouname, petname) as t;";
-
-export const petsCareFrequenct =
-  "SELECT petname, pouname, COUNT(*) as freq FROM bid WHERE is_win = true AND date('now') - start_date <= 90 AND\
+  "SELECT COUNT(DISTINCT (petname, pouname)) FROM (SELECT petname, pouname, COUNT(*) as freq FROM bid WHERE is_win \
+= true AND date('now') - start_date <= 90 AND start_date <= date('now') GROUP BY pouname, petname) as t;";
+export const petsCareFrequency =
+  "SELECT petname, pouname, COUNT(*) as freq FROM bid WHERE is_win = true AND date('now') - start_date <= 90 AND \
 start_date <= date('now') GROUP BY pouname, petname;";
-
 export const allCaretakerInsightQuery =
-  "SELECT ctuname, SUM(price) as total_payout, COUNT(*) as num_jobs, SUM(end_date - start_date) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy\
+  "SELECT ctuname, SUM(price) as total_payout, COUNT(*) as num_jobs, SUM(end_date - start_date) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
     FROM bid WHERE is_win = true GROUP BY ctuname, mon, yyyy;";

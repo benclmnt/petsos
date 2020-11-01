@@ -12,6 +12,12 @@ import {
   updatePetCategory as updatePetCategoryQuery,
   updatePetInfo as updatePetInfoQuery,
 } from "../db/queries";
+import {
+  buildErrorObject,
+  buildSuccessResponse,
+  checkMissingParameter,
+  handleMissingParameter,
+} from "./utils";
 
 function getPetCategoriesRoutes() {
   const router = express.Router();
@@ -53,8 +59,6 @@ async function getUsersPetsByName(req, res) {
   const { username: pouname, petname: name } = req.params;
   const params = [pouname, name];
 
-  console.log(params);
-
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
   }
@@ -79,7 +83,6 @@ async function createPet(req, res) {
   const { name, species, breed, size } = req.body;
   const { username: pouname } = req.params;
   const params = [name, pouname, species, breed, size];
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -105,7 +108,6 @@ async function updatePetInfo(req, res) {
   const { username: pouname, petname: name } = req.params;
   const { name: newName = name, species, breed, size } = req.body;
   const params = [name, pouname, species, breed, size, newName];
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -128,7 +130,6 @@ async function deletePet(req, res) {
   const { username: pouname } = req.params;
   const { name } = req.body;
   const params = [pouname, name];
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -157,7 +158,6 @@ async function deletePet(req, res) {
 async function insertNewPetCategory(req, res) {
   const { species, breed, size, base_price } = req.body;
   const params = [species, breed, size, base_price];
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -180,7 +180,6 @@ async function insertNewPetCategory(req, res) {
 async function updatePetCategory(req, res) {
   const { species, breed, size, base_price } = req.body;
   const params = [species, breed, size, base_price];
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -204,7 +203,6 @@ async function updatePetCategory(req, res) {
 async function removePetCategoryBySpeciesBreedSize(req, res) {
   const { species, breed, size } = req.body;
   const params = [species, breed, size];
-  console.log(params);
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -239,18 +237,6 @@ export { getPetCategoriesRoutes, getUsersPetsRoutes };
  * PRIVATE FUNCTIONS
  */
 
-function buildErrorObject(res, { status = 400, error }) {
-  logger.error(error);
-
-  const errorResp = {
-    kind: "Error",
-    error,
-  };
-
-  res.status(status).json(errorResp);
-  return true;
-}
-
 function buildPetsObject(pet, pouname) {
   const obj = {
     kind: "Pet",
@@ -259,28 +245,4 @@ function buildPetsObject(pet, pouname) {
     parentLink: `/users/${pouname}`,
   };
   return obj;
-}
-
-function buildSuccessResponse(res, { status = 200, data }) {
-  return res.status(status).json(data);
-}
-
-function checkUserExists(res, users) {
-  if (users.length === 0) {
-    return !buildErrorObject(res, {
-      status: 400,
-      error: "Cannot find user",
-    });
-  }
-  return true;
-}
-
-function checkMissingParameter(array) {
-  return array.some((param) => param === undefined || param === null);
-}
-
-function handleMissingParameter(res) {
-  return buildErrorObject(res, {
-    error: "Missing some required parameters",
-  });
 }

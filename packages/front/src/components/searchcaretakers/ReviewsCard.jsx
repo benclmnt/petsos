@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import Rating from '@material-ui/lab/Rating';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { toJSONLocal } from '../../utils/dateutils';
+import React, { useState } from "react";
+import Rating from "@material-ui/lab/Rating";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import { toJSONLocal } from "../../utils/dateutils";
 
 function ReviewsCard({ review }) {
-  console.log('Review:', review);
+  console.log("Review:", review);
   const [ratingPO, setRating] = useState(review.rating);
   //   const [pouname, setPetOwnerName] = useState(review.pouname);
   //   const [review_desc, setReviewDesc] = useState(review.review);
@@ -31,7 +31,7 @@ function ReviewsCard({ review }) {
                   {/* <Typography component="legend">Rating</Typography> */}
                   <Rating
                     name="read-only"
-                    precision={0.5}
+                    precision={0.1}
                     value={review.rating}
                     readOnly
                   />

@@ -28,7 +28,6 @@ function getCaretakersRoutes() {
   const router = express.Router();
   router.post("/availability", upsertCaretakerAvailability);
   router.post("/capability", upsertCaretakerCapability);
-  router.get("/search", querySearchCaretakers);
   router.get("/reviews", getAllReviewsByUser);
   router.get("/searchct", querySearchCaretakers);
   router.get("/:ctuname", getCaretakerByUsername);
@@ -66,9 +65,9 @@ async function getAllCaretakers(req, res) {
 // }
 
 async function querySearchCaretakers(req, res) {
-  const { postal_code, start_date, end_date, species, breed, size } = req.query;
+  const { postal_code, start_date, end_date, species, breed } = req.query;
   // const { ctuname, base_price, avg_rating } = req.body;
-  const params = [postal_code, start_date, end_date, species, breed, size];
+  const params = [postal_code, start_date, end_date, species, breed];
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);

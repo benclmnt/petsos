@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import { getAllPetCategories } from "../../utils/fetchutils";
 
 function AnimalCapability({ capability, setCapability }) {
   var breedOptions;
+  const [categories, setCategories] = useState([]);
+
   // const [isLoaded, setIsLoaded] = useState(false);
   // const [capabilities, setCapabilities] = useState([]);
   // const [pet, setPet] = useState({ species: "", breed: "", size: "" });
   // const [species, setSpecies] = useState(0  );
+
+  useEffect(() => {
+    (async () => {
+      const _tmp = await getAllPetCategories();
+      setCategories(_tmp);
+    })();
+  }, []);
 
   var makeOptions = () => (
     <select
@@ -14,7 +24,7 @@ function AnimalCapability({ capability, setCapability }) {
       id="2"
       required="required"
       onChange={(e) => setCapability(e)}
-      value={capability['breed']}
+      value={categories["breed"]}
     >
       <option value="" disabled>
         Select breed
@@ -46,17 +56,17 @@ function AnimalCapability({ capability, setCapability }) {
   // }
 
   function ShowBreed() {
-    switch (capability['species']) {
-      case 'dog':
-        breedOptions = ['doggy', 'husky', 'shiba inu', 'golden retriever'];
+    switch (capability["species"]) {
+      case "dog":
+        breedOptions = ["doggy", "husky", "shiba inu", "golden retriever"];
         return makeOptions();
 
-      case 'cat':
+      case "cat":
         breedOptions = [
-          'kitty',
-          'morganissa',
-          'kucing jalanan',
-          'kucing botak',
+          "kitty",
+          "morganissa",
+          "kucing jalanan",
+          "kucing botak",
         ];
         return makeOptions();
 

@@ -47,11 +47,11 @@ INSERT INTO is_capable(ctuname, species, breed, size) VALUES
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
 ('po1', '2020-10-25', '2021-03-30'); -- this is full time ct, we ensure 150 days between start and end date
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po0', '2020-10-26', '2020-10-31'); -- this is part time ct
+('po0', '2021-01-01', '2021-01-20'); -- this is part time ct
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po2', '2020-10-23', '2020-10-28');
+('po2', '2021-01-01', '2021-01-20');
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po3', '2020-10-24', '2020-10-28');
+('po3', '2021-01-04', '2021-01-28');
 
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
 ('jeff', 'po1', 'dog', 'shiba inu', 'small');

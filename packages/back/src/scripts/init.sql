@@ -114,12 +114,16 @@ CREATE TABLE bid (
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
 	ctuname VARCHAR NOT NULL REFERENCES caretakers(ctuname),
+	-- ct_avail_start DATE NOT NULL,
+	-- ct_avail_end DATE NOT NULL,
 	pouname VARCHAR NOT NULL,
 	petname VARCHAR NOT NULL,
 	is_win BOOLEAN NOT NULL DEFAULT false,
 	CHECK (ctuname <> pouname),
-	CHECK (NOT ((NOT is_win) AND (rating is NOT NULL OR review is NOT NULL))),
+	CHECK (NOT ((NOT is_win) AND (rating is NOT NULL OR review is NOT NULL))), -- this checks that rating and review can only be available if its a winning bid
+	-- CHECK (start_date >= ct_avail_start AND end_date <= ct_avail_end),
 	FOREIGN KEY (pouname, petname) REFERENCES pets(pouname, name),
+	-- FOREIGN KEY (ctuname, ct_avail_start, ct_avail_end) REFERENCES availability_span(ctuname, start_date, end_date),
 	PRIMARY KEY(pouname, petname, start_date, end_date)
 );
 
@@ -155,27 +159,27 @@ CREATE TRIGGER user_is_pet_owner
 
 -- insert pet category to pet_categories if it doesnt exist yet. Not sure if we still need it. Triggered by upsert to is_capable and pets
 
-CREATE OR REPLACE FUNCTION insert_pet_categories_if_not_exists() RETURNS trigger AS
-$$
-	DECLARE flag INTEGER;
-	BEGIN
-		SELECT COUNT(*) INTO flag FROM pet_categories C
-			WHERE C.species = NEW.species AND C.breed = NEW.breed AND C.size = NEW.size;
-		IF flag = 0 THEN
-			INSERT INTO pet_categories(species, breed, size) SELECT NEW.species, NEW.breed, NEW.size;
-		END IF;
-	RETURN NEW;
-	END;
-$$
-LANGUAGE plpgsql;
+-- CREATE OR REPLACE FUNCTION insert_pet_categories_if_not_exists() RETURNS trigger AS
+-- $$
+-- 	DECLARE flag INTEGER;
+-- 	BEGIN
+-- 		SELECT COUNT(*) INTO flag FROM pet_categories C
+-- 			WHERE C.species = NEW.species AND C.breed = NEW.breed AND C.size = NEW.size;
+-- 		IF flag = 0 THEN
+-- 			INSERT INTO pet_categories(species, breed, size) SELECT NEW.species, NEW.breed, NEW.size;
+-- 		END IF;
+-- 	RETURN NEW;
+-- 	END;
+-- $$
+-- LANGUAGE plpgsql;
 
-CREATE TRIGGER insert_capability_if_not_exists
-	BEFORE INSERT OR UPDATE ON is_capable
-	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
+-- CREATE TRIGGER insert_capability_if_not_exists
+-- 	BEFORE INSERT OR UPDATE ON is_capable
+-- 	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
 
-CREATE TRIGGER insert_pet_category_if_not_exists
-	BEFORE INSERT OR UPDATE ON pets
-	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
+-- CREATE TRIGGER insert_pet_category_if_not_exists
+-- 	BEFORE INSERT OR UPDATE ON pets
+-- 	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
 
 
 -- trigger for ensuring that full time ct's availability span is 150 days apart. Triggered on availability_span.
@@ -263,5 +267,26 @@ LANGUAGE plpgsql;
 CREATE TRIGGER maintain_availability_non_overlapness
 	BEFORE INSERT OR UPDATE ON availability_span
 	FOR EACH ROW EXECUTE PROCEDURE merge_availabilities();
+
+-- update price in bid to be total pet day * base price for pet category
+-- not yet take ct rating into account of the calculation
+CREATE OR REPLACE FUNCTION calculate_price() RETURNS trigger AS
+$$
+	DECLARE bp NUMERIC := 0;
+	BEGIN
+		SELECT COALESCE(base_price, 0) into bp
+			FROM pets p NATURAL JOIN pet_categories pc
+			WHERE p.name = NEW.petname AND p.pouname = NEW.pouname;
+		-- RAISE NOTICE '%', bp;
+		UPDATE bid SET price = bp * (NEW.end_date - NEW.start_date + 1)
+			WHERE petname = NEW.petname AND pouname = NEW.pouname AND start_date = NEW.start_date AND end_date = NEW.end_date;
+		RETURN NULL;
+	END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER calculate_price
+	AFTER INSERT ON bid
+	FOR EACH ROW EXECUTE PROCEDURE calculate_price();
 
 -- SEED DATA

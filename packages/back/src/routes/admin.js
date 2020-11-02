@@ -23,13 +23,13 @@ async function getBusinessStats(req, res) {
   const numOfCaredPetsInPast90Days = query(petsTakenCareOf);
   const numOfUsers = query("SELECT COUNT(*) FROM users;");
   const numOfCt = query("SELECT COUNT(*) FROM caretakers GROUP BY ct_type;");
-  const tmp1 = query(petsCareFrequency);
+  const topDealMakerPast90Days = query(petsCareFrequency);
   const tmp2 = query(allCaretakerInsightQuery);
   let result = await Promise.all([
     numOfCaredPetsInPast90Days,
     numOfUsers,
     numOfCt,
-    tmp1,
+    topDealMakerPast90Days,
     tmp2,
   ]);
   return buildSuccessResponse(res, {

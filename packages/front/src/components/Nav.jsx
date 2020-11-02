@@ -31,7 +31,7 @@ function Nav() {
             <h1 className="md:font-bold md:text-xl pt-1">Home</h1>
           </button>
         </Link>
-        <Link to="/searchSitters">
+        <Link to="/search">
           <button className="focus:outline-none mx-4">
             <h1 className="md:font-bold md:text-xl pt-1">Search</h1>
           </button>

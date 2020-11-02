@@ -1,4 +1,4 @@
-import pool from './pool';
+import pool from "./pool";
 
 /**
  * DB Query
@@ -14,11 +14,16 @@ export function query(queryText, params) {
       .query(queryText, params)
       .then((res) => {
         const duration = Date.now() - start;
-        console.log('executed query', {
-          queryText,
-          duration,
-          rows: res.rowCount,
-        });
+        console.log(
+          "executed query",
+          {
+            queryText,
+            duration,
+            rows: res.rowCount,
+          },
+          "with params",
+          params
+        );
         resolve(res.rows);
       })
       .catch((err) => {

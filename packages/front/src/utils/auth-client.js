@@ -7,8 +7,8 @@ function handleUserResponse(user) {
   return user;
 }
 
-function login({ email, password }) {
-  return client("/users/login", { body: { email, password } }).then(
+function login({ username, password }) {
+  return client("/users/login", { body: { username, password } }).then(
     handleUserResponse
   );
 }
@@ -36,7 +36,10 @@ function getUser() {
   if (!token) {
     return Promise.resolve(null);
   }
-  return client(`/users/${getToken()}`);
+  return client(`/users/${token}`).catch((err) => {
+    logout();
+    return null;
+  });
 }
 
 function isLoggedIn() {

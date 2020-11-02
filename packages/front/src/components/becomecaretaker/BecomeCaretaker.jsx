@@ -1,28 +1,32 @@
-import React, { useState } from "react";
-import AnimalCapability from "./AnimalCapability";
+import React, { useState, useEffect } from "react";
+import AnimalCapability from "../caretakerProfile/AnimalCapability";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./datepicker.css";
+import "../../css/datepicker.css";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
-
-function _toJSONLocal(date) {
-  var local = date;
-  local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-  console.log(date, local);
-  return local.toJSON().substring(0, 10);
-}
+import { toJSONLocal } from "../../utils/dateutils";
+import { getAllPetCategories } from "../../utils/fetchutils";
+import moment from "moment";
 
 function BecomeCaretaker() {
   const dateFormat = "dd-MM-yyyy";
   const user = useUser();
   const [type, setType] = useState();
   const [errorMsg, setErrorMsg] = useState("");
+  const [categories, setCategories] = useState([]);
 
   // Capabilities
   const [capabilityList, setCapabilityList] = useState([
-    { species: "", breed: "", size: "" },
+    { species: "dog", breed: "shiba inu", size: "small" },
   ]);
+
+  useEffect(() => {
+    (async () => {
+      const _tmp = await getAllPetCategories();
+      setCategories(_tmp);
+    })();
+  }, []);
 
   // capabilities
   const handleCapabilityChange = (e, index) => {
@@ -70,13 +74,15 @@ function BecomeCaretaker() {
   };
 
   // Datepickers
+  const twoYearsFromNow = new Date(moment().add(2, "years"));
+
   const StartDatepicker = (index) => {
     return (
       <DatePicker
         selected={availabilityList[index]["start_date"]}
         required="required"
-        //locale = 'en-SG'
-        //disableTime={true}
+        minDate={moment().toDate()}
+        maxDate={twoYearsFromNow}
         onChange={(date) => handleAvailabilityChange("start_date", date, index)}
         dateFormat={dateFormat}
         placeholderText="Start Date"
@@ -89,8 +95,8 @@ function BecomeCaretaker() {
       <DatePicker
         selected={availabilityList[index]["end_date"]}
         required="required"
-        //locale = 'en-SG'
-        //disableTime={true}
+        minDate={availabilityList[index]["start_date"]}
+        maxDate={twoYearsFromNow}
         onChange={(date) => handleAvailabilityChange("end_date", date, index)}
         dateFormat={dateFormat}
         placeholderText="End Date"
@@ -103,7 +109,7 @@ function BecomeCaretaker() {
     e.preventDefault();
 
     const data = {
-      username: user.username,
+      ctuname: user.username,
       ct_type: type,
     };
 
@@ -118,8 +124,8 @@ function BecomeCaretaker() {
     for (let i = 0; i < availabilityList.length; i++) {
       const availability = {
         ctuname: user.username,
-        start_date: _toJSONLocal(availabilityList[i]["start_date"]),
-        end_date: _toJSONLocal(availabilityList[i]["end_date"]),
+        start_date: toJSONLocal(availabilityList[i]["start_date"]),
+        end_date: toJSONLocal(availabilityList[i]["end_date"]),
       };
 
       try {
@@ -157,7 +163,7 @@ function BecomeCaretaker() {
     <div>
       <br className="mt-16" />
       <form
-        className="flex-col max-h-screen max-w-4xl mx-auto bg-white px-20"
+        className="flex-col max-h-screen max-w-4xl mx-auto bg-white"
         action=""
         onSubmit={handleSubmit}
       >
@@ -188,17 +194,19 @@ function BecomeCaretaker() {
           <div>
             <h1 className="text-sm mb-2">Please indicate your capabilities</h1>
             {capabilityList.map((capability, i) => {
+              console.log(capability.breed);
               return (
                 <div className="flex" key={i}>
                   <AnimalCapability
+                    categories={categories}
                     capability={capability}
                     setCapability={(e) => handleCapabilityChange(e, i)}
                   />
-                  <div className="w-10">
+                  <div className="w-1/6">
                     {capabilityList.length > 1 && (
                       <button onClick={removeCapability}>
                         <svg
-                          className="h-8 w-8"
+                          className="w-8"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 30 30"
                           fill="#b82727"
@@ -214,7 +222,7 @@ function BecomeCaretaker() {
                     {capabilityList.length - 1 === i && (
                       <button onClick={addCapability}>
                         <svg
-                          className="h-8 w-8"
+                          className="w-8"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 30 30"
                           fill="#0fa30a"

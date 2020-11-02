@@ -1,25 +1,78 @@
-import express from 'express';
-import logger from '../logger';
-import { query } from '../db';
+import express from "express";
+import { query } from "../db";
+import { getUsersPetsRoutes } from "./pets";
 import {
   getAllUsers,
   registerUser,
   queryUserByUsername,
-  queryUserByEmail,
-  upsertUserAddress as upsertUserAddressQuery,
-  queryPetByName,
-  addPet,
-} from '../db/queries';
+  deleteUser as deleteUserQuery,
+  editUser as editUserQuery,
+  queryOrders,
+  setRatingAndReview,
+} from "../db/queries";
+import {
+  buildErrorObject,
+  buildSuccessResponse,
+  checkMissingParameter,
+  handleMissingParameter,
+} from "./utils";
 
 function getUsersRoutes() {
   const router = express.Router();
-  router.post('/login', login);
-  router.post('/register', register);
-  router.post('/addNewPet', insertNewPetToTable);
-  router.get('/:username', getUserByUsername);
-  router.post('/:username/address', upsertUserAddress);
-  router.get('', listAllUsers);
+  router.post("/login", login);
+  router.post("/register", register);
+  router.use("/:username", getUsersPetsRoutes());
+  router.get("/:username", getUserInfo);
+  router.delete("/:username", deleteUser);
+  router.patch("/:username", editUserDetails);
+  router.get("/:username/orders", retrieveOrders);
+  router.post("/setRatingAndReview", putRatingAndReview);
+  router.get("", listAllUsers);
   return router;
+}
+
+async function putRatingAndReview(req, res) {
+  const { pouname, petname, start_date, end_date, rating, review } = req.body; // GG SQL INJECTION!
+  const params = [pouname, petname, start_date, end_date, rating, review];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(setRatingAndReview, params);
+  } catch (err) {
+    return buildErrorObject(res, {
+      status: 400,
+      error: err.message,
+    });
+  }
+
+  const orders = await query(queryOrders, [pouname]);
+  return buildSuccessResponse(res, {
+    data: orders,
+  });
+}
+
+async function retrieveOrders(req, res) {
+  const { username } = req.params;
+
+  if (checkMissingParameter([username])) {
+    return handleMissingParameter(res);
+  }
+
+  const orders = await query(queryOrders, [username]);
+
+  return buildSuccessResponse(res, {
+    data: {
+      past_orders: orders.filter((order) => order.is_win && order.is_past),
+      future_orders: orders.filter((order) => order.is_win && !order.is_past),
+      pending_bids: orders.filter((order) => !order.is_win && !order.is_past),
+      failed_bids: orders.filter((order) => !order.is_win && order.is_past),
+    },
+  });
 }
 
 /**
@@ -36,75 +89,66 @@ async function register(req, res) {
   try {
     await query(registerUser, params);
   } catch (err) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
-      error: 'Username already registered.',
+      error: "Username already registered.",
     });
   }
 
-  const users = await query(queryUserByEmail, [email]);
+  const users = await query(queryUserByUsername, [username]);
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
 /**
- * Insert new pet to table
+ * Delete user account
  */
-async function insertNewPetToTable(req, res) {
-  const { name, pouname, species, breed, size } = req.body;
-  const params = [name, pouname, species, breed, size];
-  console.log(params);
+async function deleteUser(req, res) {
+  const { username } = req.params;
+  const params = [username];
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
   }
 
-  try {
-    await query(addPet, params);
-  } catch (err) {
-    console.log(err);
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: 'Pet has already existed',
-    });
-  }
-
-  // TODO: Drake to fix return data
-  const user = await query('SELECT * FROM pets;');
-  console.log(user);
+  await query(deleteUserQuery, [username]);
   return buildSuccessResponse(res, {
-    user,
+    data: "success",
   });
 }
 
 /**
- * Login using email
+ * Login using username
  */
 async function login(req, res) {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (checkMissingParameter([email, password])) {
+  if (checkMissingParameter([username, password])) {
     return handleMissingParameter(res);
   }
 
-  const users = await query(queryUserByEmail, [email]);
+  const users = await query(queryUserByUsername, [username]);
 
-  checkUserExists(res, users);
+  if (users.length === 0) {
+    return buildErrorObject(res, {
+      error: "Cannot find user",
+    });
+  }
 
   if (password !== users[0].password) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 401,
-      error: 'Wrong email or password',
+      error: "Wrong email or password",
     });
   }
 
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
-async function getUserByUsername(req, res) {
+async function getUserInfo(req, res) {
   const { username } = req.params; // GG SQL INJECTION!
 
   if (checkMissingParameter([username])) {
@@ -113,86 +157,58 @@ async function getUserByUsername(req, res) {
 
   const users = await query(queryUserByUsername, [username]);
 
-  checkUserExists(res, users);
+  if (users.length === 0) {
+    return buildErrorObject(res, {
+      error: "Cannot find user",
+    });
+  }
 
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
 async function listAllUsers(req, res) {
-  let users = await query(getAllUsers);
-  users = users.map(buildUsersObject);
+  const users = await query(getAllUsers);
   return buildSuccessResponse(res, {
-    user: users,
+    data: users.map(buildUsersObject),
   });
 }
 
-async function upsertUserAddress(req, res) {
-  const { username, address, city, country, postal } = req.body; // GG SQL INJECTION!
-  const params = [username, address, city, country, postal];
+async function editUserDetails(req, res) {
+  const { username } = req.params; // GG SQL INJECTION!
+  const { email, address, city, country, postal_code } = req.body;
+  const params = [username, email, address, city, country, postal_code];
 
-  if (checkMissingParameter(params)) {
+  if (checkMissingParameter([username])) {
     return handleMissingParameter(res);
   }
 
-  await query(upsertUserAddressQuery, params);
-
-  const users = await query(queryUserByUsername, [username]);
-
-  return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
-  });
+  try {
+    const users = await query(editUserQuery, params);
+    return buildSuccessResponse(res, {
+      data: buildUsersObject(users[0]),
+    });
+  } catch (err) {
+    return buildErrorObject(res, {
+      status: 400,
+      error: err.message,
+    });
+  }
 }
 
 export { getUsersRoutes };
 
-/**
+/**************************
  * PRIVATE FUNCTIONS
- */
-
-function buildUsersErrorObject(res, { status, error }) {
-  logger.error(error);
-
-  const errorResp = {
-    kind: 'Error',
-    error,
-  };
-
-  return res.status(status).json(errorResp);
-}
+ **************************/
 
 function buildUsersObject(user) {
   const obj = {
-    kind: 'User',
+    kind: "User",
     ...user,
     selfLink: `/users/${user.username}`,
   };
   delete obj.password;
   return obj;
-}
-
-function buildSuccessResponse(res, { status, user }) {
-  console.log('returned: ', user);
-  return res.status(status || 200).json(user);
-}
-
-function checkUserExists(res, users) {
-  if (users.length === 0) {
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: 'Cannot find user',
-    });
-  }
-}
-
-function checkMissingParameter(array) {
-  return array.some((param) => param === undefined || param === null);
-}
-
-function handleMissingParameter(res) {
-  return buildUsersErrorObject(res, {
-    status: 400,
-    error: 'Missing some required parameters',
-  });
 }

@@ -8,7 +8,7 @@ import { logout } from "./auth-client";
 // - body : will be JSONified.
 // - file (There is some unique things about files)!
 // - onSuccess : fn to execute on success
-// - redirecTo: string (starting with /)
+// - redirectTo: string (starting with /)
 
 export const LOCAL_STORAGE_KEY = "token";
 
@@ -27,6 +27,8 @@ export async function client(endpoint, { body, file, ...customConfig } = {}) {
       ...customConfig.headers,
     },
   };
+
+  console.log(config);
 
   if (file) {
     config.body = file;

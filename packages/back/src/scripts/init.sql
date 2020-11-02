@@ -3,6 +3,7 @@
 DROP TYPE IF EXISTS caretaker_type CASCADE;
 DROP TYPE IF EXISTS pet_size CASCADE;
 DROP VIEW IF EXISTS ratings;
+DROP VIEW IF EXISTS all_ct;
 DROP TABLE IF EXISTS cares_for;
 DROP TABLE IF EXISTS bid;
 DROP TABLE IF EXISTS is_capable;
@@ -20,14 +21,21 @@ DROP TABLE IF EXISTS users;
 CREATE TYPE caretaker_type AS ENUM ('part-time', 'full-time');
 CREATE TYPE pet_size AS ENUM('small', 'medium', 'large');
 
+-- CREATE TABLE address (
+-- 	city VARCHAR,
+-- 	country VARCHAR,
+-- 	postal_code INTEGER,
+-- 	PRIMARY KEY (city, country, postal_code)
+-- )
+
 CREATE TABLE users (
-    username VARCHAR PRIMARY KEY,
-	email VARCHAR NOT NULL,
+    username VARCHAR PRIMARY KEY, -- username cannot be changed
+	email VARCHAR UNIQUE NOT NULL, -- enforce no duplicate emails
 	password VARCHAR NOT NULL,
 	address VARCHAR,
 	city VARCHAR,
 	country VARCHAR,
-	postal_code VARCHAR
+	postal_code INTEGER
 );
 
 CREATE TABLE pet_owners (
@@ -41,19 +49,19 @@ CREATE TABLE pcs_admin (
 );
 
 CREATE TABLE caretakers (
-    username VARCHAR PRIMARY KEY REFERENCES users(username)
+    ctuname VARCHAR PRIMARY KEY REFERENCES users(username)
 		ON DELETE CASCADE,
-    avg_rating NUMERIC DEFAULT 4,
+    avg_rating NUMERIC DEFAULT 3.9,
 	ct_type caretaker_type NOT NULL,
 	CHECK(avg_rating <= 5)
 );
 
 CREATE TABLE availability_span (
-	ctuname VARCHAR REFERENCES caretakers(username),
+	ctuname VARCHAR REFERENCES caretakers(ctuname),
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     PRIMARY KEY (ctuname, start_date, end_date),
-    CHECK (start_date < end_date)
+    CHECK (start_date <= end_date AND end_date <= date('now') + interval '2 years')
 );
 
 CREATE TABLE pet_categories (
@@ -61,7 +69,8 @@ CREATE TABLE pet_categories (
     breed VARCHAR,
 	size VARCHAR,
 	base_price NUMERIC, -- NULL is to allow insertion to pet_categories when we add pets / capabilities
-	PRIMARY KEY(species, breed, size)
+	PRIMARY KEY(species, breed, size),
+	CHECK (base_price > 0)
 );
 
 CREATE TABLE pets (
@@ -75,7 +84,6 @@ CREATE TABLE pets (
 	PRIMARY KEY (name, pouname)
 );
 
-
 CREATE TABLE special_reqs (
 	pouname VARCHAR NOT NULL,
 	petname VARCHAR NOT NULL,
@@ -86,28 +94,31 @@ CREATE TABLE special_reqs (
 );
 
 CREATE TABLE is_capable (
-    pc_species VARCHAR NOT NULL,
-	pc_breed VARCHAR NOT NULL,
-	pc_size VARCHAR NOT NULL,
-    ctuname VARCHAR NOT NULL REFERENCES caretakers(username)
+    species VARCHAR NOT NULL,
+	breed VARCHAR NOT NULL,
+	size VARCHAR NOT NULL,
+    ctuname VARCHAR NOT NULL REFERENCES caretakers(ctuname)
         ON DELETE CASCADE,
-	FOREIGN KEY (pc_species, pc_breed, pc_size)
+	FOREIGN KEY (species, breed, size)
 		REFERENCES pet_categories(species, breed, size),
-	PRIMARY KEY (pc_breed, pc_size, pc_species, ctuname)
+	PRIMARY KEY (breed, size, species, ctuname)
 );
 
 
 CREATE TABLE bid (
-    rating INTEGER,
+    rating FLOAT(2) CHECK (rating <= 5),
     price NUMERIC NOT NULL,
 	payment_method VARCHAR NOT NULL,
 	transfer_method VARCHAR NOT NULL,
+	review VARCHAR,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-	ctuname VARCHAR NOT NULL REFERENCES caretakers(username),
+	ctuname VARCHAR NOT NULL REFERENCES caretakers(ctuname),
 	pouname VARCHAR NOT NULL,
 	petname VARCHAR NOT NULL,
 	is_win BOOLEAN NOT NULL DEFAULT false,
+	CHECK (ctuname <> pouname),
+	CHECK (NOT ((NOT is_win) AND (rating is NOT NULL OR review is NOT NULL))),
 	FOREIGN KEY (pouname, petname) REFERENCES pets(pouname, name),
 	PRIMARY KEY(pouname, petname, start_date, end_date)
 );
@@ -118,7 +129,16 @@ CREATE VIEW ratings AS (
     GROUP BY ctuname
 );
 
+CREATE VIEW all_ct AS (
+	SELECT * FROM is_capable B
+		NATURAL JOIN caretakers C
+		NATURAL JOIN availability_span A
+		NATURAL JOIN users AS users(ctuname, email, password, address, city, country, postal_code)
+);
+
 -- TRIGGERS
+
+-- make every user a pet owner.
 
 CREATE OR REPLACE FUNCTION user_is_pet_owner() RETURNS trigger AS
 $$
@@ -133,14 +153,16 @@ CREATE TRIGGER user_is_pet_owner
 	AFTER INSERT ON users
 	FOR EACH ROW EXECUTE PROCEDURE user_is_pet_owner();
 
+-- insert pet category to pet_categories if it doesnt exist yet. Not sure if we still need it. Triggered by upsert to is_capable and pets
+
 CREATE OR REPLACE FUNCTION insert_pet_categories_if_not_exists() RETURNS trigger AS
 $$
 	DECLARE flag INTEGER;
 	BEGIN
 		SELECT COUNT(*) INTO flag FROM pet_categories C
-			WHERE C.species = NEW.pc_species AND C.breed = NEW.pc_breed AND C.size = NEW.pc_size;
+			WHERE C.species = NEW.species AND C.breed = NEW.breed AND C.size = NEW.size;
 		IF flag = 0 THEN
-			INSERT INTO pet_categories(species, breed, size) SELECT NEW.pc_species, NEW.pc_breed, NEW.pc_size;
+			INSERT INTO pet_categories(species, breed, size) SELECT NEW.species, NEW.breed, NEW.size;
 		END IF;
 	RETURN NEW;
 	END;
@@ -154,5 +176,92 @@ CREATE TRIGGER insert_capability_if_not_exists
 CREATE TRIGGER insert_pet_category_if_not_exists
 	BEFORE INSERT OR UPDATE ON pets
 	FOR EACH ROW EXECUTE PROCEDURE insert_pet_categories_if_not_exists();
+
+
+-- trigger for ensuring that full time ct's availability span is 150 days apart. Triggered on availability_span.
+
+CREATE OR REPLACE FUNCTION full_time_must_150() RETURNS trigger AS
+$$
+	DECLARE flag INTEGER := 0;
+	BEGIN
+		SELECT (
+			CASE
+				WHEN ct_type = 'full-time' THEN 1
+				ELSE 0
+			END) INTO flag
+			FROM caretakers
+			WHERE ctuname = NEW.ctuname;
+
+		IF FLAG = 1 THEN
+			IF date(NEW.start_date) + interval '150 days' > date(NEW.end_date) THEN
+				RAISE NOTICE 'RANGE UNDER 150 DAYS % %', date(NEW.start_date) + interval '150 days', date(NEW.end_date);
+				RETURN NULL;
+			END IF;
+		END IF;
+		RETURN NEW;
+	END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER full_time_must_150
+	BEFORE INSERT OR UPDATE on availability_span
+	FOR EACH ROW EXECUTE PROCEDURE full_time_must_150();
+
+
+-- Trigger to ensure that availabilities are merged to the largest availability span possible. Triggered on availability_span.
+
+CREATE OR REPLACE FUNCTION merge_availabilities() RETURNS trigger AS
+$$
+	DECLARE flag INTEGER := 0;
+	DECLARE temp_start DATE;
+	DECLARE temp_end DATE;
+	BEGIN
+		DELETE FROM availability_span A WHERE A.ctuname = NEW.ctuname AND A.start_date >= NEW.start_date AND A.end_date <= NEW.end_date;
+		SELECT SUM(
+			CASE
+				WHEN A.start_date <= NEW.start_date AND A.end_date >= NEW.end_date THEN 4
+				WHEN NEW.end_date >= A.start_date AND NEW.end_date <= A.end_date THEN 1
+				WHEN NEW.start_date <= A.end_date AND NEW.start_date >= A.start_date THEN 2
+				ELSE 0
+			END) INTO flag
+
+			FROM availability_span A
+			WHERE A.ctuname = NEW.ctuname;
+
+	-- RAISE NOTICE '%', flag;
+		CASE COALESCE(flag, 0)
+			WHEN 0 THEN RETURN NEW;
+			WHEN 1 THEN
+				SELECT end_date INTO temp_end FROM availability_span A
+					WHERE NEW.end_date >= A.start_date AND NEW.end_date <= A.end_date AND NEW.ctuname = A.ctuname;
+				DELETE FROM availability_span A WHERE end_date = temp_end AND NEW.ctuname = A.ctuname;
+				INSERT INTO availability_span(ctuname, start_date, end_date) VALUES (NEW.ctuname, NEW.start_date, temp_end);
+			WHEN 2 THEN
+				SELECT start_date INTO temp_start FROM availability_span A
+					WHERE NEW.start_date <= A.end_date AND NEW.start_date >= A.start_date AND NEW.ctuname = A.ctuname;
+				DELETE FROM availability_span A WHERE start_date = temp_start AND NEW.ctuname = A.ctuname;
+				-- RAISE NOTICE 'deleted start: %', temp_start;
+				INSERT INTO availability_span(ctuname, start_date, end_date) VALUES (NEW.ctuname, temp_start, NEW.end_date);
+			WHEN 3 THEN
+				SELECT end_date INTO temp_end FROM availability_span A
+					WHERE NEW.end_date >= A.start_date AND NEW.end_date <= A.end_date AND NEW.ctuname = A.ctuname;
+				DELETE FROM availability_span A WHERE end_date = temp_end AND NEW.ctuname = A.ctuname;
+				-- RAISE NOTICE 'deleted end: %', temp_end;
+				SELECT start_date INTO temp_start FROM availability_span A
+					WHERE NEW.start_date <= A.end_date AND NEW.start_date >= A.start_date AND NEW.ctuname = A.ctuname;
+				DELETE FROM availability_span A WHERE start_date = temp_start AND NEW.ctuname = A.ctuname;
+				-- RAISE NOTICE 'deleted start: %', temp_start;
+				-- RAISE NOTICE 'deleted end: %', temp_end;
+				INSERT INTO availability_span(ctuname, start_date, end_date) VALUES (NEW.ctuname, temp_start, temp_end);
+			ELSE NULL;
+		END CASE;
+	RETURN NULL;
+	END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER maintain_availability_non_overlapness
+	BEFORE INSERT OR UPDATE ON availability_span
+	FOR EACH ROW EXECUTE PROCEDURE merge_availabilities();
 
 -- SEED DATA

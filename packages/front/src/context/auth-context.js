@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as authClient from "../utils/auth-client";
 
-const AuthContext = React.createContext();
+const AuthContext = React.createContext({});
 
 function AuthProvider(props) {
   const [data, setData] = useState({
@@ -10,7 +10,14 @@ function AuthProvider(props) {
   });
 
   useEffect(() => {
-    authClient.getUser().then((user) => setData({ status: "success", user }));
+    authClient
+      .getUser()
+      .then((user) => setData({ status: "success", user }))
+      .catch((err) => {
+        console.error(err);
+        authClient.logout();
+        setData({ ...data, status: "success" });
+      });
   }, []);
 
   // 🚨 this is the important bit.
@@ -30,10 +37,13 @@ function AuthProvider(props) {
     authClient.logout();
     setData({ user: null });
   }; // clear the token in window.localStorage and the user data
+  const updateUser = (newUser) => {
+    setData({ user: newUser });
+  };
 
   return (
     <AuthContext.Provider
-      value={{ data, login, logout, register }}
+      value={{ data, login, logout, register, updateUser }}
       {...props}
     />
   );

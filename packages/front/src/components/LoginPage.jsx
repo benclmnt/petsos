@@ -7,7 +7,7 @@ function LoginPage() {
   const authClient = useAuth();
 
   const [form, setForm] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -22,7 +22,7 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(form);
     try {
       await authClient.login(form);
     } catch (err) {
@@ -46,8 +46,8 @@ function LoginPage() {
             <input
               type="text"
               className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="email"
-              placeholder="Email"
+              name="username"
+              placeholder="Username"
               onChange={handleChange}
             />
 

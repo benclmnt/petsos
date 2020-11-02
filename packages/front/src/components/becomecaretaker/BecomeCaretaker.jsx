@@ -107,6 +107,8 @@ function BecomeCaretaker() {
   // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let isSuccess = true;
+    let isAvailSuccess = false;
 
     const data = {
       ctuname: user.username,
@@ -117,6 +119,7 @@ function BecomeCaretaker() {
       const insertResults = await fetch("/caretakers", { body: data });
       console.log(insertResults);
     } catch (err) {
+      isSuccess = false;
       setErrorMsg(err.error);
       return;
     }
@@ -132,30 +135,39 @@ function BecomeCaretaker() {
         const availResults = await fetch("/caretakers/availability", {
           body: availability,
         });
+        isAvailSuccess = true;
         console.log(availResults);
       } catch (err) {
         console.error(err);
-        setErrorMsg(err.error);
+        isSuccess = false;
+        setErrorMsg(err.message);
       }
     }
 
-    for (let i = 0; i < capabilityList.length; i++) {
-      const capability = {
-        pc_species: capabilityList[i]["species"],
-        pc_breed: capabilityList[i]["breed"],
-        pc_size: capabilityList[i]["size"],
-        ctuname: user.username,
-      };
+    if (isAvailSuccess == true) {
+      for (let i = 0; i < capabilityList.length; i++) {
+        const capability = {
+          pc_species: capabilityList[i]["species"],
+          pc_breed: capabilityList[i]["breed"],
+          pc_size: capabilityList[i]["size"],
+          ctuname: user.username,
+        };
 
-      try {
-        const capabResults = await fetch("/caretakers/capability", {
-          body: capability,
-        });
-        console.log(capabResults);
-      } catch (err) {
-        console.error(err);
-        setErrorMsg(err.error);
+        try {
+          const capabResults = await fetch("/caretakers/capability", {
+            body: capability,
+          });
+          console.log(capabResults);
+        } catch (err) {
+          console.error(err);
+          isSuccess = false;
+          setErrorMsg("This pet category already exists!");
+        }
       }
+    }
+
+    if (isSuccess === true) {
+      window.location.assign("/success");
     }
   };
 

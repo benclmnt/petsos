@@ -72,6 +72,19 @@ function Dashboard() {
             </div>
           </div>
           {user.is_caretaker && <CTOverview />}
+
+          <Link to="/profile/orders">
+            <div className="p-4 bg-white rounded-md font-semibold text-2xl">
+              <img
+                src="https://www.flaticon.com/svg/static/icons/svg/1751/1751700.svg"
+                alt=""
+                width="30"
+                height="30"
+                className="float-left mr-4"
+              />{' '}
+              View Past Orders
+            </div>
+          </Link>
         </div>
         <div className="flex flex-col w-auto md:w-1/3 self-stretch z-10">
           <div className="bg-white rounded-lg px-8 py-8">

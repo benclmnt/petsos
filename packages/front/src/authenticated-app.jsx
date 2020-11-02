@@ -18,6 +18,7 @@ import SearchCaretakers from './components/searchcaretakers/SearchCaretakers';
 import BecomeCaretaker from './components/becomecaretaker/BecomeCaretaker';
 import CaretakerReviews from './components/searchcaretakers/CaretakersProfile';
 import CaretakerProfile from './components/caretakerProfile/CaretakerProfile';
+import Orders from './components/pastOrders/Orders';
 
 function Authenticatedapp() {
   return (
@@ -55,6 +56,10 @@ function Authenticatedapp() {
 
           <Route path="/ctprofile/edit">
             <CaretakerProfile />
+          </Route>
+
+          <Route exact path="/profile/orders">
+            <Orders />
           </Route>
 
           <Route path="/becomect">

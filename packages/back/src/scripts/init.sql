@@ -106,7 +106,7 @@ CREATE TABLE is_capable (
 
 
 CREATE TABLE bid (
-    rating INTEGER,
+    rating FLOAT(2) CHECK (rating <= 5),
     price NUMERIC NOT NULL,
 	payment_method VARCHAR NOT NULL,
 	transfer_method VARCHAR NOT NULL,
@@ -118,6 +118,7 @@ CREATE TABLE bid (
 	petname VARCHAR NOT NULL,
 	is_win BOOLEAN NOT NULL DEFAULT false,
 	CHECK (ctuname <> pouname),
+	CHECK (NOT ((NOT is_win) AND (rating is NOT NULL OR review is NOT NULL))),
 	FOREIGN KEY (pouname, petname) REFERENCES pets(pouname, name),
 	PRIMARY KEY(pouname, petname, start_date, end_date)
 );
@@ -137,7 +138,7 @@ CREATE VIEW all_ct AS (
 
 -- TRIGGERS
 
--- make every user a pet owner.  
+-- make every user a pet owner.
 
 CREATE OR REPLACE FUNCTION user_is_pet_owner() RETURNS trigger AS
 $$
@@ -179,19 +180,19 @@ CREATE TRIGGER insert_pet_category_if_not_exists
 
 -- trigger for ensuring that full time ct's availability span is 150 days apart. Triggered on availability_span.
 
-CREATE OR REPLACE FUNCTION full_time_must_150() RETURNS trigger AS 
+CREATE OR REPLACE FUNCTION full_time_must_150() RETURNS trigger AS
 $$
 	DECLARE flag INTEGER := 0;
 	BEGIN
 		SELECT (
-			CASE 
+			CASE
 				WHEN ct_type = 'full-time' THEN 1
 				ELSE 0
 			END) INTO flag
 			FROM caretakers
 			WHERE ctuname = NEW.ctuname;
 
-		IF FLAG = 1 THEN 
+		IF FLAG = 1 THEN
 			IF date(NEW.start_date) + interval '150 days' > date(NEW.end_date) THEN
 				RAISE NOTICE 'RANGE UNDER 150 DAYS % %', date(NEW.start_date) + interval '150 days', date(NEW.end_date);
 				RETURN NULL;

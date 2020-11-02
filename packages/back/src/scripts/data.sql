@@ -73,9 +73,6 @@ INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_da
 ctuname, pouname, petname, is_win) VALUES (4.5, 50, 'whatever', 'what', 'This ct not so bad',
 '2020-06-15', '2020-06-18', 'po3', 'po1', 'jeff', true);
 
-
-
-
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
 ('pet1po1', 'po1', 'dog', 'husky', 'big'),
 ('pet2po1', 'po1', 'cat', 'bengal', 'small'),
@@ -94,3 +91,4 @@ INSERT INTO bid(price, payment_method, transfer_method, start_date, end_date, ct
 (100, 'credit', 'gojek', '2020-09-09', '2020-09-14', 'pct0', 'po1', 'pet2po1', false),
 (100, 'credit', 'gojek', '2020-10-10', '2020-10-15', 'fct0', 'po2', 'pet1po2', true),
 (100, 'credit', 'gojek', '2020-12-11', '2020-12-12', 'fct0', 'po1', 'pet1po1', true);
+

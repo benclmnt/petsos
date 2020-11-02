@@ -6,6 +6,5 @@ export function toJSONLocal(date) {
   date = new Date(date);
   var local = date;
   local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-  console.log(date, local);
   return local.toJSON().substring(0, 10);
 }

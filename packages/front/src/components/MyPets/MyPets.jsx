@@ -1,67 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { Redirect, useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import "./addPet.css";
 import header from "../../resources/dogs-cats-header.png";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
 
-function MyPets({ pet }) {
-  const [isLoaded, setIsLoaded] = useState("");
-  const [petName, setPetName] = useState("");
-  const [petBreed, setPetBreed] = useState("");
-  const [petSize, setPetSize] = useState("");
-  const [petType, setPetType] = useState("");
+function MyPets() {
+  const [isEdit, setIsEdit] = useState("");
   const [petSpReq, setSpReq] = useState("");
-  const [pets, setPets] = useState([]);
+  const [pets, setPets] = useState({});
   const { name } = useParams();
   const user = useUser();
 
-  let buttonPet = "Add Pet";
-  let linkfetch = "/pets/addNewPet";
+  const basePetsAPIUrl = `/users/${user.username}/pets`;
 
-  useEffect(async () => {
+  useEffect(() => {
     // GET request using fetch inside useEffect React hook
-    if (name != "Add new pet") {
-      const link = "/pets/getPetByPounameAndName/" + user.username + "/" + name;
-      const result = await fetch(link);
-      setPets(Object.values(result)[0]);
-      setPetName(name);
-      setIsLoaded(true);
+    async function fetchData() {
+      const result = await fetch(basePetsAPIUrl + `/${name}`); // Note to Drake: This will fail if creating new pet (?)
+      console.log(result);
+      setPets(result);
+      setIsEdit(true);
+    }
+    if (name !== "add") {
+      fetchData();
     }
   }, []);
 
-  if (isLoaded) {
-    console.log("haha");
-    console.log(pets);
-    console.log(petName);
-    buttonPet = "Edit Pet";
-  }
+  const handleChange = (e) => {
+    console.log(e.currentTarget.name);
+    console.log(e.currentTarget.value);
+    setPets({
+      ...pets,
+      [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
 
-  if (name != "Add new pet") {
-    linkfetch = "/pets/updatePetInformation";
-  }
-  //setPetName(pets.name);
-  //setPetBreed(pets.breed);
-
-  const onSubmit = async (e) => {
-    console.log(user.username);
-
-    const body = {
-      name: petName,
-      pouname: user.username,
-      species: petType,
-      breed: petBreed,
-      size: petSize,
-    };
-
-    console.log(body);
+  console.log(pets);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     try {
-      const result = await fetch(linkfetch, {
-        body: body,
+      const result = await fetch(basePetsAPIUrl + (isEdit ? `/${name}` : ""), {
+        body: pets,
         redirectTo: "/dashboard",
       });
-      console.log("hhaha");
       console.log(result);
     } catch (error) {
       console.error(error);
@@ -78,14 +61,13 @@ function MyPets({ pet }) {
           <div className="flex justify-center">
             <button
               className={
-                petType == "Dog"
+                pets.species === "dog"
                   ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
                   : "petBtn"
               }
-              value="Dog"
-              onClick={(e) => {
-                setPetType("Dog");
-              }}
+              name="species"
+              value="dog"
+              onClick={handleChange}
             >
               <img
                 alt="Dog"
@@ -95,14 +77,13 @@ function MyPets({ pet }) {
             </button>
             <button
               className={
-                petType == "Cat"
+                pets.species === "cat"
                   ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
                   : "petBtn"
               }
-              value="Cat"
-              onClick={(e) => {
-                setPetType("Cat");
-              }}
+              name="species"
+              value="cat"
+              onClick={handleChange}
             >
               <img
                 alt="Cat"
@@ -121,17 +102,22 @@ function MyPets({ pet }) {
               <h1 className="font-semibold">Pet Name</h1>
               <input
                 type="text"
-                name="Pet Name"
-                value={petName}
-                onChange={(e) => setPetName(e.target.value)}
+                name="name"
+                defaultValue={pets.name}
+                onChange={handleChange}
+                required
                 placeholder="Pet Name"
-                disabled={name != "Add new pet"}
               />
             </div>
           </div>
           <div className="mb-2">
             <h1 className="font-semibold">Breed</h1>
-            <select onChange={(e) => setPetBreed(e.target.value)}>
+            <select
+              onChange={handleChange}
+              name="breed"
+              value={pets.breed}
+              required
+            >
               <option value="Siberian">Siberian</option>
               <option value="Alaskan">Alaskan</option>
               <option value="Golden Retriever">Golden Retriever</option>
@@ -144,13 +130,13 @@ function MyPets({ pet }) {
             <div className="text-center">
               <button
                 className={
-                  petSize == "small"
+                  pets.size === "small"
                     ? "petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
                     : "petBtn-sm"
                 }
-                onClick={(e) => {
-                  setPetSize("small");
-                }}
+                name="size"
+                value="small"
+                onClick={handleChange}
               >
                 <img
                   alt="Small"
@@ -160,13 +146,13 @@ function MyPets({ pet }) {
               </button>
               <button
                 className={
-                  petSize == "medium"
+                  pets.size === "medium"
                     ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
                     : "petBtn"
                 }
-                onClick={(e) => {
-                  setPetSize("medium");
-                }}
+                name="size"
+                value="medium"
+                onClick={handleChange}
               >
                 <img
                   alt="Medium"
@@ -177,13 +163,13 @@ function MyPets({ pet }) {
               </button>
               <button
                 className={
-                  petSize == "large"
+                  pets.size === "large"
                     ? "petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
                     : "petBtn-lg"
                 }
-                onClick={(e) => {
-                  setPetSize("large");
-                }}
+                name="size"
+                value="large"
+                onClick={handleChange}
               >
                 <img
                   alt="Large"
@@ -220,13 +206,16 @@ function MyPets({ pet }) {
         <div>
           <button
             type="submit"
-            onClick={onSubmit}
+            onClick={handleSubmit}
             className="border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 font-semibold text-lg px-8 py-4 m-2 duration-500 ease-in-out "
           >
-            {buttonPet}
+            {isEdit ? "Edit Pet" : "Add Pet"}
           </button>
 
-          <button className="font-semibold text-lg px-8 py-4 m-2 border border-red-600 hover:bg-red-600 rounded-lg hover:text-white text-red-600  duration-500 ease-in-out ">
+          <button
+            onClick={useHistory().goBack}
+            className="font-semibold text-lg px-8 py-4 m-2 border border-red-600 hover:bg-red-600 rounded-lg hover:text-white text-red-600  duration-500 ease-in-out "
+          >
             Cancel
           </button>
         </div>

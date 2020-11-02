@@ -55,7 +55,7 @@ CREATE TABLE pet_categories (
     breed VARCHAR,
 	size VARCHAR,
 	base_price NUMERIC NOT NULL,
-	PRIMARY KEY(species, breed, size)
+	PRIMARY KEY (species, breed, size)
 );
 
 CREATE TABLE pets (

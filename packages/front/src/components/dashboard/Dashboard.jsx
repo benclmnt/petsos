@@ -1,88 +1,79 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import PetCard from "./PetCard";
+import CTOverview from "./CTOverview";
 import "./dashboard.css";
-import Balance from "./Balance";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { client as fetch } from "../../utils/client";
 import { useUser } from "../../context/auth-context";
+import bg from "../../resources/wallpaper2.jpg";
 
 function Dashboard() {
   const user = useUser();
+  const basePetsAPILink = `/users/${user.username}/pets`;
 
-  const [isLoaded, setIsLoaded] = useState(false);
   const [pets, setPets] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
     // GET request using fetch inside useEffect React hook
-    const link = "/pets/getPetByPouname/" + user.username;
-    const result = await fetch(link);
-    console.log(user.username);
-    setPets(Object.values(result));
-    setIsLoaded(true);
+    async function fetchUserData() {
+      const result = await fetch(basePetsAPILink);
+      setPets(result);
+    }
+
+    fetchUserData();
   }, []);
 
-  //const removed = pots.splice(1,1);
-  const deletedPet = async (idx) => {
-    const deleted = pets[idx];
-    console.log(deleted.name);
-    const link = "/pets/deletePetByPounameAndName";
-    const body = {
-      name: deleted.name,
-      pouname: user.username,
-    };
+  const deletedPet = async (e, idx) => {
+    e.preventDefault();
     try {
-      const result = await fetch(link, {
-        body: body,
+      const result = await fetch(basePetsAPILink, {
+        body: {
+          name: pets[idx].name,
+        },
         method: "DELETE",
-        redirectTo: "/dashboard",
       });
       console.log(result);
+      setPets(result.pets);
     } catch (error) {
       console.error(error);
     }
-    window.location.reload(false);
   };
 
-  let itemsToRender;
-  if (isLoaded) {
-    console.log(pets);
-    itemsToRender = pets.slice(0, pets.length - 2).map((item) => {
-      const index = pets.indexOf(item);
-      return (
-        <PetCard
-          className="col-span-1"
-          key={item.name}
-          petName={item.name}
-          deletePet={() => deletedPet(index)}
-        />
-      );
-    });
-  }
-
   return (
-    <div className=" dashboard h-screen">
-      <div className="flex items-start flex-row justify-center items-center pt-40  space-x-5">
-        <div className="flex flex-col space-y-6 self-stretch">
-          <div className="bg-white rounded-lg p-10 flex flex-row">
+    <div className="h-screen">
+      <img src={bg} className="min-h-screen bg-cover fixed p-0 z-0" />
+      <div className="flex flex-col  md:flex-row justify-center items-center pt-40 md:space-x-5 space-y-6 z-10">
+        <div className="flex flex-col space-y-6 self-stretch z-10">
+          <div className="bg-white rounded-lg p-10 flex flex-row z-10">
             <img
               src="https://www.flaticon.com/svg/static/icons/svg/21/21645.svg"
               className="m-auto"
               height="150"
               width="100"
             />
-            <div className="flex items-center ml-5">
+            <div className="flex items-center ml-5 z-10">
               <div>
-                <h1>{user?.username || "Default User Name"}</h1>
-                <a>Edit Profile</a>
+                <h1 className="py-3">
+                  Welcome back, {user?.username || "Default User Name"}!
+                </h1>
+                <Link to="/profile/edit">
+                  <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
+                    Edit profile
+                  </button>
+                </Link>
+                {user.is_caretaker && (
+                  <Link to="/ctprofile/edit">
+                    <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
+                      Edit caretaker profile
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
-
-          <div>
-            <Balance />
-          </div>
+          {user.is_caretaker && <CTOverview />}
         </div>
-        <div className="flex flex-col w-1/3 self-stretch">
+        <div className="flex flex-col w-auto md:w-1/3 self-stretch z-10">
           <div className="bg-white rounded-lg px-8 py-8">
             <div>
               <div>
@@ -92,8 +83,15 @@ function Dashboard() {
                 </h2>
               </div>
             </div>
-            <div class="mt-5 flex justify-start grid grid-cols-2 gap-4">
-              {itemsToRender}
+            <div className="mt-5 justify-start grid grid-cols-2 gap-4">
+              {pets?.map((pet, idx) => (
+                <PetCard
+                  className="col-span-1"
+                  key={pet.name}
+                  petName={pet.name}
+                  deletePet={(e) => deletedPet(e, idx)}
+                />
+              ))}
               <Link to="/myPets/add">
                 <PetCard className="col-span-1" petName="Add new pet" />
               </Link>

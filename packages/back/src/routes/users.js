@@ -1,6 +1,6 @@
 import express from "express";
-import logger from "../logger";
 import { query } from "../db";
+import { getUsersPetsRoutes } from "./pets";
 import {
   getAllUsers,
   registerUser,
@@ -8,12 +8,18 @@ import {
   deleteUser as deleteUserQuery,
   editUser as editUserQuery,
 } from "../db/queries";
+import {
+  buildErrorObject,
+  buildSuccessResponse,
+  checkMissingParameter,
+  handleMissingParameter,
+} from "./utils";
 
 function getUsersRoutes() {
   const router = express.Router();
   router.post("/login", login);
   router.post("/register", register);
-  router.post("/addNewPet", insertNewPetToTable);
+  router.use("/:username", getUsersPetsRoutes());
   router.get("/:username", getUserInfo);
   router.delete("/:username", deleteUser);
   router.patch("/:username", editUserDetails);
@@ -35,7 +41,7 @@ async function register(req, res) {
   try {
     await query(registerUser, params);
   } catch (err) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
       error: "Username already registered.",
     });
@@ -43,14 +49,11 @@ async function register(req, res) {
 
   const users = await query(queryUserByUsername, [username]);
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
 /**
-<<<<<<< HEAD
- * Login using email
-=======
  * Delete user account
  */
 async function deleteUser(req, res) {
@@ -63,7 +66,7 @@ async function deleteUser(req, res) {
 
   await query(deleteUserQuery, [username]);
   return buildSuccessResponse(res, {
-    user: "success",
+    data: "success",
   });
 }
 
@@ -79,17 +82,21 @@ async function login(req, res) {
 
   const users = await query(queryUserByUsername, [username]);
 
-  checkUserExists(res, users);
+  if (users.length === 0) {
+    return buildErrorObject(res, {
+      error: "Cannot find user",
+    });
+  }
 
   if (password !== users[0].password) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 401,
       error: "Wrong email or password",
     });
   }
 
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
@@ -102,17 +109,21 @@ async function getUserInfo(req, res) {
 
   const users = await query(queryUserByUsername, [username]);
 
-  checkUserExists(res, users);
+  if (users.length === 0) {
+    return buildErrorObject(res, {
+      error: "Cannot find user",
+    });
+  }
 
   return buildSuccessResponse(res, {
-    user: buildUsersObject(users[0]),
+    data: buildUsersObject(users[0]),
   });
 }
 
 async function listAllUsers(req, res) {
   const users = await query(getAllUsers);
   return buildSuccessResponse(res, {
-    user: users.map(buildUsersObject),
+    data: users.map(buildUsersObject),
   });
 }
 
@@ -121,18 +132,17 @@ async function editUserDetails(req, res) {
   const { email, address, city, country, postal_code } = req.body;
   const params = [username, email, address, city, country, postal_code];
 
-  if (checkMissingParameter(params)) {
+  if (checkMissingParameter([username])) {
     return handleMissingParameter(res);
   }
 
   try {
     const users = await query(editUserQuery, params);
-    console.log(users);
     return buildSuccessResponse(res, {
-      user: buildUsersObject(users[0]),
+      data: buildUsersObject(users[0]),
     });
   } catch (err) {
-    return buildUsersErrorObject(res, {
+    return buildErrorObject(res, {
       status: 400,
       error: err.message,
     });
@@ -141,20 +151,9 @@ async function editUserDetails(req, res) {
 
 export { getUsersRoutes };
 
-/**
+/**************************
  * PRIVATE FUNCTIONS
- */
-
-function buildUsersErrorObject(res, { status, error }) {
-  logger.error(error);
-
-  const errorResp = {
-    kind: "Error",
-    error,
-  };
-
-  return res.status(status).json(errorResp);
-}
+ **************************/
 
 function buildUsersObject(user) {
   const obj = {
@@ -164,29 +163,4 @@ function buildUsersObject(user) {
   };
   delete obj.password;
   return obj;
-}
-
-function buildSuccessResponse(res, { status, user }) {
-  console.log("returned: ", user);
-  return res.status(status || 200).json(user);
-}
-
-function checkUserExists(res, users) {
-  if (users.length === 0) {
-    return buildUsersErrorObject(res, {
-      status: 400,
-      error: "Cannot find user",
-    });
-  }
-}
-
-function checkMissingParameter(array) {
-  return array.some((param) => param === undefined || param === null);
-}
-
-function handleMissingParameter(res) {
-  return buildUsersErrorObject(res, {
-    status: 400,
-    error: "Missing some required parameters",
-  });
 }

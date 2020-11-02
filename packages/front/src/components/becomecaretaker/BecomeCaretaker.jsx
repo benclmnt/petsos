@@ -8,6 +8,7 @@ import { useUser } from "../../context/auth-context";
 import { toJSONLocal } from "../../utils/dateutils";
 import { getAllPetCategories } from "../../utils/fetchutils";
 import moment from "moment";
+import { Redirect } from "react-router-dom";
 
 function BecomeCaretaker() {
   const dateFormat = "dd-MM-yyyy";
@@ -171,9 +172,22 @@ function BecomeCaretaker() {
     }
   };
 
+  // const checkIfCt = () => {
+  //   if (user.is_caretaker) {
+  //     return <Redirect to="/ctprofile/edit" />;
+  //   }
+  // }
+
   return (
-    <div>
-      <br className="mt-16" />
+    <div
+      className="py-20 h-screen my-auto"
+      style={{
+        backgroundSize: "cover",
+        backgroundImage:
+          "url(https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg)",
+        backgroundPosition: "center center",
+      }}
+    >
       <form
         className="flex-col max-h-screen max-w-4xl mx-auto bg-white"
         action=""

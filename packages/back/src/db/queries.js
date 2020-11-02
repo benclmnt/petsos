@@ -43,7 +43,7 @@ export const setRatingAndReview =
 
 // Caretaker-related queries
 export const queryCaretakerByUsername =
-  "SELECT * FROM caretakers WHERE ctuname = $1;";
+  "SELECT c.*, r.avg_rating FROM caretakers c NATURAL LEFT JOIN ratings r WHERE ctuname = $1;";
 export const editCaretakerType =
   "UPDATE caretakers SET ct_type = $2 WHERE ctuname = $1 RETURNING *";
 export const queryBreedsBySpecies =
@@ -51,8 +51,6 @@ export const queryBreedsBySpecies =
 export const insertNewCaretaker =
   "INSERT INTO caretakers(ctuname, ct_type) VALUES ($1, $2);";
 export const getAllCaretakers = "SELECT * FROM caretakers LIMIT 25;";
-export const upsertCaretakerAddress =
-  "INSERT INTO caretakers(ctuname, avg_rating, caretaker_type) VALUES ($1, $2, $3);";
 export const getCapability =
   "SELECT * FROM is_capable WHERE ctuname = $1 GROUP BY ctuname, species, breed, size;";
 export const upsertCaretakerAvailability =
@@ -71,8 +69,11 @@ export const deleteCapabilities = "DELETE FROM is_capable WHERE ctuname = $1;";
 export const queryAllCaretakers =
   "SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code;";
 export const querySearchCaretakers =
-  "SELECT * FROM all_ct\
-  WHERE start_date <= $1 AND end_date >= $2\
+  "SELECT * FROM \
+    (caretakers NATURAL JOIN is_capable NATURAL JOIN availability_span \
+    NATURAL JOIN users AS users(ctuname, email, password, address, city, country, postal_code)) \
+    NATURAL LEFT JOIN ratings AS t \
+  WHERE start_date <= $1 AND end_date >= $2 \
   AND species = $3 AND breed = $4;";
 export const getPetCategories = "SELECT * FROM pet_categories;";
 

@@ -35,7 +35,6 @@ async function getOverlap(req, res) {
   const overlaps = await query(queryOverlap, params);
   console.log(overlaps);
 
-  console.log(res);
   return buildSuccessResponse(res, {
     data: overlaps,
   });

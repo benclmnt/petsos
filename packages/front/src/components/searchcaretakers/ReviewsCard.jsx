@@ -31,7 +31,7 @@ function ReviewsCard({ review }) {
                   {/* <Typography component="legend">Rating</Typography> */}
                   <Rating
                     name="read-only"
-                    precision={0.5}
+                    precision={0.1}
                     value={review.rating}
                     readOnly
                   />

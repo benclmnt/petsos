@@ -191,14 +191,14 @@ $$
 		SELECT (
 			CASE
 				WHEN ct_type = 'full-time' THEN 1
-				ELSE 0
+				WHEN ct_type = 'part-time' THEN 0
 			END) INTO flag
 			FROM caretakers
 			WHERE ctuname = NEW.ctuname;
 
 		IF FLAG = 1 THEN
 			IF date(NEW.start_date) + interval '150 days' > date(NEW.end_date) THEN
-				RAISE NOTICE 'RANGE UNDER 150 DAYS % %', date(NEW.start_date) + interval '150 days', date(NEW.end_date);
+				RAISE EXCEPTION 'DATE RANGE UNDER 150 DAYS!';
 				RETURN NULL;
 			END IF;
 		END IF;

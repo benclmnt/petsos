@@ -211,10 +211,11 @@ async function upsertCaretakerCapability(req, res) {
   try {
     await query(upsertCaretakerCapabilityQuery, params);
   } catch (err) {
-    return buildErrorObject(res, {
-      status: 200,
-      error: err.detail,
-    });
+    throw err;
+    // return buildErrorObject(res, {
+    //   status: 200,
+    //   error: err.detail,
+    // });
   }
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
@@ -264,10 +265,11 @@ async function upsertCaretakerAvailability(req, res) {
   try {
     await query(upsertCaretakerAvailabilityQuery, params);
   } catch (err) {
-    return buildErrorObject(res, {
-      status: 200,
-      error: err.detail,
-    });
+    throw err;
+    // return buildErrorObject(res, {
+    //   status: 200,
+    //   error: err.detail,
+    // });
   }
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);

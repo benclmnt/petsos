@@ -194,7 +194,7 @@ $$
 
 		IF FLAG = 1 THEN
 			IF date(NEW.start_date) + interval '150 days' > date(NEW.end_date) THEN
-				RAISE 'DATE RANGE UNDER 150 DAYS!';
+				RAISE EXCEPTION 'DATE RANGE UNDER 150 DAYS!';
 				RETURN NULL;
 			END IF;
 		END IF;

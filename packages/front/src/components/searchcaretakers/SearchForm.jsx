@@ -18,16 +18,30 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     postal_code: user == null ? "10000" : user.postal_code,
   });
 
-  const [formState, setFormState] = useState({
-    start_date: new Date(),
-    end_date: new Date(),
-    species: "",
-    breed: "",
-    size: "",
-    postal_code: user == null ? "100000" : user.postal_code, // TODO: to change to user.postal_code
-    country: user == null ? "Singapore" : user.country,
-    city: user == null ? "Singapore" : user.city,
-  });
+  const [formState, setFormState] = useState(
+    user == null
+      ? {
+          start_date: new Date(),
+          end_date: new Date(),
+          species: "",
+          breed: "",
+          size: "",
+          postal_code: "", // TODO: to change to user.postal_code
+          country: "Singapore",
+          city: "Singapore",
+        }
+      : {
+          start_date: new Date(),
+          end_date: new Date(),
+          species: "",
+          breed: "",
+          size: "",
+          postal_code: user.postal_code, // TODO: to change to user.postal_code
+          country: user.country,
+          city: user.city,
+          ctuname: user.username,
+        }
+  );
 
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -216,7 +230,13 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     };
 
     // generate the query params
-    let link = "/caretakers/searchct?";
+    let link;
+    if (user != null) {
+      link = "/caretakers/searchctsi?";
+    } else {
+      link = "/caretakers/searchctso?";
+    }
+
     const paramsKeyValue = [];
     Object.entries(searchParams).forEach(([key, value]) =>
       paramsKeyValue.push(`${key}=${value}`)

@@ -33,8 +33,11 @@ async function getOverlap(req, res) {
   }
 
   const overlaps = await query(queryOverlap, params);
+  console.log(overlaps);
+
+  console.log(res);
   return buildSuccessResponse(res, {
-    overlap: overlaps.map(buildOverlapObject),
+    data: overlaps,
   });
 }
 
@@ -130,13 +133,13 @@ export { getJobsRoutes };
  * PRIVATE FUNCTIONS
  */
 
-function buildOverlapObject(job) {
+/*function buildOverlapObject(job) {
   const obj = {
     kind: "Overlap",
     ...job,
   };
   return obj;
-}
+}*/
 
 function buildBidObject(bid) {
   const obj = {

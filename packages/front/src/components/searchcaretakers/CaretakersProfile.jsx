@@ -74,7 +74,7 @@ function CaretakersProfile() {
       let getMaxJobRestriction = await fetch("/jobs/queryOverlap", {
         body: jobResPayload,
       });
-      const result = await Promise.all([availResults, getMaxJobRestriction]);
+      const result = await Promise.all([getAvailResults, getMaxJobRestriction]);
       let availResults = result[0];
       let maxJobRestriction = result[1];
       let available = availResults.some(

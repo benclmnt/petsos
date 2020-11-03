@@ -1,7 +1,7 @@
-import React from 'react';
-import { client as fetch } from '../../utils/client';
-import { useUser } from '../../context/auth-context';
-import { toJSONLocal } from '../../utils/dateutils';
+import React from "react";
+import { client as fetch } from "../../utils/client";
+import { useUser } from "../../context/auth-context";
+import { toJSONLocal } from "../../utils/dateutils";
 
 function CTOverview() {
   const user = useUser();

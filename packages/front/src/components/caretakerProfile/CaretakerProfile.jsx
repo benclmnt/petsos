@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import AvailabilityForm from './AvailabilityForm';
-import CapabilityForm from './CapabilityForm';
-import { Link } from 'react-router-dom';
-import { client as fetch } from '../../utils/client';
-import { useUser } from '../../context/auth-context';
+import React, { useState, useEffect } from "react";
+import AvailabilityForm from "./AvailabilityForm";
+import CapabilityForm from "./CapabilityForm";
+import { Link } from "react-router-dom";
+import { client as fetch } from "../../utils/client";
+import { useUser } from "../../context/auth-context";
 
 function _toJSONLocal(date) {
   var local = date;
@@ -28,14 +28,14 @@ function CaretakerProfile() {
   const [availabilityList, setAvailabilityList] = useState([]);
 
   const [isEditingProfile, toggleIsEditingProfile] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
   const fetchData = async () => {
     const getCapability = fetch(
-      '/caretakers/' + user.username + '/capabilities'
+      "/caretakers/" + user.username + "/capabilities"
     );
     const getAvailability = fetch(
-      '/caretakers/' + user.username + '/availabilities'
+      "/caretakers/" + user.username + "/availabilities"
     );
     // triggering 2 parallel requests then waiting for all of them to finish.
     const result = await Promise.all([getCapability, getAvailability]);
@@ -48,7 +48,7 @@ function CaretakerProfile() {
   }, []);
 
   const commitmentType =
-    profile.ct_type === 'part-time' ? 'Part-Time' : 'Full-Time';
+    profile.ct_type === "part-time" ? "Part-Time" : "Full-Time";
 
   const commitmentForm = (
     <select
@@ -72,7 +72,7 @@ function CaretakerProfile() {
       <div>
         <h1 className="font-semibold text-lg">Dogs</h1>
         {capabilityList
-          .filter((capability) => capability.species === 'dog')
+          .filter((capability) => capability.species === "dog")
           .map((capability, i) => (
             <div key={i}>
               {capability.breed}, {capability.size}
@@ -83,7 +83,7 @@ function CaretakerProfile() {
       <div>
         <h1 className="font-semibold text-lg">Cats</h1>
         {capabilityList
-          .filter((capability) => capability.species === 'cat')
+          .filter((capability) => capability.species === "cat")
           .map((capability, i) => (
             <div key={i}>
               {capability.breed}, {capability.size}
@@ -97,7 +97,7 @@ function CaretakerProfile() {
     e.preventDefault();
 
     // Update caretaker data
-    const url = '/caretakers/' + user.username;
+    const url = "/caretakers/" + user.username;
 
     const data = {
       ctuname: user.username,
@@ -107,7 +107,7 @@ function CaretakerProfile() {
     try {
       const editedUser = await fetch(url, {
         body: data,
-        method: 'PATCH',
+        method: "PATCH",
       });
       console.log(editedUser);
     } catch (error) {
@@ -118,11 +118,11 @@ function CaretakerProfile() {
 
     // Update capabilities
     try {
-      await fetch('/caretakers/' + user.username + '/capabilities', {
+      await fetch("/caretakers/" + user.username + "/capabilities", {
         body: { ctuname: user.username },
-        method: 'DELETE',
+        method: "DELETE",
       });
-      setErrorMsg('');
+      setErrorMsg("");
     } catch (error) {
       console.error(error);
       setErrorMsg(error.error);
@@ -131,14 +131,14 @@ function CaretakerProfile() {
 
     for (let i = 0; i < capabilityList.length; i++) {
       const capability = {
-        pc_species: capabilityList[i]['species'],
-        pc_breed: capabilityList[i]['breed'],
-        pc_size: capabilityList[i]['size'],
+        pc_species: capabilityList[i]["species"],
+        pc_breed: capabilityList[i]["breed"],
+        pc_size: capabilityList[i]["size"],
         ctuname: user.username,
       };
 
       try {
-        const capabResults = await fetch('/caretakers/capability', {
+        const capabResults = await fetch("/caretakers/capability", {
           body: capability,
         });
         console.log(capabResults);
@@ -150,11 +150,11 @@ function CaretakerProfile() {
 
     // Update availabilities
     try {
-      await fetch('/caretakers/' + user.username + '/availabilities', {
+      await fetch("/caretakers/" + user.username + "/availabilities", {
         body: { ctuname: user.username },
-        method: 'DELETE',
+        method: "DELETE",
       });
-      setErrorMsg('');
+      setErrorMsg("");
     } catch (error) {
       console.error(error);
       setErrorMsg(error.error);
@@ -168,7 +168,7 @@ function CaretakerProfile() {
       };
 
       try {
-        const availResults = await fetch('/caretakers/availability', {
+        const availResults = await fetch("/caretakers/availability", {
           body: availability,
         });
         console.log(availResults);
@@ -186,8 +186,8 @@ function CaretakerProfile() {
       className="min-h-screen"
       style={{
         backgroundImage: `url(https://wallpapercave.com/wp/wp2544022.jpg)`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'fixed',
+        backgroundSize: "cover",
+        backgroundPosition: "fixed",
       }}
     >
       <br className="mt-10" />
@@ -207,7 +207,7 @@ function CaretakerProfile() {
                 toggleIsEditingProfile(!isEditingProfile);
               }}
             >
-              {!isEditingProfile ? 'Edit info' : 'Cancel'}
+              {!isEditingProfile ? "Edit info" : "Cancel"}
             </button>
             <button className="py-2 px-5 hover:text-green-500 font-bold border-none inline-block left-auto">
               <Link to="/dashboard">Back to Dashboard</Link>
@@ -244,7 +244,7 @@ function CaretakerProfile() {
               ) : (
                 availabilityList.map((availability, i) => (
                   <div key={i}>
-                    {availability.start_date.toString()} to{' '}
+                    {availability.start_date.toString()} to{" "}
                     {availability.end_date.toString()}
                   </div>
                 ))

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Rating from '@material-ui/lab/Rating';
-import Box from '@material-ui/core/Box';
+import React from "react";
+import { Link } from "react-router-dom";
+import Rating from "@material-ui/lab/Rating";
+import Box from "@material-ui/core/Box";
 
 function CaretakersCard({ caretaker = {} }) {
   return (

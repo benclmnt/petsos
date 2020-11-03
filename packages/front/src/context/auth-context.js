@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import * as authClient from '../utils/auth-client';
+import React, { useState, useEffect } from "react";
+import * as authClient from "../utils/auth-client";
 
 const AuthContext = React.createContext({});
 
 function AuthProvider(props) {
   const [data, setData] = useState({
-    status: 'pending',
+    status: "pending",
     user: null,
   });
 
   useEffect(() => {
     authClient
       .getUser()
-      .then((user) => setData({ status: 'success', user }))
+      .then((user) => setData({ status: "success", user }))
       .catch((err) => {
         console.error(err);
         authClient.logout();
-        setData({ ...data, status: 'success' });
+        setData({ ...data, status: "success" });
       });
   }, []);
 
@@ -25,8 +25,8 @@ function AuthProvider(props) {
   // But we post-pone rendering any of the children until after we've determined
   // whether or not we have a user token and if we do, then we render a spinner
   // while we go retrieve that user's information.
-  if (data.status === 'pending') {
-    return 'Loading...';
+  if (data.status === "pending") {
+    return "Loading...";
   }
 
   const login = (form) =>

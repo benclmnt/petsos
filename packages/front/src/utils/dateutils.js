@@ -1,6 +1,6 @@
 export function toJSONLocal(date) {
   if (!date) {
-    console.error('DATE IS UNUSABLE BOOOO!');
+    console.error("DATE IS UNUSABLE BOOOO!");
     return;
   }
   date = new Date(date);

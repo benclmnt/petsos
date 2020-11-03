@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { getAllPetCategories } from '../../utils/fetchutils';
-import AnimalCapability from './AnimalCapability';
+import React, { useState, useEffect } from "react";
+import { getAllPetCategories } from "../../utils/fetchutils";
+import AnimalCapability from "./AnimalCapability";
 
 function CapabilityForm(props) {
   const [categories, setCategories] = useState([]);
@@ -22,7 +22,7 @@ function CapabilityForm(props) {
   const addCapability = () => {
     props.setCapabilityList([
       ...props.capabilityList,
-      { species: '', breed: '', size: '' },
+      { species: "", breed: "", size: "" },
     ]);
   };
 

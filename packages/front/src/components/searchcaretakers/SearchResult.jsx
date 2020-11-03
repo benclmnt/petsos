@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import CaretakersCard from './CaretakersCard';
-import Button from '../button';
+import React, { useState } from "react";
+import CaretakersCard from "./CaretakersCard";
+import Button from "../button";
 
 function SearchResult({ caretakerList, setShowSearchForm }) {
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
   return (
     <>

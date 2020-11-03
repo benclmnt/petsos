@@ -87,13 +87,16 @@ export const queryOverlap =
 	SELECT b.price, b.payment_method, b.transfer_method, b.start_date, b.end_date, b.ctuname, b.pouname, b.petname\
 	FROM bid b\
 	WHERE b.ctuname = $1 and b.is_win AND not isempty(daterange($2, $3, '[]') * daterange(b.start_date, b.end_date, '[]')))\
-	SELECT DISTINCT fb1.price, fb1.payment_method, fb1.transfer_method, fb1.start_date, fb1.end_date, fb1.ctu_name, fb1.pouname, fb1.petname\
+	SELECT DISTINCT fb1.price, fb1.payment_method, fb1.transfer_method, fb1.start_date, fb1.end_date, fb1.ctuname, fb1.pouname, fb1.petname\
 	FROM filtered_bid fb1, filtered_bid fb2, filtered_bid fb3, filtered_bid fb4, filtered_bid fb5\
 	WHERE not isempty(daterange(fb1.start_date, fb1.end_date, '[]')\
 	* daterange(fb2.start_date, fb2.end_date, '[]')\
-	* daterange(fb3.start_date, fb3.end_date, '[]')\
+	* (CASE WHEN (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = $1) IS NULL OR\
+		(SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = $1) < 2\
+	THEN daterange('-infinity', 'infinity')\
+	ELSE daterange(fb3.start_date, fb3.end_date, '[]')\
 	* daterange(fb4.start_date, fb4.end_date, '[]')\
-	* daterange(fb5.start_date, fb5.end_date, '[]')\
+	* daterange(fb5.start_date, fb5.end_date, '[]') END)\
 	* daterange($2, $3, '[]'));";
 /* There exists a race condition for pgsql since the insert and select clauses are run concurrently,
  * so the insert may complete when another bid has already won.
@@ -101,8 +104,8 @@ export const queryOverlap =
  */
 export const addBid =
   "INSERT INTO bid (price, payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname)\
-	VALUES ($1, $2, $3, $4, $5, $6, $7, $8)\
-	WHERE NOT EXISTS(SELECT * FROM bid WHERE start_date = $4 AND end_date = $5 AND pouname = $7 AND petname=$8 AND is_win);";
+	SELECT CAST($1 AS NUMERIC), $2, $3, $4, $5, $6, CAST($7 AS VARCHAR), CAST($8 AS VARCHAR)\
+	WHERE NOT EXISTS(SELECT * FROM bid WHERE start_date = $4 AND end_date = $5 AND pouname = CAST($7 AS VARCHAR) AND petname=CAST($8 AS VARCHAR) AND is_win);";
 export const winBid =
   "UPDATE bid SET is_win = true WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5\
 	WHERE NOT EXISTS(SELECT * FROM bid WHERE start_date = $3 AND end_date = $4 AND pouname = $1 AND petname=$2 AND is_win\

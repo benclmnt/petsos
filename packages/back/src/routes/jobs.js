@@ -17,7 +17,7 @@ import {
 
 function getJobsRoutes() {
   const router = express.Router();
-  router.post("/queryOverlap", queryOverlap);
+  router.post("/queryOverlap", getOverlap);
   router.post("/addBid", createBid);
   router.post("/winBid", winBidQuery);
   router.post("/updateRating", updateRatingQuery);
@@ -32,7 +32,7 @@ async function getOverlap(req, res) {
     return handleMissingParameter(res);
   }
 
-  const overlaps = await query(queryOverlap);
+  const overlaps = await query(queryOverlap, params);
   return buildSuccessResponse(res, {
     overlap: overlaps.map(buildOverlapObject),
   });
@@ -61,10 +61,11 @@ async function createBid(req, res) {
   ];
 
   if (checkMissingParameter(params)) {
-    return handleMissingParmater(res);
+    return handleMissingParameter(res);
   }
 
   try {
+    console.log(params);
     await query(addBid, params);
   } catch (err) {
     return buildErrorObject(res, {
@@ -73,7 +74,7 @@ async function createBid(req, res) {
     });
   }
 
-  getBidParams = [params[6], params[7], params[3], params[4], params[5]];
+  let getBidParams = [params[6], params[7], params[3], params[4], params[5]];
   const bids = await query(getBid, getBidParams);
   return buildSuccessResponse(res, {
     data: buildBidObject(bids[0]),

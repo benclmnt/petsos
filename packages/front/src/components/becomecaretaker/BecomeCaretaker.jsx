@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import AnimalCapability from "../caretakerProfile/AnimalCapability";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../../css/datepicker.css";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
-import { toJSONLocal } from "../../utils/dateutils";
-import { getAllPetCategories } from "../../utils/fetchutils";
-import moment from "moment";
+import React, { useState, useEffect } from 'react';
+import AnimalCapability from '../caretakerProfile/AnimalCapability';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../css/datepicker.css';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
+import { toJSONLocal } from '../../utils/dateutils';
+import { getAllPetCategories } from '../../utils/fetchutils';
+import moment from 'moment';
 
 function BecomeCaretaker() {
-  const dateFormat = "dd-MM-yyyy";
+  const dateFormat = 'dd-MM-yyyy';
   const user = useUser();
   const [type, setType] = useState();
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [categories, setCategories] = useState([]);
 
   // Capabilities
   const [capabilityList, setCapabilityList] = useState([
-    { species: "dog", breed: "shiba inu", size: "small" },
+    { species: 'dog', breed: 'shiba inu', size: 'small' },
   ]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ function BecomeCaretaker() {
   const addCapability = () => {
     setCapabilityList([
       ...capabilityList,
-      { species: "", breed: "", size: "" },
+      { species: '', breed: '', size: '' },
     ]);
   };
 
@@ -51,7 +51,7 @@ function BecomeCaretaker() {
 
   // Availabilities
   const [availabilityList, setAvailabilityList] = useState([
-    { start_date: "", end_date: "" },
+    { start_date: '', end_date: '' },
   ]);
 
   const handleAvailabilityChange = (name, value, index) => {
@@ -63,7 +63,7 @@ function BecomeCaretaker() {
   const addAvailability = () => {
     setAvailabilityList([
       ...availabilityList,
-      { start_date: "", end_date: "" },
+      { start_date: '', end_date: '' },
     ]);
   };
 
@@ -74,16 +74,16 @@ function BecomeCaretaker() {
   };
 
   // Datepickers
-  const twoYearsFromNow = new Date(moment().add(2, "years"));
+  const twoYearsFromNow = new Date(moment().add(2, 'years'));
 
   const StartDatepicker = (index) => {
     return (
       <DatePicker
-        selected={availabilityList[index]["start_date"]}
+        selected={availabilityList[index]['start_date']}
         required="required"
         minDate={moment().toDate()}
         maxDate={twoYearsFromNow}
-        onChange={(date) => handleAvailabilityChange("start_date", date, index)}
+        onChange={(date) => handleAvailabilityChange('start_date', date, index)}
         dateFormat={dateFormat}
         placeholderText="Start Date"
       />
@@ -93,11 +93,11 @@ function BecomeCaretaker() {
   const EndDatepicker = (index) => {
     return (
       <DatePicker
-        selected={availabilityList[index]["end_date"]}
+        selected={availabilityList[index]['end_date']}
         required="required"
-        minDate={availabilityList[index]["start_date"]}
+        minDate={availabilityList[index]['start_date']}
         maxDate={twoYearsFromNow}
-        onChange={(date) => handleAvailabilityChange("end_date", date, index)}
+        onChange={(date) => handleAvailabilityChange('end_date', date, index)}
         dateFormat={dateFormat}
         placeholderText="End Date"
       />
@@ -114,7 +114,7 @@ function BecomeCaretaker() {
     };
 
     try {
-      const insertResults = await fetch("/caretakers", { body: data });
+      const insertResults = await fetch('/caretakers', { body: data });
       console.log(insertResults);
     } catch (err) {
       setErrorMsg(err.error);
@@ -124,12 +124,12 @@ function BecomeCaretaker() {
     for (let i = 0; i < availabilityList.length; i++) {
       const availability = {
         ctuname: user.username,
-        start_date: toJSONLocal(availabilityList[i]["start_date"]),
-        end_date: toJSONLocal(availabilityList[i]["end_date"]),
+        start_date: toJSONLocal(availabilityList[i]['start_date']),
+        end_date: toJSONLocal(availabilityList[i]['end_date']),
       };
 
       try {
-        const availResults = await fetch("/caretakers/availability", {
+        const availResults = await fetch('/caretakers/availability', {
           body: availability,
         });
         console.log(availResults);
@@ -141,14 +141,14 @@ function BecomeCaretaker() {
 
     for (let i = 0; i < capabilityList.length; i++) {
       const capability = {
-        pc_species: capabilityList[i]["species"],
-        pc_breed: capabilityList[i]["breed"],
-        pc_size: capabilityList[i]["size"],
+        pc_species: capabilityList[i]['species'],
+        pc_breed: capabilityList[i]['breed'],
+        pc_size: capabilityList[i]['size'],
         ctuname: user.username,
       };
 
       try {
-        const capabResults = await fetch("/caretakers/capability", {
+        const capabResults = await fetch('/caretakers/capability', {
           body: capability,
         });
         console.log(capabResults);

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { client as fetch } from "../../utils/client";
-import { toJSONLocal } from "../../utils/dateutils";
-import Rating from "@material-ui/lab/Rating";
-import Box from "@material-ui/core/Box";
+import React, { useState, useEffect } from 'react';
+import { client as fetch } from '../../utils/client';
+import { toJSONLocal } from '../../utils/dateutils';
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 
 function AddRating({ setShowModal, jobKeys }) {
   const [rating, setRating] = useState();
-  const [review, setReview] = useState("");
+  const [review, setReview] = useState('');
 
   const onSubmit = async () => {
     const body = {
@@ -20,9 +20,9 @@ function AddRating({ setShowModal, jobKeys }) {
     // console.log(body);
 
     try {
-      const result = await fetch("/users/setRatingAndReview", {
+      const result = await fetch('/users/setRatingAndReview', {
         body: body,
-        redirectTo: "/profile/orders",
+        redirectTo: '/profile/orders',
       });
       console.log(result);
     } catch (error) {
@@ -55,7 +55,7 @@ function AddRating({ setShowModal, jobKeys }) {
                 <p>Pet name : {jobKeys.petname}</p>
                 <p>Transfer method : {jobKeys.transfer_method}</p>
                 <p>
-                  Period : {toJSONLocal(jobKeys.start_date)} to{" "}
+                  Period : {toJSONLocal(jobKeys.start_date)} to{' '}
                   {toJSONLocal(jobKeys.end_date)}
                 </p>
                 <div>
@@ -85,7 +85,7 @@ function AddRating({ setShowModal, jobKeys }) {
                 <button
                   className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                   type="button"
-                  style={{ transition: "all .15s ease" }}
+                  style={{ transition: 'all .15s ease' }}
                   onClick={() => setShowModal(false)}
                 >
                   Close
@@ -93,7 +93,7 @@ function AddRating({ setShowModal, jobKeys }) {
                 <button
                   className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                   type="button"
-                  style={{ transition: "all .15s ease" }}
+                  style={{ transition: 'all .15s ease' }}
                   onClick={() => {
                     setShowModal(false);
                     onSubmit();

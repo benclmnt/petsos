@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
-import AddRating from "./AddRating";
-import { toJSONLocal } from "../../utils/dateutils";
+import React, { useState, useEffect } from 'react';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
+import AddRating from './AddRating';
+import { toJSONLocal } from '../../utils/dateutils';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -90,26 +90,26 @@ function DisplayOrders({ tableData = [], canEdit = false }) {
 
 function generateRow(item, idx, canEdit, setKeyJobs, setShowModal) {
   let initials = item.ctuname.match(/\b\w/g) || [];
-  initials = ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
+  initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
   return (
     <tr key={idx}>
       <td className="px-5 py-4">
         <span
           className={
             initials.length == 2
-              ? "text-center bg-gray-400 rounded-full p-2 mr-2"
-              : "text-center bg-gray-400 rounded-full py-2 px-4 mr-2"
+              ? 'text-center bg-gray-400 rounded-full p-2 mr-2'
+              : 'text-center bg-gray-400 rounded-full py-2 px-4 mr-2'
           }
         >
           <span className="relative">{initials}</span>
-        </span>{" "}
+        </span>{' '}
         {item.ctuname}
       </td>
       <td>{item.petname}</td>
       <td>{item.payment_method}</td>
       <td>{item.transfer_method}</td>
       <td>
-        {toJSONLocal(new Date(item.start_date))} -{" "}
+        {toJSONLocal(new Date(item.start_date))} -{' '}
         {toJSONLocal(new Date(item.end_date))}
       </td>
       <td>{item.price}</td>
@@ -118,7 +118,7 @@ function generateRow(item, idx, canEdit, setKeyJobs, setShowModal) {
           <button
             className="active:bg-pink-600 font-bold uppercase p-2 text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
             type="button"
-            style={{ transition: "all .15s ease" }}
+            style={{ transition: 'all .15s ease' }}
             onClick={() => {
               setShowModal(true);
               setKeyJobs(item);

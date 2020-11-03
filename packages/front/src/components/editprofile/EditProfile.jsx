@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Address from "./Address";
-import "./nav.css";
-import "../Nav";
-import { client as fetch } from "../../utils/client";
-import { useAuth, useUser } from "../../context/auth-context";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Address from './Address';
+import './nav.css';
+import '../Nav';
+import { client as fetch } from '../../utils/client';
+import { useAuth, useUser } from '../../context/auth-context';
 
 function EditProfile() {
   const user = useUser();
@@ -13,7 +13,7 @@ function EditProfile() {
   const [profile, setProfile] = useState(user);
 
   const [isEditingProfile, toggleIsEditingProfile] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     setProfile({
@@ -24,13 +24,13 @@ function EditProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "/users/" + user.username;
+    const url = '/users/' + user.username;
 
     try {
       // Update user data
       const editedUser = await fetch(url, {
         body: profile,
-        method: "PATCH",
+        method: 'PATCH',
       });
       console.log(editedUser);
       authClient.updateUser(editedUser);
@@ -81,7 +81,7 @@ function EditProfile() {
             toggleIsEditingProfile(!isEditingProfile);
           }}
         >
-          {!isEditingProfile ? "Edit info" : "Cancel"}
+          {!isEditingProfile ? 'Edit info' : 'Cancel'}
         </button>
         <button className="py-2 px-5 hover:text-green-500 font-bold border-none inline-block left-auto">
           <Link to="/dashboard">Back to Dashboard</Link>

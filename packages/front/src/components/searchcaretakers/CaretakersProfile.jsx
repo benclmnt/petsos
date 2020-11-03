@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import ReviewsCard from "./ReviewsCard";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import ReviewsCard from './ReviewsCard';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
 
 function CaretakersProfile() {
   const user = useUser();
@@ -13,26 +13,26 @@ function CaretakersProfile() {
   const [capabilityList, setCapabilityList] = React.useState([]);
   const [petList, setPetList] = React.useState([]);
   const [reviews, setReviews] = React.useState([]);
-  const [resultMsg, setResultMsg] = React.useState("");
-  const [errorMsg, setErrorMsg] = React.useState("");
+  const [resultMsg, setResultMsg] = React.useState('');
+  const [errorMsg, setErrorMsg] = React.useState('');
   const [creatingJob, setCreatingJob] = React.useState(false);
   const [caretakerAvailable, setCaretakerAvailable] = React.useState(false);
   const [availForm, setAvailForm] = React.useState({
-    start_date: "",
-    end_date: "",
+    start_date: '',
+    end_date: '',
   });
   const [petForm, setPetForm] = React.useState({
-    petname: "",
+    petname: '',
   });
   const [petEligible, setPetEligible] = React.useState(false);
   const [jobForm, setJobForm] = React.useState({
-    payment_method: "",
-    transfer_method: "",
+    payment_method: '',
+    transfer_method: '',
   });
 
   const fetchData = async () => {
-    const getCapabilities = fetch("/caretakers/" + ctuname + "/capabilities");
-    const getPets = fetch("/users/" + user.username + "/pets");
+    const getCapabilities = fetch('/caretakers/' + ctuname + '/capabilities');
+    const getPets = fetch('/users/' + user.username + '/pets');
     const result = await Promise.all([getCapabilities, getPets]);
     setCapabilityList(result[0]);
     setPetList(result[1]);
@@ -52,26 +52,26 @@ function CaretakersProfile() {
 
   const handleAvailSubmit = async (e) => {
     e.preventDefault();
-    setResultMsg("");
-    setErrorMsg("");
+    setResultMsg('');
+    setErrorMsg('');
     // IMPORTANT: Javascript months are 0-indexed so January is month 0. Why? You tell me.
     try {
       let start_date_obj = new Date(availForm.start_date);
       let end_date_obj = new Date(availForm.end_date);
       if (+start_date_obj > +end_date_obj) {
-        setErrorMsg("Start date must be before end date.");
+        setErrorMsg('Start date must be before end date.');
         return;
       }
 
       let getAvailResults = await fetch(
-        "/caretakers/" + ctuname + "/availabilities"
+        '/caretakers/' + ctuname + '/availabilities'
       );
       let jobResPayload = {
         ctuname: ctuname,
         start_date: availForm.start_date,
         end_date: availForm.end_date,
       };
-      let getMaxJobRestriction = await fetch("/jobs/queryOverlap", {
+      let getMaxJobRestriction = await fetch('/jobs/queryOverlap', {
         body: jobResPayload,
       });
       const result = await Promise.all([getAvailResults, getMaxJobRestriction]);
@@ -84,7 +84,7 @@ function CaretakersProfile() {
             +new Date(daterange.end_date.toString()) >= +end_date_obj
         ) && maxJobRestriction.length === 0;
       setResultMsg(
-        available ? "Caretaker is available." : "Caretaker is unavailable."
+        available ? 'Caretaker is available.' : 'Caretaker is unavailable.'
       );
       if (available) {
         setCaretakerAvailable(true);
@@ -97,14 +97,14 @@ function CaretakersProfile() {
 
   const handlePetChange = (e) => {
     setPetEligible(false);
-    setErrorMsg("");
+    setErrorMsg('');
     console.log(capabilityList);
     setPetForm({
       ...petForm,
       [e.target.name]: e.target.value,
     });
-    if (e.target.value.localeCompare("") === 0) {
-      setErrorMsg("Must select a pet.");
+    if (e.target.value.localeCompare('') === 0) {
+      setErrorMsg('Must select a pet.');
       return;
     }
     let pet = petList.filter(
@@ -118,10 +118,10 @@ function CaretakersProfile() {
           c.breed.localeCompare(pet.breed) === 0
       )
     ) {
-      setResultMsg("Pet is eligible.");
+      setResultMsg('Pet is eligible.');
       setPetEligible(true);
     } else {
-      setErrorMsg("Caretaker incapable of taking care of pet.");
+      setErrorMsg('Caretaker incapable of taking care of pet.');
     }
   };
 
@@ -134,18 +134,18 @@ function CaretakersProfile() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setResultMsg("");
-    setErrorMsg("");
+    setResultMsg('');
+    setErrorMsg('');
     if (
-      jobForm.payment_method.localeCompare("") === 0 ||
-      jobForm.transfer_method.localeCompare("") === 0
+      jobForm.payment_method.localeCompare('') === 0 ||
+      jobForm.transfer_method.localeCompare('') === 0
     ) {
-      setErrorMsg("Payment or transfer methods missing.");
+      setErrorMsg('Payment or transfer methods missing.');
     } else if (!caretakerAvailable) {
-      setErrorMsg("Cannot submit job request when caretaker is unavailable.");
+      setErrorMsg('Cannot submit job request when caretaker is unavailable.');
     } else if (!petEligible) {
       setErrorMsg(
-        "Cannot submit job request when outside of caretaker capabilities"
+        'Cannot submit job request when outside of caretaker capabilities'
       );
     } else {
       const payload = {
@@ -160,7 +160,7 @@ function CaretakersProfile() {
       };
       console.log(payload);
       try {
-        await fetch("/jobs/addBid", { body: payload }).then(
+        await fetch('/jobs/addBid', { body: payload }).then(
           async (response) => {
             if (response.status === 401) {
             }
@@ -178,7 +178,7 @@ function CaretakersProfile() {
       const tmp = await fetch(`/caretakers/reviews?ctuname=${ctuname}`);
       console.log(tmp);
       setReviews(tmp);
-      setErrorMsg("");
+      setErrorMsg('');
     } catch (err) {
       console.error(err);
       setErrorMsg(err?.error);

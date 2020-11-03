@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../../css/datepicker.css";
+import React, { useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../css/datepicker.css';
 
 function AvailabilityForm(props) {
-  const dateFormat = "dd-MM-yyyy";
+  const dateFormat = 'dd-MM-yyyy';
 
   const handleAvailabilityChange = (name, value, index) => {
     const list = [...props.availabilityList];
@@ -15,7 +15,7 @@ function AvailabilityForm(props) {
   const addAvailability = () => {
     props.setAvailabilityList([
       ...props.availabilityList,
-      { start_date: "", end_date: "" },
+      { start_date: '', end_date: '' },
     ]);
   };
 
@@ -29,9 +29,9 @@ function AvailabilityForm(props) {
   const StartDatepicker = (index) => {
     return (
       <DatePicker
-        selected={Date.parse(props.availabilityList[index]["start_date"])}
+        selected={Date.parse(props.availabilityList[index]['start_date'])}
         required="required"
-        onChange={(date) => handleAvailabilityChange("start_date", date, index)}
+        onChange={(date) => handleAvailabilityChange('start_date', date, index)}
         dateFormat={dateFormat}
         placeholderText="Start Date"
       />
@@ -41,9 +41,9 @@ function AvailabilityForm(props) {
   const EndDatepicker = (index) => {
     return (
       <DatePicker
-        selected={Date.parse(props.availabilityList[index]["end_date"])}
+        selected={Date.parse(props.availabilityList[index]['end_date'])}
         required="required"
-        onChange={(date) => handleAvailabilityChange("end_date", date, index)}
+        onChange={(date) => handleAvailabilityChange('end_date', date, index)}
         dateFormat={dateFormat}
         placeholderText="End Date"
       />

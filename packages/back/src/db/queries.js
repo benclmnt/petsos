@@ -70,10 +70,16 @@ export const deleteCapabilities = "DELETE FROM is_capable WHERE ctuname = $1;";
 // Queries to search caretakers
 export const queryAllCaretakers =
   "SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code;";
-export const querySearchCaretakers =
+export const querySearchCaretakersSignedOut =
   "SELECT * FROM all_ct\
   WHERE start_date <= $1 AND end_date >= $2\
   AND species = $3 AND breed = $4;";
+
+export const querySearchCaretakersSignedIn =
+  "SELECT * FROM all_ct\
+  WHERE start_date <= $1 AND end_date >= $2\
+  AND species = $3 AND breed = $4 AND ctuname <> $5;";
+
 export const getPetCategories = "SELECT * FROM pet_categories;";
 
 //Queries for reviews

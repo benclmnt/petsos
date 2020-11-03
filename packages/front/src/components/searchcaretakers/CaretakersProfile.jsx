@@ -77,11 +77,12 @@ function CaretakersProfile() {
       const result = await Promise.all([getAvailResults, getMaxJobRestriction]);
       let availResults = result[0];
       let maxJobRestriction = result[1];
-      let available = availResults.some(
-        (daterange) =>
-          +new Date(daterange.start_date.toString()) <= +start_date_obj &&
-          +new Date(daterange.end_date.toString()) >= +end_date_obj
-      );
+      let available =
+        availResults.some(
+          (daterange) =>
+            +new Date(daterange.start_date.toString()) <= +start_date_obj &&
+            +new Date(daterange.end_date.toString()) >= +end_date_obj
+        ) && maxJobRestriction.length === 0;
       setResultMsg(
         available ? "Caretaker is available." : "Caretaker is unavailable."
       );

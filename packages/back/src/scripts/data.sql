@@ -8,20 +8,20 @@ INSERT INTO caretakers(ctuname, avg_rating, ct_type) VALUES
 INSERT INTO caretakers(ctuname, ct_type) VALUES
 ('po0', 'part-time');
 
-INSERT into pet_categories(species, breed, size) VALUES
-('dog', 'husky', 'big'),
-('dog', 'golden retriever', 'big'),
-('dog', 'alaskan malamute', 'big'),
-('dog', 'samoyed', 'big'),
-('dog', 'pug', 'medium'),
-('dog', 'shiba inu', 'medium'),
-('dog', 'cihuahua', 'small'),
-('dog', 'pom', 'small'),
-('cat', 'persian', 'medium'),
-('cat', 'siamese', 'big'),
-('cat', 'sphynx', 'small'),
-('cat', 'bengal', 'small'),
-('cat', 'birman', 'medium');
+INSERT into pet_categories(species, breed, size, base_price) VALUES
+('dog', 'husky', 'big', 100),
+('dog', 'golden retriever', 'big', 200),
+('dog', 'alaskan malamute', 'big', 150),
+('dog', 'samoyed', 'big', 230),
+('dog', 'pug', 'medium', 350),
+('dog', 'shiba inu', 'medium', 123),
+('dog', 'cihuahua', 'small', 456),
+('dog', 'pom', 'small', 50),
+('cat', 'persian', 'medium', 100),
+('cat', 'siamese', 'big', 475),
+('cat', 'sphynx', 'small', 75),
+('cat', 'bengal', 'small', 75),
+('cat', 'birman', 'medium', 125);
 
 INSERT INTO is_capable(ctuname, species, breed, size) VALUES
 ('po0', 'dog', 'husky', 'big');
@@ -54,11 +54,11 @@ INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
 ('po3', '2021-01-04', '2021-01-28');
 
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
-('jeff', 'po1', 'dog', 'shiba inu', 'small');
+('jeff', 'po1', 'dog', 'husky', 'big');
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
-('drek', 'po0', 'cat', 'bengal', 'big');
+('drek', 'po0', 'cat', 'siamese', 'big');
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
-('uwu', 'po0', 'cat', 'sphynx', 'big');
+('uwu', 'po0', 'cat', 'bengal', 'small');
 
 INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
 ctuname, pouname, petname, is_win) VALUES (3.9, 50, 'whatever', 'what', 'This ct very nice one',

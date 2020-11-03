@@ -126,9 +126,9 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         <option value="" disabled>
           Select size
         </option>
-        <option value="big">big</option>
-        <option value="medium">medium</option>
         <option value="small">small</option>
+        <option value="medium">medium</option>
+        <option value="large">large</option>
       </select>
     </div>
   );

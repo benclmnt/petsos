@@ -21,9 +21,9 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   const [formState, setFormState] = useState({
     start_date: new Date(),
     end_date: new Date(),
-    species: "dog",
-    breed: "samoyed",
-    size: "small",
+    species: "",
+    breed: "",
+    size: "",
     postal_code: user == null ? "100000" : user.postal_code, // TODO: to change to user.postal_code
     country: user == null ? "Singapore" : user.country,
     city: user == null ? "Singapore" : user.city,
@@ -73,22 +73,28 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     <div className="md:flex space-x-4">
       <select
         name="species"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
         defaultValue={formState.species}
       >
-        {/* <option value="2" disabled>Select species</option> */}
+        <option value="" disabled>
+          Select species
+        </option>
         <option value="dog">dog</option>
         <option value="cat">cat</option>
       </select>
 
       <select
         name="breed"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
         defaultValue={formState.breed}
       >
-        {/* <option value="" disabled>Select breed</option> */}
+        <option value="" disabled>
+          Select breed
+        </option>
         {capabilities[formState.species]?.map((item, idx) => (
           <option value={item} key={idx}>
             {item}
@@ -98,11 +104,14 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
       <select
         name="size"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
         defaultValue={formState.size}
       >
-        {/* <option value="" disabled>Select size</option> */}
+        <option value="" disabled>
+          Select size
+        </option>
         <option value="big">big</option>
         <option value="medium">medium</option>
         <option value="small">small</option>

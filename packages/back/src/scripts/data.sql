@@ -20,6 +20,7 @@ INSERT into pet_categories(species, breed, size, base_price) VALUES
 ('cat', 'persian', 'medium', 100),
 ('cat', 'siamese', 'big', 475),
 ('cat', 'sphynx', 'small', 75),
+('cat', 'sphynx', 'big', 75),
 ('cat', 'bengal', 'small', 75),
 ('cat', 'birman', 'medium', 125);
 

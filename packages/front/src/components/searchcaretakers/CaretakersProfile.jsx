@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReviewsCard from './ReviewsCard';
 import bg from '../../resources/wallpaper2.jpg';
+import { useUser } from '../../context/auth-context';
 import { client as fetch } from '../../utils/client';
 import './ctprofile.css';
 

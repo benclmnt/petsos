@@ -1,0 +1,5 @@
+.success {
+    background-color: rgb(238, 238, 238);
+    background-image: url('../resources/wallpaper.jpg');
+    background-size: cover;
+  }

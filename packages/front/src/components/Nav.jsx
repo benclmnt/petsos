@@ -24,13 +24,30 @@ function Nav() {
 
   return (
     <div className={`nav ${show ? 'nav_bg' : 'nav'}`}>
-      <img src={logo} className="w-1/3 object-scale-down md:w-auto md:h-12" />
+      <Link to="/">
+        <img src={logo} className="w-1/3 object-scale-down md:w-auto md:h-12" />
+      </Link>
       <div>
-        <Link to="/">
+        {user && (
+          <>
+            {!user.is_caretaker && (
+              <>
+                <Link to="/becomect">
+                  <button className="focus:outline-none mx-4">
+                    <h1 className="md:font-bold md:text-xl pt-1">
+                      Become a Caretaker
+                    </h1>
+                  </button>
+                </Link>
+              </>
+            )}
+          </>
+        )}
+        {/* <Link to="/">
           <button className="focus:outline-none mx-4">
             <h1 className="md:font-bold md:text-xl pt-1">Home</h1>
           </button>
-        </Link>
+        </Link> */}
         <Link to="/search">
           <button className="focus:outline-none mx-4">
             <h1 className="md:font-bold md:text-xl pt-1">Search</h1>

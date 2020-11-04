@@ -19,6 +19,7 @@ import BecomeCaretaker from './components/becomecaretaker/BecomeCaretaker';
 import CaretakerReviews from './components/searchcaretakers/CaretakersProfile';
 import CaretakerProfile from './components/caretakerProfile/CaretakerProfile';
 import Orders from './components/pastOrders/Orders';
+import SuccessPage from './components/SuccessPage';
 
 function Authenticatedapp() {
   return (
@@ -72,6 +73,10 @@ function Authenticatedapp() {
 
           <Route path="/admin">
             <Admin />
+          </Route>
+
+          <Route path="/success">
+            <SuccessPage />
           </Route>
 
           <Route exact path="/">

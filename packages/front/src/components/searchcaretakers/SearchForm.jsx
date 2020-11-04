@@ -18,16 +18,30 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     postal_code: user == null ? '10000' : user.postal_code,
   });
 
-  const [formState, setFormState] = useState({
-    start_date: new Date(),
-    end_date: new Date(),
-    species: 'dog',
-    breed: 'samoyed',
-    size: 'small',
-    postal_code: user == null ? '100000' : user.postal_code, // TODO: to change to user.postal_code
-    country: user == null ? 'Singapore' : user.country,
-    city: user == null ? 'Singapore' : user.city,
-  });
+  const [formState, setFormState] = useState(
+    user == null
+      ? {
+          start_date: new Date(),
+          end_date: new Date(),
+          species: '',
+          breed: '',
+          size: '',
+          postal_code: '', // TODO: to change to user.postal_code
+          country: 'Singapore',
+          city: 'Singapore',
+        }
+      : {
+          start_date: new Date(),
+          end_date: new Date(),
+          species: '',
+          breed: '',
+          size: '',
+          postal_code: user.postal_code, // TODO: to change to user.postal_code
+          country: user.country,
+          city: user.city,
+          ctuname: user.username,
+        }
+  );
 
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -73,22 +87,28 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     <div className="md:flex space-x-4">
       <select
         name="species"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
-        defaultValue={formState.species}
+        value={formState.species}
       >
-        {/* <option value="2" disabled>Select species</option> */}
+        <option value="" disabled>
+          Select species
+        </option>
         <option value="dog">dog</option>
         <option value="cat">cat</option>
       </select>
 
       <select
         name="breed"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
-        defaultValue={formState.breed}
+        value={formState.breed}
       >
-        {/* <option value="" disabled>Select breed</option> */}
+        <option value="" disabled>
+          Select breed
+        </option>
         {capabilities[formState.species]?.map((item, idx) => (
           <option value={item} key={idx}>
             {item}
@@ -98,14 +118,17 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
       <select
         name="size"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
-        defaultValue={formState.size}
+        value={formState.size}
       >
-        {/* <option value="" disabled>Select size</option> */}
-        <option value="big">big</option>
-        <option value="medium">medium</option>
+        <option value="" disabled>
+          Select size
+        </option>
         <option value="small">small</option>
+        <option value="medium">medium</option>
+        <option value="large">large</option>
       </select>
     </div>
   );
@@ -217,7 +240,9 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     try {
       const tmp = await fetch(link);
       console.log(tmp);
-      setSearchResult((_) => tmp);
+      setSearchResult((_) =>
+        tmp?.filter((ct) => ct.ctuname !== user?.username)
+      );
       setShowSearchForm(false);
     } catch (err) {
       console.error(err);

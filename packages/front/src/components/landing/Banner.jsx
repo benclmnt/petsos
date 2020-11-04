@@ -3,8 +3,11 @@ import '../../css/banner.css';
 import logo from '../../resources/petsoslogo.png';
 import bg from '../../resources/wallpaper.jpg';
 import { Link } from 'react-router-dom';
+import { useUser } from '../../context/auth-context';
 
 function Banner() {
+  const user = useUser();
+
   return (
     <header
       className="banner"
@@ -35,16 +38,20 @@ function Banner() {
             We care for your <span className="changing-text"></span>
           </h3>
 
-          <Link to="/signup">
-            <button className="px-8 py-4 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base md:text-xl font-semibold uppercase mt-8 duration-300 ease-in-out">
-              Sign Up
-            </button>
-          </Link>
-          <Link to="/login">
-            <button className="px-8 py-4 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base md:text-xl font-semibold uppercase ml-4 mt-8 duration-300 ease-in-out">
-              Sign In
-            </button>
-          </Link>
+          {user == null && (
+            <>
+              <Link to="/signup">
+                <button className="px-8 py-4 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base md:text-xl font-semibold uppercase mt-8 duration-300 ease-in-out">
+                  Sign Up
+                </button>
+              </Link>
+              <Link to="/login">
+                <button className="px-8 py-4 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base md:text-xl font-semibold uppercase ml-4 mt-8 duration-300 ease-in-out">
+                  Sign In
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

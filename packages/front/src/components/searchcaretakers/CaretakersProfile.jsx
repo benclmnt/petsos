@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReviewsCard from './ReviewsCard';
+import bg from '../../resources/wallpaper2.jpg';
 import { client as fetch } from '../../utils/client';
-import { useUser } from '../../context/auth-context';
+import './ctprofile.css';
 
 function CaretakersProfile() {
   const user = useUser();
@@ -201,96 +202,32 @@ function CaretakersProfile() {
   }, []);
 
   return (
-    <>
-      <div className="h-10"></div>
-      <div className="grid grid-cols-2 w-1/2 align-middle">
-        <h1 className="font-bold">Username:</h1>
-        <h1>{ctInfo.username}</h1>
-        <h1 className="font-bold">City:</h1>
-        <h1>{ctInfo.city}</h1>
-        <h1 className="font-bold">Postal Code:</h1>
-        <h1>{ctInfo.postal_code}</h1>
-        <h1 className="font-bold">Commitment Type:</h1>
-        <h1>{ctInfo.ct_type}</h1>
-      </div>
-      <h1>Reviews: </h1>
-      {reviews?.map((x, i) => (
-        <ReviewsCard review={x} key={i} />
-      ))}
-      <div></div>
-      <p> {errorMsg} </p>
-      {!creatingJob && (
-        <button
-          className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
-          onClick={toggleCreatingJob}
-        >
-          Create Job
-        </button>
-      )}
-      {creatingJob && (
-        <div>
-          <h1 className="font-bold">Check Availability: </h1>
-          <input type="date" name="start_date" onChange={handleAvailChange} />
-          <p>to: </p>
-          <input type="date" name="end_date" onChange={handleAvailChange} />
-          <p>{resultMsg}</p>
-          <button
-            className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
-            onClick={handleAvailSubmit}
-          >
-            Check
-          </button>
-          <select
-            required="required"
-            name="petname"
-            default=""
-            onChange={handlePetChange}
-          >
-            <option value="">Select pet</option>
-            {petList.map((pet, i) => (
-              <option value={pet.name} key={i}>
-                {pet.name}
-              </option>
-            ))}
-          </select>
-          <select
-            required="required"
-            name="payment_method"
-            default=""
-            onChange={handleFormChange}
-          >
-            <option value="">Select payment method</option>
-            <option value="cash">Cash</option>
-            <option value="credit">Credit Card</option>
-            <option value="gojek">Gojek</option>
-          </select>
-          <select
-            required="required"
-            name="transfer_method"
-            default=""
-            onChange={handleFormChange}
-          >
-            <option value="">Select Transfer method</option>
-            <option value="pickup">Pickup</option>
-            <option value="dropoff">Dropoff</option>
-            <option value="gojek">Gojek</option>
-            <option value="teleportation">Teleportation</option>
-          </select>
-          <button
-            className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
-            onClick={handleFormSubmit}
-          >
-            Submit Job Request
-          </button>
-          <button
-            className="bg-red-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
-            onClick={toggleCreatingJob}
-          >
-            Cancel
-          </button>
+    <div class="h-screen">
+      <img src={bg} className="min-h-screen bg-cover fixed p-0 behind" />
+      {errorMsg && <p>{errorMsg}</p>}
+      {/* <div className="h-10"></div> */}
+      <div class="px-48 py-16">
+        <div className=" text-white grid grid-cols-2 w-1/2 align-middle">
+          <h1 className="font-bold">Username:</h1>
+          <h1>{ctInfo.username}</h1>
+          <h1 className=" font-bold">City:</h1>
+          <h1>{ctInfo.city}</h1>
+          <h1 className=" font-bold">Postal Code:</h1>
+          <h1>{ctInfo.postal_code}</h1>
+          <h1 className=" font-bold">Commitment Type:</h1>
+          <h1>{ctInfo.ct_type}</h1>
         </div>
-      )}
-    </>
+        <h1 class="text-white font-bold mb-4 mt-8 ">Reviews: </h1>
+        <div class="grid grid-cols-2 gap-4 ">
+          {reviews?.map((x, i) => (
+            <ReviewsCard review={x} key={i} />
+          ))}
+        </div>
+        <button className="mt-4 bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold">
+          Bid for this guy
+        </button>
+      </div>
+    </div>
   );
 
   function toggleCreatingJob() {

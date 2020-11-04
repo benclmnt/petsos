@@ -69,12 +69,10 @@ export const deleteCapabilities = "DELETE FROM is_capable WHERE ctuname = $1;";
 export const queryAllCaretakers =
   "SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code;";
 export const querySearchCaretakers =
-  "SELECT * FROM \
-    (caretakers NATURAL JOIN is_capable NATURAL JOIN availability_span \
-    NATURAL JOIN users AS users(ctuname, email, password, address, city, country, postal_code)) \
-    NATURAL LEFT JOIN ratings AS t \
+  "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, base_price * COALESCE((SELECT multiplier FROM multiplier WHERE avg_rating >= a.avg_rating ORDER BY multiplier DESC LIMIT 1), 1) AS price FROM all_ct a \
   WHERE start_date <= $1 AND end_date >= $2 \
   AND species = $3 AND breed = $4;";
+
 export const getPetCategories = "SELECT * FROM pet_categories;";
 
 //Queries for reviews

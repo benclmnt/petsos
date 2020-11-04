@@ -13,7 +13,7 @@ function AnimalCapability(props) {
       >
         <option value="small">Small</option>
         <option value="medium">Medium</option>
-        <option value="big">Large</option>
+        <option value="large">Large</option>
       </select>
 
       {/* Species */}

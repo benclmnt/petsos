@@ -1,11 +1,10 @@
 -- Create manual data here
-INSERT INTO caretakers(ctuname, avg_rating, ct_type) VALUES
-('po1', '3.5', 'full-time');
-INSERT INTO caretakers(ctuname, avg_rating, ct_type) VALUES
-('po2', '4.5', 'part-time');
-INSERT INTO caretakers(ctuname, avg_rating, ct_type) VALUES
-('po3', '3', 'part-time');
+INSERT INTO multiplier VALUES (5, 1.25), (4.5, 1.2), (4, 1.15), (3.5, 1.05);
+
 INSERT INTO caretakers(ctuname, ct_type) VALUES
+('po1', 'full-time'),
+('po2', 'part-time'),
+('po3', 'part-time'),
 ('po0', 'part-time');
 
 INSERT into pet_categories(species, breed, size, base_price) VALUES
@@ -20,38 +19,28 @@ INSERT into pet_categories(species, breed, size, base_price) VALUES
 ('cat', 'persian', 'medium', 100),
 ('cat', 'siamese', 'big', 475),
 ('cat', 'sphynx', 'small', 75),
-('cat', 'sphynx', 'big', 75),
+('cat', 'sphynx', 'big', 225),
 ('cat', 'bengal', 'small', 75),
 ('cat', 'birman', 'medium', 125);
 
 INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'dog', 'husky', 'big');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'dog', 'shiba inu', 'medium');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'cat', 'sphynx', 'small');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'cat', 'bengal', 'small');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po1', 'dog', 'cihuahua', 'small');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po1', 'dog', 'pug', 'medium');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po1', 'cat', 'persian', 'medium');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po2', 'dog', 'samoyed', 'big');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po2', 'cat', 'sphynx', 'big');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
+('po0', 'dog', 'husky', 'big'),
+('po0', 'dog', 'shiba inu', 'medium'),
+('po0', 'cat', 'sphynx', 'small'),
+('po0', 'cat', 'bengal', 'small'),
+('po1', 'dog', 'husky', 'big'),
+('po1', 'dog', 'cihuahua', 'small'),
+('po1', 'dog', 'pug', 'medium'),
+('po1', 'cat', 'persian', 'medium'),
+('po2', 'dog', 'samoyed', 'big'),
+('po2', 'cat', 'sphynx', 'big'),
+('po3', 'dog', 'husky', 'big'),
 ('po3', 'cat', 'sphynx', 'big');
 
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po1', '2020-10-25', '2021-03-30'); -- this is full time ct, we ensure 150 days between start and end date
-INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po0', '2021-01-01', '2021-01-20'); -- this is part time ct
-INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po2', '2021-01-01', '2021-01-20');
-INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
+('po1', '2020-10-25', '2021-03-30'), -- this is full time ct, we ensure 150 days between start and end date
+('po0', '2020-01-01', '2021-01-20'), -- this is part time ct
+('po2', '2020-01-01', '2021-01-20'),
 ('po3', '2021-01-04', '2021-01-28');
 
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
@@ -62,16 +51,16 @@ INSERT INTO pets(name, pouname, species, breed, size) VALUES
 ('uwu', 'po0', 'cat', 'bengal', 'small');
 
 INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
-ctuname, pouname, petname, is_win) VALUES (3.9, 50, 'whatever', 'what', 'This ct very nice one',
+ctuname, pouname, petname, is_win) VALUES (3.9, 50, 'cash', 'what', 'This ct very nice one',
 '2020-09-20', '2020-09-28', 'po0', 'po1', 'jeff', true);
 INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
-ctuname, pouname, petname, is_win) VALUES (1, 50, 'whatever', 'what', 'This ct very bad one',
+ctuname, pouname, petname, is_win) VALUES (1, 50, 'cash', 'what', 'This ct very bad one',
 '2020-08-02', '2020-08-10', 'po2', 'po1', 'jeff', true);
 INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
-ctuname, pouname, petname, is_win) VALUES (1.5, 50, 'whatever', 'what', 'This ct ok la',
+ctuname, pouname, petname, is_win) VALUES (1.5, 50, 'cash', 'what', 'This ct ok la',
 '2020-08-03', '2020-08-11', 'po3', 'po0', 'drek', true);
 INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
-ctuname, pouname, petname, is_win) VALUES (4.5, 50, 'whatever', 'what', 'This ct not so bad',
+ctuname, pouname, petname, is_win) VALUES (4.5, 50, 'cash', 'what', 'This ct not so bad',
 '2020-06-15', '2020-06-18', 'po3', 'po1', 'jeff', true);
 
 INSERT INTO pets(name, pouname, species, breed, size) VALUES

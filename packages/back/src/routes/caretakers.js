@@ -1,14 +1,11 @@
 import express from "express";
-import logger from "../logger";
 import { query } from "../db";
 import {
   queryAllCaretakers as getCaretakersQuery,
   queryAllReviews as reviewsQuery,
   queryCaretakerByUsername,
-  getAllCapabilities,
   editCaretakerType as editCaretakerTypeQuery,
-  querySearchCaretakersSignedIn as searchCaretakersQuerySignedIn,
-  querySearchCaretakersSignedOut as searchCaretakersQuerySignedOut,
+  querySearchCaretakers as searchCaretakersQuery,
   upsertCaretakerCapability as upsertCaretakerCapabilityQuery,
   upsertCaretakerAvailability as upsertCaretakerAvailabilityQuery,
   getCapability,
@@ -30,8 +27,7 @@ function getCaretakersRoutes() {
   router.post("/availability", upsertCaretakerAvailability);
   router.post("/capability", upsertCaretakerCapability);
   router.get("/reviews", getAllReviewsByUser);
-  router.get("/searchctsi", querySearchCaretakersSignedIn);
-  router.get("/searchctso", querySearchCaretakersSignedOut);
+  router.get("/searchct", searchCaretakers);
   router.get("/:ctuname", getCaretakerByUsername);
   router.patch("/:ctuname", editCaretakerType);
   router.get("/:ctuname/capabilities", getCaretakerCapability);
@@ -65,7 +61,7 @@ async function getAllCaretakers(req, res) {
 //   });
 // }
 
-async function querySearchCaretakersSignedOut(req, res) {
+async function searchCaretakers(req, res) {
   const { postal_code, start_date, end_date, species, breed } = req.query;
   // const { ctuname, base_price, avg_rating } = req.body;
   const params = [postal_code, start_date, end_date, species, breed];
@@ -75,49 +71,11 @@ async function querySearchCaretakersSignedOut(req, res) {
   }
 
   try {
-    const caretakers = await query(searchCaretakersQuerySignedOut, [
+    const caretakers = await query(searchCaretakersQuery, [
       start_date,
       end_date,
       species,
       breed,
-    ]);
-    console.log(caretakers);
-    // caretakers = caretakers.map(buildCaretakersObject);
-    return buildSuccessResponse(res, {
-      data: caretakers,
-    });
-  } catch (err) {
-    console.log(err);
-    return buildErrorObject(res, {
-      status: 200,
-      error: err.detail,
-    });
-  }
-}
-
-async function querySearchCaretakersSignedIn(req, res) {
-  const {
-    postal_code,
-    start_date,
-    end_date,
-    species,
-    breed,
-    ctuname,
-  } = req.query;
-  // const { ctuname, base_price, avg_rating } = req.body;
-  const params = [postal_code, start_date, end_date, species, breed, ctuname];
-  console.log("params", params);
-  if (checkMissingParameter(params)) {
-    return handleMissingParameter(res);
-  }
-
-  try {
-    const caretakers = await query(searchCaretakersQuerySignedIn, [
-      start_date,
-      end_date,
-      species,
-      breed,
-      ctuname,
     ]);
     console.log(caretakers);
     // caretakers = caretakers.map(buildCaretakersObject);
@@ -326,7 +284,7 @@ function buildCaretakersObject(caretaker) {
   const obj = {
     kind: "Caretaker",
     ...caretaker,
-    selfLink: `/caretakers/${caretaker.ctuname}`,
+    selfLink: `/caretakers/${caretaker?.ctuname}`,
   };
   return obj;
 }

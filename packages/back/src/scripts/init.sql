@@ -2,9 +2,10 @@
 
 DROP TYPE IF EXISTS caretaker_type CASCADE;
 DROP TYPE IF EXISTS pet_size CASCADE;
+DROP TYPE IF EXISTS payment_method CASCADE;
 DROP VIEW IF EXISTS ratings;
 DROP VIEW IF EXISTS all_ct;
-DROP TABLE IF EXISTS cares_for;
+DROP TABLE IF EXISTS multiplier;
 DROP TABLE IF EXISTS bid;
 DROP TABLE IF EXISTS is_capable;
 DROP TABLE IF EXISTS special_reqs;
@@ -20,6 +21,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TYPE caretaker_type AS ENUM ('part-time', 'full-time');
 CREATE TYPE pet_size AS ENUM('small', 'medium', 'large');
+CREATE TYPE payment_method AS ENUM('credit', 'cash');
 
 -- CREATE TABLE address (
 -- 	city VARCHAR,
@@ -35,7 +37,8 @@ CREATE TABLE users (
 	address VARCHAR,
 	city VARCHAR,
 	country VARCHAR,
-	postal_code INTEGER
+	postal_code INTEGER,
+	credit_card NUMERIC(16)
 );
 
 CREATE TABLE pet_owners (
@@ -51,9 +54,7 @@ CREATE TABLE pcs_admin (
 CREATE TABLE caretakers (
     ctuname VARCHAR PRIMARY KEY REFERENCES users(username)
 		ON DELETE CASCADE,
-    avg_rating NUMERIC DEFAULT 3.9,
-	ct_type caretaker_type NOT NULL,
-	CHECK(avg_rating <= 5)
+	ct_type caretaker_type NOT NULL
 );
 
 CREATE TABLE availability_span (
@@ -68,7 +69,7 @@ CREATE TABLE pet_categories (
     species VARCHAR,
     breed VARCHAR,
 	size VARCHAR,
-	base_price NUMERIC, -- NULL is to allow insertion to pet_categories when we add pets / capabilities
+	base_price NUMERIC NOT NULL, -- NOT NULL because we add pet categories only from admin
 	PRIMARY KEY(species, breed, size),
 	CHECK (base_price > 0)
 );
@@ -106,9 +107,9 @@ CREATE TABLE is_capable (
 
 
 CREATE TABLE bid (
-    rating FLOAT(2) CHECK (rating <= 5),
-    price NUMERIC NOT NULL,
-	payment_method VARCHAR NOT NULL,
+    rating FLOAT(5) CHECK (rating <= 5),
+    price NUMERIC(20, 3) NOT NULL,
+	payment_method payment_method NOT NULL,
 	transfer_method VARCHAR NOT NULL,
 	review VARCHAR,
     start_date DATE NOT NULL,
@@ -127,17 +128,25 @@ CREATE TABLE bid (
 	PRIMARY KEY(pouname, petname, start_date, end_date)
 );
 
+CREATE TABLE multiplier (
+	avg_rating FLOAT(5) CHECK (avg_rating <= 5), -- >= avg_rating, get multiplied by multiplier
+	multiplier FLOAT(5),
+	PRIMARY KEY (avg_rating, multiplier)
+);
+
 CREATE VIEW ratings AS (
-    SELECT ctuname, AVG(rating)
+    SELECT ctuname,  round( CAST(avg(rating) as numeric) ) as avg_rating
     FROM bid
     GROUP BY ctuname
 );
 
 CREATE VIEW all_ct AS (
-	SELECT * FROM is_capable B
-		NATURAL JOIN caretakers C
-		NATURAL JOIN availability_span A
-		NATURAL JOIN users AS users(ctuname, email, password, address, city, country, postal_code)
+	SELECT * FROM
+		(caretakers
+			NATURAL JOIN (SELECT username AS ctuname, city, country, postal_code FROM users) AS users
+			NATURAL JOIN (SELECT * FROM is_capable NATURAL JOIN pet_categories) AS cap
+			NATURAL JOIN availability_span) AS ct_avail_cap
+    	NATURAL LEFT JOIN ratings
 );
 
 -- TRIGGERS

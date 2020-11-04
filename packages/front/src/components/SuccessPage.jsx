@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import bg from "../css/success.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import bg from '../css/success.css';
 function SuccessPage() {
   return (
     <div class="success h-screen">

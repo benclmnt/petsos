@@ -5,7 +5,10 @@ import {
   queryOverlap,
   addBid,
   winBid,
-  getBid,
+  getActiveBidsForCt,
+  removeBid,
+  getUpcomingJobs,
+  unwinBid,
   updateRating,
 } from "../db/queries";
 import {
@@ -20,6 +23,10 @@ function getJobsRoutes() {
   router.post("/queryOverlap", getOverlap);
   router.post("/addBid", createBid);
   router.post("/winBid", winBidQuery);
+  router.post("/getBids", getActiveBids);
+  router.post("/removeBid", deleteBid);
+  router.post("/getUpcomingJobs", getUpcomingJobsQuery);
+  router.post("/unwinBid", unwinBidQuery);
   router.post("/updateRating", updateRatingQuery);
   return router;
 }
@@ -102,6 +109,76 @@ async function winBidQuery(req, res) {
       error: "Unable to win bid.",
     });
   }
+}
+
+async function getActiveBids(req, res) {
+  const { ctuname } = req.body;
+  const params = [ctuname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    const bids = await query(getActiveBidsForCt, params);
+    return buildSuccessResponse(res, {
+      data: bids.map(buildBidObject),
+    });
+  } catch (err) {
+    return buildErrorObject(res, {
+      status: 400,
+      error: "Unable to fetch bids.",
+    });
+  }
+}
+
+async function deleteBid(req, res) {
+  const { ctuname, start_date, end_date, pouname, petname } = req.body;
+  const params = [ctuname, start_date, end_date, pouname, petname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  await query(removeBid, params);
+  return buildSuccessResponse(res, {
+    data: "success",
+  });
+}
+async function getUpcomingJobsQuery(req, res) {
+  const { ctuname } = req.body;
+  const params = [ctuname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    const bids = await query(getUpcomingJobs, params);
+    return buildSuccessResponse(res, {
+      data: bids.map(buildBidObject),
+    });
+  } catch (err) {
+    return buildErrorObject(res, {
+      status: 400,
+      error: "Unable to fetch bids.",
+    });
+  }
+}
+
+// LOW PRIORITY TODO: handle returned row from query.
+async function unwinBidQuery(req, res) {
+  const { ctuname, start_date, end_date, pouname, petname } = req.body;
+  const params = [pouname, petname, start_date, end_date, ctuname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  await query(unwinBid, params);
+  return buildSuccessResponse(res, {
+    data: "success",
+  });
 }
 
 async function updateRatingQuery(req, res) {

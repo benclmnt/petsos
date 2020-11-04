@@ -90,7 +90,7 @@ export const queryOverlap =
 	WHERE b.ctuname = $1 and b.is_win AND not isempty(daterange($2, $3, '[]') * daterange(b.start_date, b.end_date, '[]')))\
 	SELECT DISTINCT fb1.price, fb1.payment_method, fb1.transfer_method, fb1.start_date, fb1.end_date, fb1.ctuname, fb1.pouname, fb1.petname\
 	FROM filtered_bid fb1, filtered_bid fb2, filtered_bid fb3, filtered_bid fb4, filtered_bid fb5\
-	WHERE not isempty(daterange(fb1.start_date, fb1.end_date, '[]')\
+	WHERE NOT isempty(daterange(fb1.start_date, fb1.end_date, '[]')\
 	* daterange(fb2.start_date, fb2.end_date, '[]')\
 	* (CASE WHEN (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = $1) IS NULL OR\
 		(SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = $1) < 2\
@@ -98,7 +98,19 @@ export const queryOverlap =
 	ELSE daterange(fb3.start_date, fb3.end_date, '[]')\
 	* daterange(fb4.start_date, fb4.end_date, '[]')\
 	* daterange(fb5.start_date, fb5.end_date, '[]') END)\
-	* daterange($2, $3, '[]'));";
+	* daterange($2, $3, '[]'))\
+	AND (CASE WHEN (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = 'po1') IS NULL OR (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = 'po1') < 2 THEN (fb1.pouname <> fb2.pouname OR fb1.petname <> fb2.petname OR fb1.start_date <> fb2.start_date OR fb1.end_date <> fb2.end_date) ELSE (\
+	(fb1.pouname <> fb2.pouname OR fb1.petname <> fb2.petname OR fb1.start_date <> fb2.start_date OR fb1.end_date <> fb2.end_date) AND \
+	(fb1.pouname <> fb3.pouname OR fb1.petname <> fb3.petname OR fb1.start_date <> fb3.start_date OR fb1.end_date <> fb3.end_date) AND \
+	(fb1.pouname <> fb4.pouname OR fb1.petname <> fb4.petname OR fb1.start_date <> fb4.start_date OR fb1.end_date <> fb4.end_date) AND \
+	(fb1.pouname <> fb5.pouname OR fb1.petname <> fb5.petname OR fb1.start_date <> fb5.start_date OR fb1.end_date <> fb5.end_date) AND \
+	(fb2.pouname <> fb3.pouname OR fb2.petname <> fb3.petname OR fb2.start_date <> fb3.start_date OR fb2.end_date <> fb3.end_date) AND \
+	(fb2.pouname <> fb4.pouname OR fb2.petname <> fb4.petname OR fb2.start_date <> fb4.start_date OR fb2.end_date <> fb4.end_date) AND \
+	(fb2.pouname <> fb5.pouname OR fb2.petname <> fb5.petname OR fb2.start_date <> fb5.start_date OR fb2.end_date <> fb5.end_date) AND \
+	(fb3.pouname <> fb4.pouname OR fb3.petname <> fb4.petname OR fb3.start_date <> fb4.start_date OR fb3.end_date <> fb4.end_date) AND \
+	(fb3.pouname <> fb5.pouname OR fb3.petname <> fb5.petname OR fb3.start_date <> fb5.start_date OR fb3.end_date <> fb5.end_date) AND \
+	(fb4.pouname <> fb5.pouname OR fb4.petname <> fb5.petname OR fb4.start_date <> fb5.start_date OR fb4.end_date <> fb5.end_date)\
+	) END);";
 /* There exists a race condition for pgsql since the insert and select clauses are run concurrently,
  * so the insert may complete when another bid has already won.
  * May consider switching to ON CONFLICT on conditional, although no clear documentation exists on syntax.
@@ -109,11 +121,18 @@ export const addBid =
 	WHERE NOT EXISTS(SELECT * FROM bid WHERE start_date = $4 AND end_date = $5 AND pouname = CAST($7 AS VARCHAR) AND petname=CAST($8 AS VARCHAR) AND is_win);";
 export const winBid =
   "UPDATE bid SET is_win = true WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5\
-	WHERE NOT EXISTS(SELECT * FROM bid WHERE start_date = $3 AND end_date = $4 AND pouname = $1 AND petname=$2 AND is_win\
+	AND NOT EXISTS(SELECT * FROM bid WHERE start_date = $3 AND end_date = $4 AND pouname = $1 AND petname=$2 AND is_win)\
 	RETURNING *;";
+export const getActiveBidsForCt =
+  "SELECT * FROM bid WHERE ctuname = $1 AND start_date > CURRENT_DATE AND NOT is_win;";
+export const removeBid =
+  "DELETE FROM bid WHERE ctuname = $1 AND start_date = $2 AND end_date = $3 AND pouname = $4 AND petname = $5;";
+export const getUpcomingJobs =
+  "SELECT * FROM bid WHERE ctuname = $1 AND end_date > CURRENT_DATE AND is_win;";
+// low priority TODO: RETURNING *
+export const unwinBid =
+  "UPDATE bid SET is_win = false WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5;";
 
-export const getBid =
-  "SELECT * FROM bid WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5;";
 export const updateRating =
   "UPDATE bid SET rating = $6 WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5 RETURNING *;";
 

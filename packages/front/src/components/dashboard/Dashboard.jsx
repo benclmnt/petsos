@@ -82,7 +82,7 @@ function Dashboard() {
                 height="30"
                 className="float-left mr-4"
               />{' '}
-              View Past Orders
+              View Jobs and Past Orders
             </div>
           </Link>
         </div>

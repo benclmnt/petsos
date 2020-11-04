@@ -15,29 +15,35 @@ export const registerUser =
   "INSERT INTO users(username, email, password) VALUES ($1, $2, $3);";
 export const deleteUser = "DELETE FROM users WHERE username = $1;";
 export const editUser =
-  "UPDATE users SET email = $2, address = $3, city = $4, country = $5, postal_code = $6 WHERE username = $1 RETURNING *;";
-export const addPet =
-  "INSERT INTO pets(name, pouname, species, breed, size) VALUES ($1, $2, $3, $4, $5);";
+  "UPDATE users SET email = $2, address = $3, city = $4, country = $5, postal_code = $6 WHERE username = $1 RETURNING *";
 export const addPetCategory =
   "INSERT INTO pet_categories(species, breed, size, base_price) VALUES ($1, $2, $3, $4);";
-export const queryPetByPouname = "SELECT * FROM pets WHERE pouname = $1;";
-export const queryPetByPounameAndName =
-  "SELECT * FROM pets WHERE pouname = $1 AND name = $2;";
-export const deletePetByPounameAndName =
-  "DELETE FROM pets WHERE pouname = $1 AND name = $2 RETURNING *;";
 export const deletePetCategoryBySpeciesBreedSize =
   "DELETE FROM pet_categories WHERE species = $1 AND breed = $2 AND size = $3;";
 export const updatePetCategory =
   "UPDATE pet_categories SET base_price = $4 WHERE species = $1 AND breed = $2 AND size = $3;";
-export const updatePetInfo =
-  "UPDATE pets SET species = $3, breed = $4, size = $5, name = $6 WHERE name = $1 AND pouname = $2 RETURNING *;";
 export const queryPetCategories =
   "SELECT * FROM pet_categories ORDER by species;";
 export const queryPetByName = "SELECT * FROM pets WHERE name = $1;";
 
+// Pet owner related queries
+export const queryPetByPouname = "SELECT * FROM pets WHERE pouname = $1;";
+export const queryPetByPounameAndName =
+  "SELECT * FROM pets WHERE pouname = $1 AND name = $2;";
+export const addPet =
+  "INSERT INTO pets(name, pouname, species, breed, size) VALUES ($1, $2, $3, $4, $5);";
+export const updatePetInfo =
+  "UPDATE pets SET species = $3, breed = $4, size = $5 WHERE name = $1 AND pouname = $2;";
+export const deletePetByPounameAndName =
+  "DELETE FROM pets WHERE pouname = $1 AND name = $2;";
+export const queryOrders =
+  "SELECT *, (start_date < date('now')) as is_past FROM bid WHERE pouname = $1 ORDER BY end_date DESC LIMIT 20;";
+export const setRatingAndReview =
+  "UPDATE bid SET rating = $5, review = $6 WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4;";
+
 // Caretaker-related queries
 export const queryCaretakerByUsername =
-  "SELECT * FROM caretakers WHERE ctuname = $1;";
+  "SELECT c.*, r.avg_rating FROM caretakers c NATURAL LEFT JOIN ratings r WHERE ctuname = $1;";
 export const editCaretakerType =
   "UPDATE caretakers SET ct_type = $2 WHERE ctuname = $1 RETURNING *";
 export const queryBreedsBySpecies =
@@ -65,9 +71,10 @@ export const deleteCapabilities = "DELETE FROM is_capable WHERE ctuname = $1;";
 export const queryAllCaretakers =
   "SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code;";
 export const querySearchCaretakers =
-  "SELECT * FROM all_ct\
-  WHERE start_date <= $1 AND end_date >= $2\
+  "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, base_price * COALESCE((SELECT multiplier FROM multiplier WHERE avg_rating >= a.avg_rating ORDER BY multiplier DESC LIMIT 1), 1) AS price FROM all_ct a \
+  WHERE start_date <= $1 AND end_date >= $2 \
   AND species = $3 AND breed = $4;";
+
 export const getPetCategories = "SELECT * FROM pet_categories;";
 
 //Queries for reviews
@@ -112,8 +119,8 @@ export const petsTakenCareOf =
   "SELECT COUNT(DISTINCT (petname, pouname)) FROM (SELECT petname, pouname, COUNT(*) as freq FROM bid WHERE is_win \
 = true AND date('now') - start_date <= 90 AND start_date <= date('now') GROUP BY pouname, petname) as t;";
 export const petsCareFrequency =
-  "SELECT petname, pouname, COUNT(*) as freq FROM bid WHERE is_win = true AND date('now') - start_date <= 90 AND \
-start_date <= date('now') GROUP BY pouname, petname;";
+  "SELECT pouname, COUNT(*) as freq FROM bid WHERE is_win = true AND date('now') - start_date <= 90 AND \
+start_date <= date('now') GROUP BY pouname;";
 export const allCaretakerInsightQuery =
-  "SELECT ctuname, SUM(price) as total_payout, COUNT(*) as num_jobs, SUM(end_date - start_date) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
+  "SELECT ctuname, SUM(price) as total_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
     FROM bid WHERE is_win = true GROUP BY ctuname, mon, yyyy "; // don't add semicolon here. I'm concatenating it with another string. See caretakers.js (getCaretakerByUsername)

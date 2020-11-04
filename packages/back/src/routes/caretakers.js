@@ -1,11 +1,9 @@
 import express from "express";
-import logger from "../logger";
 import { query } from "../db";
 import {
   queryAllCaretakers as getCaretakersQuery,
   queryAllReviews as reviewsQuery,
   queryCaretakerByUsername,
-  getAllCapabilities,
   editCaretakerType as editCaretakerTypeQuery,
   querySearchCaretakers as searchCaretakersQuery,
   upsertCaretakerCapability as upsertCaretakerCapabilityQuery,
@@ -29,7 +27,7 @@ function getCaretakersRoutes() {
   router.post("/availability", upsertCaretakerAvailability);
   router.post("/capability", upsertCaretakerCapability);
   router.get("/reviews", getAllReviewsByUser);
-  router.get("/searchct", querySearchCaretakers);
+  router.get("/searchct", searchCaretakers);
   router.get("/:ctuname", getCaretakerByUsername);
   router.patch("/:ctuname", editCaretakerType);
   router.get("/:ctuname/capabilities", getCaretakerCapability);
@@ -44,7 +42,6 @@ function getCaretakersRoutes() {
 async function getAllReviewsByUser(req, res) {
   const { ctuname } = req.query;
   const reviews = await query(reviewsQuery, [ctuname, 10]);
-  console.log(reviews);
   return buildSuccessResponse(res, {
     data: reviews,
   });
@@ -64,7 +61,7 @@ async function getAllCaretakers(req, res) {
 //   });
 // }
 
-async function querySearchCaretakers(req, res) {
+async function searchCaretakers(req, res) {
   const { postal_code, start_date, end_date, species, breed } = req.query;
   // const { ctuname, base_price, avg_rating } = req.body;
   const params = [postal_code, start_date, end_date, species, breed];
@@ -172,10 +169,11 @@ async function upsertCaretakerCapability(req, res) {
   try {
     await query(upsertCaretakerCapabilityQuery, params);
   } catch (err) {
-    return buildErrorObject(res, {
-      status: 200,
-      error: err.detail,
-    });
+    throw err;
+    // return buildErrorObject(res, {
+    //   status: 200,
+    //   error: err.detail,
+    // });
   }
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
@@ -225,10 +223,11 @@ async function upsertCaretakerAvailability(req, res) {
   try {
     await query(upsertCaretakerAvailabilityQuery, params);
   } catch (err) {
-    return buildErrorObject(res, {
-      status: 200,
-      error: err.detail,
-    });
+    throw err;
+    // return buildErrorObject(res, {
+    //   status: 200,
+    //   error: err.detail,
+    // });
   }
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
@@ -285,7 +284,7 @@ function buildCaretakersObject(caretaker) {
   const obj = {
     kind: "Caretaker",
     ...caretaker,
-    selfLink: `/caretakers/${caretaker.ctuname}`,
+    selfLink: `/caretakers/${caretaker?.ctuname}`,
   };
   return obj;
 }

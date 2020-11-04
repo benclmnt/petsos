@@ -1,35 +1,49 @@
-import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../../css/datepicker.css";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
-import { toJSONLocal } from "../../utils/dateutils";
-import PetCard from "./PetCard";
-import { getAllPetCategories } from "../../utils/fetchutils";
-import moment from "moment";
+import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../css/datepicker.css';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
+import { toJSONLocal } from '../../utils/dateutils';
+import PetCard from './PetCard';
+import { getAllPetCategories } from '../../utils/fetchutils';
+import moment from 'moment';
 
 function SearchForm({ setShowSearchForm, setSearchResult }) {
   const user = useUser();
   const [capabilities, setCapabilities] = useState([]);
   const [address, setAddress] = useState({
-    country: "Singapore", //user.country,
-    city: "Singapore",
-    postal_code: user == null ? "10000" : user.postal_code,
+    country: 'Singapore', //user.country,
+    city: 'Singapore',
+    postal_code: user == null ? '10000' : user.postal_code,
   });
 
-  const [formState, setFormState] = useState({
-    start_date: new Date(),
-    end_date: new Date(),
-    species: "dog",
-    breed: "samoyed",
-    size: "small",
-    postal_code: user == null ? "100000" : user.postal_code, // TODO: to change to user.postal_code
-    country: user == null ? "Singapore" : user.country,
-    city: user == null ? "Singapore" : user.city,
-  });
+  const [formState, setFormState] = useState(
+    user == null
+      ? {
+          start_date: new Date(),
+          end_date: new Date(),
+          species: '',
+          breed: '',
+          size: '',
+          postal_code: '', // TODO: to change to user.postal_code
+          country: 'Singapore',
+          city: 'Singapore',
+        }
+      : {
+          start_date: new Date(),
+          end_date: new Date(),
+          species: '',
+          breed: '',
+          size: '',
+          postal_code: user.postal_code, // TODO: to change to user.postal_code
+          country: user.country,
+          city: user.city,
+          ctuname: user.username,
+        }
+  );
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
@@ -46,8 +60,8 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   const fetchPets = async () => {
     if (user) {
       try {
-        let link = "/users/";
-        link += user.username + "/pets";
+        let link = '/users/';
+        link += user.username + '/pets';
         const tmp = await fetch(link);
         setPets(Object.values(tmp));
       } catch (err) {
@@ -73,22 +87,28 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     <div className="md:flex space-x-4">
       <select
         name="species"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
-        defaultValue={formState.species}
+        value={formState.species}
       >
-        {/* <option value="2" disabled>Select species</option> */}
+        <option value="" disabled>
+          Select species
+        </option>
         <option value="dog">dog</option>
         <option value="cat">cat</option>
       </select>
 
       <select
         name="breed"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
-        defaultValue={formState.breed}
+        value={formState.breed}
       >
-        {/* <option value="" disabled>Select breed</option> */}
+        <option value="" disabled>
+          Select breed
+        </option>
         {capabilities[formState.species]?.map((item, idx) => (
           <option value={item} key={idx}>
             {item}
@@ -98,14 +118,17 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
       <select
         name="size"
+        required="required"
         className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         onChange={handleChange}
-        defaultValue={formState.size}
+        value={formState.size}
       >
-        {/* <option value="" disabled>Select size</option> */}
-        <option value="big">big</option>
-        <option value="medium">medium</option>
+        <option value="" disabled>
+          Select size
+        </option>
         <option value="small">small</option>
+        <option value="medium">medium</option>
+        <option value="large">large</option>
       </select>
     </div>
   );
@@ -132,8 +155,8 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   );
 
   // Address
-  var countryOptions = ["Singapore"];
-  var cityOptions = ["Singapore"];
+  var countryOptions = ['Singapore'];
+  var cityOptions = ['Singapore'];
 
   var addressOptions = (choices, name) => (
     <select
@@ -145,7 +168,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
       value={address.name}
     >
       <option value="" disabled>
-        Select {name === "postal_code" ? "postal code" : name}
+        Select {name === 'postal_code' ? 'postal code' : name}
       </option>
       {choices.map((x, y) => (
         <option key={y}>{x}</option>
@@ -158,8 +181,8 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   };
 
   // Datepickers
-  const dateFormat = "dd-MM-yyyy";
-  const twoYearsFromNow = new Date(moment().add(2, "years"));
+  const dateFormat = 'dd-MM-yyyy';
+  const twoYearsFromNow = new Date(moment().add(2, 'years'));
 
   const StartDatepicker = () => {
     return (
@@ -207,17 +230,20 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
     };
 
     // generate the query params
-    let link = "/caretakers/searchct?";
+    let link = '/caretakers/searchct?';
+
     const paramsKeyValue = [];
     Object.entries(searchParams).forEach(([key, value]) =>
       paramsKeyValue.push(`${key}=${value}`)
     );
-    link += paramsKeyValue.join("&");
+    link += paramsKeyValue.join('&');
 
     try {
       const tmp = await fetch(link);
       console.log(tmp);
-      setSearchResult((_) => tmp);
+      setSearchResult((_) =>
+        tmp?.filter((ct) => ct.ctuname !== user?.username)
+      );
       setShowSearchForm(false);
     } catch (err) {
       console.error(err);
@@ -251,8 +277,8 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
             What's your address or cross-streets?
           </h1>
           <div className="flex space-x-4">
-            {addressOptions(countryOptions, "country")}
-            {addressOptions(cityOptions, "city")}
+            {addressOptions(countryOptions, 'country')}
+            {addressOptions(cityOptions, 'city')}
             <input
               class="border p-2"
               type="number"

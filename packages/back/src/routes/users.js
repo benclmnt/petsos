@@ -7,6 +7,8 @@ import {
   queryUserByUsername,
   deleteUser as deleteUserQuery,
   editUser as editUserQuery,
+  queryOrders,
+  setRatingAndReview,
 } from "../db/queries";
 import {
   buildErrorObject,
@@ -23,8 +25,54 @@ function getUsersRoutes() {
   router.get("/:username", getUserInfo);
   router.delete("/:username", deleteUser);
   router.patch("/:username", editUserDetails);
+  router.get("/:username/orders", retrieveOrders);
+  router.post("/setRatingAndReview", putRatingAndReview);
   router.get("", listAllUsers);
   return router;
+}
+
+async function putRatingAndReview(req, res) {
+  const { pouname, petname, start_date, end_date, rating, review } = req.body; // GG SQL INJECTION!
+  const params = [pouname, petname, start_date, end_date, rating, review];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(setRatingAndReview, params);
+  } catch (err) {
+    return buildErrorObject(res, {
+      status: 400,
+      error: err.message,
+    });
+  }
+
+  const orders = await query(queryOrders, [pouname]);
+  return buildSuccessResponse(res, {
+    data: orders,
+  });
+}
+
+async function retrieveOrders(req, res) {
+  const { username } = req.params;
+
+  if (checkMissingParameter([username])) {
+    return handleMissingParameter(res);
+  }
+
+  const orders = await query(queryOrders, [username]);
+
+  return buildSuccessResponse(res, {
+    data: {
+      past_orders: orders.filter((order) => order.is_win && order.is_past),
+      future_orders: orders.filter((order) => order.is_win && !order.is_past),
+      pending_bids: orders.filter((order) => !order.is_win && !order.is_past),
+      failed_bids: orders.filter((order) => !order.is_win && order.is_past),
+    },
+  });
 }
 
 /**

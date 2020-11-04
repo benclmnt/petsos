@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import PetCard from "./PetCard";
-import CTOverview from "./CTOverview";
-import "./dashboard.css";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
-import bg from "../../resources/wallpaper2.jpg";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import PetCard from './PetCard';
+import CTOverview from './CTOverview';
+import './dashboard.css';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
+import bg from '../../resources/wallpaper2.jpg';
 
 function Dashboard() {
   const user = useUser();
@@ -30,7 +30,7 @@ function Dashboard() {
         body: {
           name: pets[idx].name,
         },
-        method: "DELETE",
+        method: 'DELETE',
       });
       console.log(result);
       setPets(result.pets);
@@ -54,7 +54,7 @@ function Dashboard() {
             <div className="flex items-center ml-5 z-10">
               <div>
                 <h1 className="py-3">
-                  Welcome back, {user?.username || "Default User Name"}!
+                  Welcome back, {user?.username || 'Default User Name'}!
                 </h1>
                 <Link to="/profile/edit">
                   <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
@@ -68,10 +68,30 @@ function Dashboard() {
                     </button>
                   </Link>
                 )}
+                {!user.is_caretaker && (
+                  <Link to="/becomect">
+                    <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
+                      Become a caretaker
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
           {user.is_caretaker && <CTOverview />}
+
+          <Link to="/profile/orders">
+            <div className="p-4 bg-white rounded-md font-semibold text-2xl">
+              <img
+                src="https://www.flaticon.com/svg/static/icons/svg/1751/1751700.svg"
+                alt=""
+                width="30"
+                height="30"
+                className="float-left mr-4"
+              />{' '}
+              View Past Orders
+            </div>
+          </Link>
         </div>
         <div className="flex flex-col w-auto md:w-1/3 self-stretch z-10">
           <div className="bg-white rounded-lg px-8 py-8">

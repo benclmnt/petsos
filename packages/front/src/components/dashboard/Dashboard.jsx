@@ -68,6 +68,13 @@ function Dashboard() {
                     </button>
                   </Link>
                 )}
+                {!user.is_caretaker && (
+                  <Link to="/becomect">
+                    <button className="w-full text-center hover:bg-orange-400 py-3 px-4 border border-orange-500 rounded">
+                      Become a caretaker
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

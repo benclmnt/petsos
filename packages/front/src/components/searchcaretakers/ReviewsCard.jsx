@@ -12,7 +12,7 @@ function ReviewsCard({ review }) {
 
   return (
     <div>
-      <div className="bg-white w-full md:flex rounded-lg shadow px-10 py-8">
+      <div className="bg-white w-full md:flex rounded-lg shadow px-10 py-8 z-10">
         <div className="w-full">
           {/* Basic information */}
           <div className="flex-col justify-between">
@@ -31,7 +31,7 @@ function ReviewsCard({ review }) {
                   {/* <Typography component="legend">Rating</Typography> */}
                   <Rating
                     name="read-only"
-                    precision={0.5}
+                    precision={0.1}
                     value={review.rating}
                     readOnly
                   />

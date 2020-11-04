@@ -1,4 +1,6 @@
 -- Create manual data here
+INSERT INTO multiplier VALUES (5, 1.25), (4.5, 1.2), (4, 1.15), (3.5, 1.05);
+
 INSERT INTO caretakers(ctuname, ct_type) VALUES
 ('po1', 'full-time'),
 ('po2', 'part-time'),
@@ -22,33 +24,23 @@ INSERT into pet_categories(species, breed, size, base_price) VALUES
 ('cat', 'birman', 'medium', 125);
 
 INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'dog', 'husky', 'big');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'dog', 'shiba inu', 'medium');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'cat', 'sphynx', 'small');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'cat', 'bengal', 'small');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po1', 'dog', 'cihuahua', 'small');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po1', 'dog', 'pug', 'medium');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po1', 'cat', 'persian', 'medium');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po2', 'dog', 'samoyed', 'big');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po2', 'cat', 'sphynx', 'big');
-INSERT INTO is_capable(ctuname, species, breed, size) VALUES
+('po0', 'dog', 'husky', 'big'),
+('po0', 'dog', 'shiba inu', 'medium'),
+('po0', 'cat', 'sphynx', 'small'),
+('po0', 'cat', 'bengal', 'small'),
+('po1', 'dog', 'husky', 'big'),
+('po1', 'dog', 'cihuahua', 'small'),
+('po1', 'dog', 'pug', 'medium'),
+('po1', 'cat', 'persian', 'medium'),
+('po2', 'dog', 'samoyed', 'big'),
+('po2', 'cat', 'sphynx', 'big'),
+('po3', 'dog', 'husky', 'big'),
 ('po3', 'cat', 'sphynx', 'big');
 
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po1', '2020-10-25', '2021-03-30'); -- this is full time ct, we ensure 150 days between start and end date
-INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po0', '2021-01-01', '2021-01-20'); -- this is part time ct
-INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
-('po2', '2021-01-01', '2021-01-20');
-INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
+('po1', '2020-10-25', '2021-03-30'), -- this is full time ct, we ensure 150 days between start and end date
+('po0', '2020-01-01', '2021-01-20'), -- this is part time ct
+('po2', '2020-01-01', '2021-01-20'),
 ('po3', '2021-01-04', '2021-01-28');
 
 INSERT INTO pets(name, pouname, species, breed, size) VALUES

@@ -59,7 +59,7 @@ function CaretakersCard({ caretaker = {} }) {
             >
               <Rating
                 name="read-only"
-                precision={0.5}
+                precision={0.1}
                 value={caretaker.avg_rating}
                 readOnly
               />

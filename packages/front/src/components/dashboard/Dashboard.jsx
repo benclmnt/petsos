@@ -74,18 +74,16 @@ function Dashboard() {
   return (
     <div className="h-screen">
       <img src={bg} className="min-h-screen bg-cover fixed p-0 z-0" />
-      <div className="flex flex-col md:flex-row justify-center pt-20 md:space-x-5 md:space-y-6 z-10">
+      <div className="flex flex-col space-y-4 px-4 pb-8 md:flex-row justify-center pt-20 md:space-x-5 md:space-y-6 z-10">
         <div className="flex flex-col space-y-6 self-stretch z-10">
-          <div className="bg-white rounded-lg p-10 flex flex-row z-10">
+          <div className="bg-white rounded-lg px-10 py-6 flex flex-row z-10">
             <img
               src="https://www.flaticon.com/svg/static/icons/svg/21/21645.svg"
-              className="m-auto"
-              height="150"
-              width="100"
+              className="m-auto w-20 h-20 mr-4"
             />
-            <div className="flex items-center ml-5 z-10">
+            <div className="flex items-center z-10">
               <div>
-                <h1 className="py-3">
+                <h1 className="pb-2 text-lg">
                   Welcome back,{' '}
                   <span className="font-semibold">
                     {user?.username || 'Default User Name'}
@@ -128,7 +126,7 @@ function Dashboard() {
           </div>
           {user.is_caretaker && <CTOverview setRating={setRating} />}
         </div>
-        <div className="flex flex-col space-y-4  w-auto md:w-1/3 self-stretch z-10">
+        <div className="flex flex-col space-y-4 w-auto md:w-1/3 self-stretch z-10">
           <div className="bg-white rounded-lg px-8 py-8">
             <div>
               <div>
@@ -138,7 +136,7 @@ function Dashboard() {
                 </h2>
               </div>
             </div>
-            <div className="mt-5 justify-start grid grid-cols-3 gap-4">
+            <div className="mt-5 justify-start grid md:grid-cols-3 grid-cols-2 gap-4">
               {pets?.map((pet, idx) => (
                 <PetCard
                   className="col-span-1"
@@ -148,17 +146,19 @@ function Dashboard() {
                 />
               ))}
               <Link to="/myPets/add">
-                <PetCard className="col-span-1" pet={null} />
+                <PetCard className="col-span-1" />
               </Link>
             </div>
           </div>
 
-          <Link to="/profile/orders">
-            <button className="flex space-x-4 p-4 border-2 rounded-lg shadow hover:bg-orange-500 hover:border-orange-500 text-white font-semibold text-2xl duration-300 ease-in-out">
-              {receiptIcon}
-              <h1>View Past Orders</h1>
-            </button>
-          </Link>
+          <div>
+            <Link to="/profile/orders">
+              <button className="flex space-x-4 p-4 border-2 rounded-lg shadow bg-orange-500 border-orange-500 hover:bg-orange-600 hover:border-orange-600 text-white font-semibold text-2xl duration-300 ease-in-out">
+                {receiptIcon}
+                <h1>View Past Orders</h1>
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

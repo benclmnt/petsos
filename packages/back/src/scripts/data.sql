@@ -8,34 +8,34 @@ INSERT INTO caretakers(ctuname, ct_type) VALUES
 ('po0', 'part-time');
 
 INSERT into pet_categories(species, breed, size, base_price) VALUES
-('dog', 'husky', 'big', 100),
-('dog', 'golden retriever', 'big', 200),
-('dog', 'alaskan malamute', 'big', 150),
-('dog', 'samoyed', 'big', 230),
+('dog', 'husky', 'large', 100),
+('dog', 'golden retriever', 'large', 200),
+('dog', 'alaskan malamute', 'large', 150),
+('dog', 'samoyed', 'large', 230),
 ('dog', 'pug', 'medium', 350),
 ('dog', 'shiba inu', 'medium', 123),
 ('dog', 'cihuahua', 'small', 456),
 ('dog', 'pom', 'small', 50),
 ('cat', 'persian', 'medium', 100),
-('cat', 'siamese', 'big', 475),
+('cat', 'siamese', 'large', 475),
 ('cat', 'sphynx', 'small', 75),
-('cat', 'sphynx', 'big', 225),
+('cat', 'sphynx', 'large', 225),
 ('cat', 'bengal', 'small', 75),
 ('cat', 'birman', 'medium', 125);
 
 INSERT INTO is_capable(ctuname, species, breed, size) VALUES
-('po0', 'dog', 'husky', 'big'),
+('po0', 'dog', 'husky', 'large'),
 ('po0', 'dog', 'shiba inu', 'medium'),
 ('po0', 'cat', 'sphynx', 'small'),
 ('po0', 'cat', 'bengal', 'small'),
-('po1', 'dog', 'husky', 'big'),
+('po1', 'dog', 'husky', 'large'),
 ('po1', 'dog', 'cihuahua', 'small'),
 ('po1', 'dog', 'pug', 'medium'),
 ('po1', 'cat', 'persian', 'medium'),
-('po2', 'dog', 'samoyed', 'big'),
-('po2', 'cat', 'sphynx', 'big'),
-('po3', 'dog', 'husky', 'big'),
-('po3', 'cat', 'sphynx', 'big');
+('po2', 'dog', 'samoyed', 'large'),
+('po2', 'cat', 'sphynx', 'large'),
+('po3', 'dog', 'husky', 'large'),
+('po3', 'cat', 'sphynx', 'large');
 
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
 ('po1', '2020-10-25', '2021-03-30'), -- this is full time ct, we ensure 150 days between start and end date
@@ -44,9 +44,9 @@ INSERT INTO availability_span(ctuname, start_date, end_date) VALUES
 ('po3', '2021-01-04', '2021-01-28');
 
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
-('jeff', 'po1', 'dog', 'husky', 'big');
+('jeff', 'po1', 'dog', 'husky', 'large');
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
-('drek', 'po0', 'cat', 'siamese', 'big');
+('drek', 'po0', 'cat', 'siamese', 'large');
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
 ('uwu', 'po0', 'cat', 'bengal', 'small');
 
@@ -73,9 +73,9 @@ ctuname, pouname, petname, is_win) VALUES (4.5, 50, 'cash', 'what', 'This ct not
 '2020-06-15', '2020-06-18', 'po3', 'po1', 'jeff', true);
 
 INSERT INTO pets(name, pouname, species, breed, size) VALUES
-('pet1po1', 'po1', 'dog', 'husky', 'big'),
+('pet1po1', 'po1', 'dog', 'husky', 'large'),
 ('pet2po1', 'po1', 'cat', 'bengal', 'small'),
-('pet1po2', 'po2', 'dog', 'samoyed', 'big'),
+('pet1po2', 'po2', 'dog', 'samoyed', 'large'),
 ('pet2po2', 'po2', 'cat', 'persian', 'medium');
 
 INSERT INTO availability_span(ctuname, start_date, end_date) VALUES

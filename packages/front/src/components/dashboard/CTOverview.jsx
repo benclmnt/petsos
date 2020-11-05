@@ -37,7 +37,7 @@ function CTOverview(props) {
       </div>
       <div className="bg-white p-5 rounded-lg">
         {props.setRating(profile.avg_rating)}
-        <h1 className="border-b-2 border-black py-3">Past Reviews</h1>
+        <h1 className="border-b-2 border-black pb-3">Past Reviews</h1>
         <div className="h-32 overflow-y-auto overscroll-contain container">
           {profile.reviews?.map((review) => (
             <div className="py-2 border-b-2">

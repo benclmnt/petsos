@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 function PetCard(props) {
   // const link = "/myPets/" + props.pet.name;
 
-  const iconStyle = 'w-20 h-20 m-auto fill-current';
+  const iconStyle = 'w-16 h-16 md:w-20 md:h-20  m-auto fill-current';
 
   const defaultIcon = (
     <svg
@@ -120,8 +120,8 @@ function PetCard(props) {
     petCardStyle + ' opacity-25 border-dashed border-2 border-black';
 
   return (
-    <div className={props.pet == null ? petCardEmpty : petCardFilled}>
-      {props.pet !== null ? (
+    <div className={props.pet ? petCardFilled : petCardEmpty}>
+      {props.pet ? (
         <button
           className="opacity-50 flex justify-end fill-current text-black hover:text-red-500 hover:opacity-100"
           onClick={props.deletePet}
@@ -132,14 +132,22 @@ function PetCard(props) {
         <div className="w-6 h-6"></div>
       )}
 
-      {props.pet == null
-        ? defaultIcon
-        : props.pet.species === 'dog'
-        ? dog
-        : cat}
-      <h1 className="text-lg mt-5">
-        {props.pet !== null ? props.pet.name : 'Add Pet'}
-      </h1>
+      {props.pet ? (props.pet.species === 'dog' ? dog : cat) : defaultIcon}
+      <div>
+        <h1 className="text-lg font-semibold capitalize">
+          {props.pet ? props.pet.name : 'Add Pet'}
+        </h1>
+        <h2 className="text-md capitalize">
+          {props.pet?.breed}{' '}
+          {props.pet?.size == 'large'
+            ? 'L'
+            : props.pet?.size == 'medium'
+            ? 'M'
+            : props.pet?.size == 'small'
+            ? 'S'
+            : null}
+        </h2>
+      </div>
     </div>
   );
 }

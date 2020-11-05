@@ -43,7 +43,7 @@ export const setRatingAndReview =
 
 // Caretaker-related queries
 export const queryCaretakerByUsername =
-  "SELECT * FROM caretakers WHERE ctuname = $1;";
+  "SELECT c.*, r.avg_rating FROM caretakers c NATURAL LEFT JOIN ratings r WHERE ctuname = $1;";
 export const editCaretakerType =
   "UPDATE caretakers SET ct_type = $2 WHERE ctuname = $1 RETURNING *";
 export const queryBreedsBySpecies =
@@ -70,15 +70,10 @@ export const deleteCapabilities = "DELETE FROM is_capable WHERE ctuname = $1;";
 // Queries to search caretakers
 export const queryAllCaretakers =
   "SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code;";
-export const querySearchCaretakersSignedOut =
-  "SELECT * FROM all_ct\
-  WHERE start_date <= $1 AND end_date >= $2\
+export const querySearchCaretakers =
+  "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, base_price * COALESCE((SELECT multiplier FROM multiplier WHERE avg_rating >= a.avg_rating ORDER BY multiplier DESC LIMIT 1), 1) AS price FROM all_ct a \
+  WHERE start_date <= $1 AND end_date >= $2 \
   AND species = $3 AND breed = $4;";
-
-export const querySearchCaretakersSignedIn =
-  "SELECT * FROM all_ct\
-  WHERE start_date <= $1 AND end_date >= $2\
-  AND species = $3 AND breed = $4 AND ctuname <> $5;";
 
 export const getPetCategories = "SELECT * FROM pet_categories;";
 

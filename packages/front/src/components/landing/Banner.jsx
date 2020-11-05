@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import "../../css/banner.css";
-import logo from "../../resources/petsoslogo.png";
-import bg from "../../resources/wallpaper.jpg";
-import { Link } from "react-router-dom";
-import { useUser } from "../../context/auth-context";
+import React, { useState } from 'react';
+import '../../css/banner.css';
+import logo from '../../resources/petsoslogo.png';
+import bg from '../../resources/wallpaper.jpg';
+import { Link } from 'react-router-dom';
+import { useUser } from '../../context/auth-context';
 
 function Banner() {
   const user = useUser();
@@ -12,9 +12,9 @@ function Banner() {
     <header
       className="banner"
       style={{
-        backgroundSize: "cover",
+        backgroundSize: 'cover',
         backgroundImage: `url(${bg})`,
-        backgroundPosition: "center center",
+        backgroundPosition: 'center center',
       }}
     >
       <div className="text-center m-0 bg-black bg-opacity-75 w-full h-full flex justify-center items-center  md:justify-end lg:bg-transparent md:text-right md:pr-12 md:pt-8">

@@ -1,23 +1,23 @@
-import * as React from "react";
-import { useParams } from "react-router-dom";
-import ReviewsCard from "./ReviewsCard";
-import bg from "../../resources/wallpaper2.jpg";
-import { client as fetch } from "../../utils/client";
-import "./ctprofile.css";
+import * as React from 'react';
+import { useParams } from 'react-router-dom';
+import ReviewsCard from './ReviewsCard';
+import bg from '../../resources/wallpaper2.jpg';
+import { client as fetch } from '../../utils/client';
+import './ctprofile.css';
 
 function CaretakersProfile() {
   const { ctuname } = useParams();
 
   const [ctInfo, setCtInfo] = React.useState({});
   const [reviews, setReviews] = React.useState([]);
-  const [errorMsg, setErrorMsg] = React.useState("");
+  const [errorMsg, setErrorMsg] = React.useState('');
 
   const fetchReviews = async () => {
     try {
       const tmp = await fetch(`/caretakers/reviews?ctuname=${ctuname}`);
       console.log(tmp);
       setReviews(tmp);
-      setErrorMsg("");
+      setErrorMsg('');
     } catch (err) {
       console.error(err);
       setErrorMsg(err?.error);

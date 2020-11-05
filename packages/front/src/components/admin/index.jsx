@@ -1,8 +1,8 @@
-import * as React from "react";
-import { Link as RouterLink, Route } from "react-router-dom";
-import PetCategories from "./PetCategories";
-import AdminHome from "./AdminHome";
-import bg from "../../resources/wallpaper3.jpg";
+import * as React from 'react';
+import { Link as RouterLink, Route } from 'react-router-dom';
+import PetCategories from './PetCategories';
+import AdminHome from './AdminHome';
+import bg from '../../resources/wallpaper3.jpg';
 
 const Link = ({ to, children }) => (
   <RouterLink to={`/admin/${to}`}>{children}</RouterLink>
@@ -60,8 +60,8 @@ export default function Admin() {
       className="h-screen flex"
       style={{
         backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center center",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
       }}
     >
       <div className="flex flex-col space-y-8 my-auto justify-items-center px-16">

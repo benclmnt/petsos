@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { client as fetch } from "../../utils/client";
+import React, { useState, useEffect } from 'react';
+import { client as fetch } from '../../utils/client';
 
 function PetCategoriesAdmin() {
   const [petCategories, setPetCategories] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [species, setSpecies] = useState("");
-  const [breed, setBreed] = useState("");
-  const [size, setSize] = useState("");
-  const [basePrice, setBasePrice] = useState("");
+  const [species, setSpecies] = useState('');
+  const [breed, setBreed] = useState('');
+  const [size, setSize] = useState('');
+  const [basePrice, setBasePrice] = useState('');
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [startItem, setStartItem] = useState("");
+  const [startItem, setStartItem] = useState('');
   const [endItem, setEndItem] = useState(itemsPerPage);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     // GET request using fetch inside useEffect React hook
     async function fetchData() {
-      const result = await fetch("/pets/categories");
+      const result = await fetch('/pets/categories');
       setPetCategories(result);
       setIsLoaded(true);
     }
@@ -97,16 +97,16 @@ function PetCategoriesAdmin() {
     };
 
     try {
-      const result = await fetch("/pets/categories", {
+      const result = await fetch('/pets/categories', {
         body: body,
-        method: isEdit ? "PUT" : "POST",
+        method: isEdit ? 'PUT' : 'POST',
       });
       setPetCategories(result);
-      setSpecies("");
-      setBreed("");
-      setSize("");
-      setBasePrice("");
-      setErrorMsg("");
+      setSpecies('');
+      setBreed('');
+      setSize('');
+      setBasePrice('');
+      setErrorMsg('');
     } catch (error) {
       console.error(error);
       setErrorMsg(error.error);
@@ -156,12 +156,12 @@ function PetCategoriesAdmin() {
       size: sz,
     };
     try {
-      const result = await fetch("/pets/categories", {
+      const result = await fetch('/pets/categories', {
         body,
-        method: "DELETE",
+        method: 'DELETE',
       });
       setPetCategories(result);
-      setErrorMsg("");
+      setErrorMsg('');
     } catch (error) {
       console.error(error);
       setErrorMsg(error.error);
@@ -268,7 +268,7 @@ function PetCategoriesAdmin() {
         <div>
           <h1 className="font-bold text-xl uppercase">Set Pet Category</h1>
           <p className="text-orange-700">
-            {errorMsg !== "" && "Error: " + errorMsg}
+            {errorMsg !== '' && 'Error: ' + errorMsg}
           </p>
         </div>
 
@@ -312,7 +312,7 @@ function PetCategoriesAdmin() {
           className="px-6 py-3 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-sm font-semibold uppercase duration-300 ease-in-out"
           onClick={handleUpsert}
         >
-          {isEdit ? "Edit Pet Category" : "Add Pet Category"}
+          {isEdit ? 'Edit Pet Category' : 'Add Pet Category'}
         </button>
       </div>
     </div>

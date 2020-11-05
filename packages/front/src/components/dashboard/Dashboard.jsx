@@ -25,6 +25,20 @@ function Dashboard() {
 
   const deletedPet = async (e, idx) => {
     e.preventDefault();
+
+    try {
+      const result = await fetch(`/users/${user.username}/specialReq`, {
+        body: {
+          petname: pets[idx].name,
+        },
+        method: 'DELETE',
+      });
+      console.log(result);
+      setPets(result.pets);
+    } catch (error) {
+      console.error(error);
+    }
+
     try {
       const result = await fetch(basePetsAPILink, {
         body: {
@@ -104,14 +118,19 @@ function Dashboard() {
               </div>
             </div>
             <div className="mt-5 justify-start grid grid-cols-2 gap-4">
-              {pets?.map((pet, idx) => (
-                <PetCard
-                  className="col-span-1"
-                  key={pet.name}
-                  petName={pet.name}
-                  deletePet={(e) => deletedPet(e, idx)}
-                />
-              ))}
+              {pets?.map((pet, idx) => {
+                const link = '/myPets/' + pet.name;
+                return (
+                  <Link to={link}>
+                    <PetCard
+                      className="col-span-1"
+                      key={pet.name}
+                      petName={pet.name}
+                      deletePet={(e) => deletedPet(e, idx)}
+                    />
+                  </Link>
+                );
+              })}
               <Link to="/myPets/add">
                 <PetCard className="col-span-1" petName="Add new pet" />
               </Link>

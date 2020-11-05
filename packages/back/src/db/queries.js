@@ -66,6 +66,14 @@ export const upsertCaretakerCapability =
 export const getAllCapabilities =
   "SELECT * FROM is_capable GROUP BY ctuname, species, breed, size;";
 export const deleteCapabilities = "DELETE FROM is_capable WHERE ctuname = $1;";
+export const listAllPetRequirementsQuery =
+  "SELECT * FROM special_reqs WHERE pouname = $1 AND petname = $2;";
+export const addPetSpecialRequirementsQuery =
+  "INSERT INTO special_reqs(pouname, petname, description) VALUES ($1, $2, $3);";
+export const deletePetSpecialRequirementsQuery =
+  "DELETE FROM special_reqs WHERE pouname = $1 AND petname = $2;";
+export const getPetSpecialRequirementsQuery =
+  "SELECT description FROM special_reqs WHERE pouname = $1 AND petname = $2;";
 
 // Queries to search caretakers
 export const queryAllCaretakers =

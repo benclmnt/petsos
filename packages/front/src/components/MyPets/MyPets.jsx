@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router";
-import "./addPet.css";
-import header from "../../resources/dogs-cats-header.png";
-import { client as fetch } from "../../utils/client";
-import { useUser } from "../../context/auth-context";
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
+import './addPet.css';
+import header from '../../resources/dogs-cats-header.png';
+import { client as fetch } from '../../utils/client';
+import { useUser } from '../../context/auth-context';
+import { getAllPetCategories } from '../../utils/fetchutils';
 
 function MyPets() {
-  const [isEdit, setIsEdit] = useState("");
-  const [petSpReq, setSpReq] = useState("");
+  const [isEdit, setIsEdit] = useState('');
   const [pets, setPets] = useState({});
+  const [petCategories, setPetCategories] = useState([]);
   const { name } = useParams();
   const user = useUser();
+  const [petSpReq, setSpReq] = useState([{ description: '' }]);
 
   const basePetsAPIUrl = `/users/${user.username}/pets`;
 
@@ -18,14 +20,58 @@ function MyPets() {
     // GET request using fetch inside useEffect React hook
     async function fetchData() {
       const result = await fetch(basePetsAPIUrl + `/${name}`); // Note to Drake: This will fail if creating new pet (?)
-      console.log(result);
       setPets(result);
+      const result2 = await fetch(`/users/${user.username}/specialReq/${name}`);
       setIsEdit(true);
+      let temp = Object.values(result2);
+      setSpReq(temp.slice(0, temp.length - 2));
     }
-    if (name !== "add") {
+    async function fetchCategories() {
+      const _tmp = await getAllPetCategories();
+      console.log(_tmp);
+      setPetCategories(_tmp);
+    }
+    if (name !== 'add') {
       fetchData();
+      fetchCategories();
     }
+    fetchCategories();
   }, []);
+
+  console.log(petCategories);
+  // Special requirements
+  const handleSpecialReqChange = (name, value, index) => {
+    const list = [...petSpReq];
+    list[index][name] = value;
+    setSpReq(list);
+  };
+
+  const addSpecialReq = () => {
+    setSpReq([...petSpReq, { description: '' }]);
+  };
+
+  const removeSpecialReq = (index) => {
+    const list = [...petSpReq];
+    list.splice(index, 1);
+    setSpReq(list);
+  };
+
+  const PetSpReqPicker = (index) => {
+    return (
+      <textarea
+        selected={petSpReq[index]['description']}
+        required="required"
+        className="block border border-grey-light p-3 rounded mb-4 w-full"
+        value={petSpReq[index]['description']}
+        name="Special requirements"
+        placeholder="Insert any special requirements (allergy, daily walks, pet food, etc.)"
+        rows="2"
+        onChange={(e) =>
+          handleSpecialReqChange('description', e.target.value, index)
+        }
+      />
+    );
+  };
 
   const handleChange = (e) => {
     console.log(e.currentTarget.name);
@@ -36,18 +82,48 @@ function MyPets() {
     });
   };
 
-  console.log(pets);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    let isSuccess = true;
     try {
-      const result = await fetch(basePetsAPIUrl + (isEdit ? `/${name}` : ""), {
+      const result = await fetch(basePetsAPIUrl + (isEdit ? `/${name}` : ''), {
         body: pets,
-        redirectTo: "/dashboard",
       });
       console.log(result);
     } catch (error) {
       console.error(error);
+    }
+
+    try {
+      const result = await fetch(`/users/${user.username}/specialReq`, {
+        body: {
+          petname: name,
+        },
+        method: 'DELETE',
+      });
+      console.log(result);
+      setPets(result.pets);
+    } catch (error) {
+      console.error(error);
+    }
+
+    for (let i = 0; i < petSpReq.length; i++) {
+      const specialReq = {
+        petname: pets.name,
+        description: petSpReq[i]['description'],
+      };
+      try {
+        const result = await fetch(`/users/${user.username}/specialReq`, {
+          body: specialReq,
+        });
+      } catch (err) {
+        console.error(err);
+        isSuccess = false;
+      }
+    }
+
+    if (isSuccess === true) {
+      window.location.assign('/dashboard');
     }
   };
 
@@ -61,9 +137,9 @@ function MyPets() {
           <div className="flex justify-center">
             <button
               className={
-                pets.species === "dog"
-                  ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                  : "petBtn"
+                pets.species === 'dog'
+                  ? 'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                  : 'petBtn'
               }
               name="species"
               value="dog"
@@ -77,9 +153,9 @@ function MyPets() {
             </button>
             <button
               className={
-                pets.species === "cat"
-                  ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                  : "petBtn"
+                pets.species === 'cat'
+                  ? 'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                  : 'petBtn'
               }
               name="species"
               value="cat"
@@ -118,10 +194,14 @@ function MyPets() {
               value={pets.breed}
               required
             >
-              <option value="Siberian">Siberian</option>
-              <option value="Alaskan">Alaskan</option>
-              <option value="Golden Retriever">Golden Retriever</option>
-              <option value="French Bulldog">French Bulldog</option>
+              <option value="" disabled>
+                Select breed
+              </option>
+              {petCategories[pets.species]?.map((item, idx) => (
+                <option value={item} key={idx}>
+                  {item}
+                </option>
+              ))}
             </select>
           </div>
           <div>
@@ -130,9 +210,9 @@ function MyPets() {
             <div className="text-center">
               <button
                 className={
-                  pets.size === "small"
-                    ? "petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                    : "petBtn-sm"
+                  pets.size === 'small'
+                    ? 'petBtn-toggle m-2 w-1/5 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                    : 'petBtn-sm'
                 }
                 name="size"
                 value="small"
@@ -146,9 +226,9 @@ function MyPets() {
               </button>
               <button
                 className={
-                  pets.size === "medium"
-                    ? "petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                    : "petBtn"
+                  pets.size === 'medium'
+                    ? 'petBtn-toggle m-2 w-1/4 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                    : 'petBtn'
                 }
                 name="size"
                 value="medium"
@@ -157,15 +237,15 @@ function MyPets() {
                 <img
                   alt="Medium"
                   src="https://www.flaticon.com/svg/static/icons/svg/2965/2965396.svg"
-                  style={{ transform: "scaleX(-1)" }}
+                  style={{ transform: 'scaleX(-1)' }}
                 />
                 <h3 className="mt-2">Medium</h3>
               </button>
               <button
                 className={
-                  pets.size === "large"
-                    ? "petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100"
-                    : "petBtn-lg"
+                  pets.size === 'large'
+                    ? 'petBtn-toggle m-2 w-1/3 px-6 py-2 border border-black rounded transition-all duration-300 opacity-100'
+                    : 'petBtn-lg'
                 }
                 name="size"
                 value="large"
@@ -182,25 +262,56 @@ function MyPets() {
         </div>
       </section>
 
-      <section className="flex justify-center p-6">
+      {/* Special Requirements */}
+      <div className="flex justify-center p-6">
         <div className="lg:w-1/2 p-6 border rounded bg-white shadow">
-          <label>
-            <h1 className="font-semibold mb-2">Special requirements</h1>
-            <textarea
-              className="block border border-grey-light p-3 rounded mb-4 w-full"
-              value={petSpReq}
-              name="Special requirements"
-              placeholder="Insert any special requirements (allergy, daily walks, pet food, etc.)"
-              rows="5"
-              onChange={(e) => setSpReq(e.target.value)}
-            />
-            <h2 className="opacity-50 text-sm text-center">
-              Be sure to include your pet's typical meal and potty schedule, how
-              much you feed them, and any medication instructions.
-            </h2>
-          </label>
+          <h1 className="font-semibold mb-2">Special requirements</h1>
+          <div>
+            {petSpReq.map((ignore, i) => {
+              return (
+                <div className="flex space-x-4" key={i}>
+                  {PetSpReqPicker(i)}
+
+                  <div className="flex justify-items-end">
+                    {petSpReq.length > 1 && (
+                      <button onClick={(i) => removeSpecialReq(i)}>
+                        <svg
+                          className="h-8 w-8"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                          fill="#b82727"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                    {petSpReq.length - 1 === i && (
+                      <button onClick={addSpecialReq}>
+                        <svg
+                          className="h-8 w-8"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                          fill="#0fa30a"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </section>
+      </div>
 
       <section className="flex justify-center p-6">
         <div>
@@ -209,7 +320,7 @@ function MyPets() {
             onClick={handleSubmit}
             className="border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 font-semibold text-lg px-8 py-4 m-2 duration-500 ease-in-out "
           >
-            {isEdit ? "Edit Pet" : "Add Pet"}
+            {isEdit ? 'Edit Pet' : 'Add Pet'}
           </button>
 
           <button

@@ -33,7 +33,6 @@ function MyPets() {
     }
     if (name !== 'add') {
       fetchData();
-      fetchCategories();
     }
     fetchCategories();
   }, []);

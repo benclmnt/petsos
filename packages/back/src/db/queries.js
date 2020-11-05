@@ -77,7 +77,7 @@ export const getPetSpecialRequirementsQuery =
 export const queryAllCaretakers =
   "SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code;";
 export const querySearchCaretakers =
-  "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, base_price * COALESCE((SELECT multiplier FROM multiplier WHERE a.avg_rating >= avg_rating ORDER BY multiplier DESC LIMIT 1), 1) AS price FROM all_ct a \
+  "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, to_char(base_price * COALESCE((SELECT multiplier FROM multiplier WHERE a.avg_rating >= avg_rating ORDER BY multiplier DESC LIMIT 1), 1), 'FM999999999.00') AS price FROM all_ct a \
   WHERE start_date <= $1 AND end_date >= $2 \
   AND species = $3 AND breed = $4;";
 

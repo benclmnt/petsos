@@ -121,7 +121,6 @@ async function getCaretakerByUsername(req, res) {
   }
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
-  checkCaretakerExists(res, caretakers);
 
   const insight = await query(
     getPayoutQuery +
@@ -287,13 +286,4 @@ function buildCaretakersObject(caretaker) {
     selfLink: `/caretakers/${caretaker?.ctuname}`,
   };
   return obj;
-}
-
-function checkCaretakerExists(res, caretakers) {
-  if (caretakers.length === 0) {
-    return buildErrorObject(res, {
-      status: 400,
-      error: "Cannot find caretaker",
-    });
-  }
 }

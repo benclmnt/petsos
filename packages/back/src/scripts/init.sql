@@ -3,8 +3,8 @@
 DROP TYPE IF EXISTS caretaker_type CASCADE;
 DROP TYPE IF EXISTS pet_size CASCADE;
 DROP TYPE IF EXISTS payment_method CASCADE;
-DROP VIEW IF EXISTS ratings;
 DROP VIEW IF EXISTS all_ct;
+DROP VIEW IF EXISTS ratings;
 DROP TABLE IF EXISTS multiplier;
 DROP TABLE IF EXISTS bid;
 DROP TABLE IF EXISTS is_capable;
@@ -38,12 +38,7 @@ CREATE TABLE users (
 	city VARCHAR,
 	country VARCHAR,
 	postal_code INTEGER,
-	credit_card NUMERIC(16)
-);
-
-CREATE TABLE pet_owners (
-    username VARCHAR PRIMARY KEY REFERENCES users(username)
-		ON DELETE CASCADE
+	credit_card VARCHAR(16)
 );
 
 CREATE TABLE pcs_admin (
@@ -76,7 +71,7 @@ CREATE TABLE pet_categories (
 
 CREATE TABLE pets (
     name VARCHAR,
-    pouname VARCHAR REFERENCES pet_owners(username)
+    pouname VARCHAR REFERENCES users(username)
 		ON DELETE CASCADE,
 	species VARCHAR NOT NULL,
     breed VARCHAR,
@@ -121,7 +116,7 @@ CREATE TABLE bid (
 	petname VARCHAR NOT NULL,
 	is_win BOOLEAN NOT NULL DEFAULT false,
 	CHECK (ctuname <> pouname),
-	CHECK (NOT ((NOT is_win) AND (rating is NOT NULL OR review is NOT NULL))), -- this checks that rating and review can only be available if its a winning bid
+	CHECK (NOT ((NOT is_win OR date('now') < end_date) AND (rating is NOT NULL OR review is NOT NULL))), -- this checks that rating and review can only be available if its a winning bid
 	-- CHECK (start_date >= ct_avail_start AND end_date <= ct_avail_end),
 	FOREIGN KEY (pouname, petname) REFERENCES pets(pouname, name),
 	-- FOREIGN KEY (ctuname, ct_avail_start, ct_avail_end) REFERENCES availability_span(ctuname, start_date, end_date),
@@ -153,18 +148,18 @@ CREATE VIEW all_ct AS (
 
 -- make every user a pet owner.
 
-CREATE OR REPLACE FUNCTION user_is_pet_owner() RETURNS trigger AS
-$$
-	BEGIN
-		INSERT INTO pet_owners(username) VALUES (NEW.username);
-	RETURN NEW;
-	END;
-$$
-LANGUAGE plpgsql;
+-- CREATE OR REPLACE FUNCTION user_is_pet_owner() RETURNS trigger AS
+-- $$
+-- 	BEGIN
+-- 		INSERT INTO pet_owners(username) VALUES (NEW.username);
+-- 	RETURN NEW;
+-- 	END;
+-- $$
+-- LANGUAGE plpgsql;
 
-CREATE TRIGGER user_is_pet_owner
-	AFTER INSERT ON users
-	FOR EACH ROW EXECUTE PROCEDURE user_is_pet_owner();
+-- CREATE TRIGGER user_is_pet_owner
+-- 	AFTER INSERT ON users
+-- 	FOR EACH ROW EXECUTE PROCEDURE user_is_pet_owner();
 
 -- insert pet category to pet_categories if it doesnt exist yet. Not sure if we still need it. Triggered by upsert to is_capable and pets
 

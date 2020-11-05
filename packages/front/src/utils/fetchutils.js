@@ -1,9 +1,9 @@
-import { client as fetch } from "./client";
+import { client as fetch } from './client';
 
 export const getAllPetCategories = async () => {
   const _tmp = {};
   try {
-    const allPetCategories = await fetch("/pets/categories");
+    const allPetCategories = await fetch('/pets/categories');
     for (let category of allPetCategories) {
       if (!_tmp[category.species]) {
         _tmp[category.species] = [];

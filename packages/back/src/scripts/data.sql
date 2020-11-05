@@ -54,6 +54,15 @@ INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_da
 ctuname, pouname, petname, is_win) VALUES (3.9, 50, 'cash', 'what', 'This ct very nice one',
 '2020-09-20', '2020-09-28', 'po0', 'po1', 'jeff', true);
 INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
+ctuname, pouname, petname, is_win) VALUES (3.9, 50, 'cash', 'what', 'This ct very nice one',
+'2020-09-29', '2020-09-30', 'po0', 'po1', 'jeff', true);
+INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
+ctuname, pouname, petname, is_win) VALUES (3.9, 50, 'cash', 'what', 'This ct very nice one',
+'2020-10-01', '2020-10-07', 'po0', 'po1', 'jeff', true);
+INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
+ctuname, pouname, petname, is_win) VALUES (3.9, 50, 'cash', 'what', 'This ct very nice one',
+'2020-10-08', '2020-10-14', 'po0', 'po1', 'jeff', true);
+INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,
 ctuname, pouname, petname, is_win) VALUES (1, 50, 'cash', 'what', 'This ct very bad one',
 '2020-08-02', '2020-08-10', 'po2', 'po1', 'jeff', true);
 INSERT INTO bid(rating, price, payment_method, transfer_method, review, start_date, end_date,

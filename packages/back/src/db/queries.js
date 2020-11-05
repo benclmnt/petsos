@@ -91,13 +91,13 @@ export const queryOverlap =
 	WHERE NOT isempty(daterange(fb1.start_date, fb1.end_date, '[]')\
 	* daterange(fb2.start_date, fb2.end_date, '[]')\
 	* (CASE WHEN (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = $1) IS NULL OR\
-		(SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = $1) < 2\
+		(SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = $1) < 4\
 	THEN daterange('-infinity', 'infinity')\
 	ELSE daterange(fb3.start_date, fb3.end_date, '[]')\
 	* daterange(fb4.start_date, fb4.end_date, '[]')\
 	* daterange(fb5.start_date, fb5.end_date, '[]') END)\
 	* daterange($2, $3, '[]'))\
-	AND (CASE WHEN (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = 'po1') IS NULL OR (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = 'po1') < 2 THEN (fb1.pouname <> fb2.pouname OR fb1.petname <> fb2.petname OR fb1.start_date <> fb2.start_date OR fb1.end_date <> fb2.end_date) ELSE (\
+	AND (CASE WHEN (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = 'po1') IS NULL OR (SELECT AVG(rating) FROM bid WHERE is_win AND ctuname = 'po1') < 4 THEN (fb1.pouname <> fb2.pouname OR fb1.petname <> fb2.petname OR fb1.start_date <> fb2.start_date OR fb1.end_date <> fb2.end_date) ELSE (\
 	(fb1.pouname <> fb2.pouname OR fb1.petname <> fb2.petname OR fb1.start_date <> fb2.start_date OR fb1.end_date <> fb2.end_date) AND \
 	(fb1.pouname <> fb3.pouname OR fb1.petname <> fb3.petname OR fb1.start_date <> fb3.start_date OR fb1.end_date <> fb3.end_date) AND \
 	(fb1.pouname <> fb4.pouname OR fb1.petname <> fb4.petname OR fb1.start_date <> fb4.start_date OR fb1.end_date <> fb4.end_date) AND \

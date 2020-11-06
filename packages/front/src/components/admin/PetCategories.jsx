@@ -24,6 +24,35 @@ function PetCategoriesAdmin() {
     fetchData();
   }, []);
 
+  const tableLength = petCategories.length - 2;
+  let table;
+
+  function pages(length) {
+    let a = [];
+    for (var i = 0; i < Math.ceil(length / itemsPerPage); i++) {
+      a[i] = i + 1;
+    }
+    return a;
+  }
+
+  let tablePages = pages(tableLength).map((item, idx) => {
+    const start = (item - 1) * itemsPerPage;
+    const end = item * itemsPerPage;
+    return (
+      <button
+        key={idx}
+        onClick={(e) => {
+          e.preventDefault();
+          setStartItem(start);
+          setEndItem(end);
+        }}
+        className="focus:font-bold focus:outline-none"
+      >
+        {item}
+      </button>
+    );
+  });
+
   const editIcon = (
     <svg
       class="w-6 h-6"
@@ -57,35 +86,6 @@ function PetCategoriesAdmin() {
       ></path>
     </svg>
   );
-
-  const tableLength = petCategories.length - 2;
-  let table;
-
-  function pages(length) {
-    let a = [];
-    for (var i = 0; i < Math.ceil(length / itemsPerPage); i++) {
-      a[i] = i + 1;
-    }
-    return a;
-  }
-
-  let tablePages = pages(tableLength).map((item, idx) => {
-    const start = (item - 1) * itemsPerPage;
-    const end = item * itemsPerPage;
-    return (
-      <button
-        key={idx}
-        onClick={(e) => {
-          e.preventDefault();
-          setStartItem(start);
-          setEndItem(end);
-        }}
-        className="focus:font-bold focus:outline-none"
-      >
-        {item}
-      </button>
-    );
-  });
 
   const handleUpsert = async (e) => {
     e.preventDefault();
@@ -216,6 +216,9 @@ function PetCategoriesAdmin() {
   const inputStyle =
     'rounded-md border-2 border-orange-900 border-opacity-25 p-2 capitalize';
 
+  const headerStyle =
+    'border-b-2 border-t-2 border-orange-900 px-4 py-2 text-orange-900';
+
   return (
     <div className="flex mx-auto my-auto text-orange-900 text-center w-full md:px-48">
       <div className="bg-white space-y-4 px-10 py-6 mx-auto rounded-lg shadow-lg">
@@ -250,18 +253,10 @@ function PetCategoriesAdmin() {
         <table className="justify-self-stretch border-collapse border-orange-900 border-r-0 border-b-0 my-5 capitalize">
           <thead>
             <tr>
-              <th className="border-b-2 border-t-2 border-orange-900 px-4 py-2 text-orange-900">
-                Species
-              </th>
-              <th className="border-b-2 border-t-2 border-orange-900 px-4 py-2 text-orange-900">
-                Breed
-              </th>
-              <th className="border-b-2 border-t-2 border-orange-900 px-4 py-2 text-orange-900">
-                Size
-              </th>
-              <th className="border-b-2 border-t-2 border-orange-900 px-4 py-2 text-orange-900">
-                Base Price
-              </th>
+              <th className={headerStyle}>Species</th>
+              <th className={headerStyle}>Breed</th>
+              <th className={headerStyle}>Size</th>
+              <th className={headerStyle}>Base Price</th>
             </tr>
           </thead>
           <tbody>{table}</tbody>

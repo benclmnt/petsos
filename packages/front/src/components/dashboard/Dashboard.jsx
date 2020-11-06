@@ -155,7 +155,7 @@ function Dashboard() {
             <Link to="/profile/orders">
               <button className="flex space-x-4 p-4 border-2 rounded-lg shadow bg-orange-500 border-orange-500 hover:bg-orange-600 hover:border-orange-600 text-white font-semibold text-2xl duration-300 ease-in-out">
                 {receiptIcon}
-                <h1>View Past Orders</h1>
+                <h1>View Jobs and Past Orders</h1>
               </button>
             </Link>
           </div>

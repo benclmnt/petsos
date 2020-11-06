@@ -47,6 +47,8 @@ function EditProfile() {
       <h1>{profile.username}</h1>
       <h1 className="font-bold">Email:</h1>
       <h1>{profile.email}</h1>
+      <h1 className="font-bold">Credit Card:</h1>
+      <h1>{profile.credit_card}</h1>
     </div>
   );
 
@@ -57,7 +59,16 @@ function EditProfile() {
       <label className="font-bold">Email:</label>
       <input
         type="text"
+        name="email"
         placeholder={profile.email}
+        className="border border-grey-light w-auto px-4 py-2 rounded mb-4 block md:text-left md:mb-0 pr-4"
+        onChange={handleChange}
+      ></input>
+      <label className="font-bold">Credit card:</label>
+      <input
+        type="text"
+        name="credit_card"
+        placeholder={profile.credit_card}
         className="border border-grey-light w-auto px-4 py-2 rounded mb-4 block md:text-left md:mb-0 pr-4"
         onChange={handleChange}
       ></input>

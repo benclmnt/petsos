@@ -231,7 +231,6 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
     // generate the query params
     let link = '/caretakers/searchct?';
-
     const paramsKeyValue = [];
     Object.entries(searchParams).forEach(([key, value]) =>
       paramsKeyValue.push(`${key}=${value}`)

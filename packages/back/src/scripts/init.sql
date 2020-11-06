@@ -3,8 +3,8 @@
 DROP TYPE IF EXISTS caretaker_type CASCADE;
 DROP TYPE IF EXISTS pet_size CASCADE;
 DROP TYPE IF EXISTS payment_method CASCADE;
-DROP VIEW IF EXISTS ratings;
 DROP VIEW IF EXISTS all_ct;
+DROP VIEW IF EXISTS ratings;
 DROP TABLE IF EXISTS multiplier;
 DROP TABLE IF EXISTS bid;
 DROP TABLE IF EXISTS is_capable;
@@ -31,12 +31,7 @@ CREATE TABLE users (
 	city VARCHAR,
 	country VARCHAR,
 	postal_code INTEGER,
-	credit_card NUMERIC(16)
-);
-
-CREATE TABLE pet_owners (
-    username VARCHAR PRIMARY KEY REFERENCES users(username)
-		ON DELETE CASCADE
+	credit_card VARCHAR(16)
 );
 
 CREATE TABLE pcs_admin (
@@ -69,7 +64,7 @@ CREATE TABLE pet_categories (
 
 CREATE TABLE pets (
     name VARCHAR,
-    pouname VARCHAR REFERENCES pet_owners(username)
+    pouname VARCHAR REFERENCES users(username)
 		ON DELETE CASCADE,
 	species VARCHAR NOT NULL,
     breed VARCHAR,
@@ -100,8 +95,8 @@ CREATE TABLE is_capable (
 
 
 CREATE TABLE bid (
-    rating FLOAT(5) CHECK (rating <= 5),
-    price NUMERIC(20, 3) NOT NULL,
+    rating FLOAT(5) CHECK (rating >= 0 AND rating <= 5),
+    price NUMERIC(20, 3), -- we auto generate the price using after insert trigger
 	payment_method payment_method NOT NULL,
 	transfer_method VARCHAR NOT NULL,
 	review VARCHAR,
@@ -114,13 +109,15 @@ CREATE TABLE bid (
 	petname VARCHAR NOT NULL,
 	is_win BOOLEAN NOT NULL DEFAULT false,
 	CHECK (ctuname <> pouname),
-	CHECK (NOT ((NOT is_win) AND (rating is NOT NULL OR review is NOT NULL))), -- this checks that rating and review can only be available if its a winning bid
+	CHECK (NOT ((NOT is_win OR date('now') < end_date) AND (rating is NOT NULL OR review is NOT NULL))), -- this checks that rating and review can only be available if its a winning bid
+	-- CHECK (start_date >= ct_avail_start AND end_date <= ct_avail_end),
 	FOREIGN KEY (pouname, petname) REFERENCES pets(pouname, name),
-	PRIMARY KEY(pouname, petname, start_date, end_date)
+	-- FOREIGN KEY (ctuname, ct_avail_start, ct_avail_end) REFERENCES availability_span(ctuname, start_date, end_date),
+	PRIMARY KEY(pouname, petname, ctuname, start_date, end_date)
 );
 
 CREATE TABLE multiplier (
-	avg_rating FLOAT(5) CHECK (avg_rating <= 5), -- >= avg_rating, get multiplied by multiplier
+	avg_rating FLOAT(5) CHECK (avg_rating >= 0 AND avg_rating <= 5), -- >= avg_rating, get multiplied by multiplier
 	multiplier FLOAT(5),
 	PRIMARY KEY (avg_rating, multiplier)
 );
@@ -144,18 +141,18 @@ CREATE VIEW all_ct AS (
 
 -- make every user a pet owner.
 
-CREATE OR REPLACE FUNCTION user_is_pet_owner() RETURNS trigger AS
-$$
-	BEGIN
-		INSERT INTO pet_owners(username) VALUES (NEW.username);
-	RETURN NEW;
-	END;
-$$
-LANGUAGE plpgsql;
+-- CREATE OR REPLACE FUNCTION user_is_pet_owner() RETURNS trigger AS
+-- $$
+-- 	BEGIN
+-- 		INSERT INTO pet_owners(username) VALUES (NEW.username);
+-- 	RETURN NEW;
+-- 	END;
+-- $$
+-- LANGUAGE plpgsql;
 
-CREATE TRIGGER user_is_pet_owner
-	AFTER INSERT ON users
-	FOR EACH ROW EXECUTE PROCEDURE user_is_pet_owner();
+-- CREATE TRIGGER user_is_pet_owner
+-- 	AFTER INSERT ON users
+-- 	FOR EACH ROW EXECUTE PROCEDURE user_is_pet_owner();
 
 -- insert pet category to pet_categories if it doesnt exist yet. Not sure if we still need it. Triggered by upsert to is_capable and pets
 
@@ -198,7 +195,7 @@ $$
 
 		IF FLAG = 1 THEN
 			IF date(NEW.start_date) + interval '150 days' > date(NEW.end_date) THEN
-				RAISE EXCEPTION 'DATE RANGE UNDER 150 DAYS!';
+				RAISE EXCEPTION 'Availability span for full time caretakers should be at least 150 days!';
 				RETURN NULL;
 			END IF;
 		END IF;
@@ -273,12 +270,16 @@ CREATE TRIGGER maintain_availability_non_overlapness
 CREATE OR REPLACE FUNCTION calculate_price() RETURNS trigger AS
 $$
 	DECLARE bp NUMERIC := 0;
+	DECLARE ct_rating FLOAT(5) := 0;
 	BEGIN
 		SELECT COALESCE(base_price, 0) into bp
 			FROM pets p NATURAL JOIN pet_categories pc
 			WHERE p.name = NEW.petname AND p.pouname = NEW.pouname;
 		-- RAISE NOTICE '%', bp;
-		UPDATE bid SET price = bp * (NEW.end_date - NEW.start_date + 1)
+		SELECT avg_rating into ct_rating
+			FROM ratings
+			WHERE ctuname = NEW.ctuname;
+		UPDATE bid SET price = bp * (NEW.end_date - NEW.start_date + 1) * COALESCE((SELECT multiplier FROM multiplier WHERE ct_rating >= avg_rating ORDER BY multiplier DESC LIMIT 1), 1)
 			WHERE petname = NEW.petname AND pouname = NEW.pouname AND start_date = NEW.start_date AND end_date = NEW.end_date;
 		RETURN NULL;
 	END;
@@ -288,5 +289,30 @@ LANGUAGE plpgsql;
 CREATE TRIGGER calculate_price
 	AFTER INSERT ON bid
 	FOR EACH ROW EXECUTE PROCEDURE calculate_price();
+
+-- enforce each pet to only have 1 ct at a time (for bids that is win)
+CREATE OR REPLACE FUNCTION pet_only_1_caretaker_anytime() RETURNS trigger AS
+$$
+	DECLARE counter INTEGER := 0;
+	BEGIN
+		SELECT COUNT(*) into counter
+			FROM bid b
+			WHERE b.petname = NEW.petname AND b.pouname = NEW.pouname
+			AND (start_date, end_date) overlaps (NEW.start_date, NEW.end_date)
+			AND is_win = true;
+			-- allows end_date = next start_date.
+
+		IF counter > 0 THEN
+			RAISE EXCEPTION 'There is an ongoing job for the pet with the given timeframe!';
+			RETURN NULL;
+		END IF;
+		RETURN NEW;
+	END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER pet_only_1_caretaker_anytime
+	BEFORE INSERT ON bid
+	FOR EACH ROW EXECUTE PROCEDURE pet_only_1_caretaker_anytime();
 
 -- SEED DATA

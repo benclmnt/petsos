@@ -5,7 +5,10 @@ import {
   queryOverlap,
   addBid,
   winBid,
-  getBid,
+  getActiveBidsForCt,
+  removeBid,
+  getUpcomingJobs,
+  unwinBid,
   updateRating,
 } from "../db/queries";
 import {
@@ -17,9 +20,13 @@ import {
 
 function getJobsRoutes() {
   const router = express.Router();
-  router.post("/queryOverlap", queryOverlap);
+  router.post("/queryOverlap", getOverlap);
   router.post("/addBid", createBid);
   router.post("/winBid", winBidQuery);
+  router.post("/getBids", getActiveBids);
+  router.post("/removeBid", deleteBid);
+  router.post("/getUpcomingJobs", getUpcomingJobsQuery);
+  router.post("/unwinBid", unwinBidQuery);
   router.post("/updateRating", updateRatingQuery);
   return router;
 }
@@ -32,9 +39,11 @@ async function getOverlap(req, res) {
     return handleMissingParameter(res);
   }
 
-  const overlaps = await query(queryOverlap);
+  const overlaps = await query(queryOverlap, params);
+  console.log(overlaps);
+
   return buildSuccessResponse(res, {
-    overlap: overlaps.map(buildOverlapObject),
+    data: overlaps,
   });
 }
 
@@ -61,10 +70,11 @@ async function createBid(req, res) {
   ];
 
   if (checkMissingParameter(params)) {
-    return handleMissingParmater(res);
+    return handleMissingParameter(res);
   }
 
   try {
+    console.log(params);
     await query(addBid, params);
   } catch (err) {
     return buildErrorObject(res, {
@@ -73,7 +83,7 @@ async function createBid(req, res) {
     });
   }
 
-  getBidParams = [params[6], params[7], params[3], params[4], params[5]];
+  let getBidParams = [params[6], params[7], params[3], params[4], params[5]];
   const bids = await query(getBid, getBidParams);
   return buildSuccessResponse(res, {
     data: buildBidObject(bids[0]),
@@ -99,6 +109,76 @@ async function winBidQuery(req, res) {
       error: "Unable to win bid.",
     });
   }
+}
+
+async function getActiveBids(req, res) {
+  const { ctuname } = req.body;
+  const params = [ctuname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    const bids = await query(getActiveBidsForCt, params);
+    return buildSuccessResponse(res, {
+      data: bids.map(buildBidObject),
+    });
+  } catch (err) {
+    return buildErrorObject(res, {
+      status: 400,
+      error: "Unable to fetch bids.",
+    });
+  }
+}
+
+async function deleteBid(req, res) {
+  const { ctuname, start_date, end_date, pouname, petname } = req.body;
+  const params = [ctuname, start_date, end_date, pouname, petname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  await query(removeBid, params);
+  return buildSuccessResponse(res, {
+    data: "success",
+  });
+}
+async function getUpcomingJobsQuery(req, res) {
+  const { ctuname } = req.body;
+  const params = [ctuname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    const bids = await query(getUpcomingJobs, params);
+    return buildSuccessResponse(res, {
+      data: bids.map(buildBidObject),
+    });
+  } catch (err) {
+    return buildErrorObject(res, {
+      status: 400,
+      error: "Unable to fetch bids.",
+    });
+  }
+}
+
+// LOW PRIORITY TODO: handle returned row from query.
+async function unwinBidQuery(req, res) {
+  const { ctuname, start_date, end_date, pouname, petname } = req.body;
+  const params = [pouname, petname, start_date, end_date, ctuname];
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  await query(unwinBid, params);
+  return buildSuccessResponse(res, {
+    data: "success",
+  });
 }
 
 async function updateRatingQuery(req, res) {
@@ -129,13 +209,13 @@ export { getJobsRoutes };
  * PRIVATE FUNCTIONS
  */
 
-function buildOverlapObject(job) {
+/*function buildOverlapObject(job) {
   const obj = {
     kind: "Overlap",
     ...job,
   };
   return obj;
-}
+}*/
 
 function buildBidObject(bid) {
   const obj = {

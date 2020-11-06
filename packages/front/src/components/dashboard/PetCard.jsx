@@ -134,9 +134,7 @@ function PetCard(props) {
 
       {props.pet ? (props.pet.species === 'dog' ? dog : cat) : defaultIcon}
       <div>
-        <h1 className="text-lg font-semibold capitalize">
-          {props.pet ? props.pet.name : 'Add Pet'}
-        </h1>
+        <h1 className="text-lg font-semibold capitalize">{props.pet?.name}</h1>
         <h2 className="text-md capitalize">
           {props.pet?.breed}{' '}
           {props.pet?.size == 'large'
@@ -147,6 +145,9 @@ function PetCard(props) {
             ? 'S'
             : null}
         </h2>
+        {!props.pet && (
+          <h1 className="text-lg font-semibold capitalize py-2">Add Pet</h1>
+        )}
       </div>
     </div>
   );

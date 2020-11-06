@@ -132,7 +132,7 @@ function Dashboard() {
               <div>
                 <h1 className="text-3xl font-bold">Your Pets</h1>
                 <h2 className="text-base font-medium opacity-50">
-                  Add your pets!
+                  Add your pets or edit their info!
                 </h2>
               </div>
             </div>

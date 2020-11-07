@@ -158,7 +158,7 @@ function Dashboard() {
                     <PetCard
                       className="col-span-1"
                       key={pet.name}
-                      petName={pet.name}
+                      pet={pet}
                       deletePet={(e) => deletedPet(e, idx)}
                     />
                   </Link>

@@ -46,7 +46,7 @@ CREATE TABLE caretakers (
 );
 
 CREATE TABLE availability_span (
-	ctuname VARCHAR REFERENCES caretakers(ctuname),
+	ctuname VARCHAR REFERENCES caretakers(ctuname) ON DELETE CASCADE,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     PRIMARY KEY (ctuname, start_date, end_date),

@@ -154,8 +154,8 @@ export const allCaretakerInsightQuery =
 export const getPayout =
   "SELECT *, CASE when ct_type = 'full-time' then (3000 + raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8) else (raw_payout * 0.75) end AS total_payout \
   FROM (" +
-  allCaretakerInsightQuery +
-  ", start_date, end_date HAVING ctuname = $1 AND end_date <= date('now') AND start_date >= date('now') - interval '1 month' ) AS tmp NATURAL JOIN caretakers;";
+  "SELECT ctuname, SUM(price) as raw_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
+    FROM bid b WHERE is_win = true AND end_date <= date('now') AND start_date >= date('now') - interval '1 month' GROUP BY ctuname, mon, yyyy HAVING ctuname = $1  ) AS tmp NATURAL JOIN caretakers;";
 
 export const getProfit =
   "SELECT to_char(SUM(CASE when ct_type = 'full-time' then (raw_payout - raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8 - 3000) else (raw_payout * 0.25) end), 'FM999999999.00') AS total_profit \

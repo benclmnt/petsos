@@ -12,20 +12,29 @@ FCT_NUMBER = 2
 PCT_NUMBER = 2
 WIN_BID_PERCENTAGE = 0.4
 
-pet_categories = [('dog', 'husky', 'large', 100),
-('dog', 'golden retriever', 'large', 200),
-('dog', 'alaskan malamute', 'large', 150),
-('dog', 'samoyed', 'large', 230),
-('dog', 'pug', 'medium', 350),
-('dog', 'shiba inu', 'medium', 123),
-('dog', 'cihuahua', 'small', 456),
-('dog', 'pom', 'small', 50),
-('cat', 'persian', 'medium', 100),
-('cat', 'siamese', 'large', 475),
-('cat', 'sphynx', 'small', 75),
-('cat', 'sphynx', 'large', 225),
-('cat', 'bengal', 'small', 75),
-('cat', 'birman', 'medium', 125)]
+pet_categories = [
+('dog', 'husky', 'small', 60),
+('dog', 'husky', 'medium', 80),
+('dog', 'husky', 'large', 100),
+('dog', 'retriever', 'small', 90),
+('dog', 'retriever', 'medium', 100),
+('dog', 'retriever', 'large', 110),
+('dog', 'pug', 'small', 70),
+('dog', 'pug', 'medium', 75),
+('dog', 'pug', 'large', 90),
+('dog', 'cihuahua', 'small', 40),
+('dog', 'cihuahua', 'medium', 56),
+('dog', 'cihuahua', 'large', 79),
+('cat', 'persian', 'small', 50),
+('cat', 'persian', 'medium', 60),
+('cat', 'persian', 'large', 70),
+('cat', 'sphynx', 'medium', 25),
+('cat', 'sphynx', 'small', 50),
+('cat', 'sphynx', 'large', 75),
+('cat', 'siamese', 'small', 50),
+('cat', 'siamese', 'medium', 100),
+('cat', 'siamese', 'large', 125)
+]
 
 reviews = ['This ct very nice one', 'This ct very bad one', 'This ct ok la', 'This ct not so bad']
 payment_methods = ['cash', 'credit']
@@ -67,6 +76,10 @@ with open(FILE, 'w') as out:
         out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
         out.write(f"('fct{i}', '{start_date.isoformat()}', '{end_date.isoformat()}');\n")
 
+        for j in range(random.randint(0, len(pet_categories))):
+            out.write("INSERT INTO is_capable(ctuname, species, breed, size) VALUES ")
+            out.write(f"('fct{i}', '{pet_categories[j][0]}', '{pet_categories[j][1]}', '{pet_categories[j][2]}');\n")
+
         out.write("\n")
 
     for i in range(PCT_NUMBER):
@@ -80,6 +93,10 @@ with open(FILE, 'w') as out:
 
         out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
         out.write(f"('pct{i}', '{start_date.isoformat()}', '{end_date.isoformat()}');\n")
+
+        for j in range(random.randint(0, len(pet_categories))):
+            out.write("INSERT INTO is_capable(ctuname, species, breed, size) VALUES ")
+            out.write(f"('pct{i}', '{pet_categories[j][0]}', '{pet_categories[j][1]}', '{pet_categories[j][2]}');\n")
 
         out.write("\n")
 

@@ -62,12 +62,20 @@ export const upsertCaretakerCapability =
 export const getAllCapabilities =
   "SELECT * FROM is_capable GROUP BY ctuname, species, breed, size;";
 export const deleteCapabilities = "DELETE FROM is_capable WHERE ctuname = $1;";
+export const listAllPetRequirementsQuery =
+  "SELECT * FROM special_reqs WHERE pouname = $1 AND petname = $2;";
+export const addPetSpecialRequirementsQuery =
+  "INSERT INTO special_reqs(pouname, petname, description) VALUES ($1, $2, $3);";
+export const deletePetSpecialRequirementsQuery =
+  "DELETE FROM special_reqs WHERE pouname = $1 AND petname = $2;";
+export const getPetSpecialRequirementsQuery =
+  "SELECT description FROM special_reqs WHERE pouname = $1 AND petname = $2;";
 
 // Queries to search caretakers
 export const queryAllCaretakers =
   "SELECT * FROM caretakers C JOIN users U ON C.ctuname = U.username GROUP BY U.username, C.ctuname, U.address, U.city, U.country, U.postal_code;";
 export const querySearchCaretakers =
-  "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, base_price * COALESCE((SELECT multiplier FROM multiplier WHERE a.avg_rating >= avg_rating ORDER BY multiplier DESC LIMIT 1), 1) AS price FROM all_ct a \
+  "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, to_char(base_price * COALESCE((SELECT multiplier FROM multiplier WHERE a.avg_rating >= avg_rating ORDER BY multiplier DESC LIMIT 1), 1), 'FM999999999.00') AS price FROM all_ct a \
   WHERE start_date <= $1 AND end_date >= $2 \
   AND species = $3 AND breed = $4;";
 

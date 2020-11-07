@@ -55,6 +55,9 @@ export default function Admin() {
     </svg>
   );
 
+  const buttonStyle =
+    'space-y-2 w-16 transition-all duration-300 text-white hover:text-orange-500 focus:outline-none font-semibold text-sm';
+
   return (
     <div
       className="h-screen flex"
@@ -66,13 +69,13 @@ export default function Admin() {
     >
       <div className="flex flex-col space-y-8 my-auto justify-items-center px-16">
         <Link to="home">
-          <button className="space-y-2 w-16 transition-all duration-300 text-white hover:text-orange-500 font-semibold text">
+          <button className={buttonStyle}>
             {homeIcon}
             <h1>Home</h1>
           </button>
         </Link>
         <Link to="pet-categories">
-          <button className="space-y-2 w-16 transition-all duration-300 text-white hover:text-orange-500 font-semibold text">
+          <button className={buttonStyle}>
             {petIcon}
             <h1>Pet Categories</h1>
           </button>

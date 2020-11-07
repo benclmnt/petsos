@@ -177,8 +177,23 @@ async function listAllUsers(req, res) {
 
 async function editUserDetails(req, res) {
   const { username } = req.params; // GG SQL INJECTION!
-  const { email, address, city, country, postal_code } = req.body;
-  const params = [username, email, address, city, country, postal_code];
+  const {
+    email,
+    address,
+    city,
+    country,
+    postal_code,
+    credit_card = "",
+  } = req.body;
+  const params = [
+    username,
+    email,
+    address,
+    city,
+    country,
+    postal_code,
+    credit_card,
+  ];
 
   if (checkMissingParameter([username])) {
     return handleMissingParameter(res);

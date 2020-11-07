@@ -2,8 +2,10 @@ import React from 'react';
 import { client as fetch } from '../../utils/client';
 import { useUser } from '../../context/auth-context';
 import { toJSONLocal } from '../../utils/dateutils';
+import Box from '@material-ui/core/Box';
+import Rating from '@material-ui/lab/Rating';
 
-function CTOverview() {
+function CTOverview(props) {
   const user = useUser();
   const [profile, setProfile] = React.useState(user);
 
@@ -34,22 +36,34 @@ function CTOverview() {
         </div>
       </div>
       <div className="bg-white p-5 rounded-lg">
-        <p className="border-b-2 border-black pb-3">Ratings and Reviews</p>
-        <div className="mt-3">
-          <p>Average Rating: {profile.avg_rating}</p>
+        {props.setRating(profile.avg_rating)}
+        <h1 className="border-b-2 border-black pb-3">Past Reviews</h1>
+        <div className="h-32 overflow-y-auto overscroll-contain container">
+          {profile.reviews?.map((review) => (
+            <div className="py-2 border-b-2">
+              <div className="flex space-x-2 mt-3">
+                <Box component="fieldset" borderColor="transparent">
+                  <Rating
+                    name="read-only"
+                    precision={0.1}
+                    value={parseFloat(review.rating)}
+                    readOnly
+                  />
+                </Box>
+                <h2>{review.rating}</h2>
+              </div>
+              <h1 className="text-xs text-gray-500">
+                {toJSONLocal(review.start_date)} –{' '}
+                {toJSONLocal(review.end_date)}
+              </h1>
+              <h2 className="italic">{review.review}</h2>
+              <h1 className="font-semibold">
+                {review.pouname}
+                <span className="font-normal"> — {review.petname}</span>
+              </h1>
+            </div>
+          ))}
         </div>
-        <p className="border-b-2 border-black py-3">Past reviews</p>
-        {profile.reviews?.map((review) => (
-          <div className="py-2 border-b-2">
-            <p>Rating: {review.rating}</p>
-            <p>Review: {review.review}</p>
-            <p>
-              Pet Owner: {review.pouname} (pet name: {review.petname})
-            </p>
-            <p>Start Date: {toJSONLocal(review.start_date)}</p>
-            <p>End Date: {toJSONLocal(review.end_date)}</p>
-          </div>
-        ))}
       </div>
     </>
   );

@@ -13,7 +13,7 @@ import {
   deleteCapabilities as deleteCapabilitiesQuery,
   deleteAvailabilities as deleteAvailabilitiesQuery,
   insertNewCaretaker as insertNewCaretakerQuery,
-  allCaretakerInsightQuery as getPayoutQuery,
+  getPayout as getPayoutQuery,
 } from "../db/queries";
 import {
   buildErrorObject,
@@ -122,11 +122,7 @@ async function getCaretakerByUsername(req, res) {
 
   const caretakers = await query(queryCaretakerByUsername, [ctuname]);
 
-  const insight = await query(
-    getPayoutQuery +
-      ", start_date, end_date HAVING ctuname = $1 AND end_date <= date('now') AND start_date >= date('now') - interval '1 month';",
-    [ctuname]
-  );
+  const insight = await query(getPayoutQuery, [ctuname]);
   const pastReviews = await query(reviewsQuery, [ctuname, 5]); // only past 5 reviews are shown
 
   return buildSuccessResponse(res, {

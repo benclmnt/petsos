@@ -72,4 +72,4 @@ UPDATE bid SET rating = 3.9, review = 'This ct very nice one', is_win = true WHE
 UPDATE bid SET rating = 1, review = 'This ct very bad one', is_win = true WHERE start_date = '2020-08-02' AND end_date = '2020-08-10' AND ctuname = 'po2' AND pouname = 'po1' AND petname = 'jeff';
 UPDATE bid SET rating = 1.5, review =  'This ct ok la', is_win = true WHERE start_date = '2020-08-03' AND end_date = '2020-08-11' AND ctuname = 'po3' AND pouname = 'po0' AND petname = 'drek';
 UPDATE bid SET rating = 4.5, review = 'This ct not so bad', is_win = true WHERE start_date = '2020-06-15' AND end_date = '2020-06-18' AND ctuname = 'po3' AND pouname = 'po1' AND petname = 'jeff';
-UPDATE bid SET is_win = true WHERE start_date = '2020-10-10' AND end_date = '2020-10-15' AND pouname = 'po1' AND petname = 'pet1po1';
+UPDATE bid SET is_win = true WHERE start_date = '2020-10-10' AND end_date = '2020-10-15' AND pouname = 'po2' AND petname = 'pet1po2';

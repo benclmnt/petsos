@@ -3,9 +3,7 @@ export const getAllUsers = "SELECT * FROM users LIMIT 25;";
 export const queryUserByUsername =
   "\
 SELECT u.*, ct.ct_type, (ct.ctuname IS NOT NULL) as is_caretaker,\
-(admin.username IS NOT NULL) as is_admin, (po.username IS NOT NULL) as is_petowner FROM users u\
-  LEFT JOIN pet_owners po\
-  ON u.username = po.username\
+(admin.username IS NOT NULL) as is_admin FROM users u\
   LEFT JOIN caretakers ct\
   ON u.username = ct.ctuname\
   LEFT JOIN pcs_admin admin\
@@ -15,7 +13,7 @@ export const registerUser =
   "INSERT INTO users(username, email, password) VALUES ($1, $2, $3);";
 export const deleteUser = "DELETE FROM users WHERE username = $1;";
 export const editUser =
-  "UPDATE users SET email = $2, address = $3, city = $4, country = $5, postal_code = $6 WHERE username = $1 RETURNING *";
+  "UPDATE users SET email = $2, address = $3, city = $4, country = $5, postal_code = $6, credit_card = $7 WHERE username = $1 RETURNING *";
 export const addPetCategory =
   "INSERT INTO pet_categories(species, breed, size, base_price) VALUES ($1, $2, $3, $4);";
 export const deletePetCategoryBySpeciesBreedSize =
@@ -150,5 +148,11 @@ export const petsCareFrequency =
   "SELECT pouname, COUNT(*) as freq FROM bid WHERE is_win = true AND date('now') - start_date <= 90 AND \
 start_date <= date('now') GROUP BY pouname;";
 export const allCaretakerInsightQuery =
-  "SELECT ctuname, SUM(price) as total_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
-    FROM bid WHERE is_win = true GROUP BY ctuname, mon, yyyy "; // don't add semicolon here. I'm concatenating it with another string. See caretakers.js (getCaretakerByUsername)
+  "SELECT ctuname, SUM(price) as raw_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
+    FROM bid b WHERE is_win = true GROUP BY ctuname, mon, yyyy "; // don't add semicolon here. I'm concatenating it with another string. See caretakers.js (getCaretakerByUsername)
+
+export const getPayout =
+  "SELECT *, CASE when ct_type = 'full-time' then (3000 + raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8) else (raw_payout * 0.75) end AS total_payout \
+  FROM (" +
+  allCaretakerInsightQuery +
+  ", start_date, end_date HAVING ctuname = $1 AND end_date <= date('now') AND start_date >= date('now') - interval '1 month' ) AS tmp NATURAL JOIN caretakers;";

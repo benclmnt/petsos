@@ -11,6 +11,10 @@ import {
   addPetCategory as addPetCategoryQuery,
   updatePetCategory as updatePetCategoryQuery,
   updatePetInfo as updatePetInfoQuery,
+  addPetSpecialRequirementsQuery,
+  listAllPetRequirementsQuery,
+  deletePetSpecialRequirementsQuery,
+  getPetSpecialRequirementsQuery,
 } from "../db/queries";
 import {
   buildErrorObject,
@@ -37,7 +41,94 @@ function getUsersPetsRoutes() {
   router.delete("/pets", deletePet);
   router.post("/pets", createPet);
   router.get("/pets", listUsersPets);
+  router.post("/specialReq", addPetSpecialReqFunc);
+  router.delete("/specialReq", deletePetSpecialReqFunc);
+  router.get("/specialReq/:petname", getPetSpecialReqFunc);
   return router;
+}
+
+async function getPetSpecialReqFunc(req, res) {
+  const { username: pouname, petname } = req.params;
+  const params = [pouname, petname];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  const petReqs = await query(getPetSpecialRequirementsQuery, params);
+
+  return buildSuccessResponse(res, {
+    data: buildObject(petReqs),
+  });
+}
+
+/**
+ * Delete pet special requirements from table
+ */
+async function deletePetSpecialReqFunc(req, res) {
+  const { petname } = req.body;
+  const { username: pouname } = req.params;
+  const params = [pouname, petname];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    const deletedPetSpecialReq = await query(
+      deletePetSpecialRequirementsQuery,
+      params
+    );
+    const pets = await query(queryPetByPouname, [pouname]);
+    return buildSuccessResponse(res, {
+      data: {
+        pets: pets.map((pet) => buildPetsObject(pet)),
+        deletedPet: deletedPet[0],
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return buildErrorObject(res, {
+      error: err.message,
+    });
+  }
+}
+
+/**
+ * Insert new pet requirements to table
+ */
+async function addPetSpecialReqFunc(req, res) {
+  const { petname, description } = req.body;
+  const { username: pouname } = req.params;
+  const params = [pouname, petname, description];
+
+  console.log(params);
+
+  if (checkMissingParameter(params)) {
+    return handleMissingParameter(res);
+  }
+
+  try {
+    await query(addPetSpecialRequirementsQuery, params);
+  } catch (err) {
+    console.error(err);
+    return buildErrorObject(res, {
+      status: 400,
+      error: "Pet requirements has already existed",
+    });
+  }
+
+  const petsRequirements = await query(listAllPetRequirementsQuery, [
+    pouname,
+    petname,
+  ]);
+  return buildSuccessResponse(res, {
+    data: petsRequirements.map((pet) => buildPetsObject(pet, petname)),
+  });
 }
 
 async function listUsersPets(req, res) {
@@ -226,6 +317,7 @@ async function removePetCategoryBySpeciesBreedSize(req, res) {
 async function listPetCategories(req, res) {
   const pet_categories = await query(getAllPetCategories);
 
+  console.log("HAHAHAAHAHAH");
   return buildSuccessResponse(res, {
     data: pet_categories,
   });
@@ -244,5 +336,15 @@ function buildPetsObject(pet, pouname) {
     selfLink: `/users/${pouname}/pets/${pet?.name}`,
     parentLink: `/users/${pouname}`,
   };
+  return obj;
+}
+
+function buildObject(user) {
+  const obj = {
+    kind: "User",
+    ...user,
+    selfLink: `/users/${user.username}`,
+  };
+  delete obj.password;
   return obj;
 }

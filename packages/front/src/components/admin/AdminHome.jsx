@@ -170,13 +170,13 @@ function AdminHome() {
                 </td>
               </tr>
               <tr>
-                <td className="py-1">Full-time</td>
+                <td className="py-1 pl-4">Full-time</td>
                 <td className="py-1 font-bold text-right pr-4">
                   {stats.fulltime_ct}
                 </td>
               </tr>
               <tr>
-                <td className="py-1">Part-time</td>
+                <td className="py-1 pl-4">Part-time</td>
                 <td className="py-1 font-bold text-right pr-4">
                   {stats.parttime_ct}
                 </td>

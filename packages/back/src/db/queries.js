@@ -156,3 +156,9 @@ export const getPayout =
   FROM (" +
   allCaretakerInsightQuery +
   ", start_date, end_date HAVING ctuname = $1 AND end_date <= date('now') AND start_date >= date('now') - interval '1 month' ) AS tmp NATURAL JOIN caretakers;";
+
+export const getProfit =
+  "SELECT to_char(SUM(CASE when ct_type = 'full-time' then (raw_payout - raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8 - 3000) else (raw_payout * 0.25) end), 'FM999999999.00') AS total_profit \
+  FROM (" +
+  allCaretakerInsightQuery +
+  ", start_date HAVING start_date >= date('now') - interval '1 month' ) AS tmp NATURAL JOIN caretakers;";

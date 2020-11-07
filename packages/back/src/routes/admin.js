@@ -5,13 +5,9 @@ import {
   petsTakenCareOf,
   petsCareFrequency,
   allCaretakerInsightQuery,
+  getProfit,
 } from "../db/queries";
-import {
-  buildErrorObject,
-  buildSuccessResponse,
-  checkMissingParameter,
-  handleMissingParameter,
-} from "./utils";
+import { buildSuccessResponse } from "./utils";
 
 export function getAdminRoutes() {
   const router = express.Router();
@@ -24,23 +20,26 @@ async function getBusinessStats(req, res) {
   const numOfUsers = query("SELECT COUNT(*) FROM users;");
   const numOfCt = query("SELECT COUNT(*) FROM caretakers GROUP BY ct_type;");
   const topDealMakerPast90Days = query(petsCareFrequency);
-  const tmp2 = query(allCaretakerInsightQuery);
+  const tmp1 = query(getProfit);
+  const caretakerInsight = query(allCaretakerInsightQuery);
   let result = await Promise.all([
     numOfCaredPetsInPast90Days,
     numOfUsers,
     numOfCt,
     topDealMakerPast90Days,
-    tmp2,
+    tmp1,
+    caretakerInsight,
   ]);
+
   return buildSuccessResponse(res, {
     data: {
       totalCaredPetsPast90Days: result[0][0].count,
-      totalUsers: {
-        users: result[1][0].count,
-        ct: result[2][0].count,
-      },
-      tmp1: result[3],
-      tmp2: result[4],
+      users: result[1][0].count,
+      fulltime_ct: result[2][0].count,
+      parttime_ct: result[2][1].count,
+      topDealMakerPast90Days: result[3],
+      ...result[4][0],
+      caretakerInsight: result[5],
     },
   });
 }

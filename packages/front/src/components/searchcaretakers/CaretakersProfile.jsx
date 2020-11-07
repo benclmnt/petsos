@@ -259,14 +259,86 @@ function CaretakersProfile() {
             <ReviewsCard review={x} key={i} />
           ))}
         </div>
-        <button className="mt-4 bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold">
-          Bid for this guy
-        </button>
+        <hr />
+        <br />
+        <p> {errorMsg} </p>
+        {!creatingJob && (
+          <button
+            className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
+            onClick={toggleCreatingJob}
+          >
+            Create Job
+          </button>
+        )}
+        {creatingJob && (
+          <div>
+            <h1 className="font-bold">Check Availability: </h1>
+            <input type="date" name="start_date" onChange={handleAvailChange} />
+            <p>to: </p>
+            <input type="date" name="end_date" onChange={handleAvailChange} />
+            <p>{resultMsg}</p>
+            <button
+              className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
+              onClick={handleAvailSubmit}
+            >
+              Check
+            </button>
+            <select
+              required="required"
+              name="petname"
+              default=""
+              onChange={handlePetChange}
+            >
+              <option value="">Select pet</option>
+              {petList.map((pet, i) => (
+                <option value={pet.name} key={i}>
+                  {pet.name}
+                </option>
+              ))}
+            </select>
+            <select
+              required="required"
+              name="payment_method"
+              default=""
+              onChange={handleFormChange}
+            >
+              <option value="">Select payment method</option>
+              <option value="cash">Cash</option>
+              <option value="credit">Credit Card</option>
+              <option value="gojek">Gojek</option>
+            </select>
+            <select
+              required="required"
+              name="transfer_method"
+              default=""
+              onChange={handleFormChange}
+            >
+              <option value="">Select Transfer method</option>
+              <option value="pickup">Pickup</option>
+              <option value="dropoff">Dropoff</option>
+              <option value="gojek">Gojek</option>
+              <option value="teleportation">Teleportation</option>
+            </select>
+            <button
+              className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
+              onClick={handleFormSubmit}
+            >
+              Submit Job Request
+            </button>
+            <button
+              className="bg-red-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
+              onClick={toggleCreatingJob}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 
   function toggleCreatingJob() {
+    console.log(creatingJob);
     setCreatingJob(!creatingJob);
   }
 }

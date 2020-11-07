@@ -23,13 +23,6 @@ CREATE TYPE caretaker_type AS ENUM ('part-time', 'full-time');
 CREATE TYPE pet_size AS ENUM('small', 'medium', 'large');
 CREATE TYPE payment_method AS ENUM('credit', 'cash');
 
--- CREATE TABLE address (
--- 	city VARCHAR,
--- 	country VARCHAR,
--- 	postal_code INTEGER,
--- 	PRIMARY KEY (city, country, postal_code)
--- )
-
 CREATE TABLE users (
     username VARCHAR PRIMARY KEY, -- username cannot be changed
 	email VARCHAR UNIQUE NOT NULL, -- enforce no duplicate emails
@@ -97,7 +90,7 @@ CREATE TABLE is_capable (
         ON DELETE CASCADE,
 	FOREIGN KEY (species, breed, size)
 		REFERENCES pet_categories(species, breed, size),
-	PRIMARY KEY (breed, size, species, ctuname)
+	PRIMARY KEY (species, breed, size, ctuname)
 );
 
 

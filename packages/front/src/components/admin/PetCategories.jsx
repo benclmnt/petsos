@@ -24,6 +24,35 @@ function PetCategoriesAdmin() {
     fetchData();
   }, []);
 
+  const tableLength = petCategories.length - 2;
+  let table;
+
+  function pages(length) {
+    let a = [];
+    for (var i = 0; i < Math.ceil(length / itemsPerPage); i++) {
+      a[i] = i + 1;
+    }
+    return a;
+  }
+
+  let tablePages = pages(tableLength).map((item, idx) => {
+    const start = (item - 1) * itemsPerPage;
+    const end = item * itemsPerPage;
+    return (
+      <button
+        key={idx}
+        onClick={(e) => {
+          e.preventDefault();
+          setStartItem(start);
+          setEndItem(end);
+        }}
+        className="focus:font-bold focus:outline-none"
+      >
+        {item}
+      </button>
+    );
+  });
+
   const editIcon = (
     <svg
       class="w-6 h-6"
@@ -57,34 +86,6 @@ function PetCategoriesAdmin() {
       ></path>
     </svg>
   );
-
-  const tableLength = petCategories.length - 2;
-  let table;
-
-  function pages(length) {
-    let a = [];
-    for (var i = 0; i < Math.ceil(length / itemsPerPage); i++) {
-      a[i] = i + 1;
-    }
-    return a;
-  }
-
-  let tablePages = pages(tableLength).map((item, idx) => {
-    const start = (item - 1) * itemsPerPage;
-    const end = item * itemsPerPage;
-    return (
-      <span
-        key={idx}
-        onClick={(e) => {
-          e.preventDefault();
-          setStartItem(start);
-          setEndItem(end);
-        }}
-      >
-        {item}
-      </span>
-    );
-  });
 
   const handleUpsert = async (e) => {
     e.preventDefault();
@@ -120,10 +121,12 @@ function PetCategoriesAdmin() {
     table = petCategories.slice(startItem, endItem).map((item, idx) => {
       return (
         <tr key={idx}>
-          <td className="border-b border-gray-600 px-4 py-2">{item.species}</td>
-          <td className="border-b border-gray-600 px-4 py-2">{item.breed}</td>
-          <td className="border-b border-gray-600 px-4 py-2">{item.size}</td>
-          <td className="border-b border-gray-600 px-4 py-2">
+          <td className="border-b border-orange-900 px-4 py-2">
+            {item.species}
+          </td>
+          <td className="border-b border-orange-900 px-4 py-2">{item.breed}</td>
+          <td className="border-b border-orange-900 px-4 py-2">{item.size}</td>
+          <td className="border-b border-orange-900 px-4 py-2">
             {item.base_price}
           </td>
 
@@ -210,12 +213,18 @@ function PetCategoriesAdmin() {
     </svg>
   );
 
+  const inputStyle =
+    'rounded-md border-2 border-orange-900 border-opacity-25 p-2 capitalize';
+
+  const headerStyle =
+    'border-b-2 border-t-2 border-orange-900 px-4 py-2 text-orange-900';
+
   return (
-    <div className="flex mx-auto mb-auto mt-24 text-gray-700 text-center space-x-4">
-      <div className="bg-white space-y-4 px-10 py-6 mx-auto rounded-lg">
+    <div className="flex mx-auto my-auto text-orange-900 text-center w-full md:px-48">
+      <div className="bg-white space-y-4 px-10 py-6 mx-auto rounded-lg shadow-lg">
         <h1 className="font-bold text-2xl uppercase">Pet Categories</h1>
 
-        <div className="inline-flex space-x-4">
+        <div className="inline-flex space-x-4 text-orange-900 opacity-75">
           <button
             className="hover:text-red-500"
             onClick={(e) => {
@@ -241,21 +250,13 @@ function PetCategoriesAdmin() {
           </button>
         </div>
 
-        <table className="border-collapse border-gray-500  border-r-0 border-b-0 my-5 w-full capitalize">
+        <table className="justify-self-stretch border-collapse border-orange-900 border-r-0 border-b-0 my-5 capitalize">
           <thead>
             <tr>
-              <th className="border-b-2 border-t-2 border-gray-600 px-4 py-2 text-gray-800">
-                Species
-              </th>
-              <th className="border-b-2 border-t-2 border-gray-600 px-4 py-2 text-gray-800">
-                Breed
-              </th>
-              <th className="border-b-2 border-t-2 border-gray-600 px-4 py-2 text-gray-800">
-                Size
-              </th>
-              <th className="border-b-2 border-t-2 border-gray-600 px-4 py-2 text-gray-800">
-                Base Price
-              </th>
+              <th className={headerStyle}>Species</th>
+              <th className={headerStyle}>Breed</th>
+              <th className={headerStyle}>Size</th>
+              <th className={headerStyle}>Base Price</th>
             </tr>
           </thead>
           <tbody>{table}</tbody>
@@ -264,7 +265,7 @@ function PetCategoriesAdmin() {
         <div className="text-center space-x-4">{tablePages}</div>
       </div>
 
-      <div className="flex flex-col md:w-1/3 mb-auto space-y-4 bg-white px-16 py-6 rounded-lg">
+      <div className="flex flex-col md:w-1/3 mb-auto space-y-4 bg-white px-16 py-6 rounded-lg shadow-lg">
         <div>
           <h1 className="font-bold text-xl uppercase">Set Pet Category</h1>
           <p className="text-orange-700">
@@ -272,39 +273,53 @@ function PetCategoriesAdmin() {
           </p>
         </div>
 
-        <input
-          type="text"
+        <select
           name="Pet Name"
           value={species}
           placeholder="Species"
-          className="rounded-md border border-gray-500 p-2"
+          className={inputStyle}
           onChange={(e) => setSpecies(e.target.value)}
           disabled={isEdit}
-        />
+          required="required"
+        >
+          <option value="" disabled="true">
+            Select Species
+          </option>
+          <option value="dog">Dog</option>
+          <option value="cat">Cat</option>
+        </select>
 
         <input
           type="text"
           name="Breed"
           value={breed}
           placeholder="Breed"
-          className="rounded-md border border-gray-500 p-2"
+          className={inputStyle}
           onChange={(e) => setBreed(e.target.value)}
           disabled={isEdit}
+          required="required"
         />
-        <input
-          type="text"
-          name="Size"
+        <select
+          name="size"
           value={size}
           placeholder="Size"
-          className="rounded-md border border-gray-500 p-2"
-          onChange={(e) => setBreed(e.target.value)}
+          className={inputStyle}
+          onChange={(e) => setSize(e.target.value)}
           disabled={isEdit}
-        />
+          required="required"
+        >
+          <option value="" disabled="true">
+            Select Size
+          </option>
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+        </select>
         <input
           type="text"
           placeholder="Base Price"
           value={basePrice}
-          className="rounded-md border border-gray-500 p-2"
+          className={inputStyle}
           onChange={(e) => setBasePrice(e.target.value)}
         />
 

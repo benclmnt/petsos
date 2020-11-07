@@ -63,10 +63,10 @@ function PetCard({
       <div class="mt-4 md:mt-0 md:ml-6 text-left">
         {/* Basic information */}
         <div
-          name="species"
+          name="name"
           class="uppercase tracking-wide text-lg text-orange-600 font-bold"
         >
-          {Pet['species']}
+          {Pet['name']}
         </div>
         <div
           name="breed"

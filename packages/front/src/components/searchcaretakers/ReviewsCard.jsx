@@ -23,6 +23,7 @@ function ReviewsCard({ review }) {
             <div className="flex-col mb-4">
               {/* Rating */}
               <p className="text-gray-600">
+                Date posted : &nbsp;
                 {toJSONLocal(new Date(review.end_date))}
               </p>
 

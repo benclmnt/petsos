@@ -84,7 +84,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   };
 
   const petChoices = (
-    <div className="md:flex space-x-4">
+    <div className="md:flex md:space-x-4">
       <select
         name="species"
         required="required"
@@ -261,7 +261,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         <h1 className="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
         {/* Pets */}
-        {user && (
+        {pets.length > 0 && (
           <>
             <div> {selectUsersPet} </div>
             <div class="text-center text-gray-600">or </div>
@@ -275,7 +275,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
           <h1 className="mb-2 text-sm">
             What's your address or cross-streets?
           </h1>
-          <div className="flex space-x-4">
+          <div className="md:flex md:space-x-4">
             {addressOptions(countryOptions, 'country')}
             {addressOptions(cityOptions, 'city')}
             <input
@@ -291,7 +291,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         {/* Dates */}
         <div>
           <h1 className="mb-2 text-sm">Which dates do you need?</h1>
-          <div className="flex mb-4 space-x-8">
+          <div className="md:flex mb-4 md:space-x-8">
             <StartDatepicker />
             <EndDatepicker />
           </div>

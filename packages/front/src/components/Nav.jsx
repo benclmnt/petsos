@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../css/nav.css';
 import logo from '../resources/petsoslogo.png';
 import { Link } from 'react-router-dom';
 import { useUser } from '../context/auth-context';
@@ -23,31 +22,29 @@ function Nav() {
   }, []);
 
   return (
-    <div className={`nav ${show ? 'nav_bg' : 'nav'}`}>
+    <nav
+      className="fixed inline-flex justify-between w-screen px-4 md:px-16 py-2 z-50 text-white"
+      style={{
+        backgroundColor: show ? '#271105' : 'transparent',
+      }}
+    >
       <Link to="/">
-        <img src={logo} className="w-1/3 object-scale-down md:w-auto md:h-12" />
+        <img
+          src={logo}
+          className="w-1/2 h-auto md:w-auto object-scale-down md:h-12"
+        />
       </Link>
+
       <div>
-        {user && (
-          <>
-            {!user.is_caretaker && (
-              <>
-                <Link to="/becomect">
-                  <button className="focus:outline-none mx-4">
-                    <h1 className="md:font-bold md:text-xl pt-1">
-                      Become a Caretaker
-                    </h1>
-                  </button>
-                </Link>
-              </>
-            )}
-          </>
+        {!user?.is_caretaker && (
+          <Link to="/becomect">
+            <button className="focus:outline-none mx-4">
+              <h1 className="md:font-bold md:text-xl pt-1">
+                Become a Caretaker
+              </h1>
+            </button>
+          </Link>
         )}
-        {/* <Link to="/">
-          <button className="focus:outline-none mx-4">
-            <h1 className="md:font-bold md:text-xl pt-1">Home</h1>
-          </button>
-        </Link> */}
         <Link to="/search">
           <button className="focus:outline-none mx-4">
             <h1 className="md:font-bold md:text-xl pt-1">Search</h1>
@@ -68,7 +65,7 @@ function Nav() {
           </>
         )}
       </div>
-    </div>
+    </nav>
   );
 }
 

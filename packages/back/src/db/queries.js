@@ -77,7 +77,7 @@ export const queryAllCaretakers =
 export const querySearchCaretakers =
   "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, to_char(base_price * COALESCE((SELECT multiplier FROM multiplier WHERE a.avg_rating >= avg_rating ORDER BY multiplier DESC LIMIT 1), 1), 'FM999999999.00') AS price FROM all_ct a \
   WHERE start_date <= $1 AND end_date >= $2 \
-  AND species = $3 AND breed = $4;";
+  AND species = $3 AND breed = $4 AND size = $5;";
 
 export const getPetCategories = "SELECT * FROM pet_categories;";
 

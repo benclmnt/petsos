@@ -3,7 +3,7 @@ import random
 from datetime import date, timedelta
 from os import path
 
-FILE =  path.join(path.dirname(__file__), "migrate.sql") if len(sys.argv) < 2 else sys.argv[1]
+FILE =  path.join(path.dirname(__file__), "migrate.sql") if len(sys.argv) < 5 else sys.argv[4]
 DDL = path.join(path.dirname(__file__), "init.sql")
 CUSTOM_DATA = path.join(path.dirname(__file__), "data.sql")
 
@@ -11,6 +11,11 @@ PO_NUMBER = 10
 FCT_NUMBER = 2
 PCT_NUMBER = 2
 WIN_BID_PERCENTAGE = 0.4
+
+if len(sys.argv) > 3:
+    PO_NUMBER = int(sys.argv[1])
+    FCT_NUMBER = int(sys.argv[2])
+    PCT_NUMBER = int(sys.argv[3])
 
 pet_categories = [
 ('dog', 'husky', 'small', 60),
@@ -76,7 +81,7 @@ with open(FILE, 'w') as out:
         out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
         out.write(f"('fct{i}', '{start_date.isoformat()}', '{end_date.isoformat()}');\n")
 
-        for j in range(random.randint(0, len(pet_categories))):
+        for j in range(random.randint(0, int(len(pet_categories) / 3))):
             out.write("INSERT INTO is_capable(ctuname, species, breed, size) VALUES ")
             out.write(f"('fct{i}', '{pet_categories[j][0]}', '{pet_categories[j][1]}', '{pet_categories[j][2]}');\n")
 
@@ -94,7 +99,7 @@ with open(FILE, 'w') as out:
         out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
         out.write(f"('pct{i}', '{start_date.isoformat()}', '{end_date.isoformat()}');\n")
 
-        for j in range(random.randint(0, len(pet_categories))):
+        for j in range(random.randint(0, int(len(pet_categories) / 3))):
             out.write("INSERT INTO is_capable(ctuname, species, breed, size) VALUES ")
             out.write(f"('pct{i}', '{pet_categories[j][0]}', '{pet_categories[j][1]}', '{pet_categories[j][2]}');\n")
 
@@ -104,18 +109,20 @@ with open(FILE, 'w') as out:
 
     out.write("INSERT INTO pcs_admin(username) VALUES ('admin');\n\n");
 
-    for i in range(PO_NUMBER):
+    for i in range(PO_NUMBER * 2):
         bid_rand = random.random()
         bid_rating = round(random.random() * 3 + 2, 1)
         bid_po = random.randrange(0, PO_NUMBER)
-        start_date = date.today() + timedelta(days = random.randint(-30, -10))
-        end_date = start_date + timedelta(days = random.randint(1, 14))
 
         if (bid_rand < WIN_BID_PERCENTAGE) :
+            start_date = date.today() + timedelta(days = random.randint(-60, -10))
+            end_date = start_date + timedelta(days = random.randint(1, 14))
             out.write("INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ")
             out.write(f"""('{random.choice(payment_methods)}', '{random.choice(transfer_methods)}', '{start_date.isoformat()}', '{end_date.isoformat()}',
                 '{("p" if bid_rand < (WIN_BID_PERCENTAGE / 2) else "f")}ct{random.randrange(0, PCT_NUMBER)}', 'po{bid_po}', 'po{bid_po}pet{random.randint(0, 2)}', {bid_rating}, '{random.choice(reviews)}', true);\n""")
         else:
+            start_date = date.today() + timedelta(days = random.randint(-90, 90))
+            end_date = start_date + timedelta(days = random.randint(1, 14))
             out.write("INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname) VALUES ")
             out.write(f"""('{random.choice(payment_methods)}', '{random.choice(transfer_methods)}', '{start_date.isoformat()}', '{end_date.isoformat()}',
                 '{("p" if bid_rand < (1 - WIN_BID_PERCENTAGE) / 2 else "f")}ct{random.randrange(0, PCT_NUMBER)}', 'po{bid_po}', 'po{bid_po}pet{random.randint(0, 2)}');\n""")

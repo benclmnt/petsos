@@ -62,9 +62,9 @@ async function getAllCaretakers(req, res) {
 // }
 
 async function searchCaretakers(req, res) {
-  const { postal_code, start_date, end_date, species, breed } = req.query;
+  const { postal_code, start_date, end_date, species, breed, size } = req.query;
   // const { ctuname, base_price, avg_rating } = req.body;
-  const params = [postal_code, start_date, end_date, species, breed];
+  const params = [postal_code, start_date, end_date, species, breed, size];
 
   if (checkMissingParameter(params)) {
     return handleMissingParameter(res);
@@ -76,6 +76,7 @@ async function searchCaretakers(req, res) {
       end_date,
       species,
       breed,
+      size,
     ]);
     console.log(caretakers);
     // caretakers = caretakers.map(buildCaretakersObject);

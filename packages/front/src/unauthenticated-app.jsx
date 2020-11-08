@@ -1,17 +1,17 @@
-import React from "react";
-import LoginPage from "./components/LoginPage";
-import Logout from "./components/Logout";
-import SignUpPage from "./components/SignUpPage";
-import Nav from "./components/Nav";
-import Landing from "./components/landing/Landing";
+import React from 'react';
+import LoginPage from './components/LoginPage';
+import Logout from './components/Logout';
+import SignUpPage from './components/SignUpPage';
+import Nav from './components/Nav';
+import Landing from './components/landing/Landing';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from "react-router-dom";
-import SearchCaretakers from "./components/searchcaretakers/SearchCaretakers";
-import CaretakerReviews from "./components/searchcaretakers/CaretakersProfile";
+} from 'react-router-dom';
+import SearchCaretakers from './components/searchcaretakers/SearchCaretakers';
+import CaretakerReviews from './components/searchcaretakers/CaretakersProfile';
 
 export default function Unauthenticatedapp() {
   return (

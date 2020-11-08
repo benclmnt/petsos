@@ -1,8 +1,8 @@
-import * as React from "react";
-import { useUser } from "./context/auth-context";
+import * as React from 'react';
+import { useUser } from './context/auth-context';
 
-const AuthenticatedApp = React.lazy(() => import("./authenticated-app"));
-const UnauthenticatedApp = React.lazy(() => import("./unauthenticated-app"));
+const AuthenticatedApp = React.lazy(() => import('./authenticated-app'));
+const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'));
 
 function App() {
   const user = useUser();

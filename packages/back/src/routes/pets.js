@@ -87,7 +87,7 @@ async function deletePetSpecialReqFunc(req, res) {
     return buildSuccessResponse(res, {
       data: {
         pets: pets.map((pet) => buildPetsObject(pet)),
-        deletedPet: deletedPet[0],
+        deletedPet: deletedPetSpecialReq[0],
       },
     });
   } catch (err) {

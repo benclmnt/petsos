@@ -28,6 +28,10 @@ function CaretakersProfile() {
   // const [errorMsg, setErrorMsg] = React.useState('');
   const [creatingJob, setCreatingJob] = useState(false);
   const [caretakerAvailable, setCaretakerAvailable] = useState(false);
+  const [ctAvailability, setCtAvailability] = useState({
+    start_date: '',
+    end_date: '',
+  });
   const [availForm, setAvailForm] = useState({
     start_date: '',
     end_date: '',
@@ -75,8 +79,8 @@ function CaretakersProfile() {
 
   const handleAvailChange = (e) => {
     setCaretakerAvailable(false);
-    setAvailForm({
-      ...availForm,
+    setCtAvailability({
+      ...ctAvailability,
       [e.target.name]: e.target.value,
     });
     setAvailMsg('');
@@ -113,17 +117,23 @@ function CaretakersProfile() {
         body: jobResPayload,
       });
       const result = await Promise.all([getAvailResults, getMaxJobRestriction]);
-      let availResults = result[0];
       let maxJobRestriction = result[1];
+
       let available =
-        availResults.some(
+        availabilityList.some(
           (daterange) =>
-            +new Date(toJSONLocal(daterange.start_date)) <= +start_date_obj &&
-            +new Date(toJSONLocal(daterange.end_date)) >= +end_date_obj
+            new Date(toJSONLocal(daterange.start_date)) <=
+              new Date(toJSONLocal(availForm.start_date)) &&
+            new Date(toJSONLocal(daterange.end_date)) >=
+              new Date(toJSONLocal(availForm.end_date))
         ) && maxJobRestriction.length === 0;
+
       setAvailMsg(
-        available ? 'Caretaker is available.' : 'Caretaker is NOT available.'
+        available == true
+          ? 'Caretaker is available.'
+          : 'Caretaker is NOT available.'
       );
+
       if (available) {
         setCaretakerAvailable(true);
       }
@@ -250,6 +260,7 @@ function CaretakersProfile() {
     const getAvailability = fetch('/caretakers/' + ctuname + '/availabilities');
     // triggering 2 parallel requests then waiting for all of them to finish.
     const result = await Promise.all([getCapability, getAvailability]);
+    setCtAvailability(getAvailability);
     setCapabilityList(result[0]);
     setAvailabilityList(result[1]);
   };
@@ -290,8 +301,11 @@ function CaretakersProfile() {
           <div class="mt-2 flex flex-cols space-x-2">
             {availabilityList.map((availability, i) => (
               <div class="p-2 bg-orange-700 items-center font-semibold text-indigo-100 py-0 lg:rounded-full">
-                {toJSONLocal(availability.start_date).replaceAll('-', '/')} -{' '}
-                {toJSONLocal(availability.end_date).replaceAll('-', '/')}
+                {(e) => handleAvailChange(e)}
+                {toJSONLocal(availability.start_date).replaceAll(
+                  '-',
+                  '/'
+                )} - {toJSONLocal(availability.end_date).replaceAll('-', '/')}
               </div>
             ))}
           </div>

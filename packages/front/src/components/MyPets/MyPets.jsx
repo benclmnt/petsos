@@ -8,7 +8,11 @@ import { getAllPetCategories } from '../../utils/fetchutils';
 
 function MyPets() {
   const [isEdit, setIsEdit] = useState('');
-  const [pets, setPets] = useState({});
+  const [pets, setPets] = useState({
+    species: '',
+    breed: '',
+    size: '',
+  });
   const [petCategories, setPetCategories] = useState([]);
   const { name } = useParams();
   const user = useUser();
@@ -190,7 +194,7 @@ function MyPets() {
             <select
               onChange={handleChange}
               name="breed"
-              value={pets.breed}
+              value={pets ? pets.breed : 'Error'}
               required
             >
               <option value="" disabled>
@@ -266,48 +270,80 @@ function MyPets() {
         <div className="lg:w-1/2 p-6 border rounded bg-white shadow">
           <h1 className="font-semibold mb-2">Special requirements</h1>
           <div>
-            {petSpReq.map((ignore, i) => {
-              return (
-                <div className="flex space-x-4" key={i}>
-                  {PetSpReqPicker(i)}
-
-                  <div className="flex justify-items-end">
-                    {petSpReq.length > 1 && (
-                      <button onClick={(i) => removeSpecialReq(i)}>
-                        <svg
-                          className="h-8 w-8"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 30 30"
-                          fill="#b82727"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </button>
-                    )}
-                    {petSpReq.length - 1 === i && (
-                      <button onClick={addSpecialReq}>
-                        <svg
-                          className="h-8 w-8"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 30 30"
-                          fill="#0fa30a"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
+            {petSpReq.length < 1 ? (
+              <div className="flex space-x-4">
+                <textarea
+                  required="required"
+                  className="block border border-grey-light p-3 rounded mb-4 w-full"
+                  value=""
+                  name="Special requirements"
+                  placeholder="Insert any special requirements (allergy, daily walks, pet food, etc.)"
+                  rows="2"
+                  onChange={(e) =>
+                    handleSpecialReqChange('description', e.target.value, 0)
+                  }
+                />
+                <div className="flex justify-items-end">
+                  <button onClick={addSpecialReq}>
+                    <svg
+                      className="h-8 w-8"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 30 30"
+                      fill="#0fa30a"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
                 </div>
-              );
-            })}
+              </div>
+            ) : (
+              petSpReq.map((ignore, i) => {
+                return (
+                  <div className="flex space-x-4" key={i}>
+                    {PetSpReqPicker(i)}
+
+                    <div className="flex justify-items-end">
+                      {petSpReq.length > 1 && (
+                        <button onClick={(i) => removeSpecialReq(i)}>
+                          <svg
+                            className="h-8 w-8"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 30 30"
+                            fill="#b82727"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                      {petSpReq.length - 1 === i && (
+                        <button onClick={addSpecialReq}>
+                          <svg
+                            className="h-8 w-8"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 30 30"
+                            fill="#0fa30a"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

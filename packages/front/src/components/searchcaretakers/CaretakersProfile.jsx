@@ -209,6 +209,7 @@ function CaretakersProfile() {
       try {
         await fetch('/jobs/addBid', { body: payload }).then(
           async (response) => {
+            console.log(response);
             if (response.status === 200) {
               setFormMsg('Bid added. You may view all bids at your profile.');
             }

@@ -75,7 +75,10 @@ async function createBid(req, res) {
 
   try {
     console.log(params);
-    await query(addBid, params);
+    const bids = await query(addBid, params);
+    if (bids.length === 0) {
+      throw "conflict in bid - pet already being looked after at this time.";
+    }
   } catch (err) {
     return buildErrorObject(res, {
       status: 400,
@@ -100,6 +103,9 @@ async function winBidQuery(req, res) {
 
   try {
     const bids = await query(winBid, params);
+    if (bids.length === 0) {
+      throw "conflict in winning bid - pet already being looked after at this time.";
+    }
     return buildSuccessResponse(res, {
       data: buildBidObject(bids[0]),
     });

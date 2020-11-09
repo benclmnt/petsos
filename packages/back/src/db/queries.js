@@ -122,10 +122,11 @@ export const queryOverlap =
 export const addBid =
   "INSERT INTO bid (price, payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname)\
 	SELECT CAST($1 AS NUMERIC), $2, CAST($3 AS VARCHAR), CAST($4 AS DATE), CAST($5 AS DATE), CAST($6 AS VARCHAR), CAST($7 AS VARCHAR), CAST($8 AS VARCHAR)\
-	WHERE NOT EXISTS(SELECT * FROM bid WHERE daterange($4, $5, '[]') * daterange(start_date, end_date, '[]') IS NOT NULL AND pouname = CAST($7 AS VARCHAR) AND petname=CAST($8 AS VARCHAR) AND is_win);";
+	WHERE NOT EXISTS(SELECT * FROM bid WHERE daterange($4, $5, '[]') * daterange(start_date, end_date, '[]') <> 'empty' AND pouname = CAST($7 AS VARCHAR) AND petname=CAST($8 AS VARCHAR) AND is_win)\
+	RETURNING *;";
 export const winBid =
   "UPDATE bid SET is_win = true WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5\
-	AND NOT EXISTS(SELECT * FROM bid WHERE daterange($3, $4, '[]') * daterange(start_date, end_date, '[]') IS NOT NULL AND pouname=$1 AND petname=$2 AND is_win)\
+	AND NOT EXISTS(SELECT * FROM bid WHERE daterange($3, $4, '[]') * daterange(start_date, end_date, '[]') <> 'empty' AND pouname=$1 AND petname=$2 AND is_win)\
 	RETURNING *;";
 export const getActiveBidsForCt =
   "SELECT * FROM bid WHERE ctuname = $1 AND start_date > CURRENT_DATE AND NOT is_win;";

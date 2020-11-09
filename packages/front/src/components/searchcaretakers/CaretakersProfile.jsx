@@ -291,8 +291,11 @@ function CaretakersProfile() {
           <h1 className="text-white font-bold mt-4 ">Capabilities: </h1>
           <div class="mt-2 flex flex-cols space-x-2">
             {capabilityList.map((capability, i) => (
-              <div class="p-2 bg-orange-700 items-center font-semibold py-0 lg:rounded-full">
-                {capability.breed}
+              <div
+                key={i}
+                class="p-2 bg-orange-700 items-center font-semibold py-0 rounded-md"
+              >
+                {capability.breed} ({capability.size})
               </div>
             ))}
           </div>
@@ -386,7 +389,6 @@ function CaretakersProfile() {
                     <option value="">Select payment method</option>
                     <option value="cash">Cash</option>
                     <option value="credit">Credit Card</option>
-                    <option value="gojek">Gojek</option>
                   </select>
 
                   <select
@@ -399,8 +401,7 @@ function CaretakersProfile() {
                     <option value="">Select transfer method</option>
                     <option value="pickup">Pickup</option>
                     <option value="dropoff">Dropoff</option>
-                    <option value="gojek">Gojek</option>
-                    <option value="teleportation">Teleportation</option>
+                    <option value="grab">Grab</option>
                   </select>
                 </div>
 

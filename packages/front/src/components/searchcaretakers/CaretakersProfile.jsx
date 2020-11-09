@@ -1,58 +1,86 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../css/datepicker.css';
+import { toJSONLocal } from '../../utils/dateutils';
+import moment from 'moment';
 import ReviewsCard from './ReviewsCard';
 import bg from '../../resources/wallpaper2.jpg';
 import { useUser } from '../../context/auth-context';
 import { client as fetch } from '../../utils/client';
 import './ctprofile.css';
-import { toJSONLocal } from '../../utils/dateutils';
 
 function CaretakersProfile() {
   const user = useUser();
 
   const { ctuname } = useParams();
 
-  const [ctInfo, setCtInfo] = React.useState({});
-  const [capabilityList, setCapabilityList] = React.useState([]);
-  const [petList, setPetList] = React.useState([]);
-  const [availabilityList, setAvailabilityList] = React.useState([]);
-  const [reviews, setReviews] = React.useState([]);
-  const [availMsg, setAvailMsg] = React.useState('');
-  const [petMsg, setPetMsg] = React.useState('');
-  const [formMsg, setFormMsg] = React.useState('');
+  const [ctInfo, setCtInfo] = useState({});
+  const [capabilityList, setCapabilityList] = useState([]);
+  const [petList, setPetList] = useState([]);
+  const [availabilityList, setAvailabilityList] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [availMsg, setAvailMsg] = useState('');
+  const [petMsg, setPetMsg] = useState('');
+  const [formMsg, setFormMsg] = useState('');
   // const [resultMsg, setResultMsg] = React.useState('');
   // const [errorMsg, setErrorMsg] = React.useState('');
-  const [creatingJob, setCreatingJob] = React.useState(false);
-  const [caretakerAvailable, setCaretakerAvailable] = React.useState(false);
-  const [availForm, setAvailForm] = React.useState({
+  const [creatingJob, setCreatingJob] = useState(false);
+  const [caretakerAvailable, setCaretakerAvailable] = useState(false);
+  const [ctAvailability, setCtAvailability] = useState({
     start_date: '',
     end_date: '',
   });
-  const [petForm, setPetForm] = React.useState({
+  const [availForm, setAvailForm] = useState({
+    start_date: '',
+    end_date: '',
+  });
+  const [petForm, setPetForm] = useState({
     petname: '',
   });
-  const [petEligible, setPetEligible] = React.useState(false);
-  const [jobForm, setJobForm] = React.useState({
+  const [petEligible, setPetEligible] = useState(false);
+  const [jobForm, setJobForm] = useState({
     payment_method: '',
     transfer_method: '',
   });
 
-  const fetchData = async () => {
-    const getCapabilities = fetch('/caretakers/' + ctuname + '/capabilities');
-    const getPets = fetch('/users/' + user.username + '/pets');
-    const result = await Promise.all([getCapabilities, getPets]);
-    setCapabilityList(result[0]);
-    setPetList(result[1]);
+  // Datepickers
+  const dateFormat = 'dd-MM-yyyy';
+  const twoYearsFromNow = new Date(moment().add(2, 'years'));
+
+  const StartDatepicker = () => {
+    return (
+      <DatePicker
+        onChange={(date) => setAvailForm({ ...availForm, start_date: date })}
+        selected={availForm.start_date}
+        required="required"
+        minDate={moment().toDate()}
+        maxDate={twoYearsFromNow}
+        dateFormat={dateFormat}
+        placeholderText="Start Date"
+      />
+    );
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const EndDatepicker = () => {
+    return (
+      <DatePicker
+        required="required"
+        minDate={availForm.start_date}
+        maxDate={twoYearsFromNow}
+        onChange={(date) => setAvailForm({ ...availForm, end_date: date })}
+        selected={availForm.end_date}
+        dateFormat={dateFormat}
+        placeholderText="End Date"
+      />
+    );
+  };
 
   const handleAvailChange = (e) => {
     setCaretakerAvailable(false);
-    setAvailForm({
-      ...availForm,
+    setCtAvailability({
+      ...ctAvailability,
       [e.target.name]: e.target.value,
     });
     setAvailMsg('');
@@ -61,13 +89,13 @@ function CaretakersProfile() {
   const handleAvailSubmit = async (e) => {
     e.preventDefault();
     setAvailMsg('');
-    if (
-      availForm.start_date.localeCompare('') === 0 ||
-      availForm.end_date.localeCompare('') === 0
-    ) {
-      setAvailMsg('Select start and end date to create job.');
-      return;
-    }
+    // if (
+    //   availForm.start_date.localeCompare('') === 0 ||
+    //   availForm.end_date.localeCompare('') === 0
+    // ) {
+    //   setAvailMsg('Select start and end date to create job.');
+    //   return;
+    // }
     // IMPORTANT: Javascript months are 0-indexed so January is month 0. Why? You tell me.
     try {
       let start_date_obj = new Date(availForm.start_date);
@@ -89,17 +117,23 @@ function CaretakersProfile() {
         body: jobResPayload,
       });
       const result = await Promise.all([getAvailResults, getMaxJobRestriction]);
-      let availResults = result[0];
       let maxJobRestriction = result[1];
+
       let available =
-        availResults.some(
+        availabilityList.some(
           (daterange) =>
-            +new Date(toJSONLocal(daterange.start_date)) <= +start_date_obj &&
-            +new Date(toJSONLocal(daterange.end_date)) >= +end_date_obj
+            new Date(toJSONLocal(daterange.start_date)) <=
+              new Date(toJSONLocal(availForm.start_date)) &&
+            new Date(toJSONLocal(daterange.end_date)) >=
+              new Date(toJSONLocal(availForm.end_date))
         ) && maxJobRestriction.length === 0;
+
       setAvailMsg(
-        available ? 'Caretaker is available.' : 'Caretaker is NOT available.'
+        available == true
+          ? 'Caretaker is available.'
+          : 'Caretaker is NOT available.'
       );
+
       if (available) {
         setCaretakerAvailable(true);
       }
@@ -187,6 +221,11 @@ function CaretakersProfile() {
     }
   };
 
+  function toggleCreatingJob() {
+    console.log(creatingJob);
+    setCreatingJob(!creatingJob);
+  }
+
   const fetchReviews = async () => {
     try {
       const tmp = await fetch(`/caretakers/reviews?ctuname=${ctuname}`);
@@ -196,6 +235,13 @@ function CaretakersProfile() {
     } catch (err) {
       console.error(err);
       //setErrorMsg(err?.error);
+    }
+  };
+
+  const fetchPets = async () => {
+    if (user != null) {
+      const pets = await fetch('/users/' + user.username + '/pets');
+      setPetList(pets);
     }
   };
 
@@ -214,14 +260,16 @@ function CaretakersProfile() {
     const getAvailability = fetch('/caretakers/' + ctuname + '/availabilities');
     // triggering 2 parallel requests then waiting for all of them to finish.
     const result = await Promise.all([getCapability, getAvailability]);
+    setCtAvailability(getAvailability);
     setCapabilityList(result[0]);
     setAvailabilityList(result[1]);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchReviews();
     fetchCaretakerInfo();
     fetchDetails();
+    fetchPets();
   }, []);
 
   return (
@@ -253,8 +301,11 @@ function CaretakersProfile() {
           <div class="mt-2 flex flex-cols space-x-2">
             {availabilityList.map((availability, i) => (
               <div class="p-2 bg-orange-700 items-center font-semibold text-indigo-100 py-0 lg:rounded-full">
-                {toJSONLocal(availability.start_date).replaceAll('-', '/')} -{' '}
-                {toJSONLocal(availability.end_date).replaceAll('-', '/')}
+                {(e) => handleAvailChange(e)}
+                {toJSONLocal(availability.start_date).replaceAll(
+                  '-',
+                  '/'
+                )} - {toJSONLocal(availability.end_date).replaceAll('-', '/')}
               </div>
             ))}
           </div>
@@ -268,175 +319,114 @@ function CaretakersProfile() {
             <ReviewsCard review={x} key={i} />
           ))}
         </div>
-        <hr />
         <br />
-        {!creatingJob && (
-          <button
-            className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
-            onClick={toggleCreatingJob}
-          >
-            Create Job
-          </button>
-        )}
-        {creatingJob && (
-          <div>
-            <table cellPadding="4">
-              <tbody>
-                <tr>
-                  <td colSpan="4">
-                    <h1 className="font-bold text-white">
-                      Check Availability:{' '}
-                    </h1>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="date"
-                      name="start_date"
-                      onChange={handleAvailChange}
-                    />
-                  </td>
-                  <td>
-                    <div className="font-bold text-white"> to </div>
-                  </td>
-                  <td>
-                    <input
-                      type="date"
-                      name="end_date"
-                      onChange={handleAvailChange}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
-                      onClick={handleAvailSubmit}
-                    >
-                      Check
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="4">
-                    <h1 className="font-bold text-white">{availMsg}</h1>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
 
-            <table cellPadding="4">
-              <tbody>
-                <tr>
-                  <td colSpan="4">
-                    <h1 className="font-bold text-white">Select Pet: </h1>
-                  </td>
-                </tr>
+        {/* Jobs */}
+        {user != null && (
+          <>
+            {!creatingJob && (
+              <button
+                className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
+                onClick={toggleCreatingJob}
+              >
+                Create Job
+              </button>
+            )}
 
-                <tr>
-                  <td>
-                    <select
-                      required="required"
-                      name="petname"
-                      default=""
-                      onChange={handlePetChange}
-                    >
-                      <option value="">Select pet</option>
-                      {petList.map((pet, i) => (
-                        <option value={pet.name} key={i}>
-                          {pet.name}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="4">
-                    <h1 className="font-bold text-white">{petMsg}</h1>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            {creatingJob && (
+              <div>
+                <h1 className="font-bold mb-2 text-white">
+                  Check Availability:
+                </h1>
 
-            <table cellPadding="4">
-              <tbody>
-                <tr>
-                  <td colSpan="4">
-                    <h1 className="font-bold text-white">
-                      Select Payment and Transfer Method:{' '}
-                    </h1>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <select
-                      required="required"
-                      name="payment_method"
-                      default=""
-                      onChange={handleFormChange}
-                    >
-                      <option value="">Select payment method</option>
-                      <option value="cash">Cash</option>
-                      <option value="credit">Credit Card</option>
-                      <option value="gojek">Gojek</option>
-                    </select>
-                  </td>
+                <div class="flex space-x-2">
+                  <StartDatepicker />
+                  <h1 className="font-bold text-white"> to </h1>
+                  <EndDatepicker />
+                  <button
+                    className="h-10 bg-orange-600 rounded-md text-white px-2 uppercase text-sm font-bold"
+                    onClick={handleAvailSubmit}
+                  >
+                    Check
+                  </button>
+                </div>
+                <h1 className="font-bold text-white">{availMsg}</h1>
 
-                  <td>
-                    <select
-                      required="required"
-                      name="transfer_method"
-                      default=""
-                      onChange={handleFormChange}
-                    >
-                      <option value="">Select Transfer method</option>
-                      <option value="pickup">Pickup</option>
-                      <option value="dropoff">Dropoff</option>
-                      <option value="gojek">Gojek</option>
-                      <option value="teleportation">Teleportation</option>
-                    </select>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                {/* Select pets */}
+                <h1 className="font-bold text-white">Select Pet: </h1>
+                <select
+                  class="rounded-md mt-2 py-2 px-2"
+                  required="required"
+                  name="petname"
+                  default=""
+                  onChange={handlePetChange}
+                >
+                  <option value="">Select pet</option>
+                  {petList.map((pet, i) => (
+                    <option value={pet.name} key={i}>
+                      {pet.name}
+                    </option>
+                  ))}
+                </select>
+                <h1 className="font-bold text-white">{petMsg}</h1>
 
-            <table cellPadding="4">
-              <tbody>
-                <tr>
-                  <td>
-                    <button
-                      className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
-                      onClick={handleFormSubmit}
-                    >
-                      Submit Job Request
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="bg-red-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
-                      onClick={toggleCreatingJob}
-                    >
-                      Cancel
-                    </button>
-                  </td>
-                </tr>
+                {/* Payment Method */}
+                <h1 className="mt-4 font-bold text-white">
+                  Select Payment and Transfer Method:
+                </h1>
+                <div class="flex space-x-4 mt-2">
+                  <select
+                    class="rounded-md py-2 px-2"
+                    required="required"
+                    name="payment_method"
+                    default=""
+                    placeholder="Select payment method"
+                    onChange={handleFormChange}
+                  >
+                    <option value="">Select payment method</option>
+                    <option value="cash">Cash</option>
+                    <option value="credit">Credit Card</option>
+                    <option value="gojek">Gojek</option>
+                  </select>
 
-                <tr>
-                  <td colSpan="4">
-                    <h1 className="font-bold text-white">{formMsg}</h1>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                  <select
+                    class="rounded-md py-2 px-2"
+                    required="required"
+                    name="transfer_method"
+                    default=""
+                    onChange={handleFormChange}
+                  >
+                    <option value="">Select transfer method</option>
+                    <option value="pickup">Pickup</option>
+                    <option value="dropoff">Dropoff</option>
+                    <option value="gojek">Gojek</option>
+                    <option value="teleportation">Teleportation</option>
+                  </select>
+                </div>
+
+                <div class="mt-4 flex space-x-4">
+                  <button
+                    className="bg-orange-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
+                    onClick={handleFormSubmit}
+                  >
+                    Submit Job Request
+                  </button>
+
+                  <button
+                    className="bg-red-600 rounded-md text-white px-2 py-2 text-right tracking-wide uppercase text-sm font-bold"
+                    onClick={toggleCreatingJob}
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <h1 className="font-bold text-white">{formMsg}</h1>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
   );
-
-  function toggleCreatingJob() {
-    console.log(creatingJob);
-    setCreatingJob(!creatingJob);
-  }
 }
 
 export default CaretakersProfile;

@@ -175,6 +175,7 @@ function CaretakersProfile() {
       try {
         await fetch('/jobs/addBid', { body: payload }).then(
           async (response) => {
+            console.log(response);
             if (response.status === 200) {
               setFormMsg('Bid added. You may view all bids at your profile.');
             }
@@ -377,7 +378,6 @@ function CaretakersProfile() {
                       <option value="">Select payment method</option>
                       <option value="cash">Cash</option>
                       <option value="credit">Credit Card</option>
-                      <option value="gojek">Gojek</option>
                     </select>
                   </td>
 

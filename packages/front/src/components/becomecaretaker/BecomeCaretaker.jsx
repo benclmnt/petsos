@@ -13,13 +13,13 @@ import { Redirect } from 'react-router-dom';
 function BecomeCaretaker() {
   const dateFormat = 'dd-MM-yyyy';
   const user = useUser();
-  const [type, setType] = useState();
+  const [type, setType] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [categories, setCategories] = useState([]);
 
   // Capabilities
   const [capabilityList, setCapabilityList] = useState([
-    { species: 'dog', breed: 'shiba inu', size: 'small' },
+    { species: '', breed: '', size: '' },
   ]);
 
   useEffect(() => {

@@ -98,8 +98,8 @@ function CaretakersProfile() {
     // }
     // IMPORTANT: Javascript months are 0-indexed so January is month 0. Why? You tell me.
     try {
-      let start_date_obj = new Date(availForm.start_date);
-      let end_date_obj = new Date(availForm.end_date);
+      let start_date_obj = new Date(toJSONLocal(availForm.start_date));
+      let end_date_obj = new Date(toJSONLocal(availForm.end_date));
       if (+start_date_obj > +end_date_obj) {
         setAvailMsg('Start date must be before end date.');
         return;
@@ -110,8 +110,8 @@ function CaretakersProfile() {
       );
       let jobResPayload = {
         ctuname: ctuname,
-        start_date: availForm.start_date,
-        end_date: availForm.end_date,
+        start_date: toJSONLocal(availForm.start_date),
+        end_date: toJSONLocal(availForm.end_date),
       };
       let getMaxJobRestriction = await fetch('/jobs/queryOverlap', {
         body: jobResPayload,
@@ -199,8 +199,8 @@ function CaretakersProfile() {
         price: 0, // automatically determined
         payment_method: jobForm.payment_method,
         transfer_method: jobForm.transfer_method,
-        start_date: availForm.start_date,
-        end_date: availForm.end_date,
+        start_date: toJSONLocal(availForm.start_date),
+        end_date: toJSONLocal(availForm.end_date),
         ctuname: ctuname,
         pouname: user.username,
         petname: petForm.petname,

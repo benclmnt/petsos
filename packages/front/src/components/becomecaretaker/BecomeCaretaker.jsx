@@ -9,6 +9,7 @@ import { toJSONLocal } from '../../utils/dateutils';
 import { getAllPetCategories } from '../../utils/fetchutils';
 import moment from 'moment';
 import { Redirect } from 'react-router-dom';
+import '../searchcaretakers/ctprofile.css';
 
 function BecomeCaretaker() {
   const dateFormat = 'dd-MM-yyyy';
@@ -179,21 +180,17 @@ function BecomeCaretaker() {
   // }
 
   return (
-    <div
-      className="py-20 h-screen my-auto"
-      style={{
-        backgroundSize: 'cover',
-        backgroundImage:
-          'url(https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg)',
-        backgroundPosition: 'center center',
-      }}
-    >
+    <div className="min-h-screen">
+      <img
+        src="https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg"
+        className="h-screen object-cover fixed behind"
+      />
       <form
-        className="flex-col max-h-screen max-w-4xl mx-auto bg-white"
+        className="flex flex-col mx-auto px-4"
         action=""
         onSubmit={handleSubmit}
       >
-        <div className="rounded shadow text-black px-12 py-8 space-y-2">
+        <div className="text-black px-12 py-8 space-y-2 bg-white rounded-lg shadow-lg">
           <h1 className="text-3xl font-bold mb-6">Become a Caretaker!</h1>
           <div>
             {/* Caretaker Type */}
@@ -222,7 +219,7 @@ function BecomeCaretaker() {
             {capabilityList.map((capability, i) => {
               console.log(capability.breed);
               return (
-                <div className="flex" key={i}>
+                <div key={i}>
                   <AnimalCapability
                     categories={categories}
                     capability={capability}
@@ -274,7 +271,7 @@ function BecomeCaretaker() {
             </h1>
             {availabilityList.map((ignore, i) => {
               return (
-                <div className="flex space-x-4" key={i}>
+                <div className="md:flex md:space-x-4" key={i}>
                   {StartDatepicker(i)}
                   {EndDatepicker(i)}
 
@@ -322,14 +319,12 @@ function BecomeCaretaker() {
           </p>
 
           {/* Submit Button */}
-          <div className="items-right">
-            <button
-              type="submit"
-              className="px-6 py-3 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base font-semibold uppercase mt-8 duration-300 ease-in-out"
-            >
-              <span>Submit</span>
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="px-6 py-3 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base font-semibold uppercase duration-300 ease-in-out"
+          >
+            <span>Submit</span>
+          </button>
         </div>
       </form>
     </div>

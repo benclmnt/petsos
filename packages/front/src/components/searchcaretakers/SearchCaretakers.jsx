@@ -12,12 +12,12 @@ function SearchCaretakers() {
   const [searchResult, setSearchResult] = useState([]);
 
   return (
-    <div className="h-screen w-screen">
+    <div className="min-h-screen">
       <img
         src="https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg"
-        className="min-h-screen w-full bg-cover bg-center fixed behind"
+        className="min-h-screen w-full object-cover fixed behind"
       />
-      <div className="py-20 px-4">
+      <div className="pt-20 pb-10 px-4">
         {showSearchForm ? (
           <SearchForm
             setShowSearchForm={setShowSearchForm}

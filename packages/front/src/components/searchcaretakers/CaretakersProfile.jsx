@@ -357,12 +357,11 @@ function CaretakersProfile() {
                 <h1 className="font-bold text-white">{availMsg}</h1>
 
                 {/* Select pets */}
-                <h1 className="font-bold text-white">Select Pet: </h1>
                 <select
                   class="rounded-md mt-2 py-2 px-2"
                   required="required"
                   name="petname"
-                  default=""
+                  defaultValue=""
                   onChange={handlePetChange}
                 >
                   <option value="">Select pet</option>
@@ -375,16 +374,12 @@ function CaretakersProfile() {
                 <h1 className="font-bold text-white">{petMsg}</h1>
 
                 {/* Payment Method */}
-                <h1 className="mt-4 font-bold text-white">
-                  Select Payment and Transfer Method:
-                </h1>
                 <div class="flex space-x-4 mt-2">
                   <select
                     class="rounded-md py-2 px-2"
                     required="required"
                     name="payment_method"
-                    default=""
-                    placeholder="Select payment method"
+                    defaultValue=""
                     onChange={handleFormChange}
                   >
                     <option value="">Select payment method</option>
@@ -396,7 +391,7 @@ function CaretakersProfile() {
                     class="rounded-md py-2 px-2"
                     required="required"
                     name="transfer_method"
-                    default=""
+                    defaultValue=""
                     onChange={handleFormChange}
                   >
                     <option value="">Select transfer method</option>

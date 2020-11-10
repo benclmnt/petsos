@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PetCard from './PetCard';
 import CTOverview from './CTOverview';
-import './dashboard.css';
 import { client as fetch } from '../../utils/client';
 import { useUser } from '../../context/auth-context';
 import bg from '../../resources/wallpaper2.jpg';
@@ -87,13 +86,13 @@ function Dashboard() {
 
   return (
     <div className="h-screen">
-      <img src={bg} className="min-h-screen bg-cover fixed p-0 z-0" />
+      <img src={bg} className="min-h-screen object-cover fixed p-0 z-0" />
       <div className="flex flex-col space-y-4 px-4 pb-8 md:flex-row justify-center pt-20 md:space-x-5 md:space-y-6 z-10">
         <div className="flex flex-col space-y-6 self-stretch z-10">
-          <div className="bg-white rounded-lg px-10 py-6 flex flex-row z-10">
+          <div className="bg-white rounded-lg px-4 py-6 md:px-10 flex flex-row space-x-4 md:space-x-10 z-10">
             <img
               src="https://www.flaticon.com/svg/static/icons/svg/21/21645.svg"
-              className="m-auto w-20 h-20 mr-4"
+              className="m-auto w-24 h-24"
             />
             <div className="flex items-center z-10">
               <div>
@@ -128,7 +127,7 @@ function Dashboard() {
                   <Link
                     to={user.is_caretaker ? '/ctprofile/edit' : '/becomect'}
                   >
-                    <button className="font-semibold hover:text-orange-500">
+                    <button className="font-semibold hover:text-orange-500 focus:outline-none">
                       {user.is_caretaker
                         ? 'Edit caretaker profile'
                         : 'Become a caretaker'}
@@ -170,14 +169,12 @@ function Dashboard() {
             </div>
           </div>
 
-          <div>
-            <Link to="/profile/orders">
-              <button className="flex space-x-4 p-4 border-2 rounded-lg shadow bg-orange-500 border-orange-500 hover:bg-orange-600 hover:border-orange-600 text-white font-semibold text-2xl duration-300 ease-in-out">
-                {receiptIcon}
-                <h1>View Jobs and Past Orders</h1>
-              </button>
-            </Link>
-          </div>
+          <Link to="/profile/orders">
+            <button className="flex space-x-4 p-4 border-2 rounded-lg shadow bg-orange-500 border-orange-500 hover:bg-orange-600 hover:border-orange-600 text-white font-semibold text-xl md:text-2xl duration-300 ease-in-out w-full md:w-auto">
+              {receiptIcon}
+              <h1>View Jobs and Past Orders</h1>
+            </button>
+          </Link>
         </div>
       </div>
     </div>

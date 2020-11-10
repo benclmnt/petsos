@@ -88,21 +88,21 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
       <select
         name="species"
         required="required"
-        className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-full md:w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4 capitalize"
         onChange={handleChange}
         value={formState.species}
       >
         <option value="" disabled>
           Select species
         </option>
-        <option value="dog">dog</option>
-        <option value="cat">cat</option>
+        <option value="dog">Dog</option>
+        <option value="cat">Cat</option>
       </select>
 
       <select
         name="breed"
         required="required"
-        className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-full md:w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4 capitalize"
         onChange={handleChange}
         value={formState.breed}
       >
@@ -119,22 +119,22 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
       <select
         name="size"
         required="required"
-        className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-full md:w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4 capitalize"
         onChange={handleChange}
         value={formState.size}
       >
         <option value="" disabled>
           Select size
         </option>
-        <option value="small">small</option>
-        <option value="medium">medium</option>
-        <option value="large">large</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
       </select>
     </div>
   );
 
   const selectUsersPet = (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="flex flex-wrap">
       {pets.map((pet, i) => (
         <PetCard
           onClick={() => {
@@ -160,7 +160,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
 
   var addressOptions = (choices, name) => (
     <select
-      className="border border-grey-light w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+      className="border border-grey-light w-full md:w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
       name={name}
       id="2"
       required="required"
@@ -252,12 +252,9 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
   };
 
   return (
-    <form
-      onSubmit={handleSearch}
-      className="flex-col max-h-screen max-w-2xl mx-auto"
-    >
-      <div className="bg-white text-black px-10 py-8 rounded shadow space-y-3">
-        <p className="py-3 text-orange-700">{errorMsg}</p>
+    <form onSubmit={handleSearch} className="flex-col md:w-1/2 m-auto">
+      <div className="bg-white text-black px-10 py-8 rounded-lg shadow-lg space-y-4">
+        {errorMsg && <p className="py-3 text-orange-700">{errorMsg}</p>}
         <h1 className="text-3xl text-left font-bold">Find the Perfect Match</h1>
 
         {/* Pets */}
@@ -300,7 +297,7 @@ function SearchForm({ setShowSearchForm, setSearchResult }) {
         {/* Next Button */}
         <button
           type="submit"
-          className="bg-orange-300 hover:bg-orange-400 text-orange-800 font-bold py-3 px-6 rounded"
+          className="px-8 py-4 rounded-lg bg-orange-500 text-white border border-orange-500 text-base md:text-lg font-semibold hover:bg-orange-600 hover:border-orange-600 duration-300 ease-in-out"
         >
           Search Now!
         </button>

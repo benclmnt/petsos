@@ -2,10 +2,10 @@ import React from 'react';
 
 function AnimalCapability(props) {
   return (
-    <div className="flex space-x-4 mb-4 w-full">
+    <div className="md:flex md:space-x-4 md:mb-4 w-full">
       {/* Size */}
       <select
-        className="border border-grey-light w-1/5 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-full md:w-1/5 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         name="size"
         required="required"
         onChange={(e) => props.setCapability(e)}
@@ -21,7 +21,7 @@ function AnimalCapability(props) {
 
       {/* Species */}
       <select
-        className="border border-grey-light w-1/4 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-full md:w-1/4 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         name="species"
         required="required"
         onChange={(e) => props.setCapability(e)}
@@ -36,7 +36,7 @@ function AnimalCapability(props) {
 
       {/* Breed */}
       <select
-        className="border border-grey-light w-1/4 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-full md:w-1/4 p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4"
         name="breed"
         required="required"
         onChange={(e) => props.setCapability(e)}

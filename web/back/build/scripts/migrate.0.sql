@@ -316,3 +316,6 @@ CREATE TRIGGER pet_only_1_caretaker_anytime
 	FOR EACH ROW EXECUTE PROCEDURE pet_only_1_caretaker_anytime();
 
 -- SEED DATA
+INSERT INTO multiplier VALUES (5, 1.25), (4.5, 1.2), (4, 1.15), (3.5, 1.05);
+
+INSERT into pet_categories(species, breed, size, base_price) VALUES ('dog', 'husky', 'small', '60'), ('dog', 'husky', 'medium', '80'), ('dog', 'husky', 'large', '100'), ('dog', 'retriever', 'small', '90'), ('dog', 'retriever', 'medium', '100'), ('dog', 'retriever', 'large', '110'), ('dog', 'pug', 'small', '70'), ('dog', 'pug', 'medium', '75'), ('dog', 'pug', 'large', '90'), ('dog', 'cihuahua', 'small', '40'), ('dog', 'cihuahua', 'medium', '56'), ('dog', 'cihuahua', 'large', '79'), ('cat', 'persian', 'small', '50'), ('cat', 'persian', 'medium', '60'), ('cat', 'persian', 'large', '70'), ('cat', 'sphynx', 'medium', '25'), ('cat', 'sphynx', 'small', '50'), ('cat', 'sphynx', 'large', '75'), ('cat', 'siamese', 'small', '50'), ('cat', 'siamese', 'medium', '100'), ('cat', 'siamese', 'large', '125');

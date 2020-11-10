@@ -6,6 +6,12 @@ A Pet Caring System for CS2102
 
 - [Report](https://github.com/benclmnt/CS2102_2021_S1_Team28/blob/master/deliverables/report.pdf) 
 
+## Motivation for name
+
+![Petsos Logo](https://upload.wikimedia.org/wikipedia/en/b/bc/PetSocietylogo.png)
+
+The name is a nod to Pet Society (which is often mentioned as petsos within our friends), a Facebook game that is popular in our childhood days.
+
 ## Project Team 28 
 
 - Bennett Clement 

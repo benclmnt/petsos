@@ -9,8 +9,11 @@ function AnimalCapability(props) {
         name="size"
         required="required"
         onChange={(e) => props.setCapability(e)}
-        defaultValue={props.capability.size}
+        defaultValue={props.capability ? props.capability.size : ''}
       >
+        <option value="" disabled>
+          Select size
+        </option>
         <option value="small">Small</option>
         <option value="medium">Medium</option>
         <option value="large">Large</option>
@@ -22,8 +25,11 @@ function AnimalCapability(props) {
         name="species"
         required="required"
         onChange={(e) => props.setCapability(e)}
-        defaultValue={props.capability.species}
+        defaultValue={props.capability ? props.capability.species : ''}
       >
+        <option value="" disabled>
+          Select species
+        </option>
         <option value="dog">Dog</option>
         <option value="cat">Cat</option>
       </select>
@@ -36,6 +42,9 @@ function AnimalCapability(props) {
         onChange={(e) => props.setCapability(e)}
         defaultValue={props.capability.breed}
       >
+        <option value="" disabled>
+          Select breed
+        </option>
         {props.categories[props.capability.species]?.map((item, idx) => (
           <option value={item} key={idx}>
             {item}

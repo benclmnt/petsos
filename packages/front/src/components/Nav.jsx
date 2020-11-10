@@ -36,14 +36,28 @@ function Nav() {
       </Link>
 
       <div>
-        {!user?.is_caretaker && (
-          <Link to="/becomect">
+        {!user ? (
+          <Link to="/login">
             <button className="focus:outline-none mx-4">
-              <h1 className="md:font-bold md:text-xl pt-1">
-                Become a Caretaker
-              </h1>
+              <h1 className="md:font-bold md:text-xl pt-1">Login</h1>
             </button>
           </Link>
+        ) : user?.is_admin ? (
+          <Link to="/admin">
+            <button className="focus:outline-none mx-4">
+              <h1 className="md:font-bold md:text-xl pt-1">Admin</h1>
+            </button>
+          </Link>
+        ) : (
+          !user?.is_caretaker && (
+            <Link to="/becomect">
+              <button className="focus:outline-none mx-4">
+                <h1 className="md:font-bold md:text-xl pt-1">
+                  Become a Caretaker
+                </h1>
+              </button>
+            </Link>
+          )
         )}
         <Link to="/search">
           <button className="focus:outline-none mx-4">

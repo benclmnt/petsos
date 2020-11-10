@@ -8,7 +8,8 @@
     "start": "lerna run start --stream",
     "build:front": "(cd packages/front && yarn && yarn build)",
     "start:front": "(cd packages/front && yarn start)",
-    "start:back": "(cd packages/back && yarn start)"
+    "start:back": "(cd packages/back && yarn start)",
+    "migrate": "./seed.sh"
   },
   "engines": {
     "node": "12.x"

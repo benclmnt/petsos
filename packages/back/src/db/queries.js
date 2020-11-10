@@ -77,7 +77,7 @@ export const queryAllCaretakers =
 export const querySearchCaretakers =
   "SELECT ctuname, ct_type, city, country, postal_code, avg_rating, to_char(base_price * COALESCE((SELECT multiplier FROM multiplier WHERE a.avg_rating >= avg_rating ORDER BY multiplier DESC LIMIT 1), 1), 'FM999999999.00') AS price FROM all_ct a \
   WHERE start_date <= $1 AND end_date >= $2 \
-  AND species = $3 AND breed = $4;";
+  AND species = $3 AND breed = $4 AND size = $5;";
 
 export const getPetCategories = "SELECT * FROM pet_categories;";
 
@@ -121,11 +121,12 @@ export const queryOverlap =
  */
 export const addBid =
   "INSERT INTO bid (price, payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname)\
-	SELECT CAST($1 AS NUMERIC), $2, $3, $4, $5, $6, CAST($7 AS VARCHAR), CAST($8 AS VARCHAR)\
-	WHERE NOT EXISTS(SELECT * FROM bid WHERE daterange($3, $4, '[]') * daterange(start_date, end_date, '[]') IS NOT NULL AND pouname = CAST($7 AS VARCHAR) AND petname=CAST($8 AS VARCHAR) AND is_win);";
+	SELECT CAST($1 AS NUMERIC), $2, CAST($3 AS VARCHAR), CAST($4 AS DATE), CAST($5 AS DATE), CAST($6 AS VARCHAR), CAST($7 AS VARCHAR), CAST($8 AS VARCHAR)\
+	WHERE NOT EXISTS(SELECT * FROM bid WHERE daterange($4, $5, '[]') * daterange(start_date, end_date, '[]') <> 'empty' AND pouname = CAST($7 AS VARCHAR) AND petname=CAST($8 AS VARCHAR) AND is_win)\
+	RETURNING *;";
 export const winBid =
   "UPDATE bid SET is_win = true WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5\
-	AND NOT EXISTS(SELECT * FROM bid WHERE daterange($3, $4, '[]') * daterange(start_date, end_date, '[]') IS NOT NULL AND pouname=$1 AND petname=$2 AND is_win)\
+	AND NOT EXISTS(SELECT * FROM bid WHERE daterange($3, $4, '[]') * daterange(start_date, end_date, '[]') <> 'empty' AND pouname=$1 AND petname=$2 AND is_win)\
 	RETURNING *;";
 export const getActiveBidsForCt =
   "SELECT * FROM bid WHERE ctuname = $1 AND start_date > CURRENT_DATE AND NOT is_win;";

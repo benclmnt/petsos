@@ -75,7 +75,10 @@ async function createBid(req, res) {
 
   try {
     console.log(params);
-    await query(addBid, params);
+    const bids = await query(addBid, params);
+    if (bids.length === 0) {
+      throw "conflict in bid - pet already being looked after at this time.";
+    }
   } catch (err) {
     return buildErrorObject(res, {
       status: 400,
@@ -83,10 +86,10 @@ async function createBid(req, res) {
     });
   }
 
-  let getBidParams = [params[6], params[7], params[3], params[4], params[5]];
-  const bids = await query(getBid, getBidParams);
+  // let getBidParams = [params[6], params[7], params[3], params[4], params[5]];
+  // const bids = await query(getBid, getBidParams);
   return buildSuccessResponse(res, {
-    data: buildBidObject(bids[0]),
+    data: { status: 200 },
   });
 }
 
@@ -100,6 +103,9 @@ async function winBidQuery(req, res) {
 
   try {
     const bids = await query(winBid, params);
+    if (bids.length === 0) {
+      throw "conflict in winning bid - pet already being looked after at this time.";
+    }
     return buildSuccessResponse(res, {
       data: buildBidObject(bids[0]),
     });
@@ -142,7 +148,7 @@ async function deleteBid(req, res) {
 
   await query(removeBid, params);
   return buildSuccessResponse(res, {
-    data: "success",
+    data: { status: 200 },
   });
 }
 async function getUpcomingJobsQuery(req, res) {
@@ -177,7 +183,7 @@ async function unwinBidQuery(req, res) {
 
   await query(unwinBid, params);
   return buildSuccessResponse(res, {
-    data: "success",
+    data: { status: 200 },
   });
 }
 

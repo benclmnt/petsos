@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import './addPet.css';
-import header from '../../resources/dogs-cats-header.png';
+import header from '../../resources/dogs-cats-header.jpg';
 import { client as fetch } from '../../utils/client';
 import { useUser } from '../../context/auth-context';
 import { getAllPetCategories } from '../../utils/fetchutils';

@@ -56,55 +56,87 @@ with open(FILE, 'w') as out:
     out.write(", ".join("(" + ", ".join("'" + str(x) + "'" for x in pc) + ")" for pc in pet_categories))
     out.write(";\n\n")
 
-    print("...generating users data")
+    out.write("-- pet owners\n")
 
-    for i in range(PO_NUMBER):
-        out.write("INSERT into users (email, username, password, address, city, country, postal_code) VALUES ")
-        out.write(f"('po{i}@petsos.com', 'po{i}', 'po{i}', 'Haji Lane {i}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)});\n")
+    out.write("INSERT into users (email, username, password, address, city, country, postal_code) VALUES ")
+    for i in range(PO_NUMBER - 1):
+        out.write(f"('po{i}@petsos.com', 'po{i}', 'po{i}', 'Haji Lane {i}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)}),\n")
 
+    out.write(f"('po{PO_NUMBER}@petsos.com', 'po{PO_NUMBER}', 'po{PO_NUMBER}', 'Haji Lane {PO_NUMBER}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)});\n\n")
+
+    out.write("-- pets\n")
+
+    out.write("INSERT INTO pets(name, pouname, species, breed, size) VALUES ")
+    for i in range(PO_NUMBER - 1):
         for j in range(random.randint(0, 3)):
             pet_category = random.choice(pet_categories)
-            out.write("INSERT INTO pets(name, pouname, species, breed, size) VALUES ")
-            out.write(f"('po{i}pet{j}', 'po{i}', '{pet_category[0]}', '{pet_category[1]}', '{pet_category[2]}');\n")
+            out.write(f"('po{i}pet{j}', 'po{i}', '{pet_category[0]}', '{pet_category[1]}', '{pet_category[2]}'),\n")
 
-        out.write("\n")
+    out.write(f"('po0pet4', 'po0', 'dog', 'husky', 'small');\n\n")
 
-    for i in range(FCT_NUMBER):
-        out.write("INSERT into users (email, username, password, address, city, country, postal_code) VALUES ")
-        out.write(f"('fct{i}@petsos.com', 'fct{i}', 'fct{i}', 'Haji Lane {i}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)});\n")
+    out.write("-- caretakers\n")
 
-        out.write(f"INSERT into caretakers(ctuname, ct_type) VALUES ('fct{i}', 'full-time');\n")
+    out.write("INSERT into users (email, username, password, address, city, country, postal_code) VALUES ")
+    for i in range(FCT_NUMBER - 1):
+        out.write(f"('fct{i}@petsos.com', 'fct{i}', 'fct{i}', 'Haji Lane {i}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)}),\n")
 
+    out.write(f"('fct{FCT_NUMBER}@petsos.com', 'fct{FCT_NUMBER}', 'fct{FCT_NUMBER}', 'Haji Lane {FCT_NUMBER}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)});\n\n")
+
+    out.write(f"INSERT into caretakers(ctuname, ct_type) VALUES ")
+    for i in range(FCT_NUMBER - 1):
+        out.write(f"('fct{i}', 'full-time'), \n")
+
+    out.write(f"('fct{FCT_NUMBER}', 'full-time');\n\n")
+
+    out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
+    for i in range(FCT_NUMBER - 1):
         start_date = date.today() + timedelta(days = random.randint(-90, 0))
         end_date = start_date + timedelta(days = random.randint(150, 365))
+        out.write(f"('fct{i}', '{start_date.isoformat()}', '{end_date.isoformat()}'),\n")
 
-        out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
-        out.write(f"('fct{i}', '{start_date.isoformat()}', '{end_date.isoformat()}');\n")
+    start_date = date.today() + timedelta(days = random.randint(-90, 0))
+    end_date = start_date + timedelta(days = random.randint(150, 365))
+    out.write(f"('fct{FCT_NUMBER}', '{start_date.isoformat()}', '{end_date.isoformat()}');\n\n")
 
+    out.write("INSERT INTO is_capable(ctuname, species, breed, size) VALUES ")
+    for i in range(FCT_NUMBER - 1):
         for j in range(random.randint(0, int(len(pet_categories) / 3))):
-            out.write("INSERT INTO is_capable(ctuname, species, breed, size) VALUES ")
-            out.write(f"('fct{i}', '{pet_categories[j][0]}', '{pet_categories[j][1]}', '{pet_categories[j][2]}');\n")
+            out.write(f"('fct{i}', '{pet_categories[j][0]}', '{pet_categories[j][1]}', '{pet_categories[j][2]}'),\n")
 
-        out.write("\n")
+    out.write(f"('fct{FCT_NUMBER}', 'dog', 'husky', 'small');\n\n")
 
-    for i in range(PCT_NUMBER):
-        out.write("INSERT into users (email, username, password, address, city, country, postal_code) VALUES ")
-        out.write(f"('pct{i}@petsos.com', 'pct{i}', 'pct{i}', 'Haji Lane {i}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)});\n")
+    # same as above code, just for pct_number
 
-        out.write(f"INSERT into caretakers(ctuname, ct_type) VALUES ('pct{i}', 'part-time');\n")
+    out.write("INSERT into users (email, username, password, address, city, country, postal_code) VALUES ")
+    for i in range(PCT_NUMBER - 1):
+        out.write(f"('pct{i}@petsos.com', 'pct{i}', 'pct{i}', 'Haji Lane {i}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)}),\n")
 
-        start_date = date.today() + timedelta(days = random.randint(-90, 90))
-        end_date = start_date + timedelta(days = random.randint(0, 365))
+    out.write(f"('pct{PCT_NUMBER}@petsos.com', 'pct{PCT_NUMBER}', 'pct{PCT_NUMBER}', 'Haji Lane {PCT_NUMBER}', 'Singapore', 'Singapore', {random.randint(10000, 10000 + PO_NUMBER)});\n\n")
 
-        out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
-        out.write(f"('pct{i}', '{start_date.isoformat()}', '{end_date.isoformat()}');\n")
+    out.write(f"INSERT into caretakers(ctuname, ct_type) VALUES ")
+    for i in range(PCT_NUMBER - 1):
+        out.write(f"('pct{i}', 'full-time'), \n")
 
+    out.write(f"('pct{PCT_NUMBER}', 'full-time');\n\n")
+
+    out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
+    for i in range(PCT_NUMBER - 1):
+        start_date = date.today() + timedelta(days = random.randint(-90, 0))
+        end_date = start_date + timedelta(days = random.randint(150, 365))
+        out.write(f"('pct{i}', '{start_date.isoformat()}', '{end_date.isoformat()}'),\n")
+
+    start_date = date.today() + timedelta(days = random.randint(-90, 0))
+    end_date = start_date + timedelta(days = random.randint(150, 365))
+    out.write(f"('pct{PCT_NUMBER}', '{start_date.isoformat()}', '{end_date.isoformat()}');\n\n")
+
+    out.write("INSERT INTO is_capable(ctuname, species, breed, size) VALUES ")
+    for i in range(PCT_NUMBER - 1):
         for j in range(random.randint(0, int(len(pet_categories) / 3))):
-            out.write("INSERT INTO is_capable(ctuname, species, breed, size) VALUES ")
-            out.write(f"('pct{i}', '{pet_categories[j][0]}', '{pet_categories[j][1]}', '{pet_categories[j][2]}');\n")
+            out.write(f"('pct{i}', '{pet_categories[j][0]}', '{pet_categories[j][1]}', '{pet_categories[j][2]}'),\n")
 
-        out.write("\n")
+    out.write(f"('pct{PCT_NUMBER}', 'dog', 'husky', 'small');\n\n")
 
+    # admin
     out.write("INSERT into users (email, username, password, address, city, country, postal_code) VALUES ('admin@petsos.com', 'admin', 'admin', 'Haji Lane 8', 'Singapore', 'Singapore', 19999);\n\n")
 
     out.write("INSERT INTO pcs_admin(username) VALUES ('admin');\n\n");

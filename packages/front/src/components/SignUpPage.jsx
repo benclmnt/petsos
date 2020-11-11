@@ -39,7 +39,10 @@ function SignUpPage() {
         backgroundPosition: 'center center',
       }}
     >
-      <div className="bg-grey-lighter min-h-screen flex lg:flex-row-reverse">
+      <form
+        className="bg-grey-lighter min-h-screen flex lg:flex-row-reverse"
+        onSubmit={handleSubmit}
+      >
         <div className="container max-w-sm lg:mr-24 mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-8 text-3xl text-center font-semibold">Sign up</h1>
@@ -49,6 +52,7 @@ function SignUpPage() {
               name="username"
               placeholder="Username"
               onChange={handleChange}
+              required="required"
             />
 
             <input
@@ -57,6 +61,7 @@ function SignUpPage() {
               name="email"
               placeholder="Email"
               onChange={handleChange}
+              required="required"
             />
 
             <input
@@ -65,11 +70,12 @@ function SignUpPage() {
               name="password"
               placeholder="Password"
               onChange={handleChange}
+              required="required"
             />
 
             <button
               className="w-full text-center bg-orange-500 hover:bg-orange-700 text-white font-bold py-3 px-4 border border-orange-700 rounded"
-              onClick={handleSubmit}
+              type="submit"
             >
               Create Account
             </button>
@@ -81,12 +87,12 @@ function SignUpPage() {
 
           <div className="text-white mt-6">
             Already have an account?
-            <Link to="/login" className="px-2 font-semibold">
+            <Link to="/login" className="px-2 font-semibold focus:outline-none">
               Sign In
             </Link>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

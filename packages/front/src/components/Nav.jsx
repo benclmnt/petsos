@@ -28,10 +28,10 @@ function Nav() {
         backgroundColor: show ? '#271105' : 'transparent',
       }}
     >
-      <Link to="/">
+      <Link to="/" className="focus:outline-none">
         <img
           src={logo}
-          className="w-1/2 h-auto md:w-auto object-scale-down md:h-12"
+          className="w-1/2 h-auto md:w-auto object-scale-down md:h-12 focus:outline-none"
         />
       </Link>
 

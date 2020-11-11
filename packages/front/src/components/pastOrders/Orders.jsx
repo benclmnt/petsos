@@ -3,6 +3,8 @@ import { client as fetch } from '../../utils/client';
 import { useUser } from '../../context/auth-context';
 import AddRating from './AddRating';
 import { toJSONLocal } from '../../utils/dateutils';
+import bg from '../../resources/wallpaper2.jpg';
+import '../searchcaretakers/ctprofile.css';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -30,9 +32,10 @@ function Orders() {
   }, []);
 
   return (
-    <div className="bg-black min-h-screen">
-      <div className="flex md:mx-64 flex-col text-center ">
-        <div className="bg-white rounded-md p-10 mt-40">
+    <div className="min-h-screen">
+      <img src={bg} className="min-h-screen object-cover fixed p-0 behind" />
+      <div className="flex md:mx-64 flex-col text-center">
+        <div className="bg-white rounded-md p-10 mt-20">
           <h1 className="text-3xl font-semibold">Your Upcoming Orders</h1>
           <DisplayOrders tableData={orders?.future_orders} />
         </div>

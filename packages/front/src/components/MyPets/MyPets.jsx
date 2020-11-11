@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import './addPet.css';
-import header from '../../resources/dogs-cats-header.png';
+import header from '../../resources/dogs-cats-header.jpg';
 import { client as fetch } from '../../utils/client';
 import { useUser } from '../../context/auth-context';
 import { getAllPetCategories } from '../../utils/fetchutils';
@@ -131,10 +131,10 @@ function MyPets() {
   };
 
   return (
-    <div className="addPet">
+    <div className="flex flex-col space-y-4">
       <img src={header} width="100%" />
-      <section className="flex justify-center p-6">
-        <div className="lg:w-1/2 w-full p-6 border rounded bg-white shadow">
+      <section className="flex justify-center mx-auto px-4">
+        <div className="lg:w-1/2 w-full  border rounded bg-white shadow px-4 py-6">
           <h1 className="font-bold">Tell us a bit about your pet.</h1>
           <h2 className="mb-4">What type of pet?</h2>
           <div className="flex justify-center">
@@ -174,8 +174,8 @@ function MyPets() {
         </div>
       </section>
 
-      <section className="flex justify-center p-6">
-        <div className="lg:w-1/2 w-full p-6 border rounded bg-white shadow">
+      <section className="flex justify-center px-4">
+        <div className="lg:w-1/2 w-full  border rounded bg-white shadow px-4 py-6">
           <div className="lg:flex md:block">
             <div className="mr-8 mb-2">
               <h1 className="font-semibold">Pet Name</h1>
@@ -186,6 +186,7 @@ function MyPets() {
                 onChange={handleChange}
                 required
                 placeholder="Pet Name"
+                className="border border-grey-light w-full md:w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4 capitalize"
               />
             </div>
           </div>
@@ -196,6 +197,7 @@ function MyPets() {
               name="breed"
               value={pets ? pets.breed : 'Error'}
               required
+              className="border border-grey-light w-full md:w-auto p-3 rounded mb-4 block text-gray-500 font-bold md:text-left md:mb-0 pr-4 capitalize"
             >
               <option value="" disabled>
                 Select breed
@@ -210,7 +212,7 @@ function MyPets() {
           <div>
             <h1 className="font-semibold">Size</h1>
             <h2>Choose your pet size!</h2>
-            <div className="text-center">
+            <div className="text-center transform scale-110 md:scale-100">
               <button
                 className={
                   pets.size === 'small'
@@ -225,7 +227,7 @@ function MyPets() {
                   alt="Small"
                   src="https://www.flaticon.com/svg/static/icons/svg/2881/2881761.svg"
                 />
-                <h3 className="mt-2">Small</h3>
+                <h3 className="mt-2 text-xs">Small</h3>
               </button>
               <button
                 className={
@@ -242,7 +244,7 @@ function MyPets() {
                   src="https://www.flaticon.com/svg/static/icons/svg/2965/2965396.svg"
                   style={{ transform: 'scaleX(-1)' }}
                 />
-                <h3 className="mt-2">Medium</h3>
+                <h3 className="mt-2 text-xs">Medium</h3>
               </button>
               <button
                 className={
@@ -258,7 +260,7 @@ function MyPets() {
                   alt="Large"
                   src="https://www.flaticon.com/svg/static/icons/svg/91/91544.svg"
                 />
-                <h3 className="mt-2">Large</h3>
+                <h3 className="mt-2 text-xs">Large</h3>
               </button>
             </div>
           </div>
@@ -266,8 +268,8 @@ function MyPets() {
       </section>
 
       {/* Special Requirements */}
-      <div className="flex justify-center p-6">
-        <div className="lg:w-1/2 p-6 border rounded bg-white shadow">
+      <div className="flex justify-center px-4">
+        <div className="lg:w-1/2 w-full border rounded bg-white shadow px-4 py-6">
           <h1 className="font-semibold mb-2">Special requirements</h1>
           <div>
             {petSpReq.length < 1 ? (
@@ -348,7 +350,7 @@ function MyPets() {
         </div>
       </div>
 
-      <section className="flex justify-center p-6">
+      <section className="flex justify-center ">
         <div>
           <button
             type="submit"

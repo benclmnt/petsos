@@ -4,13 +4,9 @@ import CapabilityForm from './CapabilityForm';
 import { Link } from 'react-router-dom';
 import { client as fetch } from '../../utils/client';
 import { useUser } from '../../context/auth-context';
-
-function _toJSONLocal(date) {
-  var local = date;
-  local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-  console.log(date, local);
-  return local.toJSON().substring(0, 10);
-}
+import { toJSONLocal } from '../../utils/dateutils.js';
+import bg from '../../resources/wallpaper2.jpg';
+import '../searchcaretakers/ctprofile.css';
 
 function CaretakerProfile() {
   const user = useUser();
@@ -182,47 +178,43 @@ function CaretakerProfile() {
   };
 
   return (
-    <div
-      className="min-h-screen"
-      style={{
-        backgroundImage: `url(https://wallpapercave.com/wp/wp2544022.jpg)`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'fixed',
-      }}
-    >
-      <br className="mt-10" />
+    <div className="min-h-screen">
+      <img src={bg} className="min-h-screen object-cover fixed p-0 behind" />
+      <div className="flex flex-col items-center pt-20 w-full mx-auto text-lg text-white">
+        <h1 className="text-center font-bold uppercase text-3xl">
+          {user.username}
+        </h1>
+        <div>
+          <button
+            className="py-2 px-5 hover:text-orange-500 font-bold border-none inline-block focus:outline-none"
+            onClick={(e) => {
+              e.preventDefault();
+              toggleIsEditingProfile(!isEditingProfile);
+            }}
+          >
+            {!isEditingProfile ? 'Edit info' : 'Cancel'}
+          </button>
+          <button className="py-2 px-5 hover:text-green-500 font-bold border-none inline-block left-auto">
+            <Link to="/dashboard">Back to Dashboard</Link>
+          </button>
+        </div>
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="px-5 py-10 md:mx-64 flex justify-center flex-col space-y-4"
+        className="md:w-1/2 mx-auto p-5 flex justify-items-center flex-col space-y-4"
       >
-        <div className="flex flex-col items-center py-4 w-full mx-auto text-lg bg-white rounded-lg shadow-lg">
-          <h1 className="text-center font-bold uppercase text-3xl">
-            {user.username}
-          </h1>
-          <div>
-            <button
-              className="py-2 px-5 hover:text-orange-500 font-bold border-none inline-block"
-              onClick={(e) => {
-                e.preventDefault();
-                toggleIsEditingProfile(!isEditingProfile);
-              }}
-            >
-              {!isEditingProfile ? 'Edit info' : 'Cancel'}
-            </button>
-            <button className="py-2 px-5 hover:text-green-500 font-bold border-none inline-block left-auto">
-              <Link to="/dashboard">Back to Dashboard</Link>
-            </button>
-          </div>
-        </div>
-
-        <div className="flex flex-col space-y-8 px-8 md:px-32 bg-white rounded-lg shadow-lg py-10">
-          <div>
-            <h1 className="text-2xl font-semibold mb-4">Commitment</h1>
+        <div className="flex flex-col space-y-8 md:px-32">
+          <div className="bg-white rounded-lg shadow-lg py-6 px-8 ">
+            <h1 className="text-2xl font-semibold mb-4 py-2 border-b-2 border-orange-900">
+              Commitment
+            </h1>
             {isEditingProfile ? commitmentForm : <h2>{commitmentType}</h2>}
           </div>
 
-          <div>
-            <h1 className="text-2xl font-semibold mb-4">Capabilities</h1>
+          <div className="bg-white rounded-lg shadow-lg py-6 px-8 ">
+            <h1 className="text-2xl font-semibold mb-4 py-2 border-b-2 border-orange-900">
+              Capabilities
+            </h1>
             {isEditingProfile ? (
               <CapabilityForm
                 capabilityList={capabilityList}
@@ -233,8 +225,10 @@ function CaretakerProfile() {
             )}
           </div>
 
-          <div>
-            <h1 className="text-2xl font-semibold mb-4">Availabilities</h1>
+          <div className="bg-white rounded-lg shadow-lg py-6 px-8 ">
+            <h1 className="text-2xl font-semibold mb-4 py-2 border-b-2 border-orange-900">
+              Availabilities
+            </h1>
             <div>
               {isEditingProfile ? (
                 <AvailabilityForm
@@ -244,25 +238,23 @@ function CaretakerProfile() {
               ) : (
                 availabilityList.map((availability, i) => (
                   <div key={i}>
-                    {availability.start_date.toString()} to{' '}
-                    {availability.end_date.toString()}
+                    {toJSONLocal(availability.start_date)} to{' '}
+                    {toJSONLocal(availability.end_date)}
                   </div>
                 ))
               )}
             </div>
           </div>
-        </div>
 
-        {isEditingProfile && (
-          <div className="flex justify-center">
+          {isEditingProfile && (
             <button
               type="submit"
-              className="px-8 py-4 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base md:text-xl font-semibold uppercase ml-4 mt-8 duration-300 ease-in-out"
+              className="px-8 py-4 rounded-lg bg-orange-500 text-white border border-orange-500 text-base md:text-xl font-semibold uppercase hover:bg-orange-600 hover:border-orange-600 duration-300 ease-in-out"
             >
               Save & Continue
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </form>
     </div>
   );

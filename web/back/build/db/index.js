@@ -22,11 +22,11 @@ function query(queryText, params) {
   return new Promise((resolve, reject) => {
     _pool.default.query(queryText, params).then(res => {
       const duration = Date.now() - start;
-      console.log('executed query', {
+      console.log("executed query", {
         queryText,
         duration,
         rows: res.rowCount
-      });
+      }, "with params", params);
       resolve(res.rows);
     }).catch(err => {
       reject(err);

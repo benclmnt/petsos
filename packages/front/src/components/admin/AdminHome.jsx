@@ -126,11 +126,11 @@ function AdminHome() {
     'border-b-2 border-t-2 border-orange-900 px-4 py-2 text-orange-900';
 
   return (
-    <div className="flex mx-auto my-auto text-orange-900 w-full md:px-48">
+    <div className="flex space-x-4 mx-auto my-auto text-orange-900 w-full md:px-48">
       <div className="bg-white space-y-4 px-10 py-6 mx-auto mb-auto rounded-lg shadow-lg text-center">
         <h1 className="font-bold text-2xl">Caretaker Performances</h1>
         {rowSettings}
-        <table className="justify-self-stretch border-collapse border-orange-900 border-r-0 border-b-0 my-5 capitalize">
+        <table className="justify-self-stretch border-collapse border-orange-900 border-r-0 border-b-0 my-5 capitalize w-full">
           <thead>
             <tr>
               <th className={headerStyle}>Caretaker</th>

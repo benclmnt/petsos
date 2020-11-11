@@ -9,7 +9,6 @@ function Address({ editProfile, address, handleChange }) {
     <select
       className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
       name={name}
-      id="2"
       required="required"
       onChange={handleChange}
       value={address[name]}
@@ -24,25 +23,25 @@ function Address({ editProfile, address, handleChange }) {
   );
 
   const editAddressForm = (
-    <div class="flex-col space-y-4">
+    <div class="flex-col space-y-2">
       <input
         type="text"
         name="address"
         placeholder={address.address}
         onChange={handleChange}
-        className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
+        className="border border-grey-light w-1/2 p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
       ></input>
       <div class="flex space-x-4">
-        {addressOptions(countryOptions, 'country')}
         {addressOptions(cityOptions, 'city')}
         <input
           type="number"
           name="postal_code"
           placeholder={address.postal_code}
           onChange={handleChange}
-          className="border border-grey-light w-auto p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
+          className="border border-grey-light w-1/2 p-3 rounded mb-4 block md:text-left md:mb-0 pr-4"
         ></input>
       </div>
+      {addressOptions(countryOptions, 'country')}
     </div>
   );
 
@@ -57,10 +56,12 @@ function Address({ editProfile, address, handleChange }) {
   );
 
   return (
-    <div className="md:mx-48 text-left">
-      <h1 className="text-2xl font-semibold mb-4">Address</h1>
+    <>
+      <h1 className="text-2xl font-semibold mb-4 border-b-2 border-orange-900 py-2">
+        Address
+      </h1>
       {editProfile ? editAddressForm : addressView}
-    </div>
+    </>
   );
 }
 

@@ -86,7 +86,7 @@ function AvailabilityForm(props) {
   );
 
   return props.availabilityList.map((x, i) => (
-    <div className="flex space-x-4" key={i}>
+    <div className="md:flex md:space-x-4" key={i}>
       {StartDatepicker(i)}
       {EndDatepicker(i)}
 

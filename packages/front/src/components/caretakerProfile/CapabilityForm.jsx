@@ -69,7 +69,7 @@ function CapabilityForm(props) {
   return (
     <div>
       {props.capabilityList.map((capability, i) => (
-        <div className="flex">
+        <div className="md:flex">
           <AnimalCapability
             categories={categories}
             capability={capability}

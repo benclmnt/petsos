@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Address from './Address';
-import './nav.css';
-import '../Nav';
 import { client as fetch } from '../../utils/client';
 import { useAuth, useUser } from '../../context/auth-context';
+import bg from '../../resources/wallpaper2.jpg';
 
 function EditProfile() {
   const user = useUser();
@@ -42,7 +41,7 @@ function EditProfile() {
   };
 
   const profileView = (
-    <div className="grid grid-cols-2 w-1/2 align-middle">
+    <div className="grid grid-cols-2 align-middle">
       <h1 className="font-bold">Username:</h1>
       <h1>{profile.username}</h1>
       <h1 className="font-bold">Email:</h1>
@@ -53,7 +52,7 @@ function EditProfile() {
   );
 
   const editProfileForm = (
-    <div className="grid grid-cols-2 w-1/2 space-y-2">
+    <div className="grid grid-cols-2 space-y-2">
       <h1 className="font-bold">Username:</h1>
       <h1>{profile.username}</h1>
       <label className="font-bold">Email:</label>
@@ -76,52 +75,57 @@ function EditProfile() {
   );
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="pt-20 mx-64 flex justify-center flex-col"
-    >
-      <h1 className="font-bold text-2xl text-center">
-        Let's start with the basics
-      </h1>
+    <div className="min-h-screen text-center">
+      <img src={bg} className="min-h-screen object-cover fixed p-0 behind" />
+      <div className="pt-20 text-white">
+        <h1 className="font-bold text-3xl text-center">
+          Let's start with the basics
+        </h1>
 
-      <div className="mx-auto py-2 text-lg">
-        <button
-          className="py-2 px-5 hover:text-orange-500 font-bold border-none inline-block"
-          onClick={(e) => {
-            e.preventDefault();
-            toggleIsEditingProfile(!isEditingProfile);
-          }}
-        >
-          {!isEditingProfile ? 'Edit info' : 'Cancel'}
-        </button>
-        <button className="py-2 px-5 hover:text-green-500 font-bold border-none inline-block left-auto">
-          <Link to="/dashboard">Back to Dashboard</Link>
-        </button>
-      </div>
-
-      <div className="flex flex-col space-y-8">
-        <div className="md:mx-48 text-left">
-          <h1 className="text-2xl font-semibold mb-4">Profile</h1>
-          {isEditingProfile ? editProfileForm : profileView}
+        <div className="mx-auto py-2 text-lg">
+          <button
+            className="py-2 px-5 hover:text-orange-500 font-bold border-none inline-block focus:outline-none"
+            onClick={(e) => {
+              e.preventDefault();
+              toggleIsEditingProfile(!isEditingProfile);
+            }}
+          >
+            {!isEditingProfile ? 'Edit info' : 'Cancel'}
+          </button>
+          <button className="py-2 px-5 hover:text-green-500 font-bold border-none inline-block left-auto">
+            <Link to="/dashboard">Back to Dashboard</Link>
+          </button>
         </div>
-        <Address
-          editProfile={isEditingProfile}
-          address={profile}
-          handleChange={handleChange}
-        />
-
-        {isEditingProfile && (
-          <div className="flex justify-center">
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="md:w-1/3 m-auto p-4 flex justify-items-center flex-col text-center"
+      >
+        <div className="flex flex-col space-y-8 mt-4 text-left">
+          <div className="text-left bg-white rounded-lg shadow-lg px-10 py-6">
+            <h1 className="text-2xl font-semibold mb-4 py-2 border-b-2 border-orange-900">
+              Profile
+            </h1>
+            {isEditingProfile ? editProfileForm : profileView}
+          </div>
+          <div className="bg-white rounded-lg shadow-lg px-10 py-6">
+            <Address
+              editProfile={isEditingProfile}
+              address={profile}
+              handleChange={handleChange}
+            />
+          </div>
+          {isEditingProfile && (
             <button
               type="submit"
-              className="px-8 py-4 rounded-lg hover:bg-orange-500 hover:text-white text-orange-500 border border-orange-500 text-base md:text-xl font-semibold uppercase ml-4 mt-8 duration-300 ease-in-out"
+              className="px-8 py-4 rounded-lg bg-orange-500 text-white border border-orange-500 text-base md:text-xl font-semibold uppercase hover:bg-orange-600 hover:border-orange-600 duration-300 ease-in-out"
             >
               Save & Continue
             </button>
-          </div>
-        )}
-      </div>
-    </form>
+          )}
+        </div>
+      </form>
+    </div>
   );
 }
 

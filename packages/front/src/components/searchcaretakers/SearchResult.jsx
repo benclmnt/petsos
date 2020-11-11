@@ -20,7 +20,9 @@ function SearchResult({ caretakerList, setShowSearchForm }) {
               <CaretakersCard class="col-span-1" caretaker={x} key={i} />
             ))
           ) : (
-            <div class="text-white">Sorry, no caretakers found</div>
+            <div class="text-white text-3xl font-bold">
+              Sorry, no caretakers found
+            </div>
           )}
         </div>
       </div>

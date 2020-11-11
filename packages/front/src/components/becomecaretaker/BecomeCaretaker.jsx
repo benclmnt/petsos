@@ -183,10 +183,10 @@ function BecomeCaretaker() {
     <div className="min-h-screen">
       <img
         src="https://img4.goodfon.com/wallpaper/nbig/8/71/sobaka-vzgliad-brevno.jpg"
-        className="h-screen object-cover fixed behind"
+        className="h-screen object-cover w-screen fixed behind"
       />
       <form
-        className="flex flex-col mx-auto px-4"
+        className="flex flex-col mx-auto px-4 pt-20 md:w-1/2"
         action=""
         onSubmit={handleSubmit}
       >

@@ -21,7 +21,10 @@ async function getBusinessStats(req, res) {
   const numOfCt = query("SELECT COUNT(*) FROM caretakers GROUP BY ct_type;");
   const topDealMakerPast90Days = query(petsCareFrequency);
   const tmp1 = query(getProfit);
-  const caretakerInsight = query(allCaretakerInsightQuery);
+  const caretakerInsight = query(
+    allCaretakerInsightQuery +
+      " ORDER BY pet_days DESC, num_jobs DESC, raw_payout DESC LIMIT 25;"
+  );
   let result = await Promise.all([
     numOfCaredPetsInPast90Days,
     numOfUsers,
@@ -33,10 +36,10 @@ async function getBusinessStats(req, res) {
 
   return buildSuccessResponse(res, {
     data: {
-      totalCaredPetsPast90Days: result[0][0].count,
-      users: result[1][0].count,
-      fulltime_ct: result[2][0].count,
-      parttime_ct: result[2][1].count,
+      totalCaredPetsPast90Days: result[0][0]?.count,
+      users: result[1][0]?.count,
+      fulltime_ct: result[2][0]?.count,
+      parttime_ct: result[2][1]?.count,
       topDealMakerPast90Days: result[3],
       ...result[4][0],
       caretakerInsight: result[5],

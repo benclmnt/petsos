@@ -47,7 +47,6 @@ function Orders() {
           <h1 className="text-3xl font-semibold">Your Pending Bids</h1>
           <DisplayOrders
             tableData={orders?.pending_bids}
-            user={user}
             isPendingTable={true}
           />
         </div>
@@ -55,14 +54,20 @@ function Orders() {
           <h1 className="text-3xl font-semibold">Your Past Bids</h1>
           <DisplayOrders tableData={orders?.failed_bids} />
         </div>
-        <div className="bg-white rounded-md p-10 mt-4">
-          <h1 className="text-3xl font-semibold">Your Job Requests</h1>
-          <DisplayBids tableData={bids} user={user} />
-        </div>
-        <div className="bg-white rounded-md p-10 mt-4">
-          <h1 className="text-3xl font-semibold">Your Active/Upcoming Jobs</h1>
-          <DisplayJobs tableData={jobs} user={user} />
-        </div>
+        {user?.is_caretaker && (
+          <>
+            <div className="bg-white rounded-md p-10 mt-4">
+              <h1 className="text-3xl font-semibold">Your Job Requests</h1>
+              <DisplayBids tableData={bids} user={user} />
+            </div>
+            <div className="bg-white rounded-md p-10 mt-4">
+              <h1 className="text-3xl font-semibold">
+                Your Active/Upcoming Jobs
+              </h1>
+              <DisplayJobs tableData={jobs} user={user} />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -135,7 +140,7 @@ function DisplayJobs({ user, tableData = [], canEdit = false }) {
               Price
             </th>
             <th className="border-t-2 border-b-2 border-gray-400 px-5 py-2 text-gray-800">
-              Accept Bid
+              Cancel Job
             </th>
           </tr>
         </thead>
@@ -151,7 +156,6 @@ function DisplayJobs({ user, tableData = [], canEdit = false }) {
 }
 
 function DisplayOrders({
-  user,
   isPendingTable = false,
   tableData = [],
   canEdit = false,
@@ -182,17 +186,20 @@ function DisplayOrders({
             <th className="border-t-2 border-b-2 border-gray-400 px-5 py-2 text-gray-800">
               Price
             </th>
-            <th className="border-t-2 border-b-2 border-gray-400 px-5 py-2 text-gray-800">
-              Rating
-            </th>
-            <th className="border-t-2 border-b-2 border-gray-400 px-5 py-2 text-gray-800">
-              Review
-            </th>
             {isPendingTable ? (
               <th className="border-t-2 border-b-2 border-gray-400 px-5 py-2 text-gray-800">
                 Cancel Bid
               </th>
-            ) : null}
+            ) : (
+              <>
+                <th className="border-t-2 border-b-2 border-gray-400 px-5 py-2 text-gray-800">
+                  Rating
+                </th>
+                <th className="border-t-2 border-b-2 border-gray-400 px-5 py-2 text-gray-800">
+                  Review
+                </th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -221,8 +228,8 @@ function generateBidRow(item, idx, canEdit, user, setAcceptBidErr) {
     let success = true;
     let jobResPayload = {
       ctuname: user.username,
-      start_date: new Date(item.start_date).toISOString().substring(0, 10),
-      end_date: new Date(item.end_date).toISOString().substring(0, 10),
+      start_date: toJSONLocal(item.start_date),
+      end_date: toJSONLocal(item.end_date),
     };
     let result = await fetch('/jobs/queryOverlap', {
       body: jobResPayload,
@@ -293,7 +300,6 @@ function generateBidRow(item, idx, canEdit, user, setAcceptBidErr) {
 
 function generateJobRow(item, idx, canEdit, user, setCancelJobErr) {
   const handleCancelJob = async () => {
-    let success = true;
     let cancelJobPayload = {
       pouname: item.pouname,
       petname: item.petname,
@@ -301,16 +307,14 @@ function generateJobRow(item, idx, canEdit, user, setCancelJobErr) {
       end_date: toJSONLocal(item.end_date),
       ctuname: item.ctuname,
     };
-    console.log(cancelJobPayload);
     try {
-      await fetch('/jobs/unwinBid', { body: cancelJobPayload });
+      await fetch('/jobs/unwinBid', {
+        body: cancelJobPayload,
+        redirectTo: '/profile/orders',
+      });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       setCancelJobErr(e?.error);
-      success = false;
-    }
-    if (success) {
-      window.location.reload(false);
     }
   };
   let initials = item.pouname.match(/\b\w/g) || [];
@@ -406,39 +410,41 @@ function generateRow(
         {toJSONLocal(new Date(item.end_date))}
       </td>
       <td>{item.price}</td>
-      {canEdit && item.rating == null ? (
-        <td colspan="2">
+      {canEdit &&
+        (item.rating == null ? (
+          <td colspan="2">
+            <button
+              className="active:bg-pink-600 font-bold uppercase p-2 text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+              type="button"
+              style={{ transition: 'all .15s ease' }}
+              onClick={() => {
+                setShowModal(true);
+                setKeyJobs(item);
+              }}
+            >
+              Add review and rating
+            </button>
+          </td>
+        ) : (
+          <>
+            <td>{item.rating}</td>
+            <td>{item.review}</td>
+          </>
+        ))}
+      {isPendingTable && (
+        <td>
           <button
             className="active:bg-pink-600 font-bold uppercase p-2 text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
             type="button"
             style={{ transition: 'all .15s ease' }}
-            onClick={() => {
-              setShowModal(true);
-              setKeyJobs(item);
-            }}
+            onClick={handleCancelBid}
           >
-            Add review and rating
+            Cancel Bid
           </button>
         </td>
-      ) : (
-        <>
-          <td>{item.rating}</td>
-          <td>{item.review}</td>
-          {isPendingTable ? (
-            <td>
-              <button
-                className="active:bg-pink-600 font-bold uppercase p-2 text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                type="button"
-                style={{ transition: 'all .15s ease' }}
-                onClick={handleCancelBid}
-              >
-                Cancel Bid
-              </button>
-            </td>
-          ) : null}
-        </>
       )}
     </tr>
   );
 }
+
 export default Orders;

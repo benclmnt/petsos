@@ -115,9 +115,9 @@ with open(FILE, 'w') as out:
 
     out.write(f"INSERT into caretakers(ctuname, ct_type) VALUES ")
     for i in range(PCT_NUMBER - 1):
-        out.write(f"('pct{i}', 'full-time'), \n")
+        out.write(f"('pct{i}', 'part-time'), \n")
 
-    out.write(f"('pct{PCT_NUMBER}', 'full-time');\n\n")
+    out.write(f"('pct{PCT_NUMBER}', 'part-time');\n\n")
 
     out.write("INSERT INTO availability_span(ctuname, start_date, end_date) VALUES ")
     for i in range(PCT_NUMBER - 1):

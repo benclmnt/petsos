@@ -133,7 +133,7 @@ export const getActiveBidsForCt =
 export const removeBid =
   "DELETE FROM bid WHERE ctuname = $1 AND start_date = $2 AND end_date = $3 AND pouname = $4 AND petname = $5;";
 export const getUpcomingJobs =
-  "SELECT * FROM bid WHERE ctuname = $1 AND end_date >= CURRENT_DATE AND is_win;";
+  "SELECT * FROM bid WHERE ctuname = $1 AND start_date >= CURRENT_DATE AND end_date >= CURRENT_DATE AND is_win;";
 // low priority TODO: RETURNING *
 export const unwinBid =
   "UPDATE bid SET is_win = false WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5;";

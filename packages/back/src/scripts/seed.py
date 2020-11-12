@@ -162,3 +162,18 @@ with open(FILE, 'w') as out:
     with open(CUSTOM_DATA, 'r') as f:
         for line in f:
             out.write(line)
+
+
+
+
+        # start_date = date.today() + timedelta(days = random.randint(-60, -10))
+        # end_date = start_date + timedelta(days = random.randint(1, 14))
+        # out.write("INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ")
+        # out.write(f"""('{random.choice(payment_methods)}', '{random.choice(transfer_methods)}', '{start_date.isoformat()}', '{end_date.isoformat()}',
+        #     'pct{random.randrange(0, PCT_NUMBER)}', 'po{bid_po}', 'po{bid_po}pet{random.randint(0, 2)}', {bid_rating}, '{random.choice(reviews)}', true);\n""")
+
+        # start_date = date.today() + timedelta(days = random.randint(-60, -10))
+        # end_date = start_date + timedelta(days = random.randint(1, 14))
+        # out.write("INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ")
+        # out.write(f"""('{random.choice(payment_methods)}', '{random.choice(transfer_methods)}', '{start_date.isoformat()}', '{end_date.isoformat()}',
+        #     'fct{random.randrange(0, FCT_NUMBER)}', 'po{bid_po}', 'po{bid_po}pet{random.randint(0, 2)}', {bid_rating}, '{random.choice(reviews)}', true);\n""")

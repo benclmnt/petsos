@@ -18,7 +18,9 @@ export function getAdminRoutes() {
 async function getBusinessStats(req, res) {
   const numOfCaredPetsInPast90Days = query(petsTakenCareOf);
   const numOfUsers = query("SELECT COUNT(*) FROM users;");
-  const numOfCt = query("SELECT COUNT(*) FROM caretakers GROUP BY ct_type;");
+  const numOfCt = query(
+    "SELECT ct_type, COUNT(*) FROM caretakers GROUP BY ct_type;"
+  );
   const topDealMakerPast90Days = query(petsCareFrequency);
   const tmp1 = query(getProfit);
   const caretakerInsight = query(
@@ -34,12 +36,13 @@ async function getBusinessStats(req, res) {
     caretakerInsight,
   ]);
 
+  console.log(result[2].find((x) => x.ct_type === "full-time"));
   return buildSuccessResponse(res, {
     data: {
       totalCaredPetsPast90Days: result[0][0]?.count,
       users: result[1][0]?.count,
-      fulltime_ct: result[2][0]?.count,
-      parttime_ct: result[2][1]?.count,
+      fulltime_ct: result[2].find((x) => x.ct_type === "full-time")?.count,
+      parttime_ct: result[2].find((x) => x.ct_type === "part-time")?.count,
       topDealMakerPast90Days: result[3],
       ...result[4][0],
       caretakerInsight: result[5],

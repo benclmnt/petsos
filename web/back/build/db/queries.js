@@ -136,11 +136,11 @@ const winBid = "UPDATE bid SET is_win = true WHERE pouname = $1 AND petname = $2
 	AND NOT EXISTS(SELECT * FROM bid WHERE daterange($3, $4, '[]') * daterange(start_date, end_date, '[]') <> 'empty' AND pouname=$1 AND petname=$2 AND is_win)\
 	RETURNING *;";
 exports.winBid = winBid;
-const getActiveBidsForCt = "SELECT * FROM bid WHERE ctuname = $1 AND start_date > CURRENT_DATE AND NOT is_win;";
+const getActiveBidsForCt = "SELECT * FROM bid WHERE ctuname = $1 AND start_date >= CURRENT_DATE AND NOT is_win;";
 exports.getActiveBidsForCt = getActiveBidsForCt;
 const removeBid = "DELETE FROM bid WHERE ctuname = $1 AND start_date = $2 AND end_date = $3 AND pouname = $4 AND petname = $5;";
 exports.removeBid = removeBid;
-const getUpcomingJobs = "SELECT * FROM bid WHERE ctuname = $1 AND end_date > CURRENT_DATE AND is_win;"; // low priority TODO: RETURNING *
+const getUpcomingJobs = "SELECT * FROM bid WHERE ctuname = $1 AND start_date >= CURRENT_DATE AND end_date >= CURRENT_DATE AND is_win;"; // low priority TODO: RETURNING *
 
 exports.getUpcomingJobs = getUpcomingJobs;
 const unwinBid = "UPDATE bid SET is_win = false WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4 AND ctuname = $5;";
@@ -152,16 +152,14 @@ const petsTakenCareOf = "SELECT COUNT(DISTINCT (petname, pouname)) FROM (SELECT 
 = true AND date('now') - start_date <= 90 AND start_date <= date('now') GROUP BY pouname, petname) as t;";
 exports.petsTakenCareOf = petsTakenCareOf;
 const petsCareFrequency = "SELECT pouname, COUNT(*) as freq FROM bid WHERE is_win = true AND date('now') - start_date <= 90 AND \
-start_date <= date('now') GROUP BY pouname;";
+start_date <= date('now') GROUP BY pouname ORDER BY freq DESC LIMIT 25;";
 exports.petsCareFrequency = petsCareFrequency;
 const allCaretakerInsightQuery = "SELECT ctuname, SUM(price) as raw_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
-    FROM bid b WHERE is_win = true GROUP BY ctuname, mon, yyyy "; // don't add semicolon here. I'm concatenating it with another string. See caretakers.js (getCaretakerByUsername)
-
+    FROM bid b WHERE is_win = true GROUP BY ctuname, mon, yyyy ";
 exports.allCaretakerInsightQuery = allCaretakerInsightQuery;
 const getPayout = "SELECT *, CASE when ct_type = 'full-time' then (3000 + raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8) else (raw_payout * 0.75) end AS total_payout \
   FROM (" + "SELECT ctuname, SUM(price) as raw_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
     FROM bid b WHERE is_win = true AND end_date <= date('now') AND start_date >= date('now') - interval '1 month' GROUP BY ctuname, mon, yyyy HAVING ctuname = $1  ) AS tmp NATURAL JOIN caretakers;";
 exports.getPayout = getPayout;
-const getProfit = "SELECT to_char(SUM(CASE when ct_type = 'full-time' then (raw_payout - raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8 - 3000) else (raw_payout * 0.25) end), 'FM999999999.00') AS total_profit \
-  FROM (" + allCaretakerInsightQuery + ", start_date HAVING start_date >= date('now') - interval '1 month' ) AS tmp NATURAL JOIN caretakers;";
+const getProfit = "SELECT to_char(SUM(CASE when ct_type = 'full-time' then (raw_payout - (raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8) - 3000) else (raw_payout * 0.25) end), 'FM999999999.00') AS total_profit FROM (" + "SELECT ctuname, SUM(price) as raw_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days FROM bid b WHERE is_win = true AND start_date <= date('now') and start_date >= date('now') - interval '1 month' GROUP BY ctuname) AS tmp NATURAL JOIN caretakers;";
 exports.getProfit = getProfit;

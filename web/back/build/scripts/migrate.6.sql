@@ -1,777 +1,852 @@
-INSERT INTO pets(name, pouname, species, breed, size) VALUES
-('po272pet1', 'po272', 'cat', 'sphynx', 'small'),
-('po274pet0', 'po274', 'dog', 'pug', 'large'),
-('po274pet1', 'po274', 'dog', 'retriever', 'small'),
-('po276pet0', 'po276', 'dog', 'cihuahua', 'large'),
-('po278pet0', 'po278', 'cat', 'sphynx', 'medium'),
-('po279pet0', 'po279', 'dog', 'pug', 'large'),
-('po279pet1', 'po279', 'cat', 'persian', 'small'),
-('po280pet0', 'po280', 'cat', 'siamese', 'large'),
-('po280pet1', 'po280', 'dog', 'husky', 'medium'),
-('po281pet0', 'po281', 'dog', 'husky', 'large'),
-('po281pet1', 'po281', 'dog', 'retriever', 'small'),
-('po281pet2', 'po281', 'dog', 'pug', 'large'),
-('po285pet0', 'po285', 'dog', 'pug', 'large'),
-('po285pet1', 'po285', 'cat', 'persian', 'small'),
-('po285pet2', 'po285', 'cat', 'siamese', 'small'),
-('po287pet0', 'po287', 'dog', 'husky', 'small'),
-('po289pet0', 'po289', 'dog', 'husky', 'large'),
-('po289pet1', 'po289', 'dog', 'pug', 'large'),
-('po289pet2', 'po289', 'dog', 'cihuahua', 'medium'),
-('po291pet0', 'po291', 'dog', 'husky', 'small'),
-('po293pet0', 'po293', 'cat', 'sphynx', 'medium'),
-('po296pet0', 'po296', 'cat', 'sphynx', 'large'),
-('po296pet1', 'po296', 'dog', 'pug', 'small'),
-('po297pet0', 'po297', 'cat', 'siamese', 'medium'),
-('po297pet1', 'po297', 'cat', 'siamese', 'medium'),
-('po297pet2', 'po297', 'dog', 'pug', 'small'),
-('po298pet0', 'po298', 'dog', 'retriever', 'medium'),
-('po298pet1', 'po298', 'dog', 'husky', 'small'),
-('po299pet0', 'po299', 'cat', 'sphynx', 'medium'),
-('po299pet1', 'po299', 'dog', 'husky', 'medium'),
-('po300pet0', 'po300', 'dog', 'cihuahua', 'small'),
-('po300pet1', 'po300', 'dog', 'cihuahua', 'small'),
-('po301pet0', 'po301', 'cat', 'sphynx', 'large'),
-('po302pet0', 'po302', 'cat', 'siamese', 'large'),
-('po303pet0', 'po303', 'dog', 'husky', 'medium'),
-('po304pet0', 'po304', 'cat', 'siamese', 'medium'),
-('po304pet1', 'po304', 'cat', 'siamese', 'medium'),
-('po305pet0', 'po305', 'cat', 'persian', 'medium'),
-('po305pet1', 'po305', 'dog', 'husky', 'medium'),
-('po305pet2', 'po305', 'dog', 'cihuahua', 'medium'),
-('po306pet0', 'po306', 'dog', 'pug', 'medium'),
-('po307pet0', 'po307', 'dog', 'retriever', 'small'),
-('po307pet1', 'po307', 'cat', 'persian', 'large'),
-('po308pet0', 'po308', 'dog', 'pug', 'medium'),
-('po308pet1', 'po308', 'dog', 'cihuahua', 'large'),
-('po309pet0', 'po309', 'dog', 'husky', 'large'),
-('po309pet1', 'po309', 'cat', 'persian', 'large'),
-('po309pet2', 'po309', 'dog', 'husky', 'medium'),
-('po310pet0', 'po310', 'dog', 'retriever', 'small'),
-('po310pet1', 'po310', 'cat', 'sphynx', 'small'),
-('po311pet0', 'po311', 'cat', 'sphynx', 'large'),
-('po311pet1', 'po311', 'dog', 'husky', 'small'),
-('po311pet2', 'po311', 'cat', 'siamese', 'large'),
-('po312pet0', 'po312', 'dog', 'retriever', 'large'),
-('po312pet1', 'po312', 'dog', 'pug', 'medium'),
-('po312pet2', 'po312', 'dog', 'pug', 'medium'),
-('po313pet0', 'po313', 'cat', 'sphynx', 'large'),
-('po314pet0', 'po314', 'cat', 'sphynx', 'small'),
-('po314pet1', 'po314', 'dog', 'cihuahua', 'medium'),
-('po315pet0', 'po315', 'dog', 'retriever', 'large'),
-('po316pet0', 'po316', 'dog', 'pug', 'small'),
-('po316pet1', 'po316', 'cat', 'sphynx', 'small'),
-('po317pet0', 'po317', 'cat', 'persian', 'small'),
-('po317pet1', 'po317', 'dog', 'husky', 'medium'),
-('po317pet2', 'po317', 'dog', 'retriever', 'medium'),
-('po318pet0', 'po318', 'cat', 'sphynx', 'large'),
-('po318pet1', 'po318', 'cat', 'persian', 'medium'),
-('po319pet0', 'po319', 'dog', 'retriever', 'large'),
-('po319pet1', 'po319', 'dog', 'retriever', 'medium'),
-('po319pet2', 'po319', 'dog', 'retriever', 'small'),
-('po320pet0', 'po320', 'cat', 'siamese', 'small'),
-('po320pet1', 'po320', 'cat', 'persian', 'medium'),
-('po321pet0', 'po321', 'cat', 'sphynx', 'medium'),
-('po322pet0', 'po322', 'cat', 'siamese', 'large'),
-('po322pet1', 'po322', 'cat', 'siamese', 'medium'),
-('po323pet0', 'po323', 'dog', 'husky', 'small'),
-('po323pet1', 'po323', 'cat', 'persian', 'small'),
-('po323pet2', 'po323', 'dog', 'pug', 'small'),
-('po325pet0', 'po325', 'dog', 'retriever', 'medium'),
-('po325pet1', 'po325', 'dog', 'retriever', 'large'),
-('po326pet0', 'po326', 'cat', 'persian', 'small'),
-('po326pet1', 'po326', 'dog', 'retriever', 'large'),
-('po327pet0', 'po327', 'dog', 'husky', 'large'),
-('po327pet1', 'po327', 'cat', 'siamese', 'small'),
-('po328pet0', 'po328', 'dog', 'cihuahua', 'medium'),
-('po328pet1', 'po328', 'cat', 'persian', 'small'),
-('po329pet0', 'po329', 'cat', 'sphynx', 'large'),
-('po329pet1', 'po329', 'dog', 'husky', 'large'),
-('po329pet2', 'po329', 'dog', 'pug', 'large'),
-('po330pet0', 'po330', 'dog', 'husky', 'small'),
-('po330pet1', 'po330', 'dog', 'retriever', 'small'),
-('po333pet0', 'po333', 'dog', 'husky', 'large'),
-('po335pet0', 'po335', 'cat', 'siamese', 'small'),
-('po336pet0', 'po336', 'cat', 'siamese', 'large'),
-('po336pet1', 'po336', 'cat', 'sphynx', 'large'),
-('po336pet2', 'po336', 'cat', 'persian', 'medium'),
-('po338pet0', 'po338', 'cat', 'persian', 'medium'),
-('po339pet0', 'po339', 'cat', 'persian', 'small'),
-('po339pet1', 'po339', 'dog', 'pug', 'small'),
-('po340pet0', 'po340', 'dog', 'cihuahua', 'medium'),
-('po341pet0', 'po341', 'cat', 'siamese', 'small'),
-('po342pet0', 'po342', 'cat', 'persian', 'medium'),
-('po342pet1', 'po342', 'dog', 'pug', 'large'),
-('po342pet2', 'po342', 'dog', 'husky', 'large'),
-('po343pet0', 'po343', 'dog', 'cihuahua', 'medium'),
-('po343pet1', 'po343', 'dog', 'husky', 'medium'),
-('po343pet2', 'po343', 'cat', 'siamese', 'small'),
-('po344pet0', 'po344', 'dog', 'pug', 'medium'),
-('po344pet1', 'po344', 'dog', 'retriever', 'small'),
-('po345pet0', 'po345', 'cat', 'persian', 'small'),
-('po345pet1', 'po345', 'dog', 'husky', 'large'),
-('po346pet0', 'po346', 'dog', 'cihuahua', 'medium'),
-('po347pet0', 'po347', 'dog', 'pug', 'medium'),
-('po347pet1', 'po347', 'cat', 'sphynx', 'small'),
-('po348pet0', 'po348', 'dog', 'retriever', 'small'),
-('po349pet0', 'po349', 'dog', 'retriever', 'small'),
-('po349pet1', 'po349', 'dog', 'husky', 'medium'),
-('po349pet2', 'po349', 'dog', 'husky', 'small'),
-('po350pet0', 'po350', 'dog', 'cihuahua', 'medium'),
-('po353pet0', 'po353', 'dog', 'retriever', 'medium'),
-('po353pet1', 'po353', 'cat', 'siamese', 'small'),
-('po353pet2', 'po353', 'cat', 'persian', 'large'),
-('po354pet0', 'po354', 'dog', 'cihuahua', 'medium'),
-('po354pet1', 'po354', 'dog', 'pug', 'small'),
-('po354pet2', 'po354', 'cat', 'sphynx', 'large'),
-('po355pet0', 'po355', 'cat', 'siamese', 'small'),
-('po355pet1', 'po355', 'dog', 'cihuahua', 'large'),
-('po355pet2', 'po355', 'dog', 'retriever', 'large'),
-('po356pet0', 'po356', 'cat', 'siamese', 'large'),
-('po356pet1', 'po356', 'dog', 'cihuahua', 'medium'),
-('po357pet0', 'po357', 'cat', 'sphynx', 'small'),
-('po360pet0', 'po360', 'dog', 'retriever', 'large'),
-('po360pet1', 'po360', 'cat', 'persian', 'large'),
-('po361pet0', 'po361', 'dog', 'husky', 'small'),
-('po361pet1', 'po361', 'cat', 'siamese', 'medium'),
-('po361pet2', 'po361', 'cat', 'persian', 'medium'),
-('po363pet0', 'po363', 'cat', 'siamese', 'medium'),
-('po364pet0', 'po364', 'cat', 'persian', 'large'),
-('po366pet0', 'po366', 'cat', 'sphynx', 'medium'),
-('po366pet1', 'po366', 'cat', 'persian', 'medium'),
-('po368pet0', 'po368', 'dog', 'retriever', 'large'),
-('po368pet1', 'po368', 'dog', 'pug', 'medium'),
-('po369pet0', 'po369', 'dog', 'cihuahua', 'medium'),
-('po369pet1', 'po369', 'dog', 'pug', 'large'),
-('po369pet2', 'po369', 'cat', 'persian', 'medium'),
-('po370pet0', 'po370', 'dog', 'retriever', 'small'),
-('po370pet1', 'po370', 'dog', 'husky', 'small'),
-('po370pet2', 'po370', 'dog', 'retriever', 'small'),
-('po371pet0', 'po371', 'cat', 'persian', 'small'),
-('po372pet0', 'po372', 'cat', 'persian', 'large'),
-('po372pet1', 'po372', 'dog', 'retriever', 'medium'),
-('po373pet0', 'po373', 'cat', 'persian', 'small'),
-('po373pet1', 'po373', 'cat', 'siamese', 'medium'),
-('po374pet0', 'po374', 'cat', 'sphynx', 'small'),
-('po375pet0', 'po375', 'dog', 'pug', 'medium'),
-('po376pet0', 'po376', 'cat', 'persian', 'medium'),
-('po376pet1', 'po376', 'dog', 'retriever', 'medium'),
-('po376pet2', 'po376', 'cat', 'persian', 'large'),
-('po377pet0', 'po377', 'dog', 'retriever', 'small'),
-('po378pet0', 'po378', 'dog', 'pug', 'large'),
-('po378pet1', 'po378', 'dog', 'cihuahua', 'medium'),
-('po379pet0', 'po379', 'dog', 'retriever', 'small'),
-('po379pet1', 'po379', 'cat', 'siamese', 'medium'),
-('po380pet0', 'po380', 'dog', 'retriever', 'small'),
-('po381pet0', 'po381', 'dog', 'pug', 'large'),
-('po383pet0', 'po383', 'dog', 'retriever', 'small'),
-('po383pet1', 'po383', 'cat', 'persian', 'medium'),
-('po384pet0', 'po384', 'dog', 'cihuahua', 'small'),
-('po384pet1', 'po384', 'dog', 'pug', 'large'),
-('po385pet0', 'po385', 'cat', 'siamese', 'small'),
-('po386pet0', 'po386', 'dog', 'retriever', 'large'),
-('po386pet1', 'po386', 'dog', 'retriever', 'large'),
-('po387pet0', 'po387', 'dog', 'cihuahua', 'medium'),
-('po388pet0', 'po388', 'dog', 'retriever', 'large'),
-('po388pet1', 'po388', 'dog', 'husky', 'large'),
-('po389pet0', 'po389', 'cat', 'sphynx', 'medium'),
-('po389pet1', 'po389', 'dog', 'retriever', 'medium'),
-('po390pet0', 'po390', 'dog', 'pug', 'large'),
-('po391pet0', 'po391', 'dog', 'cihuahua', 'medium'),
-('po391pet1', 'po391', 'cat', 'siamese', 'medium'),
-('po392pet0', 'po392', 'dog', 'cihuahua', 'large'),
-('po392pet1', 'po392', 'dog', 'cihuahua', 'medium'),
-('po392pet2', 'po392', 'cat', 'sphynx', 'large'),
-('po393pet0', 'po393', 'dog', 'retriever', 'large'),
-('po393pet1', 'po393', 'dog', 'pug', 'large'),
-('po393pet2', 'po393', 'dog', 'retriever', 'small'),
-('po394pet0', 'po394', 'cat', 'sphynx', 'medium'),
-('po394pet1', 'po394', 'cat', 'persian', 'small'),
-('po394pet2', 'po394', 'dog', 'husky', 'small'),
-('po395pet0', 'po395', 'dog', 'cihuahua', 'small'),
-('po395pet1', 'po395', 'cat', 'siamese', 'small'),
-('po395pet2', 'po395', 'cat', 'siamese', 'large'),
-('po396pet0', 'po396', 'dog', 'cihuahua', 'small'),
-('po397pet0', 'po397', 'dog', 'husky', 'large'),
-('po397pet1', 'po397', 'cat', 'siamese', 'large'),
-('po397pet2', 'po397', 'dog', 'husky', 'large'),
-('po398pet0', 'po398', 'cat', 'sphynx', 'medium'),
-('po399pet0', 'po399', 'dog', 'pug', 'large'),
-('po399pet1', 'po399', 'dog', 'husky', 'medium'),
-('po399pet2', 'po399', 'dog', 'pug', 'medium'),
-('po400pet0', 'po400', 'cat', 'sphynx', 'small'),
-('po400pet1', 'po400', 'cat', 'persian', 'small'),
-('po402pet0', 'po402', 'dog', 'husky', 'large'),
-('po402pet1', 'po402', 'dog', 'cihuahua', 'small'),
-('po402pet2', 'po402', 'dog', 'pug', 'medium'),
-('po404pet0', 'po404', 'dog', 'cihuahua', 'small'),
-('po404pet1', 'po404', 'dog', 'husky', 'large'),
-('po404pet2', 'po404', 'dog', 'cihuahua', 'large'),
-('po405pet0', 'po405', 'cat', 'siamese', 'medium'),
-('po405pet1', 'po405', 'cat', 'persian', 'small'),
-('po405pet2', 'po405', 'cat', 'sphynx', 'large'),
-('po406pet0', 'po406', 'dog', 'pug', 'small'),
-('po406pet1', 'po406', 'dog', 'retriever', 'large'),
-('po406pet2', 'po406', 'dog', 'retriever', 'large'),
-('po408pet0', 'po408', 'cat', 'sphynx', 'medium'),
-('po408pet1', 'po408', 'dog', 'husky', 'small'),
-('po409pet0', 'po409', 'dog', 'husky', 'medium'),
-('po410pet0', 'po410', 'cat', 'persian', 'small'),
-('po410pet1', 'po410', 'cat', 'sphynx', 'medium'),
-('po410pet2', 'po410', 'dog', 'pug', 'large'),
-('po411pet0', 'po411', 'cat', 'siamese', 'small'),
-('po411pet1', 'po411', 'cat', 'persian', 'medium'),
-('po412pet0', 'po412', 'cat', 'persian', 'medium'),
-('po412pet1', 'po412', 'dog', 'husky', 'large'),
-('po412pet2', 'po412', 'cat', 'siamese', 'small'),
-('po413pet0', 'po413', 'dog', 'pug', 'medium'),
-('po413pet1', 'po413', 'dog', 'pug', 'large'),
-('po413pet2', 'po413', 'dog', 'cihuahua', 'large'),
-('po414pet0', 'po414', 'cat', 'siamese', 'small'),
-('po414pet1', 'po414', 'dog', 'pug', 'small'),
-('po415pet0', 'po415', 'cat', 'siamese', 'small'),
-('po416pet0', 'po416', 'dog', 'retriever', 'medium'),
-('po416pet1', 'po416', 'cat', 'sphynx', 'medium'),
-('po418pet0', 'po418', 'dog', 'pug', 'large'),
-('po418pet1', 'po418', 'dog', 'retriever', 'small'),
-('po421pet0', 'po421', 'dog', 'retriever', 'large'),
-('po421pet1', 'po421', 'dog', 'cihuahua', 'large'),
-('po421pet2', 'po421', 'dog', 'cihuahua', 'large'),
-('po423pet0', 'po423', 'dog', 'retriever', 'large'),
-('po423pet1', 'po423', 'cat', 'persian', 'small'),
-('po425pet0', 'po425', 'dog', 'cihuahua', 'medium'),
-('po425pet1', 'po425', 'cat', 'sphynx', 'large'),
-('po425pet2', 'po425', 'dog', 'pug', 'large'),
-('po426pet0', 'po426', 'cat', 'sphynx', 'medium'),
-('po427pet0', 'po427', 'dog', 'cihuahua', 'small'),
-('po427pet1', 'po427', 'dog', 'cihuahua', 'large'),
-('po427pet2', 'po427', 'cat', 'siamese', 'small'),
-('po428pet0', 'po428', 'dog', 'husky', 'medium'),
-('po429pet0', 'po429', 'dog', 'cihuahua', 'medium'),
-('po430pet0', 'po430', 'dog', 'pug', 'medium'),
-('po430pet1', 'po430', 'dog', 'pug', 'small'),
-('po430pet2', 'po430', 'cat', 'siamese', 'small'),
-('po431pet0', 'po431', 'dog', 'husky', 'medium'),
-('po431pet1', 'po431', 'cat', 'siamese', 'small'),
-('po432pet0', 'po432', 'cat', 'persian', 'medium'),
-('po433pet0', 'po433', 'dog', 'cihuahua', 'small'),
-('po434pet0', 'po434', 'dog', 'pug', 'large'),
-('po435pet0', 'po435', 'cat', 'persian', 'large'),
-('po435pet1', 'po435', 'cat', 'persian', 'large'),
-('po435pet2', 'po435', 'dog', 'husky', 'medium'),
-('po437pet0', 'po437', 'dog', 'cihuahua', 'large'),
-('po437pet1', 'po437', 'dog', 'pug', 'small'),
-('po437pet2', 'po437', 'dog', 'husky', 'small'),
-('po438pet0', 'po438', 'dog', 'pug', 'medium'),
-('po438pet1', 'po438', 'cat', 'sphynx', 'small'),
-('po439pet0', 'po439', 'dog', 'pug', 'large'),
-('po439pet1', 'po439', 'dog', 'cihuahua', 'large'),
-('po439pet2', 'po439', 'dog', 'pug', 'small'),
-('po441pet0', 'po441', 'cat', 'siamese', 'small'),
-('po441pet1', 'po441', 'dog', 'cihuahua', 'large'),
-('po442pet0', 'po442', 'cat', 'persian', 'medium'),
-('po445pet0', 'po445', 'dog', 'pug', 'small'),
-('po446pet0', 'po446', 'cat', 'siamese', 'medium'),
-('po447pet0', 'po447', 'dog', 'cihuahua', 'small'),
-('po447pet1', 'po447', 'cat', 'siamese', 'large'),
-('po448pet0', 'po448', 'dog', 'pug', 'small'),
-('po448pet1', 'po448', 'dog', 'husky', 'small'),
-('po448pet2', 'po448', 'cat', 'sphynx', 'large'),
-('po450pet0', 'po450', 'cat', 'sphynx', 'small'),
-('po450pet1', 'po450', 'dog', 'cihuahua', 'small'),
-('po452pet0', 'po452', 'dog', 'retriever', 'medium'),
-('po453pet0', 'po453', 'dog', 'cihuahua', 'medium'),
-('po454pet0', 'po454', 'cat', 'persian', 'large'),
-('po455pet0', 'po455', 'dog', 'retriever', 'small'),
-('po455pet1', 'po455', 'cat', 'siamese', 'small'),
-('po455pet2', 'po455', 'dog', 'retriever', 'small'),
-('po456pet0', 'po456', 'dog', 'pug', 'small'),
-('po457pet0', 'po457', 'dog', 'pug', 'large'),
-('po458pet0', 'po458', 'cat', 'persian', 'large'),
-('po458pet1', 'po458', 'dog', 'husky', 'medium'),
-('po458pet2', 'po458', 'cat', 'sphynx', 'medium'),
-('po459pet0', 'po459', 'cat', 'siamese', 'medium'),
-('po459pet1', 'po459', 'cat', 'sphynx', 'medium'),
-('po461pet0', 'po461', 'dog', 'pug', 'medium'),
-('po461pet1', 'po461', 'dog', 'cihuahua', 'large'),
-('po461pet2', 'po461', 'cat', 'sphynx', 'medium'),
-('po462pet0', 'po462', 'dog', 'cihuahua', 'large'),
-('po462pet1', 'po462', 'dog', 'pug', 'small'),
-('po463pet0', 'po463', 'dog', 'husky', 'medium'),
-('po463pet1', 'po463', 'dog', 'pug', 'medium'),
-('po463pet2', 'po463', 'cat', 'sphynx', 'small'),
-('po464pet0', 'po464', 'dog', 'cihuahua', 'small'),
-('po464pet1', 'po464', 'dog', 'cihuahua', 'small'),
-('po464pet2', 'po464', 'dog', 'husky', 'small'),
-('po467pet0', 'po467', 'cat', 'siamese', 'small'),
-('po469pet0', 'po469', 'cat', 'siamese', 'small'),
-('po471pet0', 'po471', 'cat', 'persian', 'small'),
-('po471pet1', 'po471', 'dog', 'pug', 'small'),
-('po471pet2', 'po471', 'dog', 'cihuahua', 'small'),
-('po472pet0', 'po472', 'dog', 'retriever', 'large'),
-('po472pet1', 'po472', 'cat', 'sphynx', 'small'),
-('po474pet0', 'po474', 'dog', 'husky', 'large'),
-('po476pet0', 'po476', 'cat', 'sphynx', 'medium'),
-('po476pet1', 'po476', 'cat', 'siamese', 'large'),
-('po479pet0', 'po479', 'cat', 'persian', 'small'),
-('po479pet1', 'po479', 'cat', 'persian', 'medium'),
-('po481pet0', 'po481', 'cat', 'sphynx', 'small'),
-('po484pet0', 'po484', 'cat', 'sphynx', 'small'),
-('po484pet1', 'po484', 'cat', 'persian', 'small'),
-('po484pet2', 'po484', 'dog', 'cihuahua', 'large'),
-('po485pet0', 'po485', 'cat', 'persian', 'medium'),
-('po486pet0', 'po486', 'cat', 'siamese', 'medium'),
-('po486pet1', 'po486', 'dog', 'retriever', 'small'),
-('po487pet0', 'po487', 'dog', 'cihuahua', 'large'),
-('po488pet0', 'po488', 'cat', 'persian', 'medium'),
-('po489pet0', 'po489', 'dog', 'husky', 'small'),
-('po489pet1', 'po489', 'cat', 'siamese', 'small'),
-('po490pet0', 'po490', 'cat', 'persian', 'small'),
-('po490pet1', 'po490', 'dog', 'retriever', 'small'),
-('po490pet2', 'po490', 'dog', 'husky', 'medium'),
-('po491pet0', 'po491', 'cat', 'siamese', 'medium'),
-('po492pet0', 'po492', 'cat', 'siamese', 'large'),
-('po492pet1', 'po492', 'dog', 'retriever', 'large'),
-('po492pet2', 'po492', 'dog', 'retriever', 'medium'),
-('po493pet0', 'po493', 'dog', 'pug', 'medium'),
-('po493pet1', 'po493', 'dog', 'husky', 'medium'),
-('po493pet2', 'po493', 'cat', 'sphynx', 'large'),
-('po495pet0', 'po495', 'dog', 'husky', 'small'),
-('po496pet0', 'po496', 'dog', 'pug', 'large'),
-('po496pet1', 'po496', 'cat', 'sphynx', 'large'),
-('po496pet2', 'po496', 'dog', 'husky', 'small'),
-('po497pet0', 'po497', 'dog', 'pug', 'large'),
-('po497pet1', 'po497', 'cat', 'sphynx', 'small'),
-('po497pet2', 'po497', 'dog', 'husky', 'medium'),
-('po500pet0', 'po500', 'dog', 'husky', 'small'),
-('po501pet0', 'po501', 'dog', 'cihuahua', 'large'),
-('po501pet1', 'po501', 'cat', 'persian', 'medium'),
-('po502pet0', 'po502', 'cat', 'persian', 'small'),
-('po502pet1', 'po502', 'dog', 'cihuahua', 'large'),
-('po504pet0', 'po504', 'cat', 'siamese', 'large'),
-('po506pet0', 'po506', 'dog', 'cihuahua', 'large'),
-('po506pet1', 'po506', 'dog', 'husky', 'medium'),
-('po506pet2', 'po506', 'dog', 'husky', 'medium'),
-('po508pet0', 'po508', 'dog', 'husky', 'medium'),
-('po508pet1', 'po508', 'dog', 'pug', 'medium'),
-('po509pet0', 'po509', 'cat', 'siamese', 'small'),
-('po509pet1', 'po509', 'cat', 'sphynx', 'small'),
-('po512pet0', 'po512', 'cat', 'siamese', 'large'),
-('po512pet1', 'po512', 'dog', 'husky', 'medium'),
-('po512pet2', 'po512', 'cat', 'persian', 'medium'),
-('po513pet0', 'po513', 'cat', 'sphynx', 'small'),
-('po513pet1', 'po513', 'dog', 'cihuahua', 'medium'),
-('po514pet0', 'po514', 'dog', 'cihuahua', 'large'),
-('po514pet1', 'po514', 'dog', 'cihuahua', 'large'),
-('po516pet0', 'po516', 'dog', 'retriever', 'small'),
-('po518pet0', 'po518', 'dog', 'retriever', 'large'),
-('po519pet0', 'po519', 'dog', 'husky', 'large'),
-('po519pet1', 'po519', 'dog', 'retriever', 'medium'),
-('po520pet0', 'po520', 'cat', 'sphynx', 'small'),
-('po520pet1', 'po520', 'cat', 'sphynx', 'medium'),
-('po521pet0', 'po521', 'dog', 'cihuahua', 'medium'),
-('po522pet0', 'po522', 'dog', 'retriever', 'large'),
-('po522pet1', 'po522', 'cat', 'siamese', 'medium'),
-('po523pet0', 'po523', 'cat', 'siamese', 'large'),
-('po523pet1', 'po523', 'dog', 'husky', 'medium'),
-('po524pet0', 'po524', 'cat', 'persian', 'medium'),
-('po524pet1', 'po524', 'dog', 'husky', 'small'),
-('po525pet0', 'po525', 'dog', 'pug', 'large'),
-('po525pet1', 'po525', 'cat', 'sphynx', 'large'),
-('po525pet2', 'po525', 'cat', 'sphynx', 'large'),
-('po526pet0', 'po526', 'dog', 'pug', 'large'),
-('po526pet1', 'po526', 'dog', 'husky', 'large'),
-('po526pet2', 'po526', 'cat', 'siamese', 'medium'),
-('po527pet0', 'po527', 'dog', 'cihuahua', 'large'),
-('po527pet1', 'po527', 'dog', 'husky', 'medium'),
-('po527pet2', 'po527', 'cat', 'siamese', 'medium'),
-('po529pet0', 'po529', 'dog', 'retriever', 'medium'),
-('po529pet1', 'po529', 'dog', 'pug', 'medium'),
-('po530pet0', 'po530', 'dog', 'retriever', 'medium'),
-('po531pet0', 'po531', 'dog', 'retriever', 'large'),
-('po531pet1', 'po531', 'dog', 'pug', 'medium'),
-('po532pet0', 'po532', 'dog', 'pug', 'large'),
-('po533pet0', 'po533', 'dog', 'husky', 'small'),
-('po535pet0', 'po535', 'dog', 'pug', 'large'),
-('po536pet0', 'po536', 'dog', 'husky', 'medium'),
-('po536pet1', 'po536', 'cat', 'sphynx', 'small'),
-('po536pet2', 'po536', 'dog', 'retriever', 'small'),
-('po537pet0', 'po537', 'dog', 'pug', 'small'),
-('po539pet0', 'po539', 'dog', 'cihuahua', 'medium'),
-('po540pet0', 'po540', 'cat', 'sphynx', 'small'),
-('po542pet0', 'po542', 'dog', 'retriever', 'large'),
-('po542pet1', 'po542', 'dog', 'husky', 'medium'),
-('po543pet0', 'po543', 'cat', 'siamese', 'large'),
-('po543pet1', 'po543', 'dog', 'cihuahua', 'large'),
-('po546pet0', 'po546', 'cat', 'sphynx', 'medium'),
-('po546pet1', 'po546', 'dog', 'pug', 'medium'),
-('po546pet2', 'po546', 'cat', 'persian', 'large'),
-('po549pet0', 'po549', 'dog', 'pug', 'medium'),
-('po550pet0', 'po550', 'cat', 'sphynx', 'medium'),
-('po551pet0', 'po551', 'cat', 'sphynx', 'medium'),
-('po551pet1', 'po551', 'cat', 'sphynx', 'small'),
-('po551pet2', 'po551', 'dog', 'husky', 'medium'),
-('po553pet0', 'po553', 'cat', 'persian', 'large'),
-('po555pet0', 'po555', 'dog', 'pug', 'small'),
-('po555pet1', 'po555', 'cat', 'persian', 'medium'),
-('po556pet0', 'po556', 'dog', 'husky', 'large'),
-('po557pet0', 'po557', 'cat', 'siamese', 'small'),
-('po558pet0', 'po558', 'cat', 'sphynx', 'large'),
-('po558pet1', 'po558', 'dog', 'retriever', 'small'),
-('po558pet2', 'po558', 'dog', 'husky', 'small'),
-('po559pet0', 'po559', 'dog', 'husky', 'large'),
-('po561pet0', 'po561', 'dog', 'husky', 'medium'),
-('po561pet1', 'po561', 'dog', 'pug', 'medium'),
-('po563pet0', 'po563', 'dog', 'pug', 'medium'),
-('po563pet1', 'po563', 'dog', 'cihuahua', 'medium'),
-('po563pet2', 'po563', 'cat', 'sphynx', 'large'),
-('po564pet0', 'po564', 'cat', 'sphynx', 'large'),
-('po564pet1', 'po564', 'dog', 'retriever', 'medium'),
-('po564pet2', 'po564', 'cat', 'sphynx', 'large'),
-('po565pet0', 'po565', 'dog', 'pug', 'large'),
-('po566pet0', 'po566', 'cat', 'persian', 'small'),
-('po566pet1', 'po566', 'cat', 'sphynx', 'small'),
-('po567pet0', 'po567', 'cat', 'siamese', 'large'),
-('po567pet1', 'po567', 'dog', 'pug', 'large'),
-('po568pet0', 'po568', 'dog', 'husky', 'small'),
-('po569pet0', 'po569', 'dog', 'husky', 'small'),
-('po569pet1', 'po569', 'cat', 'sphynx', 'small'),
-('po571pet0', 'po571', 'dog', 'cihuahua', 'medium'),
-('po571pet1', 'po571', 'cat', 'siamese', 'small'),
-('po571pet2', 'po571', 'dog', 'pug', 'large'),
-('po572pet0', 'po572', 'cat', 'siamese', 'medium'),
-('po572pet1', 'po572', 'cat', 'persian', 'medium'),
-('po573pet0', 'po573', 'dog', 'retriever', 'small'),
-('po575pet0', 'po575', 'dog', 'cihuahua', 'small'),
-('po575pet1', 'po575', 'cat', 'siamese', 'small'),
-('po575pet2', 'po575', 'cat', 'sphynx', 'medium'),
-('po576pet0', 'po576', 'cat', 'persian', 'small'),
-('po576pet1', 'po576', 'cat', 'siamese', 'small'),
-('po576pet2', 'po576', 'dog', 'husky', 'large'),
-('po577pet0', 'po577', 'dog', 'retriever', 'medium'),
-('po577pet1', 'po577', 'dog', 'cihuahua', 'medium'),
-('po577pet2', 'po577', 'cat', 'persian', 'large'),
-('po578pet0', 'po578', 'cat', 'sphynx', 'medium'),
-('po579pet0', 'po579', 'cat', 'persian', 'small'),
-('po579pet1', 'po579', 'dog', 'pug', 'small'),
-('po580pet0', 'po580', 'dog', 'husky', 'medium'),
-('po580pet1', 'po580', 'dog', 'pug', 'small'),
-('po580pet2', 'po580', 'dog', 'cihuahua', 'medium'),
-('po581pet0', 'po581', 'cat', 'sphynx', 'small'),
-('po581pet1', 'po581', 'cat', 'sphynx', 'medium'),
-('po581pet2', 'po581', 'dog', 'pug', 'medium'),
-('po583pet0', 'po583', 'cat', 'siamese', 'large'),
-('po585pet0', 'po585', 'dog', 'retriever', 'large'),
-('po585pet1', 'po585', 'dog', 'cihuahua', 'large'),
-('po586pet0', 'po586', 'cat', 'persian', 'large'),
-('po586pet1', 'po586', 'cat', 'siamese', 'small'),
-('po586pet2', 'po586', 'dog', 'retriever', 'medium'),
-('po587pet0', 'po587', 'cat', 'sphynx', 'medium'),
-('po588pet0', 'po588', 'cat', 'persian', 'medium'),
-('po589pet0', 'po589', 'cat', 'persian', 'large'),
-('po589pet1', 'po589', 'cat', 'sphynx', 'small'),
-('po589pet2', 'po589', 'dog', 'cihuahua', 'large'),
-('po590pet0', 'po590', 'cat', 'siamese', 'large'),
-('po590pet1', 'po590', 'cat', 'sphynx', 'medium'),
-('po592pet0', 'po592', 'dog', 'pug', 'medium'),
-('po592pet1', 'po592', 'cat', 'siamese', 'small'),
-('po593pet0', 'po593', 'dog', 'retriever', 'medium'),
-('po594pet0', 'po594', 'cat', 'siamese', 'medium'),
-('po594pet1', 'po594', 'dog', 'retriever', 'small'),
-('po594pet2', 'po594', 'dog', 'retriever', 'small'),
-('po595pet0', 'po595', 'cat', 'sphynx', 'large'),
-('po596pet0', 'po596', 'dog', 'cihuahua', 'large'),
-('po597pet0', 'po597', 'dog', 'pug', 'small'),
-('po597pet1', 'po597', 'dog', 'pug', 'medium'),
-('po597pet2', 'po597', 'dog', 'pug', 'small'),
-('po600pet0', 'po600', 'dog', 'pug', 'small'),
-('po601pet0', 'po601', 'dog', 'cihuahua', 'large'),
-('po601pet1', 'po601', 'dog', 'husky', 'large'),
-('po602pet0', 'po602', 'dog', 'pug', 'medium'),
-('po603pet0', 'po603', 'dog', 'pug', 'medium'),
-('po603pet1', 'po603', 'dog', 'cihuahua', 'small'),
-('po603pet2', 'po603', 'dog', 'pug', 'medium'),
-('po604pet0', 'po604', 'cat', 'siamese', 'large'),
-('po604pet1', 'po604', 'cat', 'persian', 'medium'),
-('po604pet2', 'po604', 'dog', 'cihuahua', 'small'),
-('po605pet0', 'po605', 'cat', 'persian', 'large'),
-('po605pet1', 'po605', 'dog', 'pug', 'large'),
-('po605pet2', 'po605', 'dog', 'pug', 'medium'),
-('po606pet0', 'po606', 'cat', 'sphynx', 'large'),
-('po606pet1', 'po606', 'cat', 'persian', 'small'),
-('po607pet0', 'po607', 'dog', 'pug', 'small'),
-('po607pet1', 'po607', 'cat', 'sphynx', 'large'),
-('po609pet0', 'po609', 'dog', 'pug', 'large'),
-('po610pet0', 'po610', 'cat', 'sphynx', 'large'),
-('po610pet1', 'po610', 'cat', 'siamese', 'small'),
-('po610pet2', 'po610', 'dog', 'cihuahua', 'small'),
-('po611pet0', 'po611', 'dog', 'husky', 'large'),
-('po616pet0', 'po616', 'cat', 'persian', 'large'),
-('po616pet1', 'po616', 'dog', 'cihuahua', 'small'),
-('po616pet2', 'po616', 'cat', 'sphynx', 'small'),
-('po617pet0', 'po617', 'dog', 'pug', 'large'),
-('po617pet1', 'po617', 'cat', 'siamese', 'medium'),
-('po617pet2', 'po617', 'dog', 'cihuahua', 'medium'),
-('po623pet0', 'po623', 'dog', 'cihuahua', 'small'),
-('po623pet1', 'po623', 'cat', 'sphynx', 'large'),
-('po623pet2', 'po623', 'dog', 'retriever', 'small'),
-('po624pet0', 'po624', 'dog', 'husky', 'large'),
-('po626pet0', 'po626', 'dog', 'pug', 'small'),
-('po626pet1', 'po626', 'cat', 'persian', 'large'),
-('po626pet2', 'po626', 'cat', 'sphynx', 'large'),
-('po629pet0', 'po629', 'dog', 'cihuahua', 'large'),
-('po629pet1', 'po629', 'dog', 'cihuahua', 'small'),
-('po629pet2', 'po629', 'cat', 'sphynx', 'small'),
-('po630pet0', 'po630', 'cat', 'siamese', 'large'),
-('po630pet1', 'po630', 'dog', 'husky', 'medium'),
-('po631pet0', 'po631', 'dog', 'retriever', 'medium'),
-('po631pet1', 'po631', 'dog', 'retriever', 'large'),
-('po632pet0', 'po632', 'cat', 'siamese', 'small'),
-('po633pet0', 'po633', 'cat', 'siamese', 'medium'),
-('po633pet1', 'po633', 'dog', 'cihuahua', 'medium'),
-('po635pet0', 'po635', 'dog', 'cihuahua', 'medium'),
-('po635pet1', 'po635', 'cat', 'sphynx', 'medium'),
-('po635pet2', 'po635', 'cat', 'sphynx', 'small'),
-('po636pet0', 'po636', 'cat', 'persian', 'small'),
-('po636pet1', 'po636', 'cat', 'sphynx', 'large'),
-('po636pet2', 'po636', 'cat', 'persian', 'large'),
-('po638pet0', 'po638', 'dog', 'pug', 'medium'),
-('po639pet0', 'po639', 'dog', 'pug', 'large'),
-('po641pet0', 'po641', 'cat', 'persian', 'small'),
-('po641pet1', 'po641', 'cat', 'sphynx', 'small'),
-('po641pet2', 'po641', 'cat', 'persian', 'small'),
-('po642pet0', 'po642', 'cat', 'sphynx', 'small'),
-('po642pet1', 'po642', 'cat', 'siamese', 'medium'),
-('po643pet0', 'po643', 'dog', 'pug', 'medium'),
-('po643pet1', 'po643', 'dog', 'husky', 'large'),
-('po643pet2', 'po643', 'dog', 'cihuahua', 'large'),
-('po644pet0', 'po644', 'cat', 'persian', 'large'),
-('po644pet1', 'po644', 'dog', 'retriever', 'large'),
-('po644pet2', 'po644', 'dog', 'husky', 'small'),
-('po645pet0', 'po645', 'cat', 'siamese', 'large'),
-('po646pet0', 'po646', 'dog', 'pug', 'medium'),
-('po646pet1', 'po646', 'cat', 'siamese', 'large'),
-('po647pet0', 'po647', 'cat', 'siamese', 'medium'),
-('po647pet1', 'po647', 'dog', 'husky', 'small'),
-('po648pet0', 'po648', 'dog', 'pug', 'small'),
-('po648pet1', 'po648', 'dog', 'pug', 'small'),
-('po648pet2', 'po648', 'cat', 'sphynx', 'small'),
-('po651pet0', 'po651', 'dog', 'husky', 'large'),
-('po652pet0', 'po652', 'cat', 'sphynx', 'small'),
-('po652pet1', 'po652', 'cat', 'siamese', 'large'),
-('po652pet2', 'po652', 'dog', 'husky', 'large'),
-('po653pet0', 'po653', 'cat', 'siamese', 'large'),
-('po654pet0', 'po654', 'dog', 'pug', 'medium'),
-('po654pet1', 'po654', 'dog', 'cihuahua', 'small'),
-('po655pet0', 'po655', 'dog', 'husky', 'small'),
-('po656pet0', 'po656', 'dog', 'pug', 'small'),
-('po656pet1', 'po656', 'dog', 'husky', 'large'),
-('po656pet2', 'po656', 'dog', 'cihuahua', 'medium'),
-('po659pet0', 'po659', 'dog', 'husky', 'small'),
-('po659pet1', 'po659', 'cat', 'sphynx', 'large'),
-('po660pet0', 'po660', 'dog', 'husky', 'large'),
-('po660pet1', 'po660', 'cat', 'sphynx', 'medium'),
-('po662pet0', 'po662', 'dog', 'husky', 'small'),
-('po662pet1', 'po662', 'cat', 'persian', 'medium'),
-('po662pet2', 'po662', 'cat', 'persian', 'large'),
-('po663pet0', 'po663', 'cat', 'sphynx', 'medium'),
-('po663pet1', 'po663', 'dog', 'pug', 'large'),
-('po665pet0', 'po665', 'dog', 'husky', 'large'),
-('po666pet0', 'po666', 'dog', 'pug', 'small'),
-('po666pet1', 'po666', 'cat', 'siamese', 'small'),
-('po666pet2', 'po666', 'dog', 'retriever', 'medium'),
-('po667pet0', 'po667', 'cat', 'persian', 'large'),
-('po667pet1', 'po667', 'cat', 'sphynx', 'large'),
-('po667pet2', 'po667', 'cat', 'sphynx', 'large'),
-('po668pet0', 'po668', 'cat', 'sphynx', 'large'),
-('po669pet0', 'po669', 'dog', 'cihuahua', 'medium'),
-('po669pet1', 'po669', 'cat', 'sphynx', 'medium'),
-('po669pet2', 'po669', 'dog', 'husky', 'large'),
-('po670pet0', 'po670', 'cat', 'sphynx', 'large'),
-('po670pet1', 'po670', 'cat', 'sphynx', 'large'),
-('po670pet2', 'po670', 'dog', 'pug', 'medium'),
-('po671pet0', 'po671', 'cat', 'siamese', 'medium'),
-('po672pet0', 'po672', 'dog', 'cihuahua', 'medium'),
-('po672pet1', 'po672', 'cat', 'siamese', 'small'),
-('po673pet0', 'po673', 'cat', 'persian', 'small'),
-('po674pet0', 'po674', 'dog', 'cihuahua', 'large'),
-('po674pet1', 'po674', 'cat', 'persian', 'small'),
-('po674pet2', 'po674', 'cat', 'siamese', 'large'),
-('po675pet0', 'po675', 'dog', 'cihuahua', 'small'),
-('po675pet1', 'po675', 'cat', 'sphynx', 'large'),
-('po676pet0', 'po676', 'dog', 'retriever', 'large'),
-('po677pet0', 'po677', 'cat', 'sphynx', 'large'),
-('po678pet0', 'po678', 'cat', 'sphynx', 'medium'),
-('po678pet1', 'po678', 'dog', 'pug', 'small'),
-('po679pet0', 'po679', 'dog', 'husky', 'small'),
-('po679pet1', 'po679', 'dog', 'retriever', 'medium'),
-('po679pet2', 'po679', 'dog', 'husky', 'small'),
-('po682pet0', 'po682', 'dog', 'cihuahua', 'medium'),
-('po682pet1', 'po682', 'dog', 'pug', 'small'),
-('po684pet0', 'po684', 'cat', 'persian', 'medium'),
-('po685pet0', 'po685', 'cat', 'sphynx', 'medium'),
-('po686pet0', 'po686', 'cat', 'persian', 'medium'),
-('po687pet0', 'po687', 'cat', 'sphynx', 'large'),
-('po687pet1', 'po687', 'cat', 'siamese', 'small'),
-('po687pet2', 'po687', 'dog', 'cihuahua', 'large'),
-('po688pet0', 'po688', 'dog', 'cihuahua', 'small'),
-('po688pet1', 'po688', 'dog', 'husky', 'large'),
-('po689pet0', 'po689', 'cat', 'sphynx', 'medium'),
-('po690pet0', 'po690', 'cat', 'persian', 'medium'),
-('po690pet1', 'po690', 'dog', 'cihuahua', 'small'),
-('po690pet2', 'po690', 'dog', 'retriever', 'large'),
-('po693pet0', 'po693', 'cat', 'sphynx', 'medium'),
-('po693pet1', 'po693', 'dog', 'pug', 'small'),
-('po694pet0', 'po694', 'dog', 'cihuahua', 'medium'),
-('po695pet0', 'po695', 'dog', 'pug', 'large'),
-('po695pet1', 'po695', 'cat', 'sphynx', 'large'),
-('po696pet0', 'po696', 'dog', 'pug', 'small'),
-('po698pet0', 'po698', 'cat', 'siamese', 'medium'),
-('po699pet0', 'po699', 'cat', 'persian', 'medium'),
-('po699pet1', 'po699', 'dog', 'cihuahua', 'medium'),
-('po699pet2', 'po699', 'dog', 'husky', 'small'),
-('po700pet0', 'po700', 'dog', 'retriever', 'medium'),
-('po700pet1', 'po700', 'cat', 'siamese', 'small'),
-('po701pet0', 'po701', 'dog', 'pug', 'large'),
-('po701pet1', 'po701', 'cat', 'persian', 'medium'),
-('po702pet0', 'po702', 'cat', 'sphynx', 'medium'),
-('po702pet1', 'po702', 'cat', 'siamese', 'medium'),
-('po702pet2', 'po702', 'cat', 'siamese', 'large'),
-('po704pet0', 'po704', 'cat', 'siamese', 'large'),
-('po704pet1', 'po704', 'cat', 'sphynx', 'medium'),
-('po705pet0', 'po705', 'dog', 'retriever', 'small'),
-('po705pet1', 'po705', 'cat', 'siamese', 'large'),
-('po706pet0', 'po706', 'cat', 'siamese', 'large'),
-('po707pet0', 'po707', 'dog', 'husky', 'small'),
-('po708pet0', 'po708', 'cat', 'persian', 'small'),
-('po709pet0', 'po709', 'dog', 'cihuahua', 'medium'),
-('po709pet1', 'po709', 'dog', 'husky', 'large'),
-('po710pet0', 'po710', 'dog', 'cihuahua', 'large'),
-('po710pet1', 'po710', 'dog', 'cihuahua', 'medium'),
-('po710pet2', 'po710', 'cat', 'siamese', 'large'),
-('po712pet0', 'po712', 'dog', 'husky', 'small'),
-('po712pet1', 'po712', 'cat', 'persian', 'large'),
-('po713pet0', 'po713', 'dog', 'cihuahua', 'large'),
-('po713pet1', 'po713', 'cat', 'siamese', 'small'),
-('po713pet2', 'po713', 'dog', 'cihuahua', 'medium'),
-('po714pet0', 'po714', 'dog', 'retriever', 'small'),
-('po714pet1', 'po714', 'dog', 'pug', 'medium'),
-('po715pet0', 'po715', 'dog', 'cihuahua', 'small'),
-('po716pet0', 'po716', 'cat', 'siamese', 'medium'),
-('po717pet0', 'po717', 'dog', 'cihuahua', 'large'),
-('po717pet1', 'po717', 'dog', 'husky', 'medium'),
-('po717pet2', 'po717', 'cat', 'siamese', 'medium'),
-('po718pet0', 'po718', 'dog', 'cihuahua', 'small'),
-('po719pet0', 'po719', 'cat', 'siamese', 'large'),
-('po721pet0', 'po721', 'cat', 'sphynx', 'small'),
-('po721pet1', 'po721', 'dog', 'pug', 'large'),
-('po722pet0', 'po722', 'dog', 'retriever', 'small'),
-('po722pet1', 'po722', 'dog', 'pug', 'small'),
-('po722pet2', 'po722', 'dog', 'cihuahua', 'small'),
-('po723pet0', 'po723', 'cat', 'persian', 'medium'),
-('po723pet1', 'po723', 'cat', 'sphynx', 'small'),
-('po726pet0', 'po726', 'cat', 'siamese', 'small'),
-('po726pet1', 'po726', 'cat', 'sphynx', 'large'),
-('po726pet2', 'po726', 'cat', 'siamese', 'medium'),
-('po728pet0', 'po728', 'dog', 'husky', 'small'),
-('po730pet0', 'po730', 'cat', 'persian', 'small'),
-('po730pet1', 'po730', 'cat', 'persian', 'small'),
-('po730pet2', 'po730', 'cat', 'siamese', 'small'),
-('po731pet0', 'po731', 'dog', 'retriever', 'small'),
-('po732pet0', 'po732', 'dog', 'retriever', 'large'),
-('po732pet1', 'po732', 'cat', 'siamese', 'large'),
-('po732pet2', 'po732', 'dog', 'husky', 'small'),
-('po733pet0', 'po733', 'cat', 'sphynx', 'small'),
-('po733pet1', 'po733', 'dog', 'retriever', 'medium'),
-('po734pet0', 'po734', 'cat', 'siamese', 'small'),
-('po735pet0', 'po735', 'dog', 'pug', 'medium'),
-('po735pet1', 'po735', 'dog', 'retriever', 'large'),
-('po735pet2', 'po735', 'dog', 'retriever', 'large'),
-('po738pet0', 'po738', 'dog', 'husky', 'small'),
-('po739pet0', 'po739', 'dog', 'cihuahua', 'large'),
-('po740pet0', 'po740', 'cat', 'sphynx', 'small'),
-('po743pet0', 'po743', 'dog', 'cihuahua', 'small'),
-('po744pet0', 'po744', 'cat', 'siamese', 'medium'),
-('po745pet0', 'po745', 'cat', 'siamese', 'large'),
-('po745pet1', 'po745', 'cat', 'siamese', 'large'),
-('po745pet2', 'po745', 'cat', 'siamese', 'small'),
-('po746pet0', 'po746', 'cat', 'siamese', 'large'),
-('po746pet1', 'po746', 'dog', 'husky', 'small'),
-('po747pet0', 'po747', 'cat', 'sphynx', 'large'),
-('po747pet1', 'po747', 'dog', 'pug', 'small'),
-('po747pet2', 'po747', 'cat', 'sphynx', 'large'),
-('po750pet0', 'po750', 'dog', 'retriever', 'large'),
-('po750pet1', 'po750', 'cat', 'sphynx', 'small'),
-('po751pet0', 'po751', 'dog', 'cihuahua', 'large'),
-('po752pet0', 'po752', 'dog', 'pug', 'medium'),
-('po752pet1', 'po752', 'dog', 'cihuahua', 'small'),
-('po752pet2', 'po752', 'cat', 'siamese', 'large'),
-('po754pet0', 'po754', 'dog', 'pug', 'large'),
-('po754pet1', 'po754', 'cat', 'siamese', 'large'),
-('po755pet0', 'po755', 'cat', 'persian', 'small'),
-('po755pet1', 'po755', 'cat', 'sphynx', 'small'),
-('po755pet2', 'po755', 'cat', 'persian', 'medium'),
-('po756pet0', 'po756', 'dog', 'husky', 'small'),
-('po756pet1', 'po756', 'cat', 'sphynx', 'large'),
-('po757pet0', 'po757', 'dog', 'cihuahua', 'large'),
-('po758pet0', 'po758', 'dog', 'cihuahua', 'large'),
-('po758pet1', 'po758', 'cat', 'persian', 'large'),
-('po758pet2', 'po758', 'cat', 'siamese', 'large'),
-('po759pet0', 'po759', 'dog', 'retriever', 'small'),
-('po762pet0', 'po762', 'dog', 'husky', 'small'),
-('po763pet0', 'po763', 'dog', 'cihuahua', 'small'),
-('po763pet1', 'po763', 'dog', 'pug', 'large'),
-('po763pet2', 'po763', 'cat', 'siamese', 'medium'),
-('po765pet0', 'po765', 'cat', 'siamese', 'medium'),
-('po765pet1', 'po765', 'cat', 'persian', 'large'),
-('po766pet0', 'po766', 'dog', 'retriever', 'large'),
-('po766pet1', 'po766', 'cat', 'persian', 'small'),
-('po767pet0', 'po767', 'cat', 'persian', 'small'),
-('po767pet1', 'po767', 'dog', 'husky', 'large'),
-('po771pet0', 'po771', 'dog', 'pug', 'medium'),
-('po772pet0', 'po772', 'dog', 'cihuahua', 'small'),
-('po772pet1', 'po772', 'cat', 'persian', 'large'),
-('po773pet0', 'po773', 'dog', 'retriever', 'medium'),
-('po774pet0', 'po774', 'dog', 'pug', 'medium'),
-('po775pet0', 'po775', 'dog', 'pug', 'large'),
-('po775pet1', 'po775', 'dog', 'husky', 'medium'),
-('po775pet2', 'po775', 'dog', 'husky', 'small'),
-('po777pet0', 'po777', 'dog', 'cihuahua', 'small'),
-('po777pet1', 'po777', 'cat', 'siamese', 'medium'),
-('po779pet0', 'po779', 'cat', 'persian', 'medium'),
-('po779pet1', 'po779', 'dog', 'husky', 'medium'),
-('po780pet0', 'po780', 'dog', 'pug', 'medium'),
-('po780pet1', 'po780', 'dog', 'pug', 'small'),
-('po781pet0', 'po781', 'dog', 'retriever', 'medium'),
-('po783pet0', 'po783', 'dog', 'cihuahua', 'medium'),
-('po783pet1', 'po783', 'dog', 'pug', 'medium'),
-('po783pet2', 'po783', 'dog', 'husky', 'large'),
-('po784pet0', 'po784', 'dog', 'cihuahua', 'medium'),
-('po784pet1', 'po784', 'dog', 'husky', 'large'),
-('po785pet0', 'po785', 'cat', 'sphynx', 'large'),
-('po785pet1', 'po785', 'dog', 'pug', 'large'),
-('po785pet2', 'po785', 'cat', 'sphynx', 'small'),
-('po787pet0', 'po787', 'cat', 'persian', 'medium'),
-('po787pet1', 'po787', 'dog', 'retriever', 'large'),
-('po787pet2', 'po787', 'dog', 'pug', 'large'),
-('po788pet0', 'po788', 'cat', 'siamese', 'large'),
-('po788pet1', 'po788', 'dog', 'pug', 'small'),
-('po788pet2', 'po788', 'dog', 'husky', 'medium'),
-('po789pet0', 'po789', 'cat', 'sphynx', 'small'),
-('po789pet1', 'po789', 'dog', 'husky', 'small'),
-('po790pet0', 'po790', 'dog', 'pug', 'large'),
-('po790pet1', 'po790', 'cat', 'sphynx', 'small'),
-('po792pet0', 'po792', 'cat', 'siamese', 'medium'),
-('po792pet1', 'po792', 'cat', 'persian', 'small'),
-('po792pet2', 'po792', 'dog', 'husky', 'large'),
-('po793pet0', 'po793', 'cat', 'sphynx', 'medium'),
-('po793pet1', 'po793', 'dog', 'cihuahua', 'large'),
-('po794pet0', 'po794', 'dog', 'cihuahua', 'small'),
-('po794pet1', 'po794', 'dog', 'cihuahua', 'small'),
-('po794pet2', 'po794', 'dog', 'husky', 'small'),
-('po795pet0', 'po795', 'cat', 'persian', 'medium'),
-('po795pet1', 'po795', 'dog', 'pug', 'medium'),
-('po796pet0', 'po796', 'cat', 'sphynx', 'large'),
-('po796pet1', 'po796', 'dog', 'cihuahua', 'small'),
-('po797pet0', 'po797', 'cat', 'siamese', 'medium'),
-('po0pet4', 'po0', 'dog', 'husky', 'small');
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-11', '2020-10-14',
+            'fct9', 'po494', 'po494pet2', 4.5, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-24', '2020-10-29',
+            'pct34', 'po618', 'po618pet1', 3.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-05', '2020-10-11',
+            'fct11', 'po618', 'po618pet0', 3.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-17', '2020-09-21',
+            'pct11', 'po385', 'po385pet2', 3.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-03', '2020-10-05',
+            'fct4', 'po385', 'po385pet0', 3.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-06', '2020-10-19',
+            'pct110', 'po815', 'po815pet1', 3.7, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-01', '2020-10-13',
+            'fct14', 'po815', 'po815pet1', 3.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-15', '2020-09-22',
+            'pct55', 'po253', 'po253pet1', 4.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-23', '2020-09-28',
+            'fct10', 'po253', 'po253pet2', 4.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-08', '2020-10-18',
+            'pct44', 'po55', 'po55pet0', 2.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-11-02', '2020-11-05',
+            'fct19', 'po55', 'po55pet2', 2.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-06', '2020-10-13',
+            'pct92', 'po493', 'po493pet1', 3.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-25', '2020-10-26',
+            'fct6', 'po493', 'po493pet0', 3.9, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-19', '2020-09-24',
+            'pct68', 'po43', 'po43pet1', 4.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-16', '2020-09-30',
+            'fct15', 'po43', 'po43pet1', 4.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-06', '2020-10-11',
+            'pct1', 'po832', 'po832pet1', 3.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-26', '2020-09-30',
+            'fct0', 'po832', 'po832pet2', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-22', '2020-10-02',
+            'pct85', 'po278', 'po278pet2', 3.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-23', '2020-11-01',
+            'fct19', 'po278', 'po278pet0', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-18', '2020-10-30',
+            'pct45', 'po580', 'po580pet0', 4.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-23', '2020-10-25',
+            'fct11', 'po580', 'po580pet1', 4.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-11-02', '2020-11-05',
+            'pct20', 'po109', 'po109pet0', 3.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-03', '2020-10-05',
+            'fct6', 'po109', 'po109pet0', 3.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-23', '2020-11-05',
+            'pct22', 'po179', 'po179pet2', 2.2, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-20', '2020-10-28',
+            'fct14', 'po179', 'po179pet1', 2.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-10', '2020-10-22',
+            'pct120', 'po582', 'po582pet0', 4.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-18', '2020-10-21',
+            'fct8', 'po582', 'po582pet1', 4.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-18', '2020-11-01',
+            'pct100', 'po830', 'po830pet2', 3.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-31', '2020-11-06',
+            'fct11', 'po830', 'po830pet0', 3.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-31', '2020-11-05',
+            'pct42', 'po135', 'po135pet1', 4.5, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-09', '2020-10-23',
+            'fct23', 'po135', 'po135pet1', 4.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-16', '2020-09-30',
+            'pct8', 'po28', 'po28pet0', 2.9, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-25', '2020-11-04',
+            'fct21', 'po28', 'po28pet1', 2.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-18', '2020-10-27',
+            'pct66', 'po532', 'po532pet1', 4.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-23', '2020-10-07',
+            'fct7', 'po532', 'po532pet0', 4.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-13', '2020-09-16',
+            'pct99', 'po708', 'po708pet2', 3.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-31', '2020-11-11',
+            'fct17', 'po708', 'po708pet2', 3.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-19', '2020-10-22',
+            'pct103', 'po424', 'po424pet0', 2.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-29', '2020-10-13',
+            'fct13', 'po424', 'po424pet2', 2.2, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-03', '2020-10-11',
+            'pct121', 'po742', 'po742pet2', 4.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-13', '2020-09-22',
+            'fct2', 'po742', 'po742pet0', 4.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-26', '2020-10-07',
+            'pct106', 'po16', 'po16pet1', 4.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-01', '2020-10-03',
+            'fct3', 'po16', 'po16pet2', 4.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-27', '2020-10-31',
+            'pct123', 'po517', 'po517pet2', 2.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-15', '2020-10-25',
+            'fct6', 'po517', 'po517pet1', 2.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-18', '2020-10-20',
+            'pct89', 'po160', 'po160pet1', 3.5, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-19', '2020-10-20',
+            'fct14', 'po160', 'po160pet2', 3.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-22', '2020-10-02',
+            'pct47', 'po547', 'po547pet0', 3.9, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-20', '2020-10-25',
+            'fct4', 'po547', 'po547pet2', 3.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-08', '2020-10-15',
+            'pct40', 'po35', 'po35pet1', 2.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-09', '2020-10-20',
+            'fct8', 'po35', 'po35pet1', 2.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-29', '2020-10-05',
+            'pct62', 'po710', 'po710pet2', 4.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-14', '2020-09-20',
+            'fct3', 'po710', 'po710pet2', 4.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-03', '2020-10-04',
+            'pct45', 'po568', 'po568pet2', 4.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-02', '2020-10-09',
+            'fct5', 'po568', 'po568pet0', 4.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-11', '2020-10-14',
+            'pct91', 'po175', 'po175pet2', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-11', '2020-10-24',
+            'fct10', 'po175', 'po175pet2', 3.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-25', '2020-11-07',
+            'pct15', 'po537', 'po537pet0', 2.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-17', '2020-10-29',
+            'fct5', 'po537', 'po537pet0', 2.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-08', '2020-10-17',
+            'pct98', 'po212', 'po212pet1', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-31', '2020-11-13',
+            'fct4', 'po212', 'po212pet0', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-04', '2020-10-05',
+            'pct0', 'po429', 'po429pet1', 2.6, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-24', '2020-09-28',
+            'fct5', 'po429', 'po429pet0', 2.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-01', '2020-10-04',
+            'pct123', 'po145', 'po145pet0', 4.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-14', '2020-09-24',
+            'fct5', 'po145', 'po145pet2', 4.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-23', '2020-11-06',
+            'pct40', 'po591', 'po591pet1', 3.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-17', '2020-10-22',
+            'fct3', 'po591', 'po591pet2', 3.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-17', '2020-10-22',
+            'pct42', 'po634', 'po634pet0', 3.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-08', '2020-10-18',
+            'fct8', 'po634', 'po634pet2', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-21', '2020-10-26',
+            'pct18', 'po671', 'po671pet2', 2.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-13', '2020-10-25',
+            'fct6', 'po671', 'po671pet2', 2.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-14', '2020-10-18',
+            'pct39', 'po40', 'po40pet1', 3.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-23', '2020-11-01',
+            'fct21', 'po40', 'po40pet2', 3.9, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-30', '2020-10-14',
+            'pct17', 'po469', 'po469pet2', 4.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-30', '2020-10-31',
+            'fct19', 'po469', 'po469pet2', 4.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-27', '2020-10-11',
+            'pct34', 'po42', 'po42pet0', 4.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-20', '2020-10-22',
+            'fct20', 'po42', 'po42pet1', 4.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-11-01', '2020-11-04',
+            'pct90', 'po846', 'po846pet1', 3.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-19', '2020-11-02',
+            'fct13', 'po846', 'po846pet0', 3.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-20', '2020-10-22',
+            'pct107', 'po825', 'po825pet1', 2.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-30', '2020-10-02',
+            'fct2', 'po825', 'po825pet2', 2.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-15', '2020-09-22',
+            'pct41', 'po423', 'po423pet2', 3.2, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-01', '2020-10-11',
+            'fct12', 'po423', 'po423pet1', 3.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-24', '2020-10-28',
+            'pct80', 'po444', 'po444pet2', 2.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-30', '2020-11-11',
+            'fct16', 'po444', 'po444pet2', 2.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-23', '2020-10-29',
+            'pct113', 'po332', 'po332pet2', 4.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-27', '2020-11-05',
+            'fct10', 'po332', 'po332pet1', 4.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-11-02', '2020-11-11',
+            'pct35', 'po776', 'po776pet1', 2.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-24', '2020-11-01',
+            'fct15', 'po776', 'po776pet2', 2.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-28', '2020-11-04',
+            'pct27', 'po827', 'po827pet2', 3.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-11', '2020-10-16',
+            'fct4', 'po827', 'po827pet1', 3.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-19', '2020-10-31',
+            'pct30', 'po612', 'po612pet1', 3.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-13', '2020-09-27',
+            'fct19', 'po612', 'po612pet0', 3.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-14', '2020-10-15',
+            'pct88', 'po642', 'po642pet0', 4.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-29', '2020-11-07',
+            'fct13', 'po642', 'po642pet2', 4.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-28', '2020-10-30',
+            'pct51', 'po389', 'po389pet2', 3.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-22', '2020-09-26',
+            'fct13', 'po389', 'po389pet0', 3.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-14', '2020-09-16',
+            'pct82', 'po322', 'po322pet0', 4.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-28', '2020-10-04',
+            'fct13', 'po322', 'po322pet1', 4.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-21', '2020-10-24',
+            'pct124', 'po14', 'po14pet0', 3.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-13', '2020-10-15',
+            'fct19', 'po14', 'po14pet2', 3.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-18', '2020-11-01',
+            'pct52', 'po559', 'po559pet2', 3.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-26', '2020-10-04',
+            'fct13', 'po559', 'po559pet1', 3.5, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-23', '2020-10-27',
+            'pct65', 'po620', 'po620pet1', 2.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-09', '2020-10-15',
+            'fct0', 'po620', 'po620pet2', 2.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-18', '2020-09-22',
+            'pct2', 'po146', 'po146pet0', 3.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-18', '2020-09-24',
+            'fct17', 'po146', 'po146pet1', 3.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-23', '2020-11-06',
+            'pct83', 'po291', 'po291pet0', 3.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-11-02', '2020-11-03',
+            'fct22', 'po291', 'po291pet2', 3.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-17', '2020-09-20',
+            'pct74', 'po152', 'po152pet1', 3.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-11-01', '2020-11-06',
+            'fct4', 'po152', 'po152pet0', 3.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-25', '2020-11-02',
+            'pct84', 'po388', 'po388pet1', 4.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-11-01', '2020-11-08',
+            'fct7', 'po388', 'po388pet2', 4.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-23', '2020-10-06',
+            'pct82', 'po151', 'po151pet0', 2.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-11-02', '2020-11-06',
+            'fct20', 'po151', 'po151pet2', 2.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-07', '2020-10-14',
+            'pct54', 'po114', 'po114pet1', 3.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-29', '2020-10-09',
+            'fct19', 'po114', 'po114pet2', 3.9, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-18', '2020-10-20',
+            'pct91', 'po334', 'po334pet2', 4.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-19', '2020-09-20',
+            'fct14', 'po334', 'po334pet2', 4.9, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-15', '2020-10-29',
+            'pct105', 'po196', 'po196pet2', 3.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-30', '2020-10-11',
+            'fct20', 'po196', 'po196pet2', 3.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-29', '2020-11-09',
+            'pct103', 'po461', 'po461pet0', 2.5, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-25', '2020-10-31',
+            'fct23', 'po461', 'po461pet1', 2.5, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-01', '2020-10-15',
+            'pct15', 'po71', 'po71pet2', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-29', '2020-10-11',
+            'fct11', 'po71', 'po71pet0', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-21', '2020-10-29',
+            'pct23', 'po304', 'po304pet1', 3.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-08', '2020-10-14',
+            'fct1', 'po304', 'po304pet1', 3.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-14', '2020-10-28',
+            'pct6', 'po401', 'po401pet1', 4.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-18', '2020-09-21',
+            'fct0', 'po401', 'po401pet0', 4.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-24', '2020-10-08',
+            'pct77', 'po519', 'po519pet2', 2.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-22', '2020-10-04',
+            'fct23', 'po519', 'po519pet2', 2.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-12', '2020-10-25',
+            'pct26', 'po123', 'po123pet1', 2.2, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-26', '2020-10-28',
+            'fct14', 'po123', 'po123pet1', 2.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-23', '2020-10-27',
+            'pct110', 'po416', 'po416pet1', 4.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-11-02', '2020-11-15',
+            'fct4', 'po416', 'po416pet1', 4.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-11', '2020-10-18',
+            'pct48', 'po552', 'po552pet2', 3.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-08', '2020-10-17',
+            'fct20', 'po552', 'po552pet1', 3.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-27', '2020-10-07',
+            'pct109', 'po740', 'po740pet2', 3.5, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-21', '2020-10-29',
+            'fct22', 'po740', 'po740pet1', 3.5, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-18', '2020-09-29',
+            'pct17', 'po642', 'po642pet2', 4.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-16', '2020-10-17',
+            'fct13', 'po642', 'po642pet1', 4.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-29', '2020-11-06',
+            'pct82', 'po723', 'po723pet2', 2.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-27', '2020-10-07',
+            'fct21', 'po723', 'po723pet0', 2.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-17', '2020-10-01',
+            'pct90', 'po409', 'po409pet1', 3.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-20', '2020-09-26',
+            'fct0', 'po409', 'po409pet0', 3.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-11-02', '2020-11-14',
+            'pct83', 'po284', 'po284pet1', 4.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-30', '2020-11-09',
+            'fct18', 'po284', 'po284pet2', 4.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-12', '2020-10-22',
+            'pct4', 'po766', 'po766pet2', 2.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-16', '2020-09-20',
+            'fct17', 'po766', 'po766pet0', 2.2, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-25', '2020-10-03',
+            'pct100', 'po735', 'po735pet1', 2.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-30', '2020-10-05',
+            'fct13', 'po735', 'po735pet2', 2.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-20', '2020-09-28',
+            'pct42', 'po590', 'po590pet1', 2.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-11-02', '2020-11-16',
+            'fct4', 'po590', 'po590pet2', 2.6, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-16', '2020-10-17',
+            'pct29', 'po750', 'po750pet2', 5.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-15', '2020-09-19',
+            'fct13', 'po750', 'po750pet2', 5.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-15', '2020-09-23',
+            'pct54', 'po413', 'po413pet2', 3.5, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-28', '2020-10-30',
+            'fct15', 'po413', 'po413pet1', 3.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-09', '2020-10-10',
+            'pct27', 'po362', 'po362pet1', 2.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-28', '2020-11-03',
+            'fct3', 'po362', 'po362pet0', 2.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-21', '2020-10-26',
+            'pct82', 'po159', 'po159pet2', 3.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-19', '2020-09-29',
+            'fct16', 'po159', 'po159pet2', 3.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-11-02', '2020-11-12',
+            'pct120', 'po618', 'po618pet1', 2.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-31', '2020-11-12',
+            'fct17', 'po618', 'po618pet1', 2.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-15', '2020-10-19',
+            'pct47', 'po69', 'po69pet2', 2.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-28', '2020-11-10',
+            'fct24', 'po69', 'po69pet0', 2.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-02', '2020-10-11',
+            'pct25', 'po429', 'po429pet2', 4.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-27', '2020-11-07',
+            'fct15', 'po429', 'po429pet0', 4.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-08', '2020-10-18',
+            'pct57', 'po587', 'po587pet2', 2.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-28', '2020-10-08',
+            'fct3', 'po587', 'po587pet2', 2.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-24', '2020-10-31',
+            'pct98', 'po840', 'po840pet1', 4.6, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-17', '2020-09-27',
+            'fct22', 'po840', 'po840pet2', 4.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-25', '2020-10-29',
+            'pct97', 'po180', 'po180pet1', 3.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-20', '2020-09-22',
+            'fct13', 'po180', 'po180pet1', 3.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-19', '2020-10-23',
+            'pct94', 'po437', 'po437pet2', 4.7, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-15', '2020-10-24',
+            'fct23', 'po437', 'po437pet0', 4.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-29', '2020-10-10',
+            'pct117', 'po694', 'po694pet2', 4.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-10', '2020-10-18',
+            'fct12', 'po694', 'po694pet2', 4.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-18', '2020-09-25',
+            'pct65', 'po188', 'po188pet2', 3.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-03', '2020-10-12',
+            'fct10', 'po188', 'po188pet0', 3.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-07', '2020-10-12',
+            'pct35', 'po644', 'po644pet0', 2.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-09', '2020-10-19',
+            'fct5', 'po644', 'po644pet1', 2.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-21', '2020-10-29',
+            'pct85', 'po201', 'po201pet0', 4.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-28', '2020-10-12',
+            'fct10', 'po201', 'po201pet1', 4.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-02', '2020-10-05',
+            'pct14', 'po437', 'po437pet2', 3.7, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-31', '2020-11-14',
+            'fct24', 'po437', 'po437pet2', 3.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-22', '2020-11-05',
+            'pct74', 'po712', 'po712pet1', 3.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-11-01', '2020-11-15',
+            'fct21', 'po712', 'po712pet2', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-08', '2020-10-18',
+            'pct61', 'po738', 'po738pet0', 2.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-21', '2020-11-02',
+            'fct14', 'po738', 'po738pet1', 2.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-16', '2020-10-22',
+            'pct42', 'po255', 'po255pet2', 2.5, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-17', '2020-10-19',
+            'fct23', 'po255', 'po255pet1', 2.5, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-19', '2020-10-02',
+            'pct41', 'po145', 'po145pet2', 2.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-19', '2020-09-25',
+            'fct15', 'po145', 'po145pet0', 2.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-11', '2020-10-19',
+            'pct84', 'po250', 'po250pet2', 4.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-22', '2020-09-30',
+            'fct23', 'po250', 'po250pet1', 4.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-30', '2020-10-08',
+            'pct16', 'po825', 'po825pet1', 2.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-02', '2020-10-11',
+            'fct5', 'po825', 'po825pet0', 2.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-13', '2020-09-21',
+            'pct22', 'po512', 'po512pet2', 2.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-11', '2020-10-25',
+            'fct22', 'po512', 'po512pet2', 2.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-16', '2020-09-20',
+            'pct16', 'po555', 'po555pet0', 4.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-17', '2020-10-31',
+            'fct7', 'po555', 'po555pet1', 4.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-20', '2020-10-30',
+            'pct2', 'po117', 'po117pet1', 4.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-06', '2020-10-10',
+            'fct11', 'po117', 'po117pet0', 4.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-23', '2020-10-31',
+            'pct114', 'po167', 'po167pet2', 2.7, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-21', '2020-10-02',
+            'fct6', 'po167', 'po167pet1', 2.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-05', '2020-10-09',
+            'pct5', 'po683', 'po683pet2', 3.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-15', '2020-09-22',
+            'fct15', 'po683', 'po683pet0', 3.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-07', '2020-10-18',
+            'pct10', 'po147', 'po147pet0', 4.5, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-29', '2020-10-31',
+            'fct15', 'po147', 'po147pet0', 4.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-17', '2020-09-25',
+            'pct63', 'po717', 'po717pet2', 2.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-14', '2020-09-24',
+            'fct8', 'po717', 'po717pet0', 2.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-17', '2020-09-28',
+            'pct107', 'po786', 'po786pet0', 3.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-20', '2020-09-23',
+            'fct8', 'po786', 'po786pet0', 3.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-18', '2020-10-02',
+            'pct46', 'po23', 'po23pet2', 4.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-24', '2020-11-01',
+            'fct4', 'po23', 'po23pet2', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-16', '2020-09-23',
+            'pct2', 'po578', 'po578pet1', 4.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-17', '2020-10-30',
+            'fct4', 'po578', 'po578pet2', 4.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-17', '2020-10-31',
+            'pct89', 'po524', 'po524pet1', 3.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-15', '2020-09-21',
+            'fct23', 'po524', 'po524pet0', 3.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-14', '2020-09-15',
+            'pct53', 'po37', 'po37pet2', 2.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-11', '2020-10-23',
+            'fct21', 'po37', 'po37pet1', 2.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-11-02', '2020-11-07',
+            'pct37', 'po487', 'po487pet1', 3.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-17', '2020-09-23',
+            'fct18', 'po487', 'po487pet2', 3.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-02', '2020-10-05',
+            'pct0', 'po124', 'po124pet0', 2.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-27', '2020-10-10',
+            'fct15', 'po124', 'po124pet0', 2.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-25', '2020-11-07',
+            'pct32', 'po770', 'po770pet0', 4.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-12', '2020-10-24',
+            'fct17', 'po770', 'po770pet2', 4.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-08', '2020-10-22',
+            'pct39', 'po148', 'po148pet1', 4.5, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-14', '2020-09-17',
+            'fct9', 'po148', 'po148pet2', 4.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-17', '2020-09-29',
+            'pct79', 'po190', 'po190pet2', 3.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-11', '2020-10-13',
+            'fct2', 'po190', 'po190pet1', 3.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-11', '2020-10-15',
+            'pct57', 'po570', 'po570pet1', 2.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-24', '2020-10-07',
+            'fct3', 'po570', 'po570pet2', 2.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-24', '2020-10-26',
+            'pct72', 'po346', 'po346pet2', 3.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-17', '2020-09-23',
+            'fct11', 'po346', 'po346pet0', 3.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-19', '2020-10-21',
+            'pct77', 'po605', 'po605pet1', 3.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-26', '2020-11-09',
+            'fct1', 'po605', 'po605pet2', 3.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-17', '2020-10-30',
+            'pct123', 'po795', 'po795pet0', 4.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-21', '2020-09-22',
+            'fct22', 'po795', 'po795pet2', 4.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-21', '2020-09-25',
+            'pct104', 'po616', 'po616pet0', 2.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-23', '2020-10-04',
+            'fct19', 'po616', 'po616pet0', 2.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-18', '2020-10-21',
+            'pct117', 'po525', 'po525pet1', 3.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-27', '2020-10-28',
+            'fct20', 'po525', 'po525pet0', 3.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-30', '2020-10-10',
+            'pct92', 'po674', 'po674pet1', 2.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-21', '2020-10-22',
+            'fct17', 'po674', 'po674pet1', 2.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-11', '2020-10-24',
+            'pct124', 'po32', 'po32pet0', 5.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-26', '2020-10-05',
+            'fct3', 'po32', 'po32pet0', 5.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-21', '2020-11-01',
+            'pct108', 'po268', 'po268pet1', 3.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-21', '2020-10-26',
+            'fct20', 'po268', 'po268pet1', 3.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-05', '2020-10-17',
+            'pct23', 'po786', 'po786pet0', 4.6, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-02', '2020-10-10',
+            'fct13', 'po786', 'po786pet2', 4.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-12', '2020-10-13',
+            'pct71', 'po72', 'po72pet2', 3.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-19', '2020-11-02',
+            'fct23', 'po72', 'po72pet1', 3.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-02', '2020-10-08',
+            'pct98', 'po111', 'po111pet2', 2.9, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-06', '2020-10-09',
+            'fct5', 'po111', 'po111pet2', 2.9, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-23', '2020-10-06',
+            'pct54', 'po828', 'po828pet0', 2.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-03', '2020-10-15',
+            'fct24', 'po828', 'po828pet1', 2.9, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-12', '2020-10-20',
+            'pct109', 'po354', 'po354pet2', 5.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-22', '2020-10-31',
+            'fct10', 'po354', 'po354pet2', 5.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-11-02', '2020-11-14',
+            'pct65', 'po382', 'po382pet1', 3.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-13', '2020-09-22',
+            'fct19', 'po382', 'po382pet2', 3.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-29', '2020-10-11',
+            'pct23', 'po660', 'po660pet1', 2.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-16', '2020-09-26',
+            'fct3', 'po660', 'po660pet0', 2.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-10', '2020-10-19',
+            'pct2', 'po254', 'po254pet1', 2.2, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-26', '2020-10-27',
+            'fct7', 'po254', 'po254pet2', 2.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-24', '2020-10-06',
+            'pct84', 'po660', 'po660pet0', 3.7, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-30', '2020-10-11',
+            'fct6', 'po660', 'po660pet2', 3.7, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-18', '2020-09-23',
+            'pct98', 'po195', 'po195pet0', 3.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-14', '2020-10-26',
+            'fct0', 'po195', 'po195pet1', 3.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-24', '2020-09-29',
+            'pct27', 'po753', 'po753pet1', 2.9, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-15', '2020-09-20',
+            'fct2', 'po753', 'po753pet1', 2.9, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-11-01', '2020-11-03',
+            'pct55', 'po567', 'po567pet2', 2.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-25', '2020-10-26',
+            'fct6', 'po567', 'po567pet0', 2.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-07', '2020-10-17',
+            'pct113', 'po717', 'po717pet2', 4.6, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-02', '2020-10-03',
+            'fct17', 'po717', 'po717pet2', 4.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-19', '2020-11-01',
+            'pct88', 'po434', 'po434pet0', 2.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-20', '2020-09-27',
+            'fct21', 'po434', 'po434pet2', 2.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-16', '2020-09-25',
+            'pct28', 'po184', 'po184pet0', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-17', '2020-09-23',
+            'fct16', 'po184', 'po184pet0', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-13', '2020-10-15',
+            'pct50', 'po458', 'po458pet2', 2.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-14', '2020-10-27',
+            'fct1', 'po458', 'po458pet0', 2.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-25', '2020-09-26',
+            'pct117', 'po510', 'po510pet2', 3.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-28', '2020-09-30',
+            'fct16', 'po510', 'po510pet2', 3.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-16', '2020-09-21',
+            'pct77', 'po4', 'po4pet1', 3.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-17', '2020-10-27',
+            'fct21', 'po4', 'po4pet1', 3.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-13', '2020-09-14',
+            'pct43', 'po834', 'po834pet1', 3.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-02', '2020-10-03',
+            'fct13', 'po834', 'po834pet2', 3.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-20', '2020-10-27',
+            'pct64', 'po338', 'po338pet2', 4.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-21', '2020-10-04',
+            'fct24', 'po338', 'po338pet0', 4.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-19', '2020-10-24',
+            'pct15', 'po570', 'po570pet0', 3.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-02', '2020-10-10',
+            'fct4', 'po570', 'po570pet2', 3.3, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-05', '2020-10-06',
+            'pct34', 'po273', 'po273pet0', 3.2, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-19', '2020-10-30',
+            'fct8', 'po273', 'po273pet1', 3.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-11-01', '2020-11-15',
+            'pct11', 'po747', 'po747pet2', 3.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-15', '2020-10-22',
+            'fct18', 'po747', 'po747pet0', 3.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-14', '2020-09-28',
+            'pct82', 'po670', 'po670pet1', 2.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-18', '2020-09-25',
+            'fct22', 'po670', 'po670pet0', 2.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-23', '2020-10-27',
+            'pct6', 'po201', 'po201pet0', 2.5, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-24', '2020-10-04',
+            'fct18', 'po201', 'po201pet2', 2.5, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-18', '2020-10-22',
+            'pct28', 'po189', 'po189pet1', 4.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-31', '2020-11-03',
+            'fct18', 'po189', 'po189pet0', 4.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-14', '2020-10-24',
+            'pct50', 'po28', 'po28pet1', 4.6, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-10', '2020-10-11',
+            'fct9', 'po28', 'po28pet0', 4.6, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-18', '2020-10-19',
+            'pct65', 'po159', 'po159pet1', 2.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-29', '2020-11-06',
+            'fct12', 'po159', 'po159pet0', 2.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-15', '2020-10-22',
+            'pct46', 'po164', 'po164pet0', 5.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-20', '2020-10-01',
+            'fct5', 'po164', 'po164pet2', 5.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-25', '2020-11-05',
+            'pct53', 'po785', 'po785pet1', 4.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-17', '2020-09-30',
+            'fct11', 'po785', 'po785pet1', 4.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-16', '2020-10-27',
+            'pct123', 'po160', 'po160pet0', 3.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-15', '2020-10-23',
+            'fct17', 'po160', 'po160pet2', 3.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-20', '2020-10-25',
+            'pct34', 'po461', 'po461pet1', 4.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-07', '2020-10-17',
+            'fct8', 'po461', 'po461pet2', 4.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-11-02', '2020-11-11',
+            'pct29', 'po374', 'po374pet1', 3.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-22', '2020-10-30',
+            'fct0', 'po374', 'po374pet2', 3.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-11-01', '2020-11-02',
+            'pct31', 'po394', 'po394pet0', 2.9, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-21', '2020-09-22',
+            'fct22', 'po394', 'po394pet2', 2.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-14', '2020-10-25',
+            'pct35', 'po267', 'po267pet1', 4.5, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-21', '2020-10-03',
+            'fct6', 'po267', 'po267pet0', 4.5, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-07', '2020-10-13',
+            'pct30', 'po425', 'po425pet1', 2.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-23', '2020-10-30',
+            'fct3', 'po425', 'po425pet1', 2.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-30', '2020-10-13',
+            'pct28', 'po428', 'po428pet2', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-07', '2020-10-17',
+            'fct11', 'po428', 'po428pet0', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-08', '2020-10-15',
+            'pct3', 'po776', 'po776pet1', 3.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-22', '2020-09-29',
+            'fct5', 'po776', 'po776pet1', 3.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-13', '2020-10-26',
+            'pct21', 'po559', 'po559pet1', 2.5, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-30', '2020-10-10',
+            'fct23', 'po559', 'po559pet2', 2.5, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-26', '2020-09-28',
+            'pct43', 'po612', 'po612pet1', 4.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-13', '2020-10-16',
+            'fct3', 'po612', 'po612pet2', 4.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-18', '2020-11-01',
+            'pct95', 'po516', 'po516pet2', 4.0, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-20', '2020-10-21',
+            'fct6', 'po516', 'po516pet1', 4.0, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-20', '2020-10-26',
+            'pct115', 'po690', 'po690pet2', 2.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-04', '2020-10-16',
+            'fct23', 'po690', 'po690pet1', 2.9, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-26', '2020-11-07',
+            'pct61', 'po498', 'po498pet1', 4.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-14', '2020-10-27',
+            'fct11', 'po498', 'po498pet0', 4.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-09', '2020-10-14',
+            'pct80', 'po507', 'po507pet2', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-23', '2020-10-26',
+            'fct8', 'po507', 'po507pet0', 3.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-18', '2020-10-29',
+            'pct112', 'po513', 'po513pet2', 4.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-13', '2020-09-24',
+            'fct20', 'po513', 'po513pet1', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-02', '2020-10-11',
+            'pct48', 'po376', 'po376pet0', 2.2, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-11', '2020-10-19',
+            'fct13', 'po376', 'po376pet2', 2.2, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-24', '2020-11-01',
+            'pct97', 'po231', 'po231pet2', 4.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-04', '2020-10-05',
+            'fct5', 'po231', 'po231pet0', 4.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-24', '2020-09-28',
+            'pct90', 'po181', 'po181pet2', 2.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-25', '2020-10-02',
+            'fct0', 'po181', 'po181pet0', 2.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-12', '2020-10-15',
+            'pct24', 'po168', 'po168pet1', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-27', '2020-09-28',
+            'fct3', 'po168', 'po168pet2', 4.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-29', '2020-10-03',
+            'pct17', 'po463', 'po463pet2', 3.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-04', '2020-10-15',
+            'fct12', 'po463', 'po463pet1', 3.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-02', '2020-10-09',
+            'pct107', 'po324', 'po324pet0', 2.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-30', '2020-11-02',
+            'fct8', 'po324', 'po324pet0', 2.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-23', '2020-09-26',
+            'pct40', 'po235', 'po235pet0', 2.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-30', '2020-10-09',
+            'fct3', 'po235', 'po235pet0', 2.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-16', '2020-09-17',
+            'pct8', 'po277', 'po277pet1', 2.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-08', '2020-10-22',
+            'fct20', 'po277', 'po277pet1', 2.7, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-15', '2020-09-27',
+            'pct96', 'po814', 'po814pet1', 2.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-21', '2020-10-29',
+            'fct7', 'po814', 'po814pet2', 2.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-15', '2020-10-26',
+            'pct8', 'po335', 'po335pet0', 3.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-14', '2020-09-24',
+            'fct14', 'po335', 'po335pet2', 3.2, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-29', '2020-10-03',
+            'pct79', 'po731', 'po731pet1', 2.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-15', '2020-09-20',
+            'fct23', 'po731', 'po731pet2', 2.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-23', '2020-09-27',
+            'pct17', 'po261', 'po261pet2', 4.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-11', '2020-10-16',
+            'fct14', 'po261', 'po261pet0', 4.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-16', '2020-09-22',
+            'pct2', 'po549', 'po549pet2', 2.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-15', '2020-10-21',
+            'fct1', 'po549', 'po549pet2', 2.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-29', '2020-10-06',
+            'pct75', 'po641', 'po641pet1', 3.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-26', '2020-10-31',
+            'fct15', 'po641', 'po641pet1', 3.6, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-03', '2020-10-17',
+            'pct3', 'po274', 'po274pet2', 3.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-11', '2020-10-18',
+            'fct22', 'po274', 'po274pet2', 3.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-28', '2020-11-11',
+            'pct85', 'po514', 'po514pet1', 4.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-09', '2020-10-18',
+            'fct0', 'po514', 'po514pet0', 4.7, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-15', '2020-10-17',
+            'pct14', 'po831', 'po831pet2', 4.2, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-07', '2020-10-18',
+            'fct11', 'po831', 'po831pet1', 4.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-28', '2020-10-01',
+            'pct67', 'po729', 'po729pet1', 4.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-09-13', '2020-09-21',
+            'fct22', 'po729', 'po729pet2', 4.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-22', '2020-11-04',
+            'pct118', 'po129', 'po129pet2', 4.0, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-09', '2020-10-11',
+            'fct18', 'po129', 'po129pet2', 4.0, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-29', '2020-11-06',
+            'pct0', 'po751', 'po751pet2', 4.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-26', '2020-11-04',
+            'fct11', 'po751', 'po751pet1', 4.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-20', '2020-10-22',
+            'pct68', 'po42', 'po42pet2', 2.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-02', '2020-10-12',
+            'fct9', 'po42', 'po42pet1', 2.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-28', '2020-10-29',
+            'pct55', 'po310', 'po310pet1', 3.2, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-24', '2020-10-08',
+            'fct6', 'po310', 'po310pet1', 3.2, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-19', '2020-10-25',
+            'pct112', 'po653', 'po653pet1', 4.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-08', '2020-10-14',
+            'fct7', 'po653', 'po653pet1', 4.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-12', '2020-10-18',
+            'pct26', 'po204', 'po204pet1', 2.5, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-24', '2020-10-03',
+            'fct13', 'po204', 'po204pet1', 2.5, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-10', '2020-10-21',
+            'pct83', 'po490', 'po490pet1', 4.6, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-28', '2020-10-08',
+            'fct6', 'po490', 'po490pet2', 4.6, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-21', '2020-11-02',
+            'pct123', 'po7', 'po7pet2', 4.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-12', '2020-10-17',
+            'fct12', 'po7', 'po7pet1', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-05', '2020-10-07',
+            'pct28', 'po685', 'po685pet2', 3.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-09-23', '2020-10-05',
+            'fct22', 'po685', 'po685pet1', 3.9, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-04', '2020-10-12',
+            'pct33', 'po115', 'po115pet0', 4.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-16', '2020-10-19',
+            'fct12', 'po115', 'po115pet0', 4.1, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-08', '2020-10-15',
+            'pct108', 'po601', 'po601pet1', 2.1, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-13', '2020-10-20',
+            'fct21', 'po601', 'po601pet1', 2.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-18', '2020-10-29',
+            'pct69', 'po653', 'po653pet2', 2.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-24', '2020-10-26',
+            'fct1', 'po653', 'po653pet1', 2.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-29', '2020-10-05',
+            'pct95', 'po815', 'po815pet1', 2.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-09-21', '2020-10-05',
+            'fct3', 'po815', 'po815pet2', 2.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-04', '2020-10-08',
+            'pct110', 'po173', 'po173pet1', 3.3, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-08', '2020-10-20',
+            'fct21', 'po173', 'po173pet1', 3.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-29', '2020-10-04',
+            'pct108', 'po748', 'po748pet0', 3.5, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-04', '2020-10-05',
+            'fct5', 'po748', 'po748pet1', 3.5, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'delivery', '2020-10-02', '2020-10-07',
+            'pct101', 'po399', 'po399pet1', 4.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-20', '2020-11-01',
+            'fct1', 'po399', 'po399pet0', 4.8, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-09-25', '2020-10-06',
+            'pct72', 'po556', 'po556pet0', 2.4, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-20', '2020-10-31',
+            'fct17', 'po556', 'po556pet1', 2.4, 'This ct ok la', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-27', '2020-11-07',
+            'pct22', 'po727', 'po727pet2', 2.8, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-10-23', '2020-11-01',
+            'fct15', 'po727', 'po727pet0', 2.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-12', '2020-10-23',
+            'pct67', 'po385', 'po385pet0', 3.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-24', '2020-10-05',
+            'fct17', 'po385', 'po385pet2', 3.3, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-24', '2020-10-29',
+            'pct96', 'po507', 'po507pet1', 4.4, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-09-20', '2020-09-24',
+            'fct3', 'po507', 'po507pet1', 4.4, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-02', '2020-10-15',
+            'pct88', 'po439', 'po439pet1', 2.8, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'take', '2020-10-17', '2020-10-26',
+            'fct24', 'po439', 'po439pet2', 2.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-09', '2020-10-10',
+            'pct42', 'po548', 'po548pet1', 3.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'delivery', '2020-10-06', '2020-10-12',
+            'fct9', 'po548', 'po548pet2', 3.8, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-30', '2020-11-12',
+            'pct69', 'po511', 'po511pet1', 2.7, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-18', '2020-09-27',
+            'fct10', 'po511', 'po511pet2', 2.7, 'This ct not so bad', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-17', '2020-10-20',
+            'pct49', 'po374', 'po374pet2', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-13', '2020-10-19',
+            'fct5', 'po374', 'po374pet2', 4.3, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'grab', '2020-10-20', '2020-11-03',
+            'pct29', 'po464', 'po464pet1', 3.1, 'This ct very bad one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('cash', 'grab', '2020-09-21', '2020-09-25',
+            'fct16', 'po464', 'po464pet2', 3.1, 'This ct very nice one', true);
+INSERT INTO bid(payment_method, transfer_method, start_date, end_date, ctuname, pouname, petname, rating, review, is_win) VALUES ('credit', 'take', '2020-10-18', '2020-10-30',
+            'pct62', 'po563', 'po563pet2', 2.2, 'This ct ok la', true);

@@ -147,7 +147,7 @@ export const petsTakenCareOf =
 = true AND date('now') - start_date <= 90 AND start_date <= date('now') GROUP BY pouname, petname) as t;";
 export const petsCareFrequency =
   "SELECT pouname, COUNT(*) as freq FROM bid WHERE is_win = true AND date('now') - start_date <= 90 AND \
-start_date <= date('now') GROUP BY pouname ORDER BY freq LIMIT 25;";
+start_date <= date('now') GROUP BY pouname ORDER BY freq DESC LIMIT 25;";
 export const allCaretakerInsightQuery =
   "SELECT ctuname, SUM(price) as raw_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
     FROM bid b WHERE is_win = true GROUP BY ctuname, mon, yyyy ";
@@ -159,8 +159,5 @@ export const getPayout =
     FROM bid b WHERE is_win = true AND end_date <= date('now') AND start_date >= date('now') - interval '1 month' GROUP BY ctuname, mon, yyyy HAVING ctuname = $1  ) AS tmp NATURAL JOIN caretakers;";
 
 export const getProfit =
-  "SELECT to_char(SUM(CASE when ct_type = 'full-time' then (raw_payout - raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8 - 3000) else (raw_payout * 0.25) end), 'FM999999999.00') AS total_profit \
-  FROM (" +
-  "SELECT ctuname, SUM(price) as raw_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days, to_char(start_date, 'Mon') as mon, extract(year from start_date) as yyyy \
-    FROM bid b WHERE is_win = true GROUP BY ctuname, mon, yyyy " +
-  ", start_date HAVING start_date >= date('now') - interval '1 month' ) AS tmp NATURAL JOIN caretakers;";
+  "SELECT to_char(SUM(CASE when ct_type = 'full-time' then (raw_payout - (raw_payout / pet_days * GREATEST(0, pet_days - 60) * 0.8) - 3000) else (raw_payout * 0.25) end), 'FM999999999.00') AS total_profit FROM (" +
+  "SELECT ctuname, SUM(price) as raw_payout, COUNT(*) as num_jobs, SUM(end_date - start_date + 1) as pet_days FROM bid b WHERE is_win = true AND start_date <= date('now') and start_date >= date('now') - interval '1 month' GROUP BY ctuname) AS tmp NATURAL JOIN caretakers;";

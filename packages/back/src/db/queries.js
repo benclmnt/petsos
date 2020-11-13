@@ -35,7 +35,7 @@ export const updatePetInfo =
 export const deletePetByPounameAndName =
   "DELETE FROM pets WHERE pouname = $1 AND name = $2;";
 export const queryOrders =
-  "SELECT *, (start_date < date('now')) as is_past FROM bid WHERE pouname = $1 ORDER BY end_date DESC LIMIT 20;";
+  "SELECT *, (start_date <= date('now')) as is_past FROM bid WHERE pouname = $1 ORDER BY end_date DESC LIMIT 20;";
 export const setRatingAndReview =
   "UPDATE bid SET rating = $5, review = $6 WHERE pouname = $1 AND petname = $2 AND start_date = $3 AND end_date = $4;";
 

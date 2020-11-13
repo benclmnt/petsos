@@ -28,13 +28,10 @@ def copy_frontend():
     shutil.rmtree(os.path.join(FILE_PATH, 'packages', 'front', 'build'))
 
 def push_to_heroku():
-    os.system('git branch -D deploy')
-    os.system('git checkout -b deploy')
     os.system('git add .')
     os.system('git commit -m "Commit from heroku-deploy.py for deployment"')
-    os.system('git push origin deploy')
+    os.system('git push origin master')
     os.system('git subtree push --prefix web heroku master')
-    os.system('git checkout master')
 
 def main():
     init_deploy()

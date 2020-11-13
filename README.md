@@ -7,7 +7,7 @@ A Pet Caring System for CS2102
 [Report](https://github.com/benclmnt/CS2102_2021_S1_Team28/blob/master/deliverables/report.pdf) 
 
 ## Demo
-[![Petsos demo](https://res.cloudinary.com/marcomontalbano/image/upload/v1605283735/video_to_markdown/images/google-drive--1vp8Bl6B59wUI810O4ECvF4__qjXLvFU7-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://drive.google.com/file/d/1vp8Bl6B59wUI810O4ECvF4__qjXLvFU7/view "Petsos demo")
+[![Petsos demo](https://youtu.be/59f3az-as5k)
 
 ## Motivation for name
 
